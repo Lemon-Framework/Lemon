@@ -63,13 +63,16 @@ class Route
             if (isset($handlers["404"]))
             {
                 $handlers["404"]();
+
             }
             else
             {
                 echo "<h1>404-Not Found</h1> <hr>";
                 echo "<h3>Brush</h3>";
-                http_response_code(404);
             }
+            
+            http_response_code(404);
+
             exit;
         }
         
@@ -87,8 +90,9 @@ class Route
             {
                 echo "<h1>400 Bad Request</h1> <hr>";
                 echo "<h3>Brush</h3>";
-                http_response_code(400);
             }
+            
+            http_response_code(400);
 
         }
         

@@ -27,7 +27,7 @@ function console($text, $color="white")
 
 function redirect($path)
 {
-    header("Location:".$path."\033");
+    header("Location:".$path);
 }
 
 
