@@ -1,20 +1,28 @@
 <?php
 
 /*
- Make view
+
+    Executes template
  
  */
-
 function view($file, $options = [])
 {
-    $safe_options = [];
-    foreach ($options as $key => $option)
+    if (file_exists("./views/".$file))
     {
-        $option = str_replace("<", "&lt", $option);
-        $safe_options[$key] = $option;
+        $safe_options = [];
+        foreach ($options as $key => $option)
+        {
+            $option = str_replace("<", "&lt", $option);
+            $safe_options[$key] = $option;
+        }
+        extract($safe_options);
+        require "./views/".$file;
     }
-    extract($safe_options);
-    require "./views/".$file;
+    else
+    {
+        raise(500);
+        console("ViewError: View ".$file." not found!", "red");
+    }
 }
 
 ?>

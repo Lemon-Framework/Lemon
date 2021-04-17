@@ -11,6 +11,12 @@ $colors = [
         'white' => "[37m",
 ];
 
+
+/*
+ 
+    Writes text to console
+
+ */
 function console($text, $color="white")
 {
     global $colors;
@@ -25,10 +31,25 @@ function console($text, $color="white")
     error_log("\n\n\033".$color.$text."\033[0m\n");    
 }
 
+/*
+ 
+    Redirects user to specified url
+
+ */
 function redirect($path)
 {
     header("Location:".$path);
 }
 
+/*
+
+    Converts array to json
+
+ */
+function jsonify($content)
+{
+    echo json_encode($content);
+    header("Content-type:application/json");
+}
 
 ?>
