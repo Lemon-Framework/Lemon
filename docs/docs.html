@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="shortcut icon" href="lemon.png" type="image/x-icon">
+    <link rel="icon" href="lemon.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="jquery.highlight.css">
+    <style>
+    
+        #sidebar 
+        {
+            height: 100vh;   
+            background-image: linear-gradient(#f8f9fa, white);
+        }
+
+        a {
+            text-decoration: none;
+            color: #000000;
+        }
+
+        a:hover {
+            color: #3e3e3e;
+            transition: 0.5s ease-in-out;
+        }
+    
+    </style>
+
+    <title>Lemon Documentation</title>
+</head>
+<body>
+    
+    <div class="d-flex">
+       
+        <div class="col-4 p-2 col-lg-3" id="sidebar">
+            <div class="position-fixed col-4 col-lg-3">
+            <h3>Lemon</h3>
+                <details>
+                    <summary>Get Started</summary>
+                    <ul>
+                        <li><a href="#installation">Installation</a></li>
+                        <li><a href="#quickstart">Quickstart</a></li>
+                    </ul>
+                </details>
+  
+                <details>
+                    <summary>Framework reference</summary>
+                    <ul>
+                        <li><a href="#routing">Routing</a></li>
+                        <li><a href="#templates">Template system</a></li>
+                        <li><a href="#errors">Error handling</a></li>
+                        <li><a href="#utils">Utils</a></li>
+                    </ul>
+                </details>
+            </ul>             
+            </div>
+        </div>
+        <div class="mx-3 col-7 col-lg-8" style="height: 100vh">
+        <div>
+        <h1>Lemon Documentation</h1>
+        <hr>
+        <h2>Get Started</h2>
+
+        Lemon is Micro Framework which means that you can build full website app in one file, which is great for beginners. <a href="">More about Lemon</a>
+        <br>
+        Version: 1.0.2
+        <h3 id="installation">Installation</h3>
+
+        Installation is temporary provided only by downloading folder from github repo and adding to your project folder:
+
+        <pre><code>
+/project_folder
+    /lemon
+    /index.php #here starts your app
+        </code></pre>
+
+        <h3 id="quickstart">Quickstart</h3>
+        
+        This is minimal app built using Lemon:
+
+        <pre class="code" data-language="php">
+include "/lemon/framework.php";
+
+Route::get("/relative/(.+)/", function($var)
+    {
+        echo $var;
+    });
+
+Route::any("/", function()
+    {
+        echo "hi";
+    });
+
+Route::handler(404, function()
+    {
+        echo "404";
+    });
+
+Route::execute();
+        </pre>
+            
+        <h2>Framework reference</h2>
+           Lemon from version 1.0.0 provides basic actions like routing or template system.
+
+           <div class="border-warning p-2 mb-3 card">
+
+                On start of every app must be <code>include "/lemon/framework.php";</code>
+
+           </div>
+
+       <h3 id="routing">Routing</h3>
+
+            Routing in Lemon is based on class <code>Route</code> and its inspired by Laravel's routing. This class has 3 main static methods to create routes.
+            <br>
+            The methods are:
+            <ul>
+                <li>::get - creates route that allows only method GET</li>
+                <li>::post - creates route that allows only method POST</li>
+                <li>::any - creates route that allows only methods GET and POST</li>
+            </ul>
+            <div class="card p-2 border-warning mb-3">
+            Note: If you will send request that is not allowed by route it will throw response 400.
+            </div>
+            All those methods has 2 arguments <code>Path</code> and <code>Action</code>
+            <br>
+            <ul>
+                <li>Path is way to get to the route.</li>
+                <li>Action is function that is called when user visits the page.</li>
+            </ul>
+            <div class="card p-2 border-warning mb-3">
+            Class route also provides to run your app. To run just type Route::execute() on the end of the code.
+            <br>
+            Without this your app won't work.
+
+            </div>
+
+            <h5>Dynamic routes</h5>
+
+            Lemon provides you to make dynamic routes, to make dynamic part, just put <code>(.*)</code> and in your route output function argument.
+
+            <pre class="code" data-language="php">
+Route::get('/dynamic/(.+)', function ($arg)
+    {
+        echo $arg;
+    });
+            </pre>
+
+
+
+            <h4>Example</h4>
+            <pre class="code" data-language="php">
+include "/lemon/framework.php";
+
+Route::get('/get', function()
+    {
+        echo 'You can only get here!';
+    });
+
+
+Route::post('/post', function()
+    {
+        echo 'You can only post here!';
+    });
+
+
+Route::any('/any', function()
+    {
+        echo 'You can get and post here!';
+    });
+
+Route::execute();
+            </pre>
+
+            <h3 id="templates">Template system</h3>
+                Template system is way to run html from external file with Cross Site Scripting prevention.
+
+                To start with templates, just make folder <code>views</code> in your project folder and every new template add into this folder as <code>template_name.php</code>.
+                <br>
+                Your folder should look like this:
+                <pre><code>
+/project_folder
+    /lemon
+    /views #Here are all the templates
+        /home.php #Example template
+    /index.php #main php file with all the routes
+                </code></pre>
+
+                To view template just use function <code>view(file, params)</code>
+                <br>
+                To add variables to template add as second parameter one of those:
+                <ul>
+                    <li>compact("var", "var2",...)</li>
+                    <li>["var_name" => "var_value"]</li>
+                </ul>
+                <h4>Template syntax</h4>
+                <pre class="code" data-language="php">
+&lt?= $var ?> Shows variable defined in view function
+
+Foreach
+&lt?php foreach($var as $var):?>
+loops everything that is here
+&lt?php endfor; ?>
+
+If
+
+&lt?php if (condition) ?>
+
+&lt?php else if (condition)?>
+
+&lt?php else ?>;
+
+&lt?php endif?>;
+            </div>
+            With <code>&lt?php ?></code> can be provided any php action.
+
+            <h4>Example</h4>
+            <pre class="code" data-language="php">
+//index.php
+
+Route::get('/' function()
+    {
+        $stuff = ['php', 'vim', 'lemon'];
+        view('awesome_view.php', compact("stuff"));
+    });
+
+//views/awesome_view.php
+
+Cool stuff
+&lt;?php foreach ($stuff as $item) ?>;
+    &lt?= $item ?>;
+&lt;?php endfor ?>;
+            </pre>
+
+
+           <h3 id="errors">Error handling</h3>
+
+           Class Route has also static method <code>::handler</code> which provides you to make custom error handling pages.
+           <br>
+           This class has 2 arguments: (int) Error and function that is called when the error occurs.
+           <br> 
+           Since version 1.0.3 Lemon supports those errors:
+           <ul>
+               <li>404 - Not Found</li>
+               <li>400 - Bad Request</li>
+               <li>500 - Internal Server Error (Is called only when wrong template is used)</li>
+           </ul>
+
+           If you won't use custom error handlers, Lemon will throw basic error.
+
+           <h4>Examples</h4>
+
+           <pre class="code" data-language="php">
+Route::handler(400, function ()
+    {
+        echo "Bad request on page".$_SERVER["REQUEST_URI"];
+    });
+           </pre>
+           
+            
+           <h3 id="utils">Utils</h3>
+           Here are other functions that may help you building cool stuff.
+           <h4>Redirect</h4>
+           Function <code>redirect($link)</code> redirects user to specified URL.
+           <h4>Jsonify</h4>
+           Function <code>jsonify($array)</code> makes json from array that can be fetched by request.
+           <h4>Console</h4>
+           Function <code>console($message, $color)</code> sends message to php console. It's mainly debug tool
+
+           <hr>
+           Lemon micro framework built by Ten Majkl-&gt; <a href="https://github.com/TENMAJKL/Lemon">GitHub</a>
+            </div>
+        </div>
+    </div>
+       
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="jquery.highlight.js"></script>
+<script>
+
+$(document).ready(function(){
+$('pre.code').highlight({source:1, zebra:1, indent:'space', list:'ol',attribute: 'data-language'});
+});
+
+</script>
+
+</html>
+

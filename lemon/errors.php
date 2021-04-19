@@ -15,7 +15,7 @@ function raise(int $error)
     else
     {
         echo "<h1> {$error} - {$errors[$error]} </h1> <hr>";
-        echo "<h3>Brush</h3>";
+        echo "<h3>Lemon</h3>";
     }
     
     http_response_code($error);
