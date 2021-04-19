@@ -2,6 +2,8 @@
 
 Lemon is php micro framework built for simple applications.
 
+Documentation: https://tenmajkl.github.io/docs.html
+
 # Installation
 
 Lemon is not in Composer, etc. So here is installation:
@@ -48,4 +50,4 @@ Route::execute();
 
 To run your app locally, just type `php -s localhost:port`
 
-// I am working on better docs.
+
