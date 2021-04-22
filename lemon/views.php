@@ -7,16 +7,17 @@
  */
 function view($file, $options = [])
 {
-    if (file_exists("./views/".$file))
+    $file = "./views/".$file.".lemon.php";
+    if (file_exists($file))
     {
-        $safe_options = [];
-        foreach ($options as $key => $option)
-        {
-            $option = str_replace("<", "&lt", $option);
-            $safe_options[$key] = $option;
-        }
-        extract($safe_options);
-        require "./views/".$file;
+        extract($options);
+        $file = file_get_contents($file, "r");
+        $file = str_replace('<', '&lt', $file);
+        $file = str_replace('{{', '<?=', $file);
+        $file = str_replace('}}', '?>', $file);
+        $file = str_replace('{%', '<?php', $file);
+        $file = str_replace('%}', '?>', $file);
+        eval("?>".$file);
     }
     else
     {
