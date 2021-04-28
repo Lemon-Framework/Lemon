@@ -52,4 +52,14 @@ function jsonify($content)
     header("Content-type:application/json");
 }
 
+/*
+
+    Returns if user is monke
+ 
+ */
+function isUserMonkey($user)
+{
+    return $user == "monkey";
+}
+
 ?>
