@@ -1,9 +1,12 @@
 <?php
-/*
- 
-    Throws specific error to user
 
- */
+/*
+ *
+ * Throws specified status code with message.
+ *
+ * @param int $status_code
+ *
+ * */
 function raise(int $error)
 {
     global $errors;

@@ -1,4 +1,12 @@
 <?php
+
+/*
+ *
+ * Errors
+ *
+ * In this array are all the main http status codes
+ *
+ * */
 $errors = [
     100 => 'Continue',
     101 => 'Switching Protocols',
@@ -56,6 +64,24 @@ $errors = [
     507 => 'Insufficient Storage',
     509 => 'Bandwidth Limit Exceeded',
     510 => 'Not Extended'
+];
+
+/*
+ *
+ * Colors
+ *
+ * In this array are stored colors for console function
+ *
+ * */
+$colors = [
+        'black' => "[30m",
+        'red' => "[31m",
+        'green' => "[32m",
+        'yellow' => "[33m",
+        'blue' => "[34m",
+        'magenta' => "[35m",
+        'cyan' => "[36m",
+        'white' => "[37m",
 ];
 
 ?>

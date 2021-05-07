@@ -1,15 +1,23 @@
 <?php
 
+/*
+ *
+ * Class to create routes
+ *
+ * */
 class Route
 {
     private $routes = [];
     private $handlers = [];
-
+    
     /*
-
-        Makes route with only method get
-
-     */
+     *
+     * Makes route with request only method get
+     *
+     * @param string $path
+     * @param callback $action
+     *
+     * */
     static function get($path, $action)
     {
         global $routes;
@@ -17,12 +25,15 @@ class Route
 
         $routes[$path] = [$action, ["GET"]];
     }
-
+    
     /*
-
-        Makes route with only method post
-
-     */
+     *
+     * Makes route with only method post
+     *
+     * @param string $path
+     * @param callback $action
+     *
+     * */    
     static function post($path, $action)
     {
         global $routes;
@@ -32,10 +43,13 @@ class Route
     }
 
     /*
-
-        Makes route with methods get and post
-
-     */
+     *
+     * Makes route with only methods get and post
+     *
+     * @param string $path
+     * @param callback $action
+     *
+     * */
     static function any($path, $action)
     {
         global $routes;
@@ -45,10 +59,13 @@ class Route
     }
     
     /*
-
-        Makes error handler
-
-     */
+     *
+     * Makes error handler
+     *
+     * @param int $error_code
+     * @param callback $action
+     *
+     * */
     static function handler($error, $action)
     {
         global $handlers;
@@ -56,12 +73,13 @@ class Route
         $handlers[$error] = $action;
 
     }
-
+    
     /*
-
-        Runs whole application
-
-     */
+     *
+     * Executes route that user visited. 
+     * Must be on end of every app.
+     * 
+     * */
     static function execute()
     {
         global $routes;
@@ -91,7 +109,15 @@ class Route
 
         if (in_array($_SERVER["REQUEST_METHOD"], $methods))
         {
-            call_user_func($callback, ...$params);
+            try
+            {
+                call_user_func($callback, ...$params);
+            }
+            catch(Exception $e)
+            {
+                raise(500);
+                console("Lemon-> Callback error in " . $path . "\nError:" . $e->getMessage());
+            }
         }
         else
         {

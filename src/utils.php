@@ -1,22 +1,17 @@
 <?php
 
-$colors = [
-        'black' => "[30m",
-        'red' => "[31m",
-        'green' => "[32m",
-        'yellow' => "[33m",
-        'blue' => "[34m",
-        'magenta' => "[35m",
-        'cyan' => "[36m",
-        'white' => "[37m",
-];
-
+include "constants.php";
 
 /*
- 
-    Writes text to console
-
- */
+ *
+ * Types text to php console
+ *  
+ * Mainly debuging tool
+ *
+ * @param string $text
+ * @param string $color
+ *
+ * */
 function console($text, $color="white")
 {
     global $colors;
@@ -32,20 +27,26 @@ function console($text, $color="white")
 }
 
 /*
- 
-    Redirects user to specified url
-
- */
+ *
+ * Redirects user to given url
+ *
+ * @param string $url
+ *
+ * */
 function redirect($path)
 {
     header("Location:".$path);
 }
 
 /*
-
-    Converts array to json
-
- */
+ *
+ * Adds json to page
+ *
+ * Tool for building APIs
+ *
+ * @param array $content
+ *
+ * */
 function jsonify($content)
 {
     echo json_encode($content);
@@ -53,13 +54,15 @@ function jsonify($content)
 }
 
 /*
-
-    Returns if user is monke
- 
- */
-function isUserMonkey($user)
+ *
+ * Returns if user is podvodnik
+ *
+ * @param string $name
+ *
+ * */
+function isUserPodvodnik($user)
 {
-    return $user == "monkey";
+    return $user == "CoolFido";
 }
 
 ?>

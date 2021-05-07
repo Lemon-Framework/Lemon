@@ -1,6 +1,22 @@
 <?php
+
+/*
+ *
+ * CSRF protection
+ *
+ * In this class are methods CSRF protection
+ *
+ * */
 class CSRF
 {
+
+    /*
+     *
+     * Creates unique token to every user that visits any page
+     *
+     * Must be on start of app and requires started session 
+     *
+     * */
     static function setToken()
     {
         if (!isset($_SESSION["csrf_token"]))
@@ -11,6 +27,13 @@ class CSRF
         }
     }
 
+    /*
+     *
+     * Checks if user sent post request with valid CSRF token
+     *
+     * To validate route, put this function on start of every route
+     *
+     * */
     static function check()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST")    
@@ -30,6 +53,16 @@ class CSRF
             }
         }
     }
+
+    /*
+     *
+     * Function mainly for `@csrf` in views
+     *
+     * return token
+     * 
+     * if token is not set, throws 400
+     *
+     * */
     static function getToken()
     {
         if (isset($_SESSION["csrf_token"])) 
