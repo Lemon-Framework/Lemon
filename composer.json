@@ -10,8 +10,8 @@
         }
     ],
     "autoload": {
-        "psr-4": {
-            "Lemon\\": "src/"
+        "psr-0": {
+            "Lemon": "src"
         }
     },
     "require": {}
