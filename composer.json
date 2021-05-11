@@ -9,5 +9,10 @@
             "email": "silder.hologram@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Lemon\\": "src/"
+        }
+    },
     "require": {}
 }
