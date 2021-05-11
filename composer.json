@@ -1,0 +1,13 @@
+{
+    "name": "lemon/lemon",
+    "description": "Lemon is simple micro framework that provides routing, etc.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TENMAJKL",
+            "email": "silder.hologram@gmail.com"
+        }
+    ],
+    "require": {}
+}
