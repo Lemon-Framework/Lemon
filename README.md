@@ -1,21 +1,16 @@
 # Lemon
 
 Lemon is php micro framework built for simple applications.\
-Latest version: 1.3.1\
+Latest version: 1.3.2\
 Documentation: https://tenmajkl.github.io/docs.html
 
 # Installation
 
-Lemon is not in Composer, etc. So here is installation:
+Installation is provided via composer:\
+`composer require lemon_framework/lemon:dev-master`\
 
-* Download folder `Lemon` and make directory like this:
-
-```
-/project_name
-    /lemon
-    /index.php #here starts your app
-
-```
+Lemon doesn't use project generator, so you need to make files manually and run app using `php -S localhost:port`\
+// Lemonade coming soon :)
 
 # Minimal app
 
@@ -24,7 +19,7 @@ Here is code of simple app build only in index.php
 ```php    
 
 <?php
-include "/lemon/framework.php";
+require "vendor/autoload.php";
 
 
 Route::get("/relative/(.+)/", function($var)
@@ -48,6 +43,5 @@ Route::execute();
 
 ```
 
-To run your app locally, just type `php -s localhost:port`
 
 

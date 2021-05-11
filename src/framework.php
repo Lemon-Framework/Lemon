@@ -12,12 +12,12 @@
  *
  * */
 
-include "routes.php";
-include "views.php";
-include "utils.php";
-include "constants.php";
-include "errors.php";
-include "session.php";
-include "csrf.php";
+require "routes.php";
+require "views.php";
+require "utils.php";
+require "constants.php";
+require "errors.php";
+require "session.php";
+require "csrf.php";
 
 ?>

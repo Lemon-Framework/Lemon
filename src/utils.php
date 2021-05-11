@@ -55,7 +55,7 @@ function jsonify($content)
 
 /*
  *
- * Returns if user is podvodnik
+ * Returns whenever user is podvodnik
  *
  * @param string $name
  *
