@@ -10,9 +10,9 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "Lemon": "src/framework.php"
-        }
+        "files": [
+            "src/framework.php"
+        ]
     },
    "require": {
        "php": ">=5.3.0"
