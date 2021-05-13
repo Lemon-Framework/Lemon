@@ -1,6 +1,6 @@
 <?php
 
-require "constants.php";
+require __DIR__ . "/../utils/constants.php";
 
 /*
  *
