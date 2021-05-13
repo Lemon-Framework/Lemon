@@ -1,5 +1,7 @@
 <?php
 
+require "constants.php";
+
 /*
  *
  * Throws specified status code with message.

@@ -100,8 +100,7 @@ class Route
                 break;
             }
         }
-
-        if (!$callback || !is_callable($callback))
+        if (!$callback)
         {
             raise(404);
             exit;
@@ -111,7 +110,7 @@ class Route
         {
             try
             {
-                call_user_func($callback, ...$params);
+                $callback(...$params);
             }
             catch(Exception $e)
             {
@@ -124,6 +123,15 @@ class Route
             raise(400);
         }
 
+    }
+    /*
+     *
+     * Returns all routes with actions
+     *
+     * */
+    static function getRoutes()
+    {
+        return $this->routes;
     }
 }
 
