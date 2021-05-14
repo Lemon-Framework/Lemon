@@ -10,7 +10,7 @@
         }
     ],
     "scripts": {
-        "post-update-cmd": [
+        "post-install-cmd": [
             "rm README.md",
             "rm LICENCE.md",
             "rm -rf docs"
