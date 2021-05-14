@@ -10,7 +10,7 @@
         }
     ],
     "scripts": {
-        "post-install-cmd": [
+        "post-create-project-cmd": [
             "rm README.md",
             "rm LICENCE.md",
             "rm -rf docs"
