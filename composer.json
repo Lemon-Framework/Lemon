@@ -1,7 +1,7 @@
 {
     "name": "lemon_framework/lemon",
     "description": "Lemon is simple micro framework that provides routing, etc.",
-    "type": "library",
+    "type": "project",
     "license": "MIT",
     "authors": [
         {
