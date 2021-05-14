@@ -10,7 +10,7 @@
  * */
 function view($file, $options = [])
 {
-    $file = "../../views".$file.".lemon.php";
+    $file = "../../../views".$file.".lemon.php";
     if (file_exists($file))
     {
         $safe = [];
