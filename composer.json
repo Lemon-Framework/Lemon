@@ -9,9 +9,14 @@
             "email": "silder.hologram@gmail.com"
         }
     ],
-    "autoload": {
-        "exclude-from-classmap": ["docs", "README.md", "LICENCE.md"]
-    },
+    "scripts": {
+        "post-cmd": [
+            "rm README.md",
+            "rm LICENCE.md",
+            "rm -rf docs"
+
+        ]
+    }
 
 
 }
