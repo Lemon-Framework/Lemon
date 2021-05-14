@@ -1,13 +1,13 @@
 # Lemon
 
 Lemon is php micro framework built for simple applications.\
-Latest version: 1.3.2\
+Latest version: 1.3.3\
 Documentation: https://tenmajkl.github.io/docs.html
 
 # Installation
 
 Installation is provided via composer:\
-`composer require lemon_framework/lemon:dev-master`\
+`composer create-project lemon_framework/lemon:dev-master`
 
 Lemon doesn't use project generator, so you need to make files manually and run app using `php -S localhost:port`\
 // Lemonade coming soon :)
