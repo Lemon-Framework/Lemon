@@ -10,15 +10,8 @@
         }
     ],
     "autoload": {
-        "files": [
-            "src/framework.php"
-        ]
+        "exclude-from-classmap": ["docs", "README.md", "LICENCE.md"]
     },
-   "require": {
-       "php": ">=5.3.0"
-   },
-   "archive": {
-        "exclude": ["docs"]
-   }
+
 
 }
