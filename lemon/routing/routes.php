@@ -133,6 +133,11 @@ class Route
     {
         return $this->routes;
     }
+
+    static function registerRoutes($routes)
+    {
+        $this->routes = array_merge($this->routes, $routes);
+    }
 }
 
 
