@@ -19,12 +19,9 @@ class CSRF
      * */
     static function setToken()
     {
-        if (!isset($_SESSION["csrf_token"]))
-        {
-            $token = uniqid();
-            $token = hash("sha256", $token);
-            $_SESSION["csrf_token"] = $token;
-        }
+        $token = uniqid();
+        $token = hash("sha256", $token);
+        $_SESSION["csrf_token"] = $token;
     }
 
     /*
