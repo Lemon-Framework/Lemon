@@ -1,7 +1,7 @@
 # Lemon
 
 Lemon is php micro framework built for simple applications.\
-Latest version: 1.3.3\
+Latest version: 1.3.4\
 Documentation: https://tenmajkl.github.io/docs.html
 
 # Installation
@@ -19,7 +19,7 @@ Here is code of simple app build only in index.php
 ```php    
 
 <?php
-require "vendor/autoload.php";
+require "/lemon/framework.php";
 
 
 Route::get("/relative/(.+)/", function($var)
