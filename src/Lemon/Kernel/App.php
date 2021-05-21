@@ -23,8 +23,41 @@
  * SOFTWARE.
  */
 
-namespace Lemon\Exceptions;
+namespace Lemon\Kernel;
 
-class InvalidArgumentException extends \InvalidArgumentException
+use Closure;
+use Lemon\Protection\Csrf;
+use Lemon\Session\CookieSession;
+use Lemon\Session\ISession;
+use Lemon\Exceptions\InvalidArgumentException;
+
+class App
 {
+  
+  private ISession $session;
+  
+  private Csrf $csrf;
+  
+  public function __construct(array $options = [])
+  {
+    if (!is_array($options))
+      throw new InvalidArgumentException("Expected type array for options, got '$options' " . gettype($options));
+    
+    $sessionClass = array_key_exists("sessionClass", $options) ? $options["sessionClass"] : CookieSession::class;
+    
+    $this->session = new $sessionClass();
+    $this->csrf = new Csrf();
+  }
+  
+  public function boot(Closure $cb = null): self {
+    $this->session->start();
+    
+    if (isset($cb)) {
+      $cb($this);
+    }
+    
+    // TODO: Route, execute route
+    return $this;
+  }
+
 }
