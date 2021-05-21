@@ -50,7 +50,7 @@ class Csrf
     if (!isset($token))
       $token = $_POST[self::CSRF_SESSION_NAME]; // TODO: PUT, .. requests
     
-    if (!$this->createCsrfToken(substr($token, 0, 12)) == $token)
+    if (!$this->createCsrfToken(substr($token, 0, 12)) === $token)
       return false;
     
     return true;

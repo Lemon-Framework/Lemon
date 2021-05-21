@@ -16,7 +16,7 @@ class Session
      * @param string $name
      *
      * */
-    static function setName($name)
+    static function setName(string $name)
     {
         session_name($name);
     }
