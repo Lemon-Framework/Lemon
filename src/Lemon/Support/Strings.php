@@ -140,5 +140,16 @@ class Strings
     return $result;
   }
   
+  /**
+   * Check if the string contains HTML.
+   *
+   * @param $string
+   * @return bool
+   */
+  public static function hasHtml($string): bool
+  {
+    return strip_tags($string) !== $string;
+  }
+  
   
 }

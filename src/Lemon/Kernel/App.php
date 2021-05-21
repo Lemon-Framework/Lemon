@@ -26,10 +26,13 @@
 namespace Lemon\Kernel;
 
 use Closure;
+use Lemon\Lifecycle\Response;
 use Lemon\Protection\Csrf;
 use Lemon\Session\CookieSession;
 use Lemon\Session\ISession;
 use Lemon\Exceptions\InvalidArgumentException;
+use Lemon\Support\Strings;
+use Lemon\Templating\ViewCompiler;
 
 class App
 {
@@ -37,6 +40,10 @@ class App
   private ISession $session;
   
   private Csrf $csrf;
+  
+  private ViewCompiler $viewCompiler;
+  
+  private Response $response;
   
   public function __construct(array $options = [])
   {
@@ -47,6 +54,9 @@ class App
     
     $this->session = new $sessionClass();
     $this->csrf = new Csrf();
+    // TODO: check for null
+    $this->viewCompiler = new ViewCompiler($options["views"]);
+    $this->response = new Response($this);
   }
   
   public function boot(Closure $cb = null): self {
@@ -59,5 +69,37 @@ class App
     // TODO: Route, execute route
     return $this;
   }
-
+  
+  /**
+   * @return ISession
+   */
+  public function getSession()
+  {
+    return $this->session;
+  }
+  
+  /**
+   * @return Csrf
+   */
+  public function getCsrf(): Csrf
+  {
+    return $this->csrf;
+  }
+  
+  /**
+   * @return ViewCompiler
+   */
+  public function getViewCompiler(): ViewCompiler
+  {
+    return $this->viewCompiler;
+  }
+  
+  /**
+   * @return Response
+   */
+  public function getResponse(): Response
+  {
+    return $this->response;
+  }
+  
 }
