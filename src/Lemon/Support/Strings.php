@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 /*
  * Lemon - dead simple PHP framework
@@ -25,7 +25,10 @@
 
 namespace Lemon\Support;
 
-class Strings {
+use Lemon\Support\Lemon\Exceptions\InvalidArgumentException;
+
+class Strings
+{
   
   /**
    * Check whether haystack starts with needle.
@@ -102,9 +105,40 @@ class Strings {
    * @param int $times
    * @return string
    */
-  private static function repeat(string $string, int $times): string
+  public static function repeat(string $string, int $times): string
   {
     return str_repeat($string, $times);
   }
+  
+  /**
+   * Generate a random string.
+   *
+   * @param int $length
+   * @param string $chars
+   * @return string
+   */
+  public static function random(int $length, string $chars = "0-9a-Z"): string
+  {
+    if ($length < 1) {
+      throw new InvalidArgumentException('The string length must be greater than 0.');
+    }
+    
+    if (strlen($chars) < 2) {
+      throw new InvalidArgumentException('You must specify at least two chars.');
+    }
+    
+    $chars = count_chars(preg_replace_callback('#.-.#', function (array $m) {
+      return implode('', range($m[0][0], $m[0][2]));
+    }, $chars), 3);
+
+    $result = '';
+    
+    for ($i = 0; $i < $length; $i++) {
+      $result .= $chars[random_int(0, strlen($chars) - 1)];
+    }
+    
+    return $result;
+  }
+  
   
 }
