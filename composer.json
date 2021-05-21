@@ -1,21 +1,27 @@
 {
     "name": "lemon_framework/lemon",
     "description": "Lemon is simple micro framework that provides routing, etc.",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "TENMAJKL",
             "email": "silder.hologram@gmail.com"
+        },
+        {
+            "name": "Filip \"Mia\" Vottus",
+            "email": "vottus@vott.us"
         }
     ],
-    "scripts": {
-        "post-create-project-cmd": [
-            "rm README.md",
-            "rm LICENCE.md",
-            "rm -rf docs",
+    "require": {
+        "php": "^7.4|^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "\\": "src/"
+        },
+        "classmap": [
+            "lemon/**/*.php"
         ]
     }
-
-
 }

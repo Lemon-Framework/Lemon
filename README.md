@@ -1,3 +1,15 @@
+# Lemon Next - Develop branch
+
+This is the develop branch for Lemon's next release - 2.0. There are 3 main goals:
+
+- Rewrite the library, stabilize the API- Lemonade -
+- Lemonade - CLI for development
+- Add more features, such as database connections and authentication
+
+The readme below is inaccurate and outdated.
+
+:warning: Code in this branch is not ready for production!
+
 # Lemon
 
 Lemon is php micro framework built for simple applications.\

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* 
+/*
  * Lemon - dead simple PHP framework
  * Copyright (c) 2021 TENMAJKL and Contributors
  *
@@ -23,19 +23,10 @@
  * SOFTWARE.
  */
 
-trigger_error("Requiring framework.php is deprecated. Use vendor/autoload.php instead.", E_DEPRECATED);
+namespace Lemon\Templating;
 
-// Routes folder
-require "routing/routes.php";
-require "routing/errors.php";
+use Exception;
 
-// Views folder
-require "views/views.php";
-
-// Utils folder
-require "utils/utils.php";
-require "utils/constants.php";
-
-// Session folder
-require "session/session.php";
-require "session/csrf.php";
+class ViewException extends Exception
+{
+}
