@@ -25,6 +25,8 @@
 
 namespace Lemon\Templating;
 
+use Lemon\Exceptions\ViewException;
+
 class ViewCompiler {
 
     /** @var string */

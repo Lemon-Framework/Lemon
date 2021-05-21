@@ -6,18 +6,19 @@ class Tag
 {
 
     /** @var string[] */
-    private $openingTag;
+    private array $openingTag;
 
     /** @var string[] */
-    private $closingTag;
+    private array $closingTag;
 
     public function __construct($openingTag, $closingTag)
     {
         $this->openingTag = $openingTag;
-        $this->closing = $closingTag;
+        $this->closingTag = $closingTag;
     }
 
-    public function compileTag($content) {
+    public function compileTag($content): string
+    {
         return $this->openingTag[1] . $content . $this->closing[1];
     }
 

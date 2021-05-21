@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-namespace Lemon\Templating;
+namespace Lemon\Exceptions;
 
 use Exception;
 
