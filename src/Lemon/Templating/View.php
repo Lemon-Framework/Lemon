@@ -102,11 +102,4 @@ class View
         $this->args = $args;
     }
 
-    public function rerender()
-    {
-        // TODO
-        throw new UnsupportedOperationException("Re-renders are not supported yet.");
-        ///return ViewCompiler::renderToString();
-    }
-
 }
