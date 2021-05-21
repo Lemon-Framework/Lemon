@@ -131,12 +131,14 @@ class Route
      * */
     static function getRoutes()
     {
-        return $this->routes;
+        global $routes;
+        return $routes;
     }
 
-    static function registerRoutes($routes)
+    static function registerRoutes($new_routes)
     {
-        $this->routes = array_merge($this->routes, $routes);
+        global $routes;
+        $routes = array_merge($routes, $new_routes);
     }
 }
 

@@ -10,7 +10,7 @@
  * */
 function view($file, $options = [])
 {
-    $file = "../../../views".$file.".lemon.php";
+    $file = __DIR__."/../../views/".$file.".lemon.php";
     if (file_exists($file))
     {
         $safe = [];
@@ -24,7 +24,10 @@ function view($file, $options = [])
         $file = str_replace('}}', '?>', $file);
         $file = str_replace('{%', '<?php', $file);
         $file = str_replace('%}', '?>', $file);
-        $file = str_replace('@csrf', '<input type="hidden" value="'. CSRF::getToken().'" name="csrf_token">', $file);
+        if (str_contains($file, "@csrf"))
+        {
+            $file = str_replace('@csrf', '<input type="hidden" value="'. CSRF::getToken().'" name="csrf_token">', $file);
+        }
 
         eval("?>".$file);
     }
