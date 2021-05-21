@@ -57,7 +57,7 @@ class Server
         $address = isset($arguments['host']) ? $arguments['host'] : "localhost";
         $port = isset($arguments['port']) ? $arguments['port'] : "8000";
 
-        $command = "php -S {$address}:{$port} ../../testing/index.php";
+        $command = "php -S {$address}:{$port} {__DIR__}/../../testing/public/index.php";
 
         return $command;
     }
@@ -69,7 +69,7 @@ class Server
      * */
     public function run()
     {
-        echo textFormat("\n\u{1F34B} Lemon production server started!\n\n", "33");
+        echo textFormat("\n\u{1F34B} Lemon development server started!\n\n", "33");
         $command = $this->build();
 
         exec($command);
