@@ -41,7 +41,7 @@ class ViewCompiler {
     /**
      * The compiler for Lemon view templates.
      *
-     * @param $viewsPath string Path to all views
+     * @param $viewsPath string
      */
     public function __construct(string $viewsPath) {
         $this->viewsPath = $viewsPath;
@@ -57,8 +57,8 @@ class ViewCompiler {
     /**
      * Resolves the view source code.
      *
-     * @param $viewName string Name of the view
-     * @return string The view source
+     * @param $viewName string
+     * @return string
      * @throws ViewException
      */
     private function resolveView(string $viewName): string
@@ -79,8 +79,8 @@ class ViewCompiler {
     /**
      * Compiles the template. Returns an array containing the template source and
      *
-     * @param $viewName string Name of the view
-     * @param $args array Args to pass in the view
+     * @param $viewName string
+     * @param $args array
      * @return string[]
      * @throws ViewException
      */
@@ -102,7 +102,7 @@ class ViewCompiler {
     /**
      * Matches all tags and compiles them.
      *
-     * @param $view string The view to match tags in.
+     * @param $view string
      * @return string
      */
     private function compileTags(string $view): string {
@@ -131,16 +131,16 @@ class ViewCompiler {
     }
 
     /**
-     * Renders a view and creates a new View instance.
+     * Compiles a view and creates a new View instance.
      *
-     * @param $viewName string The View name
-     * @param $args array Args to pass in the template
-     * @return View Rendered view
+     * @param $viewName string
+     * @param $args array
+     * @return View
      * @throws ViewException
      */
-    public function render(string $viewName, array $args): View
+    public function makeView(string $viewName, array $args): View
     {
         return new View($viewName, $this->compile($viewName, $args), $args);
     }
 
-} 
+}

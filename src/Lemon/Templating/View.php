@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* 
+/*
  * Lemon - dead simple PHP framework
  * Copyright (c) 2021 TENMAJKL and Contributors
  *
@@ -43,9 +43,9 @@ class View
     private array $args;
 
     /**
-     * @param $viewName string The view name
-     * @param $compilerResult array The compiler result
-     * @param $args array The args
+     * @param $viewName string
+     * @param $compilerResult array
+     * @param $args array
      */
     public function __construct(string $viewName, array $compilerResult, array $args) {
         $this->viewName = $viewName;
