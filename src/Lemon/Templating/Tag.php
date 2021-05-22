@@ -64,7 +64,7 @@ class Tag
     /**
      * @return string[]
      */
-    public function getOpeningTag(): array
+    public function getOpeningTag(): string
     {
         return $this->getOpeningTagCombination()[0];
     }
@@ -72,7 +72,7 @@ class Tag
     /**
      * @return string[]
      */
-    public function getClosingTag(): array
+    public function getClosingTag(): string
     {
         return $this->getClosingTagCombination()[0];
     }
@@ -80,7 +80,7 @@ class Tag
     /**
      * @return string[]
      */
-    public function getCompiledOpeningTag(): array
+    public function getCompiledOpeningTag(): string
     {
         return $this->getOpeningTagCombination()[1];
     }
@@ -88,7 +88,7 @@ class Tag
     /**
      * @return string[]
      */
-    public function getCompiledClosingTag(): array
+    public function getCompiledClosingTag(): string
     {
         return $this->getClosingTagCombination()[0];
     }
