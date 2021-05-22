@@ -25,8 +25,6 @@
 
 namespace Lemon\Templating;
 
-use Lemon\Exceptions\UnsupportedOperationException;
-
 class View
 {
 
