@@ -9,8 +9,7 @@ Documentation: https://tenmajkl.github.io/docs.html
 Installation is provided via composer:\
 `composer create-project lemon_framework/lemon:dev-master project-name`
 
-Lemon doesn't use project generator, so you need to make files manually and run app using `php -S localhost:port`\
-// Lemonade coming soon :)
+If you want to build starting app type `php lemonade build type:project`
 
 # Minimal app
 
