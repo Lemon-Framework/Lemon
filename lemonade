@@ -1,0 +1,20 @@
+#!/usr/bin/php
+<?php
+
+// Including whole Kernel
+require "../lemon/kernel/kernel.php";
+
+// Making Kernel instance
+$kernel = new Kernel($argv);
+
+// Executing whole system
+$kernel->execute();
+
+/*
+
+    When life gives you lemons you make lemonade
+
+    ~ Built with <3 by TEN MAJKL
+ 
+ */
+?>

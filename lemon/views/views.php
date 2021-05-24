@@ -1,16 +1,21 @@
 <?php
-
 /*
  *
+ * Lemon template system
+ *
+ * */
+use Lemon\Sessions\CSRF;
+
+/*
  * Views lemon template
  *
  * @param string $filename
  * @param array $options
  *
  * */
-function view($file, $options = [])
+function view($view, $options = [])
 {
-    $file = __DIR__."/../../views/".$file.".lemon.php";
+    $file = __DIR__."/../../views/".$view.".lemon.php";
     if (file_exists($file))
     {
         $safe = [];
@@ -34,7 +39,7 @@ function view($file, $options = [])
     else
     {
         raise(500);
-        console("ViewError: View ".$file." not found!", "red");
+        console("ViewError: View ".$view." not found!", "red");
     }
 }
 

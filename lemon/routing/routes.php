@@ -1,4 +1,10 @@
 <?php
+/*
+ * 
+ * Lemon routing system
+ *
+ * */
+namespace Lemon\Routing;
 
 /*
  *
@@ -141,6 +147,5 @@ class Route
         $routes = array_merge($routes, $new_routes);
     }
 }
-
 
 ?>

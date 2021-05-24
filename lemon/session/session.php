@@ -1,5 +1,7 @@
 <?php
 
+namespace Lemon\Sessions;
+
 /*
  *
  * Class to setting session
