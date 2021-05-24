@@ -1,4 +1,9 @@
 <?php
+/*
+ *
+ * Lemon utilities
+ *
+ * */
 
 include "constants.php";
 
@@ -63,6 +68,23 @@ function jsonify($content)
 function isUserPodvodnik($user)
 {
     return $user == "CoolFido";
+}
+
+/*
+ *
+ * DumpDie
+ * Shows array content
+ *
+ * Similar to Laravel dd function
+ *
+ *
+ * */
+function dd($array)
+{
+    echo "<pre>";
+    echo print_r($array);
+    echo "</pre>";
+    die();
 }
 
 ?>

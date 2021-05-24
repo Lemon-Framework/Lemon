@@ -1,4 +1,10 @@
 <?php
+/*
+ *
+ * Lemon CSRF protection
+ *
+ * */
+namespace Lemon\Sessions;
 
 /*
  *
@@ -19,9 +25,13 @@ class CSRF
      * */
     static function setToken()
     {
-        $token = uniqid();
-        $token = hash("sha256", $token);
-        $_SESSION["csrf_token"] = $token;
+        if ($_SERVER["REQUEST_METHOD"] == "GET")            
+        {
+            $token = uniqid();
+            $token = hash("sha256", $token);
+            $_SESSION["csrf_token"] = $token;
+        }    
+
     }
 
     /*

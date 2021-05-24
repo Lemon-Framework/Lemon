@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * Lemon errors file
+ *
+ * */
+
 require __DIR__ . "/../utils/constants.php";
 
 /*
