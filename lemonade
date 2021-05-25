@@ -2,7 +2,7 @@
 <?php
 
 // Including whole Kernel
-require "lemon/kernel/kernel.php";
+require "lemon/kernel/Lemonade/kernel.php";
 
 // Making Kernel instance
 $kernel = new Kernel($argv);

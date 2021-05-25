@@ -56,7 +56,7 @@ class Server
         
         $address = isset($arguments['host']) ? $arguments['host'] : "localhost";
         $port = isset($arguments['port']) ? $arguments['port'] : "8000";
-        $dir = __DIR__ . "/../../../public/index.php";
+        $dir = __DIR__ . "/../../../../public/index.php";
 
         $command = "php -S {$address}:{$port} {$dir}";
         return $command;
