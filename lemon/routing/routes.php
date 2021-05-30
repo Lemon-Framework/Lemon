@@ -95,14 +95,9 @@ class Route
         $params = [];
         $callback = null;
 
-        if (!isset($routes[$path]))
-        {
-            raise(404);
-            return;
-        }
-
         foreach ($routes as $route => $handler)
         {
+            $route = preg_replace("/<.+>/", "(.+)", $route); 
             if (preg_match("%^{$route}$%", $path, $matches) === 1)
             {
                 $callback = $handler[0];
