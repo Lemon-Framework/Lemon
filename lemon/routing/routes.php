@@ -29,7 +29,7 @@ class Route
         global $routes;
         $path = trim($path, "/");
 
-        $routes[$path] = [$action, ["GET"]];
+        $routes[$path]["GET"] = $action;
     }
     
     /*
@@ -45,7 +45,7 @@ class Route
         global $routes;
         $path = trim($path, "/");
 
-        $routes[$path] = [$action, ["POST"]];
+        $routes[$path]["POST"] = $action;
     }
 
     /*
@@ -61,7 +61,8 @@ class Route
         global $routes;
         $path = trim($path, "/");
 
-        $routes[$path] = [$action, ["GET", "POST"]];
+        $routes[$path]["POST"] = $action;
+        $routes[$path]["GET"] = $action;
     }
     
     /*
@@ -97,11 +98,15 @@ class Route
 
         foreach ($routes as $route => $handler)
         {
-            $route = preg_replace("/<.+>/", "(.+)", $route); 
+            $route = preg_replace("/{[^}]+}/", "(.+)", $route);
             if (preg_match("%^{$route}$%", $path, $matches) === 1)
             {
-                $callback = $handler[0];
-                $methods = $handler[1];
+                if (!isset($handler[$_SERVER['REQUEST_METHOD']]))
+                {
+                    raise(400);
+                    return;
+                }
+                $callback = $handler[$_SERVER['REQUEST_METHOD']];
                 unset($matches[0]);
                 $params = $matches;
                 break;
@@ -112,23 +117,17 @@ class Route
             raise(404);
             exit;
         }
-
-        if (in_array($_SERVER["REQUEST_METHOD"], $methods))
+   
+        try
         {
-            try
-            {
-                $callback(...$params);
-            }
-            catch(Exception $e)
-            {
-                raise(500);
-                console("Lemon-> Callback error in " . $path . "\nError:" . $e->getMessage());
-            }
+            $callback(...$params);
         }
-        else
+        catch(Exception $e)
         {
-            raise(400);
+            raise(500);
+            console("Lemon-> Callback error in " . $path . "\nError:" . $e->getMessage());
         }
+    
 
     }
     /*
@@ -141,7 +140,14 @@ class Route
         global $routes;
         return $routes;
     }
-
+    
+    /*
+     *
+     * Registers routes from array
+     *
+     * @param Array routes
+     *
+     * */
     static function registerRoutes($new_routes)
     {
         global $routes;
