@@ -1,8 +1,8 @@
 # Lemon
 
 Lemon is php micro framework built for simple applications.\
-Latest version: 2.1.1\
-Documentation: https://tenmajkl.github.io/docs.html
+Latest version: 2.2.0\
+Documentation: https://lemon-framework.github.io//docs.html
 
 # Installation
 
@@ -21,7 +21,7 @@ Here is code of simple app build only in index.php
 require "/lemon/framework.php";
 
 
-Route::get("/relative/<var>/", function($var)
+Route::get("/relative/{var}/", function($var)
     {
         echo $var;
     });
@@ -41,6 +41,3 @@ Route::execute();
 ?>
 
 ```
-
-
-
