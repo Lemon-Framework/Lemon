@@ -3,7 +3,7 @@
 require "info.php";
 require __DIR__."/../Server/server.php";
 require __DIR__."/../Builders/builder.php";
-require __DIR__."/../Routes/routes.php";
+
 /*
  *
  * List of all commands
