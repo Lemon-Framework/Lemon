@@ -1,7 +1,7 @@
 # Lemon
 
 Lemon is php micro framework built for simple applications.\
-Latest version: 2.2.0\
+Latest version: 2.2.1\
 Documentation: https://lemon-framework.github.io//docs.html
 
 # Installation
