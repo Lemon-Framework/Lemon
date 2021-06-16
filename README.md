@@ -9,6 +9,9 @@ Documentation: https://lemon-framework.github.io//docs.html
 Installation is provided via composer:\
 `composer create-project lemon_framework/lemon:dev-master project-name`
 
+If you don't  have composer, you can use curl:\
+`curl -s "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/downloader" | bash`
+
 If you want to build starting app type `php lemonade build type:project`
 
 # Minimal app
