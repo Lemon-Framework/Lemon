@@ -1,7 +1,7 @@
 # Lemon
 
 Lemon is php micro framework built for simple applications.\
-Latest version: 2.2.1\
+Latest version: 2.3.0\
 Documentation: https://lemon-framework.github.io//docs.html
 
 # Installation
@@ -22,7 +22,7 @@ Here is code of simple app build only in index.php
 
 <?php
 require "/lemon/framework.php";
-
+use Lemon\Routing\Route;
 
 Route::get("/relative/{var}/", function($var)
     {

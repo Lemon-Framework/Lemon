@@ -12,9 +12,9 @@
  *
  * */
 
-// Routes folder
-require "routing/routes.php";
-require "routing/errors.php";
+// Http folder
+require "http/routing/Route.php";
+require "http/request.php";
 
 // Views folder
 require "views/views.php";

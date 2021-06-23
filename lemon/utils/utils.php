@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  *
  * Lemon utilities
  *
@@ -31,7 +31,7 @@ function console($text, $color="white")
     error_log("\n\n\033".$color.$text."\033[0m\n");    
 }
 
-/*
+/**
  *
  * Redirects user to given url
  *
@@ -43,11 +43,10 @@ function redirect($path)
     header("Location:".$path);
 }
 
-/*
+/**
  *
- * Adds json to page
+ * Converts array to json
  *
- * Tool for building APIs
  *
  * @param array $content
  *
@@ -58,7 +57,7 @@ function jsonify($content)
     header("Content-type:application/json");
 }
 
-/*
+/**
  *
  * Returns whenever user is podvodnik
  *
@@ -70,19 +69,19 @@ function isUserPodvodnik($user)
     return $user == "CoolFido";
 }
 
-/*
+/**
  *
  * DumpDie
- * Shows array content
+ * Dumps given value
  *
  * Similar to Laravel dd function
  *
  *
  * */
-function dd($array)
+function dd($value)
 {
     echo "<pre>";
-    echo print_r($array);
+    echo print_r($value);
     echo "</pre>";
     die();
 }
