@@ -11,8 +11,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "Lemon\\": "lemon"
-        }
+            "Lemon\\": "lemon/"            
+        },
+        "classmap": [
+            "lemon/**/*.php*"
+        ]
     },
     "scripts": {
         "post-install-cmd": [
