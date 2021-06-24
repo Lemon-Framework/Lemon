@@ -14,7 +14,7 @@
             "Lemon\\": "lemon/"            
         },
         "classmap": [
-            "lemon/**/*.php*"
+            "lemon/**/*.php"
         ]
     },
     "scripts": {
