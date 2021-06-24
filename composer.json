@@ -10,7 +10,7 @@
         }
     ],
     "autoload": {
-        "ps-4": {
+        "psr-4": {
             "Lemon\\": "lemon"
         }
     },
