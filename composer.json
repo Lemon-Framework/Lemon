@@ -1,7 +1,7 @@
 {
     "name": "lemon_framework/lemon",
     "description": "Lemon is simple micro framework that provides routing, etc.",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
@@ -9,13 +9,14 @@
             "email": "silder.hologram@gmail.com"
         }
     ],
+    "autoload": {
+        "ps-4": {
+            "Lemon\\": "lemon"
+        }
+    },
     "scripts": {
         "post-create-project-cmd": [
-            "rm README.md",
-            "rm LICENCE.md",
-            "rm -rf docs"
+            "curl -s \"https://raw.githubusercontent.com/Lemon-Framework/ProjectBuilder/master/builder\" | bash"
         ]
     }
-
-
 }
