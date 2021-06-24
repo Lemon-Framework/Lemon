@@ -15,7 +15,7 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
+        "pre-install-cmd": [
             "curl -s \"https://raw.githubusercontent.com/Lemon-Framework/ProjectBuilder/master/builder\" | bash"
         ]
     }
