@@ -19,7 +19,10 @@
             "src/Utils/utils.php"
         ]
     },
-    "scripts": {
-        "build": "curl -s 'https://raw.githubusercontent.com/Lemon-Framework/ProjectBuilder/master/builder' | bash"
-    }
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Lemon-Framework/Examples"
+        }
+    ]
 }
