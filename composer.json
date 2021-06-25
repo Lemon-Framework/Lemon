@@ -11,8 +11,13 @@
     ],
     "autoload": {
         "psr-4": {
-            "Lemon\\": "lemon/"            
-        }
+            "Lemon\\": "src/"            
+        },
+        "files": [
+            "src/Views/views.php",
+            "src/Http/Routing/Route.php",
+            "src/Utils/utils.php"
+        ]
     },
     "scripts": {
         "post-package-install": [
