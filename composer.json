@@ -20,6 +20,6 @@
         ]
     },
     "scripts": {
-        "post-package-install": "echo Welcome to lemon"
+        "post-root-package-install": "echo Welcome to lemon"
     }
 }
