@@ -6,6 +6,10 @@
  * */
 namespace Lemon\Sessions;
 
+require "../Http/Response.php";
+
+use Lemon\Http\Response;
+
 /*
  *
  * CSRF protection
@@ -49,13 +53,13 @@ class Csrf
             {
                 if ($_POST["csrf_token"] != $_SESSION["csrf_token"])
                 {
-                    raise(400);
+                    Response::raise(400);
                     exit();
                 }
             }
             else
             {
-                raise(400);
+                Response::raise(400);
                 exit();
             }
         }

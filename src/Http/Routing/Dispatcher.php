@@ -5,6 +5,7 @@ namespace Lemon\Http\Routing;
 require "Helpers.php";
 require __DIR__."/../Response.php";
 
+use Lemon\Http\Request;
 use Lemon\Http\Response;
 
 /**

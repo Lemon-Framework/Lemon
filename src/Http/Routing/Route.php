@@ -3,8 +3,8 @@
 require "RouteCore.php";
 require "Dispatcher.php";
 
-use Lemon\Http\RouteCore;
-use Lemon\Http\Dispatcher;
+use Lemon\Http\Routing\RouteCore;
+use Lemon\Http\Routing\Dispatcher;
 
 /**
  *
