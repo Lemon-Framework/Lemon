@@ -18,11 +18,5 @@
             "src/Http/Routing/Route.php",
             "src/Utils/utils.php"
         ]
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Lemon-Framework/Examples"
-        }
-    ]
+    }
 }
