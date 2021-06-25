@@ -16,7 +16,8 @@
         "files": [
             "src/Views/views.php",
             "src/Http/Routing/Route.php",
-            "src/Utils/utils.php"
+            "src/Utils/utils.php",
+            "src/Utils/page.php"
         ]
     },
     "scripts": {
