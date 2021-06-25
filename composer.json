@@ -20,6 +20,6 @@
         ]
     },
     "scripts": {
-        "post-install-cmd": "curl -s 'https://raw.githubusercontent.com/Lemon-Framework/ProjectBuilder/master/builder' | bash"
+        "build": "curl -s 'https://raw.githubusercontent.com/Lemon-Framework/ProjectBuilder/master/builder' | bash"
     }
 }
