@@ -5,6 +5,7 @@
  *
  * */
 use Lemon\Sessions\CSRF;
+use Lemon\Http\Response;
 
 /*
  * Views lemon template
@@ -15,7 +16,9 @@ use Lemon\Sessions\CSRF;
  * */
 function view($view, $options = [])
 {
-    $file = __DIR__."/../../views/".$view.".lemon.php";
+    $exec_file = debug_backtrace();
+    $exec_dir = pathinfo($exec_file)["dirname"];
+    $file = $exec_dir."/../views/".$view.".lemon.php";
     if (file_exists($file))
     {
         $safe = [];
@@ -38,7 +41,7 @@ function view($view, $options = [])
     }
     else
     {
-        raise(500);
+        Response::raise(500);
         console("ViewError: View ".$view." not found!", "red");
     }
 }
