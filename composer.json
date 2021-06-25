@@ -1,7 +1,7 @@
 {
     "name": "lemon_framework/lemon",
     "description": "Lemon is simple micro framework that provides routing, etc.",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
@@ -9,13 +9,20 @@
             "email": "silder.hologram@gmail.com"
         }
     ],
-    "scripts": {
-        "post-create-project-cmd": [
-            "rm README.md",
-            "rm LICENCE.md",
-            "rm -rf docs"
+    "autoload": {
+        "psr-4": {
+            "Lemon\\": "src/"            
+        },
+        "files": [
+            "src/Views/views.php",
+            "src/Http/Routing/Route.php",
+            "src/Utils/utils.php"
         ]
-    }
-
-
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Lemon-Framework/Examples"
+        }
+    ]
 }

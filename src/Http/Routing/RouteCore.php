@@ -1,5 +1,5 @@
 <?php
-namespace Lemon\Http;
+namespace Lemon\Http\Routing;
 
 /**
  *
@@ -19,7 +19,7 @@ class RouteCore
 
     /**
      *
-     * Registers route 
+     * Registers route
      *
      * @param String $path
      * @param Callback|String $action

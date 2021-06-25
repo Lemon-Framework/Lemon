@@ -1,13 +1,13 @@
 <?php
 
-/*
+/**
  *
  * Errors
  *
  * In this array are all the main http status codes
  *
  * */
-$errors = [
+const ERRORS = [
     100 => 'Continue',
     101 => 'Switching Protocols',
     102 => 'Processing',
@@ -66,14 +66,14 @@ $errors = [
     510 => 'Not Extended'
 ];
 
-/*
+/**
  *
  * Colors
  *
  * In this array are stored colors for console function
  *
  * */
-$colors = [
+const COLLORS = [
         'black' => "[30m",
         'red' => "[31m",
         'green' => "[32m",

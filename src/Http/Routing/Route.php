@@ -1,13 +1,10 @@
 <?php
 
-namespace Lemon\Routing;
-
-
 require "RouteCore.php";
 require "Dispatcher.php";
 
-use Lemon\Http\RouteCore;
-use Lemon\Http\Dispatcher;
+use Lemon\Http\Routing\RouteCore;
+use Lemon\Http\Routing\Dispatcher;
 
 /**
  *
@@ -28,7 +25,7 @@ class Route
     static function get($path, $action)
     {
         RouteCore::addRoute($path, $action, "GET");
-    } 
+    }
 
     /**
      *
@@ -40,7 +37,7 @@ class Route
      * */
     static function post($path, $action)
     {
-        RouteCore::addRoute($path, $action, "POST");    
+        RouteCore::addRoute($path, $action, "POST");
     }
 
 
@@ -54,8 +51,8 @@ class Route
      * */
     static function any($path, $action)
     {
-        RouteCore::addRoute($path, $action, "GET");          
-        RouteCore::addRoute($path, $action, "POST");          
+        RouteCore::addRoute($path, $action, "GET");
+        RouteCore::addRoute($path, $action, "POST");
     }
 
 
@@ -72,7 +69,7 @@ class Route
     {
         foreach ($methods as $method)
             RouteCore::addRoute($path, $action, $method);
-    }   
+    }
 
     /**
      *

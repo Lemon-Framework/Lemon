@@ -19,7 +19,7 @@ include "constants.php";
  * */
 function console($text, $color="white")
 {
-    global $colors;
+    $colors = COLLORS;
     if (isset($colors[$color]))
     {
         $color = $colors[$color];
