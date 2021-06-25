@@ -16,7 +16,7 @@ use Lemon\Http\Response;
  * */
 function view($view, $options = [])
 {
-    $exec_file = debug_backtrace();
+    $exec_file = debug_backtrace()[0]["file"];
     $exec_dir = pathinfo($exec_file)["dirname"];
     $file = $exec_dir."/../views/".$view.".lemon.php";
     if (file_exists($file))
