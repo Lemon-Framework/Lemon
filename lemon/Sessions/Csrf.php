@@ -13,24 +13,24 @@ namespace Lemon\Sessions;
  * In this class are methods CSRF protection
  *
  * */
-class CSRF
+class Csrf
 {
 
     /*
      *
      * Creates unique token to every user that visits any page
      *
-     * Must be on start of app and requires started session 
+     * Must be on start of app and requires started session
      *
      * */
     static function setToken()
     {
-        if ($_SERVER["REQUEST_METHOD"] == "GET")            
+        if ($_SERVER["REQUEST_METHOD"] == "GET")
         {
             $token = uniqid();
             $token = hash("sha256", $token);
             $_SESSION["csrf_token"] = $token;
-        }    
+        }
 
     }
 
@@ -43,7 +43,7 @@ class CSRF
      * */
     static function check()
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST")    
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
         {
             if (isset($_POST["csrf_token"]) && isset($_SESSION["csrf_token"]))
             {
@@ -51,7 +51,7 @@ class CSRF
                 {
                     raise(400);
                     exit();
-                } 
+                }
             }
             else
             {
@@ -66,14 +66,14 @@ class CSRF
      * Function mainly for `@csrf` in views
      *
      * return token
-     * 
+     *
      * if token is not set, throws 400
      *
      * */
     static function getToken()
     {
-        if (isset($_SESSION["csrf_token"])) 
-        {       
+        if (isset($_SESSION["csrf_token"]))
+        {
             return $_SESSION["csrf_token"];
         }
         else

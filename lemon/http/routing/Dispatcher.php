@@ -1,6 +1,6 @@
 <?php
 
-namespace Lemon\Http;
+namespace Lemon\Http\Routing;
 
 require "Helpers.php";
 require __DIR__."/../Response.php";
@@ -16,7 +16,7 @@ class Dispatcher
 {
     // User visited route
     private $request_uri;
-    
+
     // User requested method
     private $request_method;
 
@@ -48,7 +48,7 @@ class Dispatcher
     {
         if (preg_match("/\\?(.+)/", $this->request_uri, $matches) == 1)
         {
-            $this->request_uri = str_replace("{$matches[0]}", "", $this->request_uri);          
+            $this->request_uri = str_replace("{$matches[0]}", "", $this->request_uri);
             parse_str($matches[1], $get_args);
         }
         else
@@ -56,7 +56,7 @@ class Dispatcher
 
         return $get_args;
     }
-    
+
     /**
      *
      * Finds matching route
@@ -82,7 +82,7 @@ class Dispatcher
             Response::raise(404);
 
         $route = ["handler"=>$matched_handler, "params"=>$params];
-        return $route; 
+        return $route;
 
     }
 
@@ -96,13 +96,13 @@ class Dispatcher
     private function buildRequest()
     {
         $get_args = $this->parseGet();
-         
+
         if (empty($get_args))
             $request = new Request([]);
         else
             $request = new Request($get_args);
-           
-       return $request; 
+
+       return $request;
 
     }
 
@@ -114,7 +114,7 @@ class Dispatcher
     public function run()
     {
         $request = $this->buildRequest();
-        $route = $this->parseURI(); 
+        $route = $this->parseURI();
 
         $callback = $route["handler"];
         $params = $route["params"];
@@ -125,7 +125,7 @@ class Dispatcher
 
         $param_types = getParamTypes($callback);
 
-        if (isset($param_types[0])) 
+        if (isset($param_types[0]))
             if ($param_types[0] == "Lemon\Http\Request")
                 $params = array_merge([$request], $params);
 

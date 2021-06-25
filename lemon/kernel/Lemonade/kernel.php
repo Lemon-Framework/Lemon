@@ -1,6 +1,6 @@
 <?php
 
-namespace Lemon\Kernel;
+namespace Lemon\Kernel\Lemonade;
 
 require "Helpers/commands.php";
 

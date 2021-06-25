@@ -12,13 +12,10 @@
     "autoload": {
         "psr-4": {
             "Lemon\\": "lemon/"            
-        },
-        "classmap": [
-            "lemon/**/*.php"
-        ]
+        }
     },
     "scripts": {
-        "post-install-cmd": [
+        "post-package-install": [
             "curl -s 'https://raw.githubusercontent.com/Lemon-Framework/ProjectBuilder/master/builder' | bash"
         ]
     }
