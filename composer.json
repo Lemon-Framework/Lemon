@@ -16,13 +16,10 @@
         "files": [
             "src/Views/views.php",
             "src/Http/Routing/Route.php",
-            "src/Utils/utils.php",
-            "src/Utils/page.php"
+            "src/Utils/utils.php"
         ]
     },
     "scripts": {
-        "post-package-install": [
-            "curl -s 'https://raw.githubusercontent.com/Lemon-Framework/ProjectBuilder/master/builder' | bash"
-        ]
+        "post-package-install": "echo Welcome to lemon"
     }
 }
