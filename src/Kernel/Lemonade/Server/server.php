@@ -8,6 +8,7 @@
 class Server
 {   
     private $arguments;
+    private $directory;
     private $arg_list = [
         "port",
         "host"
@@ -19,10 +20,10 @@ class Server
      * Takes arguments
      *
      * */
-    public function __construct($arguments)
+    public function __construct($arguments, $directory)
     {
         $this->arguments = $arguments;
-
+        $this->directory = $directory;
     }
 
     /*
@@ -56,7 +57,7 @@ class Server
         
         $address = isset($arguments['host']) ? $arguments['host'] : "localhost";
         $port = isset($arguments['port']) ? $arguments['port'] : "8000";
-        $dir = __DIR__ . "/../../../../public/";
+        $dir = $this->directory."/public/";
 
         $command = "php -S {$address}:{$port} -t {$dir}";
         return $command;
@@ -87,9 +88,9 @@ class Server
  * Function for command registration
  *
  * */
-function serve($arguments)
+function serve($arguments, $directory)
 {
-    $server = new Server($arguments);
+    $server = new Server($arguments, $directory);
 
     $server->run();
 }

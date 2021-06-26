@@ -4,7 +4,7 @@
 require "helpers.php";
 
 // List of all commands
-$help = "    
+const HELP = "    
     -h Shows this help
     -i Shows info about lemon
     -v Shows version of Lemon
@@ -15,22 +15,20 @@ $help = "
 
 ";
 
-$version = "2.1.1";
+const VERSION = "2.3.1";
 
 // Shows help
 function help()
 {
-    global $help;
-
     echo textFormat("\n\u{1F34B} Lemon help\n", "33");
-    echo $help;
+    echo HELP;
  
 }
 
 // Shows info about project
 function info()
 {
-    global $version;
+    $version = VERSION;
 
     echo textFormat("\n\u{1F34B} Lemon info\n", "33");
     echo "\nLemon is simple micro framework that provides routing, etc.\n";
@@ -40,7 +38,7 @@ function info()
 // Show version
 function version()
 {
-    global $version;
+    $version = VERSION;
 
     echo textFormat("\n\u{1F34B} Lemon version\n", "33");
     echo "\n->{$version}\n";

@@ -33,7 +33,7 @@ class LicenseBuilder
      * */
     private function licenseType()
     {
-        global $licenses;
+        $licenses = LICENSES;
         $type = readline("Type license you want to build: ");
 
         if (isset($licenses[$type]))
@@ -82,7 +82,7 @@ class LicenseBuilder
      * */
     public function buildLicense()
     {
-        global $licenses;
+        $licenses = LICENSES;
         $file = fopen("LICENSE.md", "w");
         $license = $this->parameters["license"];
         
