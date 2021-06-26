@@ -7,9 +7,9 @@
  *
  *
  * */
-function loader()
+function loader($dir)
 {
-    $routes_dir = __DIR__."/../../routes/";
+    $routes_dir = $dir."/../routes/";
 
     if (is_dir($routes_dir))
     {
