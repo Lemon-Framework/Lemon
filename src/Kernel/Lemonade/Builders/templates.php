@@ -7,19 +7,19 @@
  * */
 
 // List of supported arguments
-$arg_list = [
+const ARG_LIST = [
     "type",  
 ];
 
 // List of builder types
-$types = [
+const TYPES = [
     "project",
     "license"
 ];
 
 
 // List of project directories
-$dirs = [
+const DIRS = [
     "public",
     "views",
     "routes",
@@ -27,14 +27,14 @@ $dirs = [
 ];
 
 // List of project files
-$files = [ 
+const FILES = [ 
     "public/index.php" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/index.php",
     "routes/web.php" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/web_routes.php"
 ];
 
 
 // List of supported licenses
-$licenses = [
+const LICENSES = [
     "mit" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/licences/mit.txt",
     "apache" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/licences/apache.txt"
 

@@ -1,7 +1,4 @@
 <?php
-
-namespace Lemon\Kernel;
-
 /*
  *
  * Loads all routes from routes folder

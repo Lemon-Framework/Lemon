@@ -9,7 +9,7 @@ require __DIR__."/../Builders/builder.php";
  * List of all commands
  *
  * */
-$commands = [
+const COMMANDS = [
     "-h" => "help",
     "-i" => "info",
     "-v" => "version",

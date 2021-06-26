@@ -14,18 +14,20 @@ require "Helpers/commands.php";
 class Kernel
 {
     private $command;
+    private $directory;
 
-    public function __construct($command)
+    public function __construct($command, $directory)
     {
         $this->command = $command;
+        $this->directory = $directory;
     }
     
     public function execute()
     {
         $command = isset($this->command[1]) ?  $this->command[1] : "";
         $arguments = array_slice($this->command, 2);
-        global $commands;
-        isset($commands[$command]) ? $commands[$command]($arguments) : $commands["-h"]();
+        $commands = COMMANDS;
+        isset($commands[$command]) ? $commands[$command]($arguments, $this->directory) : $commands["-h"]();
         
     }    
 

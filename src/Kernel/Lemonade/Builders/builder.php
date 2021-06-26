@@ -1,6 +1,5 @@
 <?php
 
-require "templates.php";
 require "licenses.php";
 
 /*
@@ -58,7 +57,7 @@ class Builder
      * */
     public function execute()
     {
-        global $types;
+        $types = TYPES;
         $arguments = $this->parse($this->arguments);
         if (!isset($arguments["type"]))
         {
@@ -81,8 +80,8 @@ class Builder
      * */
     private function project()
     {
-        global $dirs;
-        global $files;
+        $dirs = DIRS;
+        $files = FILES;
 
         echo textFormat("\nBuilding project...\n\n", "33");
         foreach ($dirs as $dir)
