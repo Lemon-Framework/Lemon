@@ -1,24 +1,25 @@
 <?php
-/*
+/**
  *
- * Loads all routes from routes folder
+ * Loads all files from specific folder
  *
  * Built for index in public folder
  *
  *
- * */
-function loader($dir)
-{
-    $routes_dir = $dir."/../routes/";
+ */
+ function loader($dir)
+ {
+     foreach (scandir($dir) as $file)
+     {
+         $path = $dir.DIRECTORY_SEPARATOR.$file;
+         if (in_array($file, [".", ".."]))
+             continue;
 
-    if (is_dir($routes_dir))
-    {
-        foreach (scandir($routes_dir) as $dir)
-        {
-            if (str_ends_with($dir, ".php"))
-                require $routes_dir.$dir;
-        }
-    }
-}
+         if (str_ends_with($file, ".php"))
+             require_once($path);
+         else if (is_dir($path))
+             loader($path);
+     }
+ }
 
 ?>

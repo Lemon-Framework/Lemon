@@ -12,7 +12,7 @@ use Lemon\Http\Response;
  *
  * Routing dispatcher finds matching route function
  *
- * */
+ */
 class Dispatcher
 {
     // User visited route
@@ -30,7 +30,7 @@ class Dispatcher
      *
      * @param Array $routes
      *
-     * */
+     */
     function __construct($routes)
     {
         $this->request_uri = trim($_SERVER["REQUEST_URI"], "/");
@@ -44,7 +44,7 @@ class Dispatcher
      *
      * @return Array
      *
-     * */
+     */
     private function parseGet()
     {
         if (preg_match("/\\?(.+)/", $this->request_uri, $matches) == 1)
@@ -65,7 +65,7 @@ class Dispatcher
      * @return Array
      *
      *
-     * */
+     */
     private function parseURI()
     {
         foreach ($this->routes as $route => $handler)
@@ -93,7 +93,7 @@ class Dispatcher
      *
      * @return Request
      *
-     * */
+     */
     private function buildRequest()
     {
         $get_args = $this->parseGet();
@@ -108,10 +108,38 @@ class Dispatcher
     }
 
     /**
+     * Processes callback return parameter
+     *
+     * @param Closure $callback
+     * @param Array $params
+     *
+     */
+    private function call(Closure $callback, Array $params)
+    {
+        $result = $callback(...$params);
+
+        if (in_array(gettype($result), ["string", "integer", "boolean"]))
+            echo $result;
+
+        if (gettype($result) == "array")
+            jsonify($result);
+        
+        if (gettype($result) != "object")
+            return;
+
+        if (get_class($result) == "Lemon\Views\View")
+        {
+            extract($result->arguments);
+            eval($result->compiled_template);
+        }
+
+    }
+
+    /**
      *
      * Runs function that matches request method and uri
      *
-     * */
+     */
     public function run()
     {
         $request = $this->buildRequest();
@@ -130,7 +158,7 @@ class Dispatcher
             if ($param_types[0] == "Lemon\Http\Request")
                 $params = array_merge([$request], $params);
 
-        $callback(...$params);
+        $this->call($callback, $params);
     }
 }
 
