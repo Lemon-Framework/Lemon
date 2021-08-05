@@ -30,7 +30,7 @@ class Builder
      *
      * Parses arguments to associative array
      *
-     * @param array $arguments  
+     * @param array $arguments
      *
      * */
     private function parse($arguments)
@@ -38,7 +38,7 @@ class Builder
         $parsed = [];
         foreach($this->arguments as $argument)
         {
-            if(str_contains($argument, ":"))
+            if(strpos($argument, ":"))
             {
                 $argument = explode(':', $argument);
                 $parsed[$argument[0]] = $argument[1];
@@ -91,7 +91,7 @@ class Builder
                 echo textFormat("Building {$dir}...\n", "33");
                 mkdir($dir);
             }
-        } 
+        }
         foreach ($files as $file => $link)
         {
             echo textFormat("Building {$file}...\n", "33");
@@ -111,11 +111,11 @@ class Builder
      * */
     private function license()
     {
-        $licenses = new LicenseBuilder(); 
-        
+        $licenses = new LicenseBuilder();
+
         $licenses->buildLicense();
 
-        
+
 
     }
 }

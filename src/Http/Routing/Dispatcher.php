@@ -110,11 +110,11 @@ class Dispatcher
     /**
      * Processes callback return parameter
      *
-     * @param Closure $callback
+     * @param Closure|String $callback
      * @param Array $params
      *
      */
-    private function call(Closure $callback, Array $params)
+    private function call($callback, Array $params)
     {
         $result = $callback(...$params);
 
@@ -123,7 +123,7 @@ class Dispatcher
 
         if (gettype($result) == "array")
             jsonify($result);
-        
+
         if (gettype($result) != "object")
             return;
 
