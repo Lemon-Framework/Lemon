@@ -5,6 +5,7 @@ namespace Lemon\Views;
 use Lemon\Views\View;
 use Lemon\Views\Tag;
 use Lemon\Exceptions\ViewException;
+use Lemon\Sessions\Csrf;
 
 class ViewCompiler
 {
@@ -13,6 +14,21 @@ class ViewCompiler
 
     /** File suffix */
     public static $format = ".lemon.php";
+
+    /**
+     * Returns pre-defined tags
+     *
+     * @return Array
+     *
+     */
+    public static function getTags()
+    {
+      return [
+              new Tag(["<?= htmlentities(", "{{"], [") ?>", "}}"]),
+              new Tag(["<?= ", "{!"], [" ?>", "!}"]),
+              new Tag(["<?php ", "{%"], [" ?>", "%}"])
+      ];
+    }
 
     /**
      * Sets templates directory
@@ -26,22 +42,26 @@ class ViewCompiler
     }
 
     /**
-     * Creates all pre-defined tags
+     * Compiles defined mapping
      *
-     * @return Array
+     * @param string $content
+     *
+     * @return String
      *
      */
-    public static function tags()
+    public static function map(String $content)
     {
-        return [
-            new Tag(["<?= htmlentities(", "{{"], [") ?>", "}}"]),
-            new Tag(["<?= ", "{!"], [" ?>", "!}"]),
-            new Tag(["<?php ", "{%"], [" ?>", "%}"])
+        $mapping = [
+            ["/@csrf/", '<input type="hidden" value="'. Csrf::getToken().'" name="csrf_token">']
         ];
+        foreach ($mapping as $map)
+            $content = preg_replace($map[0], $map[1], $content);
+
+        return $content;
     }
 
     /**
-     * Compiles all pre-defined tags
+     * Compiles all defined tags
      *
      * @param String $content
      *
@@ -50,7 +70,7 @@ class ViewCompiler
      */
     public static function compileTags(String $content)
     {
-        $tags = self::tags();
+        $tags = self::getTags();
 
         foreach ($tags as $tag)
         {
@@ -83,8 +103,9 @@ class ViewCompiler
             throw new ViewException("View $view_name does not exist or is not readable!");
 
         $view_raw = file_get_contents($view_path);
+        $view_tags = self::compileTags($view_raw);
 
-        $view_compiled = "?>" . self::compileTags($view_raw);
+        $view_compiled = "?>" . self::map($view_tags);
 
         return new View($view_name,
                         ["raw" => $view_raw,

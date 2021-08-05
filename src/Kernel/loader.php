@@ -1,13 +1,12 @@
 <?php
 /**
- *
  * Loads all files from specific folder
- *
- * Built for index in public folder
- *
+ * Inspired by loader from CoolFido 
+ * 
+ * @param String $dirname
  *
  */
- function loader($dir)
+ function loader(String $dir)
  {
      foreach (scandir($dir) as $file)
      {
@@ -15,9 +14,10 @@
          if (in_array($file, [".", ".."]))
              continue;
 
-         if (str_ends_with($file, ".php"))
+         if (preg_match("/\.php$/", $file))
              require_once($path);
-         else if (is_dir($path))
+         
+         if (is_dir($path))
              loader($path);
      }
  }

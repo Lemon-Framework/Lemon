@@ -6,8 +6,6 @@
  * */
 namespace Lemon\Sessions;
 
-require "../Http/Response.php";
-
 use Lemon\Http\Response;
 
 /*
@@ -82,7 +80,7 @@ class Csrf
         }
         else
         {
-            raise(400);
+            Response::raise(400);
             exit();
         }
     }

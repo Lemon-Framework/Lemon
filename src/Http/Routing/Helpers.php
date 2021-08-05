@@ -9,7 +9,7 @@
  * @return Array
  *
  * */
-function getParamTypes(Closure|String $callback)
+function getParamTypes($callback)
 {
     $types = [];
 
