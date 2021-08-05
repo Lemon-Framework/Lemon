@@ -75,14 +75,8 @@ class Csrf
     static function getToken()
     {
         if (isset($_SESSION["csrf_token"]))
-        {
             return $_SESSION["csrf_token"];
-        }
-        else
-        {
-            Response::raise(400);
-            exit();
-        }
+        return "";
     }
 }
 ?>
