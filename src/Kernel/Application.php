@@ -62,10 +62,11 @@ class Application
      */
     public function boot()
     {
+        $sep = DIRECTORY_SEPARATOR;
         foreach ($this->load_folders as $folder)
-            loader("{$this->booter_dir}/$folder");
+            loader("{$this->booter_dir}{$sep}{$folder}");
 
-        ViewCompiler::setDirectory("{$this->booter_dir}/{$folder}");
+        ViewCompiler::setDirectory("{$this->view_folder}{$sep}{$folder}");
 
         \Route::execute();
     }
