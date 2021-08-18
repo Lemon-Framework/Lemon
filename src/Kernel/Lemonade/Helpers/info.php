@@ -12,10 +12,11 @@ const HELP = "
     serve Starts development server
     build type:project - Builds starter project
               :license - Builds license
+    repl Starts lemon interactive shell
 
 ";
 
-const VERSION = "2.4.1";
+const VERSION = "2.4.4";
 
 // Shows help
 function help()

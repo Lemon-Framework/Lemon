@@ -66,7 +66,8 @@ class Application
         foreach ($this->load_folders as $folder)
             loader("{$this->booter_dir}{$sep}{$folder}");
 
-        ViewCompiler::setDirectory("{$this->view_folder}{$sep}{$folder}");
+        ViewCompiler::setDirectory("{$this->booter_dir}{$sep}{$this->view_folder}");
+        
 
         \Route::execute();
     }
