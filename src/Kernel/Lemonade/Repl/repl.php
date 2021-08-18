@@ -104,7 +104,7 @@ class Repl
 
         $dir = $directory . DIRECTORY_SEPARATOR . "app";
 
-        if (isdir($dir))
+        if (is_dir($dir))
           loader($dir);
 
         $this->last_command = "";
