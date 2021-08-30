@@ -1,30 +1,17 @@
 <?php
-/*
- *
- * Lemon CSRF protection
- *
- * */
 namespace Lemon\Sessions;
 
 use Lemon\Http\Response;
 
-/*
- *
- * CSRF protection
- *
- * In this class are methods CSRF protection
- *
- * */
+/**
+ * CSRF preventing class
+ */
 class Csrf
 {
 
-    /*
-     *
-     * Creates unique token to every user that visits any page
-     *
-     * Must be on start of app and requires started session
-     *
-     * */
+    /**
+     * Creates new CSRF token and saves it into user's session
+     */
     static function setToken()
     {
         if ($_SERVER["REQUEST_METHOD"] == "GET")
@@ -36,13 +23,9 @@ class Csrf
 
     }
 
-    /*
-     *
-     * Checks if user sent post request with valid CSRF token
-     *
-     * To validate route, put this function on start of every route
-     *
-     * */
+    /**
+     * Validates CSRF token by comparing the one from POST input and session
+     */
     static function check()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST")
@@ -63,20 +46,14 @@ class Csrf
         }
     }
 
-    /*
+    /**
+     * Returns CSRF token from session
      *
-     * Function mainly for `@csrf` in views
-     *
-     * return token
-     *
-     * if token is not set, throws 400
-     *
-     * */
+     * @return String
+     */
     static function getToken()
     {
-        if (isset($_SESSION["csrf_token"]))
-            return $_SESSION["csrf_token"];
-        return "";
+        return isset($_SESSION["csrf_token"]) ? $_SESSION["csrf_token"] : "";
     }
 }
 ?>
