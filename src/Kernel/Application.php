@@ -68,8 +68,8 @@ class Application
 
         ViewCompiler::setDirectory("{$this->booter_dir}{$sep}{$this->view_folder}");
         
-
-        \Route::execute();
+        if (in_array("SERVER_NAME", $_SERVER))
+           \Route::execute();
     }
 }
 

@@ -102,10 +102,10 @@ class Repl
 
         echo "\033[33mLemon repl started, exit with ctrl-c\033[0m\n";
 
-        $dir = $directory . DIRECTORY_SEPARATOR . "app";
+        $file = $directory . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "index.php";
 
-        if (is_dir($dir))
-          loader($dir);
+        if (is_file($file))
+            require_once $file;
 
         $this->last_command = "";
         $this->cursor = "--> ";
