@@ -30,7 +30,7 @@ const DIRS = [
 const FILES = [ 
     "public/index.php" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/index.php",
     "routes/web.php" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/web_routes.php",
-    "booter.php" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/booter.php"
+    "app.php" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/booter.php"
 ];
 
 

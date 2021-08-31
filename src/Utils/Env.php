@@ -2,7 +2,8 @@
 
 namespace Lemon\Utils;
 
-use ValueError;
+use Exception;
+
 /**
  * .env managing utility
  */
@@ -30,8 +31,8 @@ class Env
     public static function get(String $key)
     {
         $data = self::all();
-        if (!in_array($key, $data))
-            throw new ValueError("Env key $key does not exist!");
+        if (!isset($data[$key]))
+            throw new Exception("Env key $key does not exist!");
         return $data[$key];
     }
 
@@ -44,7 +45,7 @@ class Env
     public static function set(String $key, $value)
     {
         if (!is_string($value))
-            throw new ValueError("Value can't be converted to string!");
+            throw new Exception("Value can't be converted to string!");
 
         $data = self::all();
         $data[$key] = (String)$value;
@@ -86,8 +87,8 @@ class Env
     public static function remove(String $key)
     {
         $data = self::all();
-        if (!in_array($key, $data))
-            throw new ValueError("Env key $key does not exist!");
+        if (!isset($data[$key]))
+            throw new Exception("Env key $key does not exist!");
 
         unset($data[$key]);
         self::replace($data);
