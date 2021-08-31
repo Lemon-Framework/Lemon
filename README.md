@@ -1,7 +1,7 @@
 # 🍋 Lemon
 
 Lemon is dead simple php micro framework.\
-Latest version: 2.4.4\
+Latest version: 2.5.1\
 Documentation: WIP (Contribution welcomed)
 
 # Why?

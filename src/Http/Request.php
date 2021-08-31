@@ -5,126 +5,108 @@ namespace Lemon\Http;
 class Request
 {
     /**
-     *
      * Request headers
-     *
-     * */
+     */
     public $headers;
 
     /**
-     *
      * Request method
-     *
-     * */
+     */
     public $method;
 
     /**
-     *
-     * Json sent to server
-     *
-     * */
+     * JSON POST input
+     */
     public $json;
 
     /**
-     *
      * POST input
-     *
-     * */
+     */
     public $input;
 
     /**
-     *
-     * GET input
-     *
-     * */
+     * GET query
+     */
     public $query;
 
     /**
-     *
      * All input data
-     *
-     * */
+     */
     public $data;
 
     /**
-     *
-     * Sets all request data
+     * Request body
+     */
+    public $body;
+
+    /**
+     * Parses all request data
      *
      * @param Array $query
-     *
-     * */
+     */
     function __construct($query)
     {
-        $this->headers = getallheaders();   
+        $this->headers = getallheaders();
         $this->method = $_SERVER["REQUEST_METHOD"];
         $this->json = json_decode(file_get_contents("php://input"), true);
         $this->input = $_POST;
         $this->data = array_merge($this->input, $query);
         $this->query = $query;
+        $this->body = file_get_contents("php://input");
     }
-    
+
     /**
-     *
      * Returns json value
      *
      * @return mixed
-     *
-     * */
+     */
     function json($key)
     {
         return $this->json[$key];
     }
 
     /**
-     *
-     * Returns value from input
+     * Returns POST input value
      *
      * @return String
-     *
-     * */
+     */
     function input($key)
     {
         return $this->input[$key];
     }
 
     /**
+     * Returns GET query value
      *
-     * Returns value from query
-     * 
      * @return String
-     *
-     * */
+     */
     function query()
     {
         return $this->query;
     }
-    
+
     /**
-     *
      * Returns value from data array
      *
      * @return mixed
-     *
-     * */
+     */
     function __get($key)
     {
         if (isset($this->data[$key]))
-            return $this->data[$key]; 
+            return $this->data[$key];
         return null;
     }
 
     /**
-     *
      * Returns value from header
      *
      * @return String
-     *
-     * */
+     */
     function header($name)
     {
         return $this->headers[$name];
     }
- 
+
 }
 
 ?>
