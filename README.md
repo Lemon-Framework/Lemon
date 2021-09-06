@@ -1,8 +1,8 @@
 # 🍋 Lemon
 
 Lemon is dead simple php micro framework.\
-Latest version: 2.5.1\
-Documentation: WIP (Contribution welcomed)
+Latest version: 2.6.0\
+Documentation: https://github.com/Lemon-Framework/docs 
 
 # Why?
 

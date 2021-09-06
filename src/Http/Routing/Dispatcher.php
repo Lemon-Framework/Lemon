@@ -3,47 +3,38 @@
 namespace Lemon\Http\Routing;
 
 require "Helpers.php";
-require __DIR__."/../Response.php";
 
 use Lemon\Http\Request;
 use Lemon\Http\Response;
 
 /**
+ * Class for executing Lemon Lifecycle
  *
- * Routing dispatcher finds matching route function
- *
+ * @param Array $routes
  */
 class Dispatcher
 {
-    // User visited route
+    /**
+     * Request path
+     */
     private $request_uri;
 
-    // User requested method
-    private $request_method;
-
-    // All defined routes
+    /**
+     * List of all registered routes
+     */
     private $routes;
 
-    /**
-     *
-     * Setting routing variables
-     *
-     * @param Array $routes
-     *
-     */
-    function __construct($routes)
+
+    public function __construct(Array $routes)
     {
         $this->request_uri = trim($_SERVER["REQUEST_URI"], "/");
-        $this->request_method = $_SERVER["REQUEST_METHOD"];
         $this->routes = $routes;
     }
 
     /**
-     *
      * Parses get arguments to array
      *
      * @return Array
-     *
      */
     private function parseGet()
     {
@@ -59,40 +50,34 @@ class Dispatcher
     }
 
     /**
-     *
-     * Finds matching route
+     * Finds matching routes
      *
      * @return Array
-     *
-     *
      */
     private function parseURI()
     {
-        foreach ($this->routes as $route => $handler)
+        $matched_routes = [];
+        foreach ($this->routes as $route)
         {
-            $route = preg_replace("/{[^}]+}/", "(.+)", $route);
-            if (preg_match("%^{$route}$%", $this->request_uri, $params) === 1)
+            $path = preg_replace("/{[^}]+}/", "(.+)", $route->path);
+            if (preg_match("%^{$path}$%", $this->request_uri, $params) === 1)
             {
                 unset($params[0]);
-                $matched_handler = $handler;
-                break;
+                array_push($matched_routes, [$route, $params]);
             }
         }
 
-        if (!isset($matched_handler))
-            Response::raise(404);
+        if (!$matched_routes)
+            (new Response("", 404))->terminate();
 
-        $route = ["handler"=>$matched_handler, "params"=>$params];
-        return $route;
+        return $matched_routes;
 
     }
 
     /**
-     *
      * Builds Request instance for accessing Request data
      *
      * @return Request
-     *
      */
     private function buildRequest()
     {
@@ -108,57 +93,19 @@ class Dispatcher
     }
 
     /**
-     * Processes callback return parameter
-     *
-     * @param Closure|String $callback
-     * @param Array $params
-     *
-     */
-    private function call($callback, Array $params)
-    {
-        $result = $callback(...$params);
-
-        if (in_array(gettype($result), ["string", "integer", "boolean"]))
-            echo $result;
-
-        if (gettype($result) == "array")
-            jsonify($result);
-
-        if (gettype($result) != "object")
-            return;
-
-        if (get_class($result) == "Lemon\Views\View")
-        {
-            extract($result->arguments);
-            eval($result->compiled_template);
-        }
-
-    }
-
-    /**
-     *
-     * Runs function that matches request method and uri
-     *
+     * Runs whole dispatcher
      */
     public function run()
     {
         $request = $this->buildRequest();
-        $route = $this->parseURI();
+        $matched_routes = $this->parseURI();
+        
+        foreach ($matched_routes as [$route, $params])
+           if (in_array($request->method, $route->methods)) 
+               exit($route->toResponse($request, $params)->terminate());
+        
+        (new Response("", 400))->terminate();
 
-        $callback = $route["handler"];
-        $params = $route["params"];
-
-        if (!isset($callback[$this->request_method]))
-            Response::raise(400);
-        $callback = $callback[$this->request_method];
-
-        $param_types = getParamTypes($callback);
-
-        if (isset($param_types[0]))
-            if ($param_types[0] == "Lemon\Http\Request")
-                $params = array_merge([$request], $params);
-
-        $this->call($callback, $params);
     }
 }
 

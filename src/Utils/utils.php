@@ -5,7 +5,7 @@
  *
  * */
 
-include "constants.php";
+require "constants.php";
 
 /*
  *
@@ -33,32 +33,6 @@ function console($text, $color="white")
 
 /**
  *
- * Redirects user to given url
- *
- * @param string $url
- *
- * */
-function redirect($path)
-{
-    header("Location:".$path);
-}
-
-/**
- *
- * Converts array to json
- *
- *
- * @param array $content
- *
- * */
-function jsonify($content)
-{
-    echo json_encode($content);
-    header("Content-type:application/json");
-}
-
-/**
- *
  * Returns whenever user is podvodnik
  *
  * @param string $name
@@ -70,14 +44,8 @@ function isUserPodvodnik($user)
 }
 
 /**
- *
- * DumpDie
- * Dumps given value
- *
- * Similar to Laravel dd function
- *
- *
- * */
+ * Dumps given value and exits
+ */
 function dd($value)
 {
     echo "<pre>";
