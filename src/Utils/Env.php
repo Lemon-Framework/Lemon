@@ -107,9 +107,9 @@ class Env
         foreach (explode(PHP_EOL, $data) as $line)
         {
             $pair = explode("=", $line);
-            $result[$pair[0]] = $pair[1];
+            if (isset($pair[1]))
+                $result[$pair[0]] = $pair[1];
         }
-        unset($result[array_key_last($result)]);
         return $result;
     }
 
