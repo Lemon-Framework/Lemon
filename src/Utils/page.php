@@ -1,7 +1,5 @@
 <?php
 
-require "constants.php";
-
 function status_page($code)
 {
     $errors = ERRORS;

@@ -30,7 +30,11 @@ class RouteCore
     static function createRoute(String $path, Array $methods, $action)
     {  
         if (gettype($action) == "string")
+        {
             $action = explode(":", $action);
+            if (!isset($action[1]))
+                $action = $action[0];
+        }
         $route = new Route(trim($path, "/"), $methods, $action);
         array_push(self::$routes, $route);
         return $route;
@@ -100,6 +104,14 @@ class RouteCore
     public static function group(Array $parameters, Array $routes)
     {
         return new RouteGroup($parameters, $routes);
+    }
+
+    public static function controller(String $path, String $controller)
+    {
+        $methods = get_class_methods($controller);
+        foreach ($methods as $method)
+            if (in_array($method, ["get", "post", "put", "head", "delete", "path", "options"]))
+                self::createRoute($path, [strtoupper($method)], [$controller, $method]);
     }
 
     /**

@@ -18,7 +18,8 @@
             "src/Http/Routing/Route.php",
             "src/Utils/utils.php",
             "src/Kernel/loader.php",
-            "src/Utils/http.php"
+            "src/Utils/http.php",
+            "src/Utils/constants.php"
         ]
     }
 }

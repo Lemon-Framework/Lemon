@@ -5,8 +5,6 @@
  *
  * */
 
-require "constants.php";
-
 /*
  *
  * Types text to php console
