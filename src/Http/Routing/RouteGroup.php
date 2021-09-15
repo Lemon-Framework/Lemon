@@ -37,7 +37,21 @@ class RouteGroup
         $this->middlewares = isset($parameters["middlewares"]) ? $parameters["middlewares"] : []; 
         $this->routes = $routes;
         $this->prefix = $parameters["prefix"]; 
+        $this->resolveNested();
         $this->update();
+    }
+
+    /**
+     * Resolves nested route groups
+     */ 
+    public function resolveNested()
+    {
+        foreach ($this->routes as $pos => $route)
+            if (get_class($route) == "Lemon\Http\Routing\RouteGroup")
+            {
+                unset($this->routes[$pos]);
+                $this->routes = array_merge($this->routes, $route->routes);
+            }
     }
 
     /**
@@ -55,3 +69,4 @@ class RouteGroup
 
 
 }
+ 

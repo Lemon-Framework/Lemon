@@ -154,7 +154,7 @@ class Response
         }
 
         if (gettype($body) != "object")
-            throw new Exception("Response body doesn't contain valid data!");
+            return;
 
         if (get_class($body) == "Lemon\Http\Response")
             $body->terminate();
