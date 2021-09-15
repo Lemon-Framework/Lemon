@@ -109,9 +109,12 @@ class RouteCore
     public static function controller(String $path, String $controller)
     {
         $methods = get_class_methods($controller);
+        $routes = [];
         foreach ($methods as $method)
             if (in_array($method, ["get", "post", "put", "head", "delete", "path", "options"]))
-                self::createRoute($path, [strtoupper($method)], [$controller, $method]);
+                array_push($routes, self::createRoute($path, [strtoupper($method)], [$controller, $method]));
+        
+        return $routes;
     }
 
     /**
