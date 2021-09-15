@@ -96,7 +96,7 @@ class Route extends RouteCore
         {
             $middleware_params = explode(":", $middleware_name);
             $middleware = new $middleware_params[0]($request);
-            $method = $middleware_params[1];
+            $method = isset($middleware_params[1]) ? $middleware_params[1] : null;
             $middleware_methods = get_class_methods($middleware);
             $request_method = strtolower($request->method);
             if (in_array($request_method, $middleware_methods))

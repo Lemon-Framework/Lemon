@@ -33,25 +33,36 @@ class RouteGroup
 
     public function __construct(Array $parameters, Array $routes)
     {
-        $this->name = $parameters["name"];
+        $this->name = isset($parameters["name"]) ? $parameters["name"] : "";
         $this->middlewares = isset($parameters["middlewares"]) ? $parameters["middlewares"] : []; 
+        $this->prefix = isset($parameters["prefix"]) ? $parameters["prefix"] : "/"; 
         $this->routes = $routes;
-        $this->prefix = $parameters["prefix"]; 
-        $this->resolveNested();
+        $this->resolve();
         $this->update();
     }
 
     /**
-     * Resolves nested route groups
+     * Resolves nested route groups and arrays of routes
      */ 
-    public function resolveNested()
+    public function resolve()
     {
         foreach ($this->routes as $pos => $route)
-            if (get_class($route) == "Lemon\Http\Routing\RouteGroup")
-            {
-                unset($this->routes[$pos]);
-                $this->routes = array_merge($this->routes, $route->routes);
-            }
+        {
+            if (is_array($route))
+                $this->resolveRoute($pos, $route);
+
+            else if (get_class($route) == "Lemon\Http\Routing\RouteGroup")
+                $this->resolveRoute($pos, $route->routes);
+        }
+    }
+
+    /**
+     * Resolves routes that aren't Route instance
+     */
+    public function resolveRoute($pos, $routes)
+    {
+        unset($this->routes[$pos]);
+        $this->routes = array_merge($this->routes, $routes);
     }
 
     /**
@@ -61,7 +72,8 @@ class RouteGroup
     {
         foreach ($this->routes as $route)
         {
-            $route->name = $this->name . ":" . $route->name;
+            if ($this->name != "")
+                $route->name = $this->name . ":" . $route->name;
             $route->middleware($this->middlewares);
             $route->prefix($this->prefix);
         }
