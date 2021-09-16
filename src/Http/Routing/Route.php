@@ -3,6 +3,7 @@
 use Lemon\Http\Request;
 use Lemon\Http\Response;
 use Lemon\Http\Routing\RouteCore;
+use Lemon\Http\MiddlewareKernel;
 
 /**
  * Class representing registered route
@@ -45,7 +46,7 @@ class Route extends RouteCore
         $this->methods = $methods;
         $this->action = $action;
         $this->name = $path ? $path : "main";
-        $this->middlewares = [];
+        $this->middlewares = new MiddlewareKernel();
     }
     
     /**
@@ -53,10 +54,9 @@ class Route extends RouteCore
      * 
      * @param String|Array $middleware_param
      */
-    public function middleware($middleware_param)
+    public function middleware($middlewares)
     {
-        $middleware_param = is_array($middleware_param) ? $middleware_param : explode("|", $middleware_param);
-        $this->middlewares = array_merge($this->middlewares, $middleware_param);
+        $this->middlewares->add($middlewares);
         return $this;
     }
 
@@ -92,19 +92,8 @@ class Route extends RouteCore
      */
     public function toResponse(Request $request, Array $params)
     {
-        foreach ($this->middlewares as $middleware_name)
-        {
-            $middleware_params = explode(":", $middleware_name);
-            $middleware = new $middleware_params[0]($request);
-            $method = isset($middleware_params[1]) ? $middleware_params[1] : null;
-            $middleware_methods = get_class_methods($middleware);
-            $request_method = strtolower($request->method);
-            if (in_array($request_method, $middleware_methods))
-                $middleware->$request_method($request);
+        $this->middlewares->terminate($request);
 
-            if ($method)
-                $middleware->$method($request);
-        }
         $action = $this->action;
         $param_types = getParamTypes($action);
         $last_param = 1;
