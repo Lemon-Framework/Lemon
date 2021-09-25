@@ -18,6 +18,16 @@ class RouteCore
      */
     public static $routes = [];
 
+    public static $controller_resources = [
+        "index" => ["get", "/"],
+        "create" => ["get", "/create"],
+        "store" => ["get", "/create"],
+        "show" => ["get", "/{target}"],
+        "edit" => ["get", "/{target}/edit"],
+        "update" => ["post", "/{target}"],
+        "delete" => ["get", "/{target}/delete"]
+    ];
+
     /**
      * Creates new route
      *
@@ -106,13 +116,22 @@ class RouteCore
         return new RouteGroup($parameters, $routes);
     }
 
-    public static function controller(String $path, String $controller)
+    public static function controller(String $base, String $controller)
     {
         $methods = get_class_methods($controller);
         $routes = [];
         foreach ($methods as $method)
+        {
             if (in_array($method, ["get", "post", "put", "head", "delete", "path", "options"]))
-                array_push($routes, self::createRoute($path, [strtoupper($method)], [$controller, $method]));
+                array_push($routes, self::createRoute($base, [strtoupper($method)], [$controller, $method]));
+            if (isset(self::$controller_resources[$method]))
+            {
+                $resource = self::$controller_resources[$method];
+                $path = $base . $resource[1];
+                $request_method = strtoupper($resource[0]);  
+                array_push($routes, self::createRoute($path, [$request_method], [$controller, $method]));
+            }
+        }   
         
         return $routes;
     }

@@ -59,7 +59,7 @@ class Dispatcher
         $matched_routes = [];
         foreach ($this->routes as $route)
         {
-            $path = preg_replace("/{[^}]+}/", "(.+)", $route->path);
+            $path = preg_replace("/{[^}]+}/", "([^/]+)", $route->path);
             if (preg_match("%^{$path}$%", $this->request_uri, $params) === 1)
             {
                 unset($params[0]);

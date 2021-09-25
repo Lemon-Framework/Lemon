@@ -3,7 +3,7 @@
 use Lemon\Http\Request;
 use Lemon\Http\Response;
 use Lemon\Http\Routing\RouteCore;
-use Lemon\Http\MiddlewareKernel;
+use Lemon\Http\MiddlewareCollection;
 
 /**
  * Class representing registered route
@@ -46,7 +46,7 @@ class Route extends RouteCore
         $this->methods = $methods;
         $this->action = $action;
         $this->name = $path ? $path : "main";
-        $this->middlewares = new MiddlewareKernel();
+        $this->middlewares = new MiddlewareCollection();
     }
     
     /**

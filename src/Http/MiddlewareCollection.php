@@ -4,7 +4,7 @@ namespace Lemon\Http;
 
 use Lemon\Http\Request;
 
-class MiddlewareKernel
+class MiddlewareCollection
 {
     /**
      * List of all middlewares
