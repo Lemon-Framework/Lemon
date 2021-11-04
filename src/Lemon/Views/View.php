@@ -9,7 +9,12 @@ namespace Lemon\Views;
 
 class View
 {
-    
+    /** Directory containing all views */
+    public static $directory = "";
+
+    /** File suffix */
+    public static $format = ".lemon.php";
+
     /** Template name */
     public $name;
 
@@ -18,6 +23,9 @@ class View
 
     /** Compiled template content*/
     public $compiled_template;
+
+    /** Evaled template, that returns raw html */
+    public $resolved_template;
 
     /** Template arguments */
     public $arguments;
@@ -36,6 +44,25 @@ class View
         $this->raw_template = $result["raw"];
         $this->compiled_template = $result["compiled"];
         $this->arguments = $args;
+    }
+
+    public function resolve()
+    {
+        ob_start();
+        extract($this->arguments);
+        eval($this->compiled_template);
+        return ob_get_clean();
+    }
+
+    /**
+     * Sets templates directory
+     *
+     * @param String $path
+     *
+     */
+    public static function setDirectory(String $path)
+    {
+        self::$directory = $path;
     }
 
 }

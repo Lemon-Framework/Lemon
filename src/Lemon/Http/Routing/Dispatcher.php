@@ -2,8 +2,6 @@
 
 namespace Lemon\Http\Routing;
 
-require "Helpers.php";
-
 use Lemon\Http\Request;
 use Lemon\Http\Response;
 
@@ -25,9 +23,10 @@ class Dispatcher
     private $routes;
 
 
-    public function __construct(Array $routes)
+    public function __construct(Array $routes, Request $request)
     {
-        $this->request_uri = trim($_SERVER["REQUEST_URI"], "/");
+        $this->request = $request;
+        $this->request_uri = trim($request->uri, "/");
         $this->routes = $routes;
     }
 
@@ -68,27 +67,9 @@ class Dispatcher
         }
 
         if (!$matched_routes)
-            (new Response("", 404))->terminate();
+            return new Response("", 404);
 
         return $matched_routes;
-
-    }
-
-    /**
-     * Builds Request instance for accessing Request data
-     *
-     * @return Request
-     */
-    private function buildRequest()
-    {
-        $get_args = $this->parseGet();
-
-        if (empty($get_args))
-            $request = new Request([]);
-        else
-            $request = new Request($get_args);
-
-       return $request;
 
     }
 
@@ -97,14 +78,17 @@ class Dispatcher
      */
     public function run()
     {
-        $request = $this->buildRequest();
+        $this->request->setQuery($this->parseGet());
         $matched_routes = $this->parseURI();
+
+        if (!is_array($matched_routes))
+            return $matched_routes;
         
         foreach ($matched_routes as [$route, $params])
-           if (in_array($request->method, $route->methods)) 
-               exit($route->toResponse($request, $params)->terminate());
+           if (in_array($this->request->method, $route->methods)) 
+               return $route->toResponse($this->request, $params);
         
-        (new Response("", 400))->terminate();
+        return new Response("", 400);
 
     }
 }

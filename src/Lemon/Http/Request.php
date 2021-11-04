@@ -4,58 +4,52 @@ namespace Lemon\Http;
 
 class Request
 {
-    /**
-     * Request headers
-     */
+    /** Request headers */
     public $headers;
 
-    /**
-     * Request method
-     */
+    /** Request method */
     public $method;
 
-    /**
-     * JSON POST input
-     */
+    /** JSON POST input */
     public $json;
 
-    /**
-     * POST input
-     */
+    /** POST input */
     public $input;
 
-    /**
-     * GET query
-     */
+    /** GET query */
     public $query;
 
-    /**
-     * All input data
-     */
+    /** All input data */
     public $data;
 
-    /**
-     * Request body
-     */
+    /** Request body */
     public $body;
 
-    /**
-     * Parses all request data
-     *
-     * @param Array $query
-     */
-    function __construct($query)
+    public function __construct($request_data=null)
     {
-        $this->headers = getallheaders();
+        if (!$request_data)
+            return $this->buildRequest();
+
+        foreach ($request_data as $key => $value)
+            $this->$key = $value;
+    }
+
+    private function buildRequest()
+    {
+        $this->uri = $_SERVER["REQUEST_URI"];
         $this->method = $_SERVER["REQUEST_METHOD"];
-        $this->json = json_decode(file_get_contents("php://input"), true);
+        $this->headers = getallheaders();
         $this->input = $_POST;
-        $this->data = array_merge($this->input, $query);
-        $this->query = $query;
+        $this->json = json_decode(file_get_contents("php://input"), true);
         $this->body = file_get_contents("php://input");
     }
 
-    /**
+    public function setQuery($query)
+    {
+        $this->query = $query;
+    }
+
+        /**
      * Returns json value
      *
      * @return mixed
@@ -106,7 +100,6 @@ class Request
     {
         return $this->headers[$name];
     }
-
 }
 
 ?>

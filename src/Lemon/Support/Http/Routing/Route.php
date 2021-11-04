@@ -1,8 +1,8 @@
 <?php
-namespace Lemon\Http\Routing;
-
-use Route;
+use Lemon\Http\Request;
+use Lemon\Http\Routing\Route as RouteCore;
 use Lemon\Http\Routing\RouteGroup;
+use Lemon\Http\Routing\Dispatcher;
 
 /**
  *
@@ -11,7 +11,7 @@ use Lemon\Http\Routing\RouteGroup;
  * This class builds array of all routes
  *
  * */
-class RouteCore
+class Route
 {
     /**
      * All registered routes
@@ -45,7 +45,7 @@ class RouteCore
             if (!isset($action[1]))
                 $action = $action[0];
         }
-        $route = new Route(trim($path, "/"), $methods, $action);
+        $route = new RouteCore($path, $methods, $action);
         array_push(self::$routes, $route);
         return $route;
     }
@@ -165,8 +165,11 @@ class RouteCore
      */
     public static function execute()
     {
-        $dispatcher = new Dispatcher(self::$routes);
-        $dispatcher->run();
+        if (LEMON_MODE != "web")
+            return;
+        $request = new Request();
+        $dispatcher = new Dispatcher(self::$routes, $request);
+        $dispatcher->run()->terminate();
     }
 }
 

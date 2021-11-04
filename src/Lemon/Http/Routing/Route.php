@@ -1,8 +1,9 @@
 <?php
 
+namespace Lemon\Http\Routing;
+
 use Lemon\Http\Request;
 use Lemon\Http\Response;
-use Lemon\Http\Routing\RouteCore;
 use Lemon\Http\MiddlewareCollection;
 
 /**
@@ -12,7 +13,7 @@ use Lemon\Http\MiddlewareCollection;
  * @param Array $methods
  * @param String|Closure|Array $action
  */
-class Route extends RouteCore 
+class Route 
 {
     /**
      * Route name
@@ -42,7 +43,7 @@ class Route extends RouteCore
 
     public function __construct(String $path, Array $methods, $action)
     {
-        $this->path = $path;
+        $this->path = trim($path, "/");
         $this->methods = $methods;
         $this->action = $action;
         $this->name = $path ? $path : "main";

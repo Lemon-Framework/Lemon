@@ -6,20 +6,25 @@
     "authors": [
         {
             "name": "TENMAJKL",
-            "email": "silder.hologram@gmail.com"
+            "email": "tenmajkl@liskyjidlokod.fun"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Lemon\\": "src/"
+            "Lemon\\": "src/Lemon"
         },
         "files": [
-            "src/Views/views.php",
-            "src/Http/Routing/Route.php",
-            "src/Utils/utils.php",
-            "src/Kernel/loader.php",
-            "src/Utils/http.php",
-            "src/Utils/constants.php"
-        ]
+            "src/Lemon/Kernel/loader.php",
+            "src/Lemon/Kernel/init.php",
+            "src/Lemon/Support/Utils/dd.php",
+            "src/Lemon/Support/Http/page.php",
+            "src/Lemon/Support/Http/shorthands.php",
+            "src/Lemon/Support/Http/status_codes.php",
+            "src/Lemon/Support/Http/Routing/Helpers.php"
+        ],
+        "classmap": ["src/Lemon/Support"]
+    },
+    "require": {
+        "pestphp/pest": "^1.20"
     }
 }

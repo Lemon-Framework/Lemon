@@ -2,10 +2,6 @@
 
 namespace Lemon\Http;
 
-require __DIR__ . "/../Utils/page.php";
-
-use Exception;
-
 /**
  * Class representing HTTP Response
  *
@@ -100,7 +96,7 @@ class Response
     private function handleStatusCode()
     {
         $code = $this->status_code;
-        if (!isset(ERRORS[$code]))
+        if (!isset(\ERRORS[$code]))
             return;
 
         http_response_code($code);
@@ -160,10 +156,7 @@ class Response
             $body->terminate();
 
         if (get_class($body) == "Lemon\Views\View")
-        {
-            extract($body->arguments);
-            eval($body->compiled_template);
-        }
+            echo $body->resolved_template;
     }
 
     /**

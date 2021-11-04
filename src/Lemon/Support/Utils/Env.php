@@ -1,6 +1,6 @@
 <?php
 
-namespace Lemon\Utils;
+namespace Lemon\Support\Utils;
 
 use Exception;
 
