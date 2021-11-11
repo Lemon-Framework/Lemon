@@ -1,3 +1,4 @@
 /testing/
 /vendor/
 **/*.swp
+.phpunit.result.cache
