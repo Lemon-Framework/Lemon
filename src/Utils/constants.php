@@ -53,7 +53,7 @@ const ERRORS = [
  * In this array are stored colors for console function
  *
  * */
-const COLLORS = [
+const COLORS = [
         'black' => "[30m",
         'red' => "[31m",
         'green' => "[32m",
