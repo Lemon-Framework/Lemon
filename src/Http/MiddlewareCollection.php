@@ -42,7 +42,7 @@ class MiddlewareCollection
     }
 
     /**
-     * Executes given midlewares
+     * Executes given middlewares
      *
      * @param Request $request
      */

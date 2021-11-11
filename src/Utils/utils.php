@@ -9,7 +9,7 @@
  *
  * Types text to php console
  *  
- * Mainly debuging tool
+ * Mainly debugging tool
  *
  * @param string $text
  * @param string $color
@@ -17,7 +17,7 @@
  * */
 function console($text, $color="white")
 {
-    $colors = COLLORS;
+    $colors = COLORS;
     if (isset($colors[$color]))
     {
         $color = $colors[$color];
