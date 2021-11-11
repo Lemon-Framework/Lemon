@@ -26,7 +26,7 @@ class Tag
     /**
      * Compiles tag with content
      *
-     * @param Array $regex_matches
+     * @param Array $matches
      *
      */
     public function compile(Array $matches)
@@ -36,4 +36,4 @@ class Tag
 
 }
 
-?>
+

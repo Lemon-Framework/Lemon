@@ -53,7 +53,7 @@ class Route
     /**
      * Adds new middleware
      * 
-     * @param String|Array $middleware_param
+     * @param String|Array $middlewares
      */
     public function middleware($middlewares)
     {
@@ -121,4 +121,4 @@ class Route
     }
 }
 
-?>
+

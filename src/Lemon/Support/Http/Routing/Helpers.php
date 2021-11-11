@@ -21,11 +21,11 @@ function getParamTypes($callback)
         $type = $param->getType();
         if (!$type)
             $type = "mixed";
-        $types[array_search($param, $params)] = gettype($type) == "string" ? $type : $type->__toString();
+        $types[array_search($param, $params)] = is_string($type) ? $type : $type->__toString();
     }
 
     return $types;
 
 }
 
-?>
+

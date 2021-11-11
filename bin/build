@@ -1,0 +1,65 @@
+#!bin/php
+
+<?php
+system("stty raw");
+$arrow = false;
+
+$options = [
+    ["Basic app", false],
+    ["Complex app", false],
+    ["Custom", false],
+];
+!
+$max = sizeof($options) - 1;
+
+foreach ($options as [$option, $o_o])
+    echo $option . "\r\n";
+
+echo "\033[A";
+
+while ($c = fread(STDIN, 1)) {
+    if ($c == "[")
+    {
+        $arrow = true;
+        continue;
+    }
+    if ($c == "q")
+    {
+        echo "\n";
+        return;
+    }
+
+    if (ord($c) == 13)
+    {
+        if (!$options[$max][1])
+        {
+            $options[$max][1] = true;
+            echo "\033[33m{$options[$max][0]}\033[0m\r";
+            continue;
+        }
+        
+        $options[$max][1] = false;
+        echo "\033[0m{$options[$max][0]}\033[0m\r";
+    }
+
+    if ($arrow)
+    {
+        switch($c)
+        {
+            case "A":
+                if ($max == 0)
+                    break;
+                $max--;
+                echo "\033[A";
+                break;
+            case "B":
+                if ($max == sizeof($options) - 1)
+                    break;
+                $max++;
+                echo "\033[B";
+                break;
+        }
+        $arrow = false;
+    }
+}
+?>

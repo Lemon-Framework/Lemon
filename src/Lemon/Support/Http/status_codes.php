@@ -46,5 +46,22 @@ const ERRORS = [
     510 => 'Not Extended'
 ];
 
+/**
+ *
+ * Colors
+ *
+ * In this array are stored colors for console function
+ *
+ * */
+const COLORS = [
+        'black' => "[30m",
+        'red' => "[31m",
+        'green' => "[32m",
+        'yellow' => "[33m",
+        'blue' => "[34m",
+        'magenta' => "[35m",
+        'cyan' => "[36m",
+        'white' => "[37m",
+];
 
-?>
+

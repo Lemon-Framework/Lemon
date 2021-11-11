@@ -39,4 +39,4 @@ const LICENSES = [
     "mit" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/licences/mit.txt",
     "apache" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/licences/apache.txt"
 ];
-?>
+

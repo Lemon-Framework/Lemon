@@ -33,13 +33,13 @@ class Route
      *
      * @param String $path
      * @param Array $methods
-     * @param Closure|String|Array
+     * @param Closure|String|Array $action
      *
      * @return Route
      */
     static function createRoute(String $path, Array $methods, $action)
     {  
-        if (gettype($action) == "string")
+        if (is_string($action))
         {
             $action = explode(":", $action);
             if (!isset($action[1]))
@@ -173,4 +173,4 @@ class Route
     }
 }
 
-?>
+

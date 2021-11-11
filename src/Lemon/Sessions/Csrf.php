@@ -53,7 +53,7 @@ class Csrf
      */
     static function getToken()
     {
-        return isset($_SESSION["csrf_token"]) ? $_SESSION["csrf_token"] : "";
+        return $_SESSION["csrf_token"] ?? "";
     }
 }
-?>
+
