@@ -22,3 +22,6 @@ project/
 
 If you want to build bigger starting app, type `php lemonade build type:project`
 
+# Contributing
+
+Any contributions that don't rewrite whole framework are welcomend. But please use latest develop branch. (Currently [v3-develop](https://github.com/Lemon-Framework/Lemon/tree/v3-develop))
