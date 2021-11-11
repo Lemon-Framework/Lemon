@@ -36,7 +36,7 @@ class MiddlewareCollection
      */
     private function parse($middlewares)
     {
-        if (gettype($this->middlewares) == "string")
+        if (is_string($this->middlewares))
             return explode("|", $this->middlewares);
         return $middlewares;
     }
