@@ -51,7 +51,7 @@ class RouteGroup
             if (is_array($route))
                 $this->resolveRoute($pos, $route);
 
-            else if (get_class($route) == "Lemon\Http\Routing\RouteGroup")
+            else if ($route instanceof RouteGroup)
                 $this->resolveRoute($pos, $route->routes);
         }
     }

@@ -39,7 +39,7 @@ class RouteCore
      */
     static function createRoute(String $path, Array $methods, $action)
     {  
-        if (gettype($action) == "string")
+        if (is_string($action))
         {
             $action = explode(":", $action);
             if (!isset($action[1]))
