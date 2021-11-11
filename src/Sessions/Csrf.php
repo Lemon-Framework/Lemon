@@ -56,4 +56,4 @@ class Csrf
         return isset($_SESSION["csrf_token"]) ? $_SESSION["csrf_token"] : "";
     }
 }
-?>
+
