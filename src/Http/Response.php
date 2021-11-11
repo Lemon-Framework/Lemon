@@ -171,7 +171,7 @@ class Response
      * Sets status code handler
      *
      * @param int $code
-     * @param Closure|String $callback|$function_name
+     * @param Closure|String $action
      *
      * */
     static function handle(int $code, $action)

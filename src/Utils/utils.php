@@ -26,7 +26,7 @@ function console($text, $color="white")
  *
  * Returns whenever user is podvodnik
  *
- * @param string $name
+ * @param string $user
  *
  * */
 function isUserPodvodnik($user)
