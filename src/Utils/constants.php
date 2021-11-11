@@ -64,4 +64,4 @@ const COLLORS = [
         'white' => "[37m",
 ];
 
-?>
+
