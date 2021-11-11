@@ -18,14 +18,7 @@
 function console($text, $color="white")
 {
     $colors = COLORS;
-    if (isset($colors[$color]))
-    {
-        $color = $colors[$color];
-    }
-    else
-    {
-        $color = $colors["white"];
-    }
+    $color = $colors[$color] ?? $colors["white"];
     error_log("\n\n\033".$color.$text."\033[0m\n");    
 }
 

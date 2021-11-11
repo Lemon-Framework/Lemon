@@ -24,7 +24,7 @@ class Kernel
     
     public function execute()
     {
-        $command = isset($this->command[1]) ?  $this->command[1] : "";
+        $command = $this->command[1] ?? "";
         $arguments = array_slice($this->command, 2);
         $commands = COMMANDS;
         isset($commands[$command]) ? $commands[$command]($arguments, $this->directory) : $commands["-h"]();

@@ -55,8 +55,8 @@ class Server
     {
         $arguments = $this->parse();
         
-        $address = isset($arguments['host']) ? $arguments['host'] : "localhost";
-        $port = isset($arguments['port']) ? $arguments['port'] : "8000";
+        $address = $arguments['host'] ?? "localhost";
+        $port = $arguments['port'] ?? "8000";
         $dir = $this->directory."/public/";
 
         $command = "php -S {$address}:{$port} -t {$dir}";
