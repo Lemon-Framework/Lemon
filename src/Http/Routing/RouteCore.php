@@ -33,7 +33,7 @@ class RouteCore
      *
      * @param String $path
      * @param Array $methods
-     * @param Closure|String|Array
+     * @param Closure|String|Array $action
      *
      * @return Route
      */

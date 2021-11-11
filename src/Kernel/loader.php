@@ -1,9 +1,9 @@
 <?php
 /**
  * Loads all files from specific folder
- * Inspired by loader from CoolFido 
- * 
- * @param String $dirname
+ * Inspired by loader from CoolFido
+ *
+ * @param String $dir
  *
  */
  function loader(String $dir)

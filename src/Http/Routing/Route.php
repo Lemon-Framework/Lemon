@@ -52,7 +52,7 @@ class Route extends RouteCore
     /**
      * Adds new middleware
      * 
-     * @param String|Array $middleware_param
+     * @param String|Array $middlewares
      */
     public function middleware($middlewares)
     {
