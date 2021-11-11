@@ -21,7 +21,7 @@ function getParamTypes($callback)
         $type = $param->getType();
         if (!$type)
             $type = "mixed";
-        $types[array_search($param, $params)] = is_string($type) ? $type : $type->__toString();
+        $types[array_search($param, $params)] = is_string($type) ? $type : $type->getName();
     }
 
     return $types;

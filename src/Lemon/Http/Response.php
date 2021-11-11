@@ -155,16 +155,14 @@ class Response
         if ($body instanceof Response)
             $body->terminate();
 
-<<<<<<< HEAD:src/Lemon/Http/Response.php
         if (get_class($body) == "Lemon\Views\View")
             echo $body->resolved_template;
-=======
+
         if ($body instanceof \Lemon\Views\View)
         {
             extract($body->arguments);
             eval($body->compiled_template);
         }
->>>>>>> 1b4164f0590d3e128f9dd848832af88884639745:src/Http/Response.php
     }
 
     /**
