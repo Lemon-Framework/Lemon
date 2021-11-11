@@ -3,6 +3,7 @@
 require "info.php";
 require __DIR__."/../Server/server.php";
 require __DIR__."/../Builders/builder.php";
+require __DIR__."/../Repl/repl.php";
 
 /*
  *
@@ -15,7 +16,8 @@ const COMMANDS = [
     "-v" => "version",
     "serve" => "serve",
     "build" => "build",
-    "routes" => "routes"
+    "routes" => "routes",
+    "repl" => "repl"
 
 ];
-?>
+

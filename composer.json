@@ -11,13 +11,15 @@
     ],
     "autoload": {
         "psr-4": {
-            "Lemon\\": "src/"            
+            "Lemon\\": "src/"
         },
         "files": [
             "src/Views/views.php",
             "src/Http/Routing/Route.php",
             "src/Utils/utils.php",
-            "src/Kernel/loader.php"
+            "src/Kernel/loader.php",
+            "src/Utils/http.php",
+            "src/Utils/constants.php"
         ]
     }
 }

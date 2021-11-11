@@ -5,13 +5,11 @@
  *
  * */
 
-include "constants.php";
-
 /*
  *
  * Types text to php console
  *  
- * Mainly debuging tool
+ * Mainly debugging tool
  *
  * @param string $text
  * @param string $color
@@ -19,49 +17,16 @@ include "constants.php";
  * */
 function console($text, $color="white")
 {
-    $colors = COLLORS;
-    if (isset($colors[$color]))
-    {
-        $color = $colors[$color];
-    }
-    else
-    {
-        $color = $colors["white"];
-    }
+    $colors = COLORS;
+    $color = $colors[$color] ?? $colors["white"];
     error_log("\n\n\033".$color.$text."\033[0m\n");    
-}
-
-/**
- *
- * Redirects user to given url
- *
- * @param string $url
- *
- * */
-function redirect($path)
-{
-    header("Location:".$path);
-}
-
-/**
- *
- * Converts array to json
- *
- *
- * @param array $content
- *
- * */
-function jsonify($content)
-{
-    echo json_encode($content);
-    header("Content-type:application/json");
 }
 
 /**
  *
  * Returns whenever user is podvodnik
  *
- * @param string $name
+ * @param string $user
  *
  * */
 function isUserPodvodnik($user)
@@ -70,14 +35,8 @@ function isUserPodvodnik($user)
 }
 
 /**
- *
- * DumpDie
- * Dumps given value
- *
- * Similar to Laravel dd function
- *
- *
- * */
+ * Dumps given value and exits
+ */
 function dd($value)
 {
     echo "<pre>";
@@ -86,4 +45,4 @@ function dd($value)
     die();
 }
 
-?>
+

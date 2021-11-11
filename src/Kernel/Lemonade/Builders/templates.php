@@ -23,13 +23,14 @@ const DIRS = [
     "public",
     "views",
     "routes",
-    "controllers",
+    "app",
 ];
 
 // List of project files
 const FILES = [ 
     "public/index.php" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/index.php",
-    "routes/web.php" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/web_routes.php"
+    "routes/web.php" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/web_routes.php",
+    "app.php" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/booter.php"
 ];
 
 
@@ -37,6 +38,5 @@ const FILES = [
 const LICENSES = [
     "mit" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/licences/mit.txt",
     "apache" => "https://raw.githubusercontent.com/Lemon-Framework/Examples/master/templates/licences/apache.txt"
-
 ];
-?>
+

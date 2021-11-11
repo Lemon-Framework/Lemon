@@ -9,4 +9,4 @@ function status_page($code)
     echo "Lemon";
 }
 
-?>
+

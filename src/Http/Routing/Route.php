@@ -1,87 +1,123 @@
 <?php
 
-require "RouteCore.php";
-require "Dispatcher.php";
-
+use Lemon\Http\Request;
+use Lemon\Http\Response;
 use Lemon\Http\Routing\RouteCore;
-use Lemon\Http\Routing\Dispatcher;
+use Lemon\Http\MiddlewareCollection;
 
 /**
+ * Class representing registered route
  *
- * Lemon Routing Interface
- *
- * */
-class Route
+ * @param String $path
+ * @param Array $methods
+ * @param String|Closure|Array $action
+ */
+class Route extends RouteCore 
 {
+    /**
+     * Route name
+     */
+    public $name;
 
     /**
-     *
-     * Sets route for method GET
-     *
-     * @param String $path
-     * @param Closure|String $callback|$function_name
-     *
-     * */
-    static function get($path, $action)
+     * Route path
+     */
+    public $path;
+
+    /**
+     * List of route middlewares
+     */
+    public $middlewares;
+
+    /**
+     * List of supported route methods
+     */
+    public $methods;
+
+    /**
+     * Route action
+     */
+    public $action;
+
+
+    public function __construct(String $path, Array $methods, $action)
     {
-        RouteCore::addRoute($path, $action, "GET");
+        $this->path = $path;
+        $this->methods = $methods;
+        $this->action = $action;
+        $this->name = $path ? $path : "main";
+        $this->middlewares = new MiddlewareCollection();
+    }
+    
+    /**
+     * Adds new middleware
+     * 
+     * @param String|Array $middlewares
+     */
+    public function middleware($middlewares)
+    {
+        $this->middlewares->add($middlewares);
+        return $this;
     }
 
     /**
+     * Sets route name
      *
-     * Sets route for method POST
-     *
-     * @param String $path
-     * @param Closure|String $callback|$function_name
-     *
-     * */
-    static function post($path, $action)
+     * @param String $name
+     */
+    public function name(String $name)
     {
-        RouteCore::addRoute($path, $action, "POST");
-    }
-
-
-    /**
-     *
-     * Sets route for methods GET and POST
-     *
-     * @param String $path
-     * @param Closure|String $callback|$function_name
-     *
-     * */
-    static function any($path, $action)
-    {
-        RouteCore::addRoute($path, $action, "GET");
-        RouteCore::addRoute($path, $action, "POST");
-    }
-
-
-    /**
-     *
-     * Sets route for methods that you set
-     *
-     * @param Array $methods
-     * @param String $path
-     * @param Closure|String $callback|$function_name
-     *
-     * */
-    static function use($methods, $path, $action)
-    {
-        foreach ($methods as $method)
-            RouteCore::addRoute($path, $action, $method);
+        $this->name = $name;
+        return $this;
     }
 
     /**
-     *
-     * Executes dedicated callback
-     *
-     * */
-    static function execute()
+     * Sets route prefix
+     * 
+     * @param String $prefix
+     */
+    public function prefix(String $prefix)
     {
-        $routes = RouteCore::getRoutes();
-        $dispatcher = new Dispatcher($routes);
-        $dispatcher->run();
+        $this->path = trim($prefix . "/" . $this->path, "/");
+        return $this;
+    }
+
+    /**
+     * Creates response from route action
+     *
+     * @param Request $request
+     * @param Array $params
+     *
+     * @return Response
+     */
+    public function toResponse(Request $request, Array $params)
+    {
+        $this->middlewares->terminate($request);
+
+        $action = $this->action;
+        $param_types = getParamTypes($action);
+        $last_param = 1;
+        $arguments = [];
+        foreach ($param_types as $type)
+        {
+            if ($type == "Lemon\Http\Request")
+            {
+                array_push($arguments, $request);
+                continue;
+            }
+            array_push($arguments, $params[$last_param]);
+            $last_param++;
+
+        }
+
+        if (is_array($action))
+        {
+            $controller = new $action[0];
+            $action = [$controller, $action[1]];
+        }
+
+        return new Response(call_user_func_array($action, $arguments));
     }
 }
 
-?>
+
