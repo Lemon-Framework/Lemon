@@ -31,7 +31,7 @@ function console($text, $color="white")
  * */
 function isUserPodvodnik($user)
 {
-    return $user == "CoolFido";
+    return $user === "CoolFido";
 }
 
 /**

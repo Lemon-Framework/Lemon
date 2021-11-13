@@ -38,7 +38,7 @@ class Dispatcher
      */
     private function parseGet()
     {
-        if (preg_match("/\\?(.+)/", $this->request_uri, $matches) == 1)
+        if (preg_match("/\\?(.+)/", $this->request_uri, $matches) === 1)
         {
             $this->request_uri = str_replace("{$matches[0]}", "", $this->request_uri);
             parse_str($matches[1], $get_args);
