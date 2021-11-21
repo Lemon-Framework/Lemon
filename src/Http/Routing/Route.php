@@ -100,7 +100,7 @@ class Route extends RouteCore
         $arguments = [];
         foreach ($param_types as $type)
         {
-            if ($type == "Lemon\Http\Request")
+            if ($type === "Lemon\Http\Request")
             {
                 array_push($arguments, $request);
                 continue;

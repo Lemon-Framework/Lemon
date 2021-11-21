@@ -146,7 +146,7 @@ class RouteCore
     public static function byName(String $name)
     {
         foreach (self::$routes as $route)
-            if ($route->name == $name)
+            if ($route->name === $name)
                 return $route;
     }
 
