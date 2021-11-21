@@ -9,13 +9,13 @@ $options = [
     ["Complex app", false],
     ["Custom", false],
 ];
-!
+
 $max = sizeof($options) - 1;
 
 foreach ($options as [$option, $o_o])
-    echo $option . "\r\n";
+    echo " ○ " . $option . "\r\n";
 
-echo "\033[A";
+echo "\033[A\033[C";
 
 while ($c = fread(STDIN, 1)) {
     if ($c == "[")
@@ -25,7 +25,7 @@ while ($c = fread(STDIN, 1)) {
     }
     if ($c == "q")
     {
-        echo "\n";
+        echo "\n\n\r";
         return;
     }
 
@@ -34,12 +34,12 @@ while ($c = fread(STDIN, 1)) {
         if (!$options[$max][1])
         {
             $options[$max][1] = true;
-            echo "\033[33m{$options[$max][0]}\033[0m\r";
+            echo "\033[D ● {$options[$max][0]}\r\033[C";
             continue;
         }
         
         $options[$max][1] = false;
-        echo "\033[0m{$options[$max][0]}\033[0m\r";
+        echo "\033[D ○ {$options[$max][0]}\r\033[C";
     }
 
     if ($arrow)
