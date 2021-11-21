@@ -22,9 +22,9 @@ class MiddlewareCollection
      * @param String|Array $middlewares
      */
     public function add($middlewares)
-    {
+    { 
         $parsed = $this->parse($middlewares);
-        array_push($this->middlewares, $parsed);
+        $this->middlewares = array_merge($this->middlewares, $parsed); 
         return $this;
     }
     
@@ -36,8 +36,8 @@ class MiddlewareCollection
      */
     private function parse($middlewares)
     {
-        if (is_string($this->middlewares))
-            return explode("|", $this->middlewares);
+        if (is_string($middlewares))
+            return explode("|", $middlewares);
         return $middlewares;
     }
 
@@ -69,5 +69,4 @@ class MiddlewareCollection
         }
     } 
 }
-
 
