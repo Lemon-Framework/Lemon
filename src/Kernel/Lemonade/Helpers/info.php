@@ -45,4 +45,4 @@ function version()
     echo "\n->{$version}\n";
 }
 
-?>
+

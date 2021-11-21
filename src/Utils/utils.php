@@ -9,7 +9,7 @@
  *
  * Types text to php console
  *  
- * Mainly debuging tool
+ * Mainly debugging tool
  *
  * @param string $text
  * @param string $color
@@ -17,15 +17,8 @@
  * */
 function console($text, $color="white")
 {
-    $colors = COLLORS;
-    if (isset($colors[$color]))
-    {
-        $color = $colors[$color];
-    }
-    else
-    {
-        $color = $colors["white"];
-    }
+    $colors = COLORS;
+    $color = $colors[$color] ?? $colors["white"];
     error_log("\n\n\033".$color.$text."\033[0m\n");    
 }
 
@@ -33,12 +26,12 @@ function console($text, $color="white")
  *
  * Returns whenever user is podvodnik
  *
- * @param string $name
+ * @param string $user
  *
  * */
 function isUserPodvodnik($user)
 {
-    return $user == "CoolFido";
+    return $user === "CoolFido";
 }
 
 /**
@@ -52,4 +45,4 @@ function dd($value)
     die();
 }
 
-?>
+

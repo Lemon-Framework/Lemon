@@ -14,7 +14,7 @@ class Csrf
      */
     static function setToken()
     {
-        if ($_SERVER["REQUEST_METHOD"] == "GET")
+        if ($_SERVER["REQUEST_METHOD"] === "GET")
         {
             $token = uniqid();
             $token = hash("sha256", $token);
@@ -32,7 +32,7 @@ class Csrf
         {
             if (isset($_POST["csrf_token"]) && isset($_SESSION["csrf_token"]))
             {
-                if ($_POST["csrf_token"] != $_SESSION["csrf_token"])
+                if ($_POST["csrf_token"] !== $_SESSION["csrf_token"])
                 {
                     Response::raise(400);
                     exit();
@@ -53,7 +53,7 @@ class Csrf
      */
     static function getToken()
     {
-        return isset($_SESSION["csrf_token"]) ? $_SESSION["csrf_token"] : "";
+        return $_SESSION["csrf_token"] ?? "";
     }
 }
-?>
+

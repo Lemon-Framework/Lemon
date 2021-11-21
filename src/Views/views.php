@@ -12,4 +12,4 @@ function view($name, $arguments = [])
     return ViewCompiler::compile($name, $arguments);
 }
 
-?>
+

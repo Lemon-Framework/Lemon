@@ -44,7 +44,7 @@ class LicenseBuilder
             return;
         }
 
-        if ($type == "custom")
+        if ($type === "custom")
         {
             $license = readline("Type your license content: ");
             $this->parameters["license"] = $license;
@@ -103,4 +103,4 @@ class LicenseBuilder
 
 }
 
-?>
+

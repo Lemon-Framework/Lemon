@@ -30,19 +30,24 @@ class RouteGroup
      */
     public $routes;
 
+    /**
+     * Positions that will get unset after parsing
+     */
+    public $unset_positions;
 
     public function __construct(Array $parameters, Array $routes)
     {
-        $this->name = isset($parameters["name"]) ? $parameters["name"] : "";
-        $this->middlewares = isset($parameters["middlewares"]) ? $parameters["middlewares"] : []; 
-        $this->prefix = isset($parameters["prefix"]) ? $parameters["prefix"] : "/"; 
+        $this->name = $parameters["name"] ?? "";
+        $this->middlewares = $parameters["middlewares"] ?? [];
+        $this->prefix = $parameters["prefix"] ?? "/";
         $this->routes = $routes;
+        $this->unset_positions = [];
         $this->resolve();
         $this->update();
     }
 
     /**
-     * Resolves nested route groups and arrays of routes
+     * Resolves nested route groups and arays of routes
      */ 
     public function resolve()
     {
@@ -51,9 +56,12 @@ class RouteGroup
             if (is_array($route))
                 $this->resolveRoute($pos, $route);
 
-            else if (get_class($route) == "Lemon\Http\Routing\RouteGroup")
+            else if ($route instanceof \Lemon\Http\Routing\RouteGroup)
                 $this->resolveRoute($pos, $route->routes);
         }
+
+        foreach ($this->unset_positions as $position)
+            unset($this->routes[$position]);
     }
 
     /**
@@ -61,7 +69,7 @@ class RouteGroup
      */
     public function resolveRoute($pos, $routes)
     {
-        unset($this->routes[$pos]);
+        array_push($this->unset_positions, $pos);
         $this->routes = array_merge($this->routes, $routes);
     }
 
@@ -81,4 +89,3 @@ class RouteGroup
 
 
 }
- 

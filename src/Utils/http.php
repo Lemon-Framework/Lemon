@@ -47,10 +47,10 @@ function route(String $name)
  */
 function to_route(String $route_name, Array $dynamic_params=[])
 {
-    $route_name = $route_name == "/" ? "main" : $route_name;
+    $route_name = $route_name === "/" ? "main" : $route_name;
     if ($route = route($route_name))
     {
-        $path = $route->path == "" ? "/" : $route->path;
+        $path = $route->path === "" ? "/" : $route->path;
         foreach ($dynamic_params as $param)
             $path = preg_replace("/{[^}]+}/", $param, $path);
         return redirect("/$path");
@@ -70,4 +70,4 @@ function response($body="")
 }
 
 
-?>
+

@@ -33,13 +33,13 @@ class RouteCore
      *
      * @param String $path
      * @param Array $methods
-     * @param Closure|String|Array
+     * @param Closure|String|Array $action
      *
      * @return Route
      */
     static function createRoute(String $path, Array $methods, $action)
     {  
-        if (gettype($action) == "string")
+        if (is_string($action))
         {
             $action = explode(":", $action);
             if (!isset($action[1]))
@@ -146,7 +146,7 @@ class RouteCore
     public static function byName(String $name)
     {
         foreach (self::$routes as $route)
-            if ($route->name == $name)
+            if ($route->name === $name)
                 return $route;
     }
 
@@ -170,4 +170,4 @@ class RouteCore
     }
 }
 
-?>
+

@@ -146,20 +146,20 @@ class Response
             return;
         }
 
-        if (gettype($body) == "array")
+        if (is_array($body))
         {
             header("Content-type:application/json");
             echo json_encode($body);
             return;
         }
 
-        if (gettype($body) != "object")
+        if (!is_object($body))
             return;
 
-        if (get_class($body) == "Lemon\Http\Response")
+        if ($body instanceof Response)
             $body->terminate();
 
-        if (get_class($body) == "Lemon\Views\View")
+        if ($body instanceof \Lemon\Views\View)
         {
             extract($body->arguments);
             eval($body->compiled_template);
@@ -171,7 +171,7 @@ class Response
      * Sets status code handler
      *
      * @param int $code
-     * @param Closure|String $callback|$function_name
+     * @param Closure|String $action
      *
      * */
     static function handle(int $code, $action)
@@ -181,4 +181,4 @@ class Response
    
 }
 
-?>
+
