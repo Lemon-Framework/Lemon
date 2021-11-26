@@ -1,12 +1,13 @@
 <?php
 
-function status_page($code)
+if (!function_exists("status_page"))
 {
-    $errors = ERRORS;
-    $message = $errors[$code];
-    echo "<h1>{$code}-{$message}</h1>";
-    echo "<hr>";
-    echo "Lemon";
+    function status_page($code)
+    {
+        $errors = ERRORS;
+        $message = $errors[$code];
+        echo "<h1>{$code}-{$message}</h1>";
+        echo "<hr>";
+        echo "Lemon";
+    }
 }
-
-

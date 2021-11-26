@@ -54,14 +54,14 @@ const ERRORS = [
  *
  * */
 const COLORS = [
-        'black' => "[30m",
-        'red' => "[31m",
-        'green' => "[32m",
-        'yellow' => "[33m",
-        'blue' => "[34m",
-        'magenta' => "[35m",
-        'cyan' => "[36m",
-        'white' => "[37m",
+        'black' => "30",
+        'red' => "31",
+        'green' => "32",
+        'yellow' => "33",
+        'blue' => "34",
+        'magenta' => "35",
+        'cyan' => "36",
+        'white' => "37",
 ];
 
 
