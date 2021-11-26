@@ -14,7 +14,7 @@
             "Lemon\\": "src/Lemon"
         },
         "files": [
-            "src/Lemon/Kernel/loader.php",
+            "src/Lemon/Support/loader.php",
             "src/Lemon/Kernel/init.php",
             "src/Lemon/Support/Utils/dd.php",
             "src/Lemon/Support/Http/page.php",
