@@ -11,7 +11,7 @@ test("Incomplete view conditions", function() {
     <h1>baz</h1>
 <?php  endif;  ?>
 ';
-    $view = $this->compieview('foo', $template, ['foo' => 'bar']);
+    $view = $this->compileView('foo', $template);
     expect($view->compiled_template)->tobe($result);
 });
 
@@ -30,7 +30,7 @@ test("Complete view conditions", function() {
     <h1>Baz</h1>
 <?php  endif;  ?>
 ';
-    $view = $this->compieView('foo', $template, ['foo' => 'bar']);
+    $view = $this->compileView('foo', $template);
     expect($view->compiled_template)->toBe($result);
 });
 
@@ -49,6 +49,6 @@ test("Nested view conditions", function() {
     <?php  endif;  ?>
 <?php  endif;  ?>
 ';
-    $view = $this->compieview('foo', $template, ['foo' => 'bar']);
+    $view = $this->compileView('foo', $template);
     expect($view->compiled_template)->tobe($result);
 });
