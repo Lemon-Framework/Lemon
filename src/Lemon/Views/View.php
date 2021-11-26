@@ -50,7 +50,7 @@ class View
     {
         ob_start();
         extract($this->arguments);
-        eval($this->compiled_template);
+        eval('?>' . $this->compiled_template);
         return ob_get_clean();
     }
 

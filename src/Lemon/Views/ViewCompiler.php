@@ -82,7 +82,7 @@ class ViewCompiler
     {
         $view_tags = $this->compileTags($this->view_raw);
 
-        $view_compiled = "?>" . $this->map($view_tags);
+        $view_compiled = $this->map($view_tags);
 
         return new View($this->view_name,
                         ["raw" => $this->view_raw,
