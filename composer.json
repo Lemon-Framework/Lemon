@@ -9,18 +9,24 @@
             "email": "tenmajkl@liskyjidlokod.fun"
         }
     ],
+    "scripts": {
+        "test": "./vendor/bin/pest"
+    },
+    "scripts-descriptions": {
+        "test": "Starts unit test"
+    },
     "autoload": {
         "psr-4": {
             "Lemon\\": "src/Lemon"
         },
         "files": [
-            "src/Lemon/Support/loader.php",
             "src/Lemon/Kernel/init.php",
             "src/Lemon/Support/Utils/dd.php",
             "src/Lemon/Support/Http/page.php",
             "src/Lemon/Support/Http/shorthands.php",
             "src/Lemon/Support/Http/status_codes.php",
-            "src/Lemon/Support/Http/Routing/Helpers.php"
+            "src/Lemon/Support/Http/Routing/Helpers.php",
+            "src/Lemon/Support/loader.php"
         ],
         "classmap": ["src/Lemon/Support"]
     },
