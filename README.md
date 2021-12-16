@@ -1,5 +1,7 @@
 # 🍋 Lemon 3 
 
+![Blueprint](https://raw.githubusercontent.com/Lemon-Framework/static/master/images/lemon_bp.png)
+
 WIP Lemon 3
 
 ❗NOT READY FOR PRODUCTION ❗
