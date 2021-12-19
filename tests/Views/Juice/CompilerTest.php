@@ -43,5 +43,5 @@ test("Using php directives", function() {
     $compiler = new Compiler('<p>
 <h1><?php echo ?></h1>
 </p>', 'foo');
-    expect($compiler->compile())->toThrow(ViewException::class, "Unexpected <?php at line 10");
+    expect(function() use($compiler) { $compiler->compile(); })->toThrow(ViewException::class, "Unexpected <?php at line 10");
 });

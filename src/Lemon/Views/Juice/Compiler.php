@@ -12,7 +12,8 @@ class Compiler
         $this->name = $name;
         $this->tags = [
             new Tag("{{\s*(.*?)\s*}}", ["<?= htmlentities(",") ?>"]),
-            new Tag("{!\s*(.*?)\s*!}", ["<?= ", " ?>"]) 
+            new Tag("{!\s*(.*?)\s*!}", ["<?= ", " ?>"]),
+            new Tag("{-(.*?)-}", ["", ""]) 
         ];
 
         /*$this->directives = [

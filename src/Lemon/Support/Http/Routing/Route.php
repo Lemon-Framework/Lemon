@@ -1,16 +1,12 @@
 <?php
+
+namespace Lemon\Support\Http\Routing;
+
 use Lemon\Http\Request;
 use Lemon\Http\Routing\Route as RouteCore;
 use Lemon\Http\Routing\RouteGroup;
 use Lemon\Http\Routing\Dispatcher;
 
-/**
- *
- * RouteCore
- * =========
- * This class builds array of all routes
- *
- * */
 class Route
 {
     /**

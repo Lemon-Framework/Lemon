@@ -29,8 +29,9 @@ class Tag
     public function compile(String $template)
     {
         $replacement = $this->replacement;
-        $template = preg_replace_callback("/{$this->patern}/", function($matches) use($replacement) {
-                return $replacement[0] . $matches[1] . $replacement[1];
+        $template = preg_replace_callback("/{$this->patern}/", function($matches) use($replacement) 
+        {
+            return $replacement[0] . ($matches[1] ?? "" ). $replacement[1];
         }, $template);
         return $template;
     }
