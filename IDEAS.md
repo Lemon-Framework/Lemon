@@ -10,3 +10,6 @@ Disable ability to <?php pls
 
 - regex for errors `{%%}.\*(?<!{%%})$`
 
+## Mails
+
+- Name Envelope
