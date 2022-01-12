@@ -16,7 +16,7 @@ const HELP = "
 
 ";
 
-const VERSION = "2.6.7";
+const VERSION = "2.6.8";
 
 // Shows help
 function help()
