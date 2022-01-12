@@ -21,10 +21,10 @@ class RouteCore
     public static $controller_resources = [
         "index" => ["get", "/"],
         "create" => ["get", "/create"],
-        "store" => ["get", "/create"],
+        "store" => ["post", "/create"],
         "show" => ["get", "/{target}"],
         "edit" => ["get", "/{target}/edit"],
-        "update" => ["post", "/{target}"],
+        "update" => ["put", "/{target}"],
         "delete" => ["get", "/{target}/delete"]
     ];
 
