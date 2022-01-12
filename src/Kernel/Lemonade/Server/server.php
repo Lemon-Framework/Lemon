@@ -59,7 +59,7 @@ class Server
         $port = $arguments['port'] ?? "8000";
         $dir = $this->directory."/public/";
 
-        $command = "php -S {$address}:{$port} -t {$dir}";
+        $command = "php -S {$address}:{$port} -t \"{$dir}\"";
         return $command;
     }
 
