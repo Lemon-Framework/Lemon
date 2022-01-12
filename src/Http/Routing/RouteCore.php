@@ -75,6 +75,20 @@ class RouteCore
     {
         return self::createRoute($path, ["POST"], $action);
     }
+    
+    /**
+     * Creates GET route directly returning view
+     *
+     * @param string $path
+     * @param ?string $view
+     *
+     * @return Route
+     */
+    public static function view(string $path, string $view = null)
+    {
+        $view = $view ?? str_replace('/', '.', $path);
+        return self::createRoute($path, ["GET"], fn() => view($view));
+    }
 
     /**
      * Creates route for every request method
