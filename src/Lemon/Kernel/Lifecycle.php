@@ -12,7 +12,7 @@ use Lemon\Support\Types\Str;
 /**
  * The Lemon Framework Lifecycle
  *
- * @property string $config
+ * @property Config $config
  */
 class Lifecycle
 {
