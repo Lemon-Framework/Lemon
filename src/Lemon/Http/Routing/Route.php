@@ -11,7 +11,7 @@ use Lemon\Http\MiddlewareCollection;
  *
  * @param String $path
  * @param Array $methods
- * @param String|Closure|Array $action
+ * @param callable $action
  */
 class Route 
 {
@@ -41,7 +41,7 @@ class Route
     public $action;
 
 
-    public function __construct(String $path, Array $methods, $action)
+    public function __construct(string $path, array $methods,  $action)
     {
         $this->path = trim($path, "/");
         $this->methods = $methods;
