@@ -28,7 +28,7 @@ class Lifecycle
      * 
      * @var string $directory  
      */
-    public string $directory;
+    public readonly string $directory;
 
     /**
      * List of all Lifecycle components (Units)
