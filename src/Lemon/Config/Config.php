@@ -47,7 +47,7 @@ class Config
     {
         $base = __NAMESPACE__;
         foreach ($this->units as $unit => $_)
-            $this->units[$unit] = new ($base . $unit)($this);
+            $this->units[$unit] = new ($base . '\\Units\\' . $unit)($this);
     } 
 
     public function __call($name, $_)
