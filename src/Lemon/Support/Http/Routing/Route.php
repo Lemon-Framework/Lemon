@@ -161,8 +161,6 @@ class Route
      */
     public static function execute()
     {
-        if (LEMON_MODE != "web")
-            return;
         $request = new Request();
         $dispatcher = new Dispatcher(self::$routes, $request);
         $dispatcher->run()->terminate();
