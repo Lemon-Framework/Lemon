@@ -2,7 +2,7 @@
 
 Lemon is dead simple php micro framework.
 
-Latest version: 2.6.8
+Latest version: 2.6.9
 
 Documentation: https://github.com/Lemon-Framework/docs 
 

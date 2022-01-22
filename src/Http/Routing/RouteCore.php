@@ -147,7 +147,7 @@ class RouteCore
             }
         }   
         
-        return $routes;
+        return new RouteGroup([], $routes);
     }
 
     /**
