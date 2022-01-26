@@ -46,7 +46,7 @@ class Route
         $this->path = trim($path, "/");
         $this->methods = $methods;
         $this->action = $action;
-        $this->name = $path ? $path : "main";
+        $this->name = $path ?? "main";
         $this->middlewares = new MiddlewareCollection();
     }
     
@@ -79,7 +79,7 @@ class Route
      */
     public function prefix(String $prefix)
     {
-        $this->path = trim($prefix . "/" . $this->path, "/");
+        $this->path = trim($prefix) . "/" . $this->path;
         return $this;
     }
 

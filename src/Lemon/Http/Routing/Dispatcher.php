@@ -4,6 +4,7 @@ namespace Lemon\Http\Routing;
 
 use Lemon\Http\Request;
 use Lemon\Http\Response;
+use Lemon\Support\Types\Array_;
 
 /**
  * Class for executing Lemon Lifecycle
@@ -23,7 +24,7 @@ class Dispatcher
     private $routes;
 
 
-    public function __construct(Array $routes, Request $request)
+    public function __construct(array $routes, Request $request)
     {
         $this->request = $request;
         $this->request_uri = trim($request->uri, "/");
@@ -37,13 +38,12 @@ class Dispatcher
      */
     private function parseGet()
     {
-        if (preg_match("/\\?(.+)/", $this->request_uri, $matches) == 1)
+        $get_args = [];
+        if (preg_match("/\?(.+)$/", $this->request_uri, $matches) == 1)
         {
-            $this->request_uri = str_replace("{$matches[0]}", "", $this->request_uri);
+            $this->request_uri = str_replace($matches[0], "", $this->request_uri); // kinda wip
             parse_str($matches[1], $get_args);
         }
-        else
-            $get_args = [];
 
         return $get_args;
     }
@@ -53,12 +53,12 @@ class Dispatcher
      *
      * @return Array
      */
-    private function parseURI()
+    private function dispatchUri()
     {
         $matched_routes = [];
         foreach ($this->routes as $route)
         {
-            $path = preg_replace("/{[^}]+}/", "([^/]+)", $route->path);
+            $path = preg_replace("/{.*?}/", "([^/]+)", $route->path);
             if (preg_match("%^{$path}$%", $this->request_uri, $params) === 1)
             {
                 unset($params[0]);
@@ -66,25 +66,24 @@ class Dispatcher
             }
         }
 
-        if (!$matched_routes)
-            return new Response("", 404);
-
         return $matched_routes;
 
     }
 
     /**
-     * Runs whole dispatcher
+     * Finds matching route for request parameters
+     *
+     * @return Response
      */
-    public function run()
+    public function dispatch()
     {
         $this->request->setQuery($this->parseGet());
-        $matched_routes = $this->parseURI();
+        $routes = $this->dispatchUri();
 
-        if (!is_array($matched_routes))
-            return $matched_routes;
+        if (!$routes)
+            return new Response('', 404);
         
-        foreach ($matched_routes as [$route, $params])
+        foreach ($routes as [$route, $params])
            if (in_array($this->request->method, $route->methods)) 
                return $route->toResponse($this->request, $params);
         

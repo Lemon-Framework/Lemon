@@ -6,6 +6,9 @@ use Error;
 use Exception;
 use Lemon\Config\Config;
 use Lemon\Exceptions\Handling\Handler;
+use Lemon\Http\Request;
+use Lemon\Http\Routing\Dispatcher;
+use Lemon\Http\Routing\Router;
 use Lemon\Support\Http\Routing\Route;
 use Lemon\Support\Types\Str;
 
@@ -36,7 +39,8 @@ class Lifecycle
      * @var array $units 
      */
     public array $units = [
-        'config' => [Config::class]
+        'config' => [Config::class],
+        'routing' => [Router::class]
     ];
 
     /**
@@ -122,7 +126,8 @@ class Lifecycle
     {
         try
         {
-            Route::execute(); // WIP
+            $request = Request::make();
+            $this->routing->dispatch($request);
         }
         catch (Exception|Error $e)
         {

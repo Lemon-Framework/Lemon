@@ -25,23 +25,44 @@ class Request
     /** Request body */
     public $body;
 
-    public function __construct($request_data=null)
+    public function __construct($request_data)
     {
-        if (!$request_data)
-            return $this->buildRequest();
-
         foreach ($request_data as $key => $value)
             $this->$key = $value;
     }
 
-    private function buildRequest()
+    /**
+     * Creates new Request instance from sent request
+     * 
+     * @return self
+     */
+    public static function make()
     {
-        $this->uri = $_SERVER["REQUEST_URI"];
-        $this->method = $_SERVER["REQUEST_METHOD"];
-        $this->headers = getallheaders();
-        $this->input = $_POST;
-        $this->json = json_decode(file_get_contents("php://input"), true);
-        $this->body = file_get_contents("php://input");
+        $request = [
+            'uri' => $_SERVER['REQUEST_URI'],
+            'method' => $_SERVER['REQUEST_METHOD'],
+            'headers' => getallheaders(),
+            'input' => $_POST,
+            'json' => json_decode(file_get_contents('php://input')),
+            'body' => file_get_contents('php://input')
+        ];
+
+        return new self($request);
+    }
+
+    /**
+     * Emulates requestwith given data
+     *
+     * @param string $path
+     * @param string $method
+     * @return self
+     */
+    public static function emulate(string $path, string $method)
+    {
+        return new self([
+            'uri' => $path,
+            'method' => $method
+        ]);
     }
 
     public function setQuery($query)
