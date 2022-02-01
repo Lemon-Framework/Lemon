@@ -5,6 +5,7 @@ namespace Lemon\Http\Routing;
 use Lemon\Http\Request;
 use Lemon\Http\Response;
 use Lemon\Support\Types\Array_;
+use Lemon\Support\Types\Str;
 
 /**
  * Class for executing Lemon Lifecycle
@@ -84,7 +85,7 @@ class Dispatcher
             return new Response('', 404);
         
         foreach ($routes as [$route, $params])
-           if (in_array($this->request->method, $route->methods)) 
+           if (in_array(Str::toLower($this->request->method), $route->methods)) 
                return $route->toResponse($this->request, $params);
         
         return new Response("", 400);

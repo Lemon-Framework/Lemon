@@ -1,5 +1,7 @@
 <?php
 
+namespace Lemon\Tests\Http\Routing;
+
 use Lemon\Http\Request;
 use Lemon\Http\Routing\Router;
 use Lemon\Kernel\Lifecycle;
@@ -16,6 +18,7 @@ class RouterTest extends TestCase
 
         $router->post('/foo', fn() => 'bar');
         $this->assertSame('bar', $router->dispatch(Request::emulate('/foo', 'post'))->body);
+        $this->assertSame('bar', $router->dispatch(Request::emulate('/foo', 'POST'))->body);
 
         $this->assertSame(404, $router->dispatch(Request::emulate('/baz', 'get'))->status_code);
 

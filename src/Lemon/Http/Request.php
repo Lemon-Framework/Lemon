@@ -4,6 +4,8 @@ namespace Lemon\Http;
 
 class Request
 {
+    public $uri;
+
     /** Request headers */
     public $headers;
 
@@ -38,16 +40,14 @@ class Request
      */
     public static function make()
     {
-        $request = [
+        return new self([
             'uri' => $_SERVER['REQUEST_URI'],
             'method' => $_SERVER['REQUEST_METHOD'],
             'headers' => getallheaders(),
             'input' => $_POST,
             'json' => json_decode(file_get_contents('php://input')),
             'body' => file_get_contents('php://input')
-        ];
-
-        return new self($request);
+        ]);
     }
 
     /**

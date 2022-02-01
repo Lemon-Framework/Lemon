@@ -3,7 +3,10 @@
 namespace Lemon\Kernel;
 
 use Error;
+use ErrorException;
 use Exception;
+use Lemon\Config as ConfigZest;
+use Lemon\Route as RouteZest;
 use Lemon\Config\Config;
 use Lemon\Exceptions\Handling\Handler;
 use Lemon\Http\Request;
@@ -16,6 +19,7 @@ use Lemon\Support\Types\Str;
  * The Lemon Framework Lifecycle
  *
  * @property Config $config
+ * @property Route $routing
  */
 class Lifecycle
 {
@@ -38,7 +42,7 @@ class Lifecycle
      *
      * @var array $units 
      */
-    public array $units = [
+    private array $units = [
         'config' => [Config::class],
         'routing' => [Router::class]
     ];
@@ -53,16 +57,11 @@ class Lifecycle
         $this->directory = $directory;
     }
 
-    /**
-     * Loads all Lemon components (Units)
-     *
-     * @return void
-     */
-    public function loadUnits(): void
+    public function loadZests(): void
     {
-        foreach ($this->units as $unit => [$class])
-            $this->units[$unit][1] = new $class($this);
+        $zest::init($this);
     }
+
 
     /**
      * Loads error/exception handlers
@@ -71,8 +70,14 @@ class Lifecycle
      */
     public function loadHandler(): void
     {
+        error_reporting(-1);
+        set_error_handler([$this, 'handleError']); 
         set_exception_handler([$this, 'handle']);
-        set_error_handler([$this, 'handle']); 
+    }
+
+    public function handleError($level, $message, $file = '', $line  =0, $context = [])
+    {
+        throw new ErrorException($message, 0, $level, $file, $line);
     }
 
     /**
@@ -105,6 +110,20 @@ class Lifecycle
         return $matched;
     }
 
+    public function addUnit($name, $unit)
+    {
+        $this->units[$name] = [$unit];
+        return $this;
+    }
+
+    public function unit($name)
+    {
+        if (!isset($this->units[$name][1]))
+            $this->units[$name][1] = new $this->units[$name][0]($this);
+
+        return $this->units[$name][1];
+    }
+
     /**
      * Returns loaded unit instance
      *
@@ -116,7 +135,8 @@ class Lifecycle
     {
         if (!isset($this->units[$name]))
             throw new Exception('Unit ' . $name . ' does not exist');
-        return $this->units[$name][1];
+        
+        return $this->unit($name);
     }
 
     /**
@@ -127,7 +147,7 @@ class Lifecycle
         try
         {
             $request = Request::make();
-            $this->routing->dispatch($request);
+            $this->routing->dispatch($request)->terminate();
         }
         catch (Exception|Error $e)
         {

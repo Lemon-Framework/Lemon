@@ -1,6 +1,7 @@
 <?php
 
 use Lemon\Kernel\Lifecycle;
+use Lemon\Support\Types\Arr;
 
 /*
 | -------------------------------------------------------------------------------------
@@ -45,8 +46,8 @@ if (!defined('LEMON_DEBUG'))
 // Using server variable DOCUMENT_ROOT we can get the folder of our entry point and manual setting is not needed
 $app = new Lifecycle($_SERVER['DOCUMENT_ROOT']);
 
-// Loading all units, its first step because one of the units is Config
-$app->loadUnits();
+// Loading Lemon Zests which provide static layer over Units
+$app->loadZests();
 
 // Configuring debug mode
 $app->config('init')->debug = LEMON_DEBUG; 
@@ -69,5 +70,21 @@ $app->loadHandler();
 register_shutdown_function(function() use ($app) {
     if (http_response_code() >= 500) return;
     $app->boot();
+    if (Arr::contains(scandir($app->directory), 'composer.json')) // At this point we know that the user is running Lemon directly in the same folder as he initialized app
+        echo '
+<div style="
+    background-color: #cc241d;
+    color: #282828;
+    padding: 1.5rem;
+    width: 50%;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    margin: 1rem;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+">
+    Your app is being runned in the same folder as you have your composer.json and other files, which is dangerous! Please consider creating <strong>public</strong> folder with your index.php
+</div>
+'; // TODO chose between this and warning
 });
 
