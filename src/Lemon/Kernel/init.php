@@ -16,17 +16,15 @@ use Lemon\Support\Types\Arr;
 
 
 // If vendor/autoload.php is loaded in console context or with constant LEMON_NO_INIT
-if (!isset($_SERVER['REQUEST_METHOD']) 
-    || defined('LEMON_NO_INIT'))
+if (defined('LEMON_NO_INIT'))
     return;
 
 
 // If lemon mode is not defined nor is web, it won't initialize
 if (!defined('LEMON_MODE'))
-    define('LEMON_MODE', 'web');
-
-if (LEMON_MODE != 'web')
-    return;
+    define('LEMON_MODE', 
+        isset($_SERVER['REQUEST_METHOD']) ? 'web' : 'terminal'
+    );
 
 
 // If lemon debug is not defined, it will set it to false, so debug mode must be explicitly enabled
@@ -66,7 +64,11 @@ $app->loadHandler();
 | This system is not perfect. It saves you one line, but you don't have ability to do anything after booting.
 | Its more like just-works. You understand the basic concepts but then you move on and do it by your own.
 |
-*/
+ */
+
+if (LEMON_MODE != 'web')
+    return;
+
 register_shutdown_function(function() use ($app) {
     if (http_response_code() >= 500) return;
     $app->boot();

@@ -14,6 +14,7 @@ use Lemon\Http\Routing\Dispatcher;
 use Lemon\Http\Routing\Router;
 use Lemon\Support\Http\Routing\Route;
 use Lemon\Support\Types\Str;
+use Lemon\Zest;
 
 /**
  * The Lemon Framework Lifecycle
@@ -59,7 +60,7 @@ class Lifecycle
 
     public function loadZests(): void
     {
-        $zest::init($this);
+        Zest::init($this);
     }
 
 
@@ -85,12 +86,8 @@ class Lifecycle
      */
     public function handle($problem)
     {
-        if ($this->config('init', 'mode') == 'web')
-        {
-            $handler = new Handler($problem, $this);
-            $handler->terminate();
-        }
-        // TODO console errors 
+        $handler = new Handler($problem, $this);
+        $handler->terminate();
         exit;
     }
 

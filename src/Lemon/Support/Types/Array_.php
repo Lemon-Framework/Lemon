@@ -26,8 +26,9 @@ class Array_
     /** Arary lenght */
     public $lenght;
 
-    public function __construct(Array $content=[])
+    public function __construct(Array|Array_ $content=[])
     {
+        $content = $content instanceof Array_ ? $content->content : $content;
         $this->content = $content;
         $this->lenght = sizeof($content);
     } 
