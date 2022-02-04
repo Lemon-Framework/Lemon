@@ -23,7 +23,8 @@ TODO:
 
 - CoolFido - psychical helping, contributting, ideas
 - Mia - 'Lemon 2'
+- Quapka - Unit testing philosofy
 - Taylor Otwell - Made Laravel, which was big inspiration
 - David Grudl - Made Nette, which was aslo great inspiration
-- Quapka - Unit testing philosofy
+- Nuno Maduro - Created Termwind which was used as inspiration in Terminal Component
 - Starganzers - ❤
