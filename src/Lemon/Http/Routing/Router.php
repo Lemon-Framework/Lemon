@@ -5,7 +5,6 @@ namespace Lemon\Http\Routing;
 use Exception;
 use Lemon\Http\Request;
 use Lemon\Kernel\Lifecycle;
-use Lemon\Kernel\Unit;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Array_;
 
@@ -22,7 +21,7 @@ use Lemon\Support\Types\Array_;
  * @method \Lemon\Http\Routing\Route options(string $path, $action)
  *
  */
-class Router extends Unit
+class Router 
 {
 
     public readonly Lifecycle $lifecycle;

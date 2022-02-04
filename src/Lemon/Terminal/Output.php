@@ -53,7 +53,6 @@ class Output
 
     public function getParrentStyles(DOMNode|DOMText $node)
     {
-        echo $this->parseClasses($node->parentNode)[0] ?? 'cs';
         return $this->parseClasses($node->parentNode)[0] ?? "\033[39m";
     }
 

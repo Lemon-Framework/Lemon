@@ -5,14 +5,13 @@ namespace Lemon\Config;
 
 use Exception;
 use Lemon\Kernel\Lifecycle;
-use Lemon\Kernel\Unit;
 
 /**
  * Main interface for storing config data in organised way
  *
  * @method \Lemon\Config\Units\Init getInit() 
  */
-class Config extends Unit
+class Config 
 {
     /**
      * Lifecycle config unit belongs to.

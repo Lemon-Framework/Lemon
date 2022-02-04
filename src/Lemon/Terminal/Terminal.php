@@ -2,15 +2,19 @@
 
 namespace Lemon\Terminal;
 
-use Lemon\Kernel\Unit;
+use Lemon\Kernel\Lifecycle;
 
-/**
- * @property \Lemon\Kernel\Lifecycle $lifecycle
- */
-class Terminal extends Unit
+class Terminal 
 {
 
+    private Lifecycle $lifecycle;
+
     private ?StyleCollection $styles;
+
+    public function __construct(Lifecycle $lifecycle)
+    {
+        $this->lifecycle = $lifecycle;
+    }
 
     public function width()
     {
@@ -33,7 +37,7 @@ class Terminal extends Unit
     public function out($content)
     {
         $output = new Output($this, $content);
-        $render = $output->parse();
+        $render = $output->parse() . PHP_EOL;
         if ($this->lifecycle->config('init', 'mode') == 'web')
             return file_put_contents('php://stdout', $render);
 

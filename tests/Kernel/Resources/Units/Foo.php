@@ -2,9 +2,7 @@
 
 namespace Lemon\Tests\Kernel\Resources\Units;
 
-use Lemon\Kernel\Unit;
-
-class Foo extends Unit
+class Foo
 {
     private array $array;
 

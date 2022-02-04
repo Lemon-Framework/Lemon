@@ -14,6 +14,7 @@ use Lemon\Http\Routing\Dispatcher;
 use Lemon\Http\Routing\Router;
 use Lemon\Support\Http\Routing\Route;
 use Lemon\Support\Types\Str;
+use Lemon\Terminal\Terminal;
 use Lemon\Zest;
 
 /**
@@ -45,7 +46,8 @@ class Lifecycle
      */
     private array $units = [
         'config' => [Config::class],
-        'routing' => [Router::class]
+        'routing' => [Router::class],
+        'terminal' => [Terminal::class]
     ];
 
     /**
