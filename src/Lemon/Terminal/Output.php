@@ -3,6 +3,7 @@
 namespace Lemon\Terminal;
 
 use DOMDocument;
+use DOMNode;
 use DOMText;
 use DOMXPath;
 
@@ -12,8 +13,6 @@ class Output
     private Terminal $terminal;
 
     private string $content;
-
-    const CLASSES = []; // WIP
 
     public function __construct(Terminal $terminal, string $content)
     {
@@ -32,16 +31,18 @@ class Output
 
     public function parseClasses($node)
     {
-        $result = ['', ''];
+        $result = [null, null];
         if ($node instanceof DOMText)
             return $result;
 
         if (!($classes = $node->attributes->getNamedItem('class')))
             return $result;
 
+        $styles = $this->terminal->getStyles();
+
         foreach (explode(' ', $classes->value) as $class_name)
         {
-            $style = self::CLASSES[$class_name];
+            $style = $styles->resolveClass($class_name);
             $result[0] .= $style[0];
             $result[1] = $style[1] . $result[1];
         }
@@ -49,10 +50,23 @@ class Output
         return $result;
     }
 
+
+    public function getParrentStyles(DOMNode|DOMText $node)
+    {
+        echo $this->parseClasses($node->parentNode)[0] ?? 'cs';
+        return $this->parseClasses($node->parentNode)[0] ?? "\033[39m";
+    }
+
     public function parseNode($node)
     {
         $classes = $this->parseClasses($node);
-        return 
+
+        $close = 
+            $classes[1] == '<PARENT>' 
+            ? $this->getParrentStyles($node) 
+            : $classes[1];
+        
+        return
             $classes[0] .
             match ($node->nodeName)
             {
@@ -60,10 +74,26 @@ class Output
                     $this->parseHeading($node->textContent),
                 'hr' =>
                     PHP_EOL . str_repeat('—', $this->terminal->width()) . PHP_EOL,
+                'b', 'strong' =>
+                    "\033[1m" . $node->textContent . "\033[39m",
+                'i' =>
+                    "\033[3m" . $node->textContent . "\033[39m",
+                'u' =>
+                    "\033[4m" . $node->textContent . "\033[39m", 
+                'div' => $this->parseNodes($node->childNodes),
                 default =>
-                    trim($node->textContent)
+                    $node->textContent            
             }
-            . $classes[1];
+            . $close;
+    }
+
+    public function parseNodes($nodes)
+    {
+        $result = '';
+        foreach ($nodes as $node)
+            $result .= $this->parseNode($node);
+
+        return $result;
     }
 
     public function parse()
@@ -71,16 +101,10 @@ class Output
         $dom = new DOMDocument();
         $dom->loadHTML($this->content);
         $xpath = new DOMXPath($dom);
-        $result = '';
 
-        foreach ($xpath->document->getElementsByTagName('body')[0]->childNodes as $node)
-            $result .= $this->parseNode($node);
-
-        return $result;
-    }
-
-    public function render()
-    {
+        return $this->parseNodes($xpath->document->getElementsByTagName('body')[0]->childNodes);
 
     }
+
+
 }

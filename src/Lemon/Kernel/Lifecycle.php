@@ -58,6 +58,8 @@ class Lifecycle
         $this->directory = $directory;
     }
 
+    public static function init() {}
+
     public function loadZests(): void
     {
         Zest::init($this);
