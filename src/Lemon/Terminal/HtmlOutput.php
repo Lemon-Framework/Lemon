@@ -110,11 +110,11 @@ class HtmlOutput
 
     public function parse()
     {
+        $this->removeWhiteSpaces();
+
         $dom = new DOMDocument();
         $dom->loadHTML($this->content);
         $xpath = new DOMXPath($dom);
-
-        $this->removeWhiteSpaces();
 
         return trim($this->parseNodes(
             $xpath->document->getElementsByTagName('body')[0]->childNodes

@@ -29,3 +29,5 @@ TODO:
 - Nuno Maduro - Created Termwind which was used as inspiration in Terminal Component
 - Azeem Hassni - Tutorial for creating simple router
 - Starganzers - ❤
+
+*"Stolen from the best, with pride!"*
