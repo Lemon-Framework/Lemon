@@ -18,12 +18,12 @@ class Terminal
 
     public function width()
     {
-        return (int) getenv('COLUMNS');
+        return ((int) exec('tput cols')) ?? 80;
     }
 
     public function height()
     {
-        return (int) getenv('ROWS');
+        return ((int) exec('tput rows')) ?? 50;
     }
 
     public function getStyles()
@@ -37,7 +37,13 @@ class Terminal
     public function out($content)
     {
         $output = new Output($this, $content);
-        $render = $output->parse() . PHP_EOL;
+        $render = $output->resolve();
+
+        if ($render instanceof Output)
+            return $render;
+
+        $render .= PHP_EOL;
+
         if ($this->lifecycle->config('init', 'mode') == 'web')
             return file_put_contents('php://stdout', $render);
 
