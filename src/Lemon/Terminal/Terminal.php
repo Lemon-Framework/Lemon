@@ -17,13 +17,15 @@ class Terminal
     }
 
     public function width()
-    {
-        return ((int) exec('tput cols')) ?? 80;
+    { // WIP
+        $columns = getenv('COLUMNS');
+        return is_numeric($columns) ? (int) $columns : 80;
     }
 
     public function height()
     {
-        return ((int) exec('tput rows')) ?? 50;
+        $rows = getenv('LINES');
+        return is_int($rows) ? (int) $rows : 50;
     }
 
     public function getStyles()

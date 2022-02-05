@@ -14,7 +14,6 @@ class HtmlOutputTest extends TestCase
     public function makeOutput(string $content)
     {
         $lifecycle = new Lifecycle(__DIR__);
-        putenv('COLUMNS=10'); // Setting up the terminal width for testing
         $terminal = new Terminal($lifecycle);
 
         return new HtmlOutput($terminal, $content);
@@ -28,6 +27,7 @@ class HtmlOutputTest extends TestCase
 
     public function testParsingLines()
     {
+        putenv('COLUMNS=10');
         $output = $this->makeOutput('foo<hr>bar');
         $this->assertSame('foo' . PHP_EOL . '——————————' . PHP_EOL . 'bar', $output->parse());
     }
