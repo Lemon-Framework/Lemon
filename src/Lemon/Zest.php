@@ -7,7 +7,6 @@ use Lemon\Kernel\Lifecycle;
 
 abstract class Zest
 {
-
     protected static Lifecycle $lifecycle;
 
     protected static function unit()

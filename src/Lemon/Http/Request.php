@@ -29,13 +29,14 @@ class Request
 
     public function __construct($request_data)
     {
-        foreach ($request_data as $key => $value)
+        foreach ($request_data as $key => $value) {
             $this->$key = $value;
+        }
     }
 
     /**
      * Creates new Request instance from sent request
-     * 
+     *
      * @return self
      */
     public static function make()
@@ -70,12 +71,12 @@ class Request
         $this->query = $query;
     }
 
-        /**
+    /**
      * Returns json value
      *
      * @return mixed
      */
-    function json($key)
+    public function json($key)
     {
         return $this->json[$key];
     }
@@ -85,7 +86,7 @@ class Request
      *
      * @return String
      */
-    function input($key)
+    public function input($key)
     {
         return $this->input[$key];
     }
@@ -95,7 +96,7 @@ class Request
      *
      * @return String
      */
-    function query()
+    public function query()
     {
         return $this->query;
     }
@@ -105,10 +106,11 @@ class Request
      *
      * @return mixed
      */
-    function __get($key)
+    public function __get($key)
     {
-        if (isset($this->data[$key]))
+        if (isset($this->data[$key])) {
             return $this->data[$key];
+        }
         return null;
     }
 
@@ -117,10 +119,8 @@ class Request
      *
      * @return String
      */
-    function header($name)
+    public function header($name)
     {
         return $this->headers[$name];
     }
 }
-
-

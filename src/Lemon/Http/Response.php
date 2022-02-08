@@ -10,11 +10,10 @@ namespace Lemon\Http;
  */
 class Response
 {
-
     /**
      * List of status code handlers
      */
-    static $handlers = [];
+    public static $handlers = [];
 
     /**
      * Response body
@@ -71,16 +70,17 @@ class Response
         return $this;
     }
 
-    public function headers(Array $headers)
+    public function headers(array $headers)
     {
-        foreach ($headers as $header => $value)
+        foreach ($headers as $header => $value) {
             $this->headers[$header] = $value;
+        }
 
         return $this;
     }
 
     /**
-     * Displays response parameters 
+     * Displays response parameters
      */
     public function terminate()
     {
@@ -89,24 +89,26 @@ class Response
         $this->handleHeaders();
         $this->handleBody();
     }
-    
+
     /**
      * Handles response status code
      */
     private function handleStatusCode()
     {
         $code = $this->status_code;
-        if (!isset(\ERRORS[$code]))
+        if (!isset(\ERRORS[$code])) {
             return;
+        }
 
         http_response_code($code);
 
-        if (isset(self::$handlers[$code]))
+        if (isset(self::$handlers[$code])) {
             (new Response(self::$handlers[$code]()))->terminate();
-        else
+        } else {
             status_page($code);
+        }
 
-        exit(); 
+        exit();
     }
 
     /**
@@ -116,8 +118,9 @@ class Response
     {
         $location = $this->location;
 
-        if ($location)
-            header("Location:$location");          
+        if ($location) {
+            header("Location:$location");
+        }
     }
 
     /**
@@ -125,8 +128,9 @@ class Response
      */
     private function handleHeaders()
     {
-        foreach ($this->headers as $header => $value)
+        foreach ($this->headers as $header => $value) {
             header($header . ":" . $value);
+        }
     }
 
     /**
@@ -136,30 +140,30 @@ class Response
     {
         $body = $this->body;
 
-        if (in_array(gettype($body), ["string", "integer", "boolean"]))
-        {
+        if (in_array(gettype($body), ["string", "integer", "boolean"])) {
             echo $body;
             return;
         }
 
-        if (is_array($body))
-        {
+        if (is_array($body)) {
             header("Content-type:application/json");
             echo json_encode($body);
             return;
         }
 
-        if (!is_object($body))
+        if (!is_object($body)) {
             return;
+        }
 
-        if ($body instanceof Response)
+        if ($body instanceof Response) {
             $body->terminate();
+        }
 
-        if (get_class($body) == "Lemon\Views\View")
+        if (get_class($body) == "Lemon\Views\View") {
             echo $body->resolved_template;
+        }
 
-        if ($body instanceof \Lemon\Views\View)
-        {
+        if ($body instanceof \Lemon\Views\View) {
             extract($body->arguments);
             eval($body->compiled_template);
         }
@@ -173,11 +177,8 @@ class Response
      * @param Closure|String $action
      *
      * */
-    static function handle(int $code, $action)
+    public static function handle(int $code, $action)
     {
         self::$handlers[$code] = $action;
     }
-   
 }
-
-

@@ -1,7 +1,6 @@
 <?php
 
-if (!function_exists("status_page"))
-{
+if (!function_exists("status_page")) {
     function status_page($code)
     {
         $errors = ERRORS;

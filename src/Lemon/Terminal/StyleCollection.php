@@ -4,7 +4,6 @@ namespace Lemon\Terminal;
 
 class StyleCollection
 {
-
     public array $colors = [
         'black' => 0,
         'red' => 1,
@@ -30,9 +29,11 @@ class StyleCollection
 
     public function resolveClass(string $class)
     {
-        foreach ($this->classes as $pattern => $handler)
-            if (preg_match("/^$pattern$/", $class, $matches))
+        foreach ($this->classes as $pattern => $handler) {
+            if (preg_match("/^$pattern$/", $class, $matches)) {
                 return $this->{$handler}($matches);
+            }
+        }
 
         return ['', ''];
     }
@@ -40,8 +41,9 @@ class StyleCollection
     public function handleTextColor($matches)
     {
         $color = $matches[1];
-        if (!isset($this->colors[$color]))
+        if (!isset($this->colors[$color])) {
             return ['', ''];
+        }
 
         $code = 30 + $this->colors[$color];
 
@@ -51,12 +53,12 @@ class StyleCollection
     public function handleBackgroundColor($matches)
     {
         $color = $matches[1];
-        if (!isset($this->colors[$color]))
+        if (!isset($this->colors[$color])) {
             return ['', ''];
+        }
 
         $code = 40 + $this->colors[$color];
 
         return ["\033[{$code}m", '<PARENT>'];
     }
-
 }

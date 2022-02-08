@@ -40,8 +40,7 @@ class Dispatcher
     private function parseGet()
     {
         $get_args = [];
-        if (preg_match("/\?(.+)$/", $this->request_uri, $matches) == 1)
-        {
+        if (preg_match("/\?(.+)$/", $this->request_uri, $matches) == 1) {
             $this->request_uri = str_replace($matches[0], "", $this->request_uri); // kinda wip
             parse_str($matches[1], $get_args);
         }
@@ -57,18 +56,15 @@ class Dispatcher
     private function dispatchUri()
     {
         $matched_routes = [];
-        foreach ($this->routes as $route)
-        {
+        foreach ($this->routes as $route) {
             $path = preg_replace("/{.*?}/", "([^/]+)", $route->path);
-            if (preg_match("%^{$path}$%", $this->request_uri, $params) === 1)
-            {
+            if (preg_match("%^{$path}$%", $this->request_uri, $params) === 1) {
                 unset($params[0]);
                 array_push($matched_routes, [$route, $params]);
             }
         }
 
         return $matched_routes;
-
     }
 
     /**
@@ -81,16 +77,16 @@ class Dispatcher
         $this->request->setQuery($this->parseGet());
         $routes = $this->dispatchUri();
 
-        if (!$routes)
+        if (!$routes) {
             return new Response('', 404);
-        
-        foreach ($routes as [$route, $params])
-           if (in_array(Str::toLower($this->request->method), $route->methods)) 
-               return $route->toResponse($this->request, $params);
-        
-        return new Response("", 400);
+        }
 
+        foreach ($routes as [$route, $params]) {
+            if (in_array(Str::toLower($this->request->method), $route->methods)) {
+                return $route->toResponse($this->request, $params);
+            }
+        }
+
+        return new Response("", 400);
     }
 }
-
-

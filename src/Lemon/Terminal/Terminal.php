@@ -4,9 +4,8 @@ namespace Lemon\Terminal;
 
 use Lemon\Kernel\Lifecycle;
 
-class Terminal 
+class Terminal
 {
-
     private Lifecycle $lifecycle;
 
     private ?StyleCollection $styles;
@@ -30,8 +29,9 @@ class Terminal
 
     public function getStyles()
     {
-        if (!isset($this->styles))
+        if (!isset($this->styles)) {
             $this->styles = new StyleCollection($this);
+        }
 
         return $this->styles;
     }
@@ -41,15 +41,16 @@ class Terminal
         $output = new Output($this, $content);
         $render = $output->resolve();
 
-        if ($render instanceof Output)
+        if ($render instanceof Output) {
             return $render;
+        }
 
         $render .= PHP_EOL;
 
-        if ($this->lifecycle->config('init', 'mode') == 'web')
+        if ($this->lifecycle->config('init', 'mode') == 'web') {
             return file_put_contents('php://stdout', $render);
+        }
 
         echo $render;
     }
 }
-

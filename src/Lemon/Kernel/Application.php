@@ -12,7 +12,6 @@ use Lemon\Views\ViewCompiler;
  */
 class Application
 {
-
     /**
      * Folders that will be loaded
      */
@@ -63,14 +62,14 @@ class Application
     public function boot()
     {
         $sep = DIRECTORY_SEPARATOR;
-        foreach ($this->load_folders as $folder)
+        foreach ($this->load_folders as $folder) {
             loader("{$this->booter_dir}{$sep}{$folder}");
+        }
 
         ViewCompiler::setDirectory("{$this->booter_dir}{$sep}{$this->view_folder}");
-        
-        if (isset($_SERVER["SERVER_NAME"]))
-           \Route::execute();
+
+        if (isset($_SERVER["SERVER_NAME"])) {
+            \Route::execute();
+        }
     }
 }
-
-

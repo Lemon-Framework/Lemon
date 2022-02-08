@@ -63,5 +63,3 @@ const COLORS = [
         'cyan' => "36",
         'white' => "37",
 ];
-
-

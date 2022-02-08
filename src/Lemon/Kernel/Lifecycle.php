@@ -22,6 +22,7 @@ use Lemon\Zest;
  *
  * @property Config $config
  * @property Route $routing
+ * @property Terminal $terminal
  */
 class Lifecycle
 {
@@ -34,15 +35,15 @@ class Lifecycle
 
     /**
      * App directory
-     * 
-     * @var string $directory  
+     *
+     * @var string $directory
      */
     public readonly string $directory;
 
     /**
      * List of all Lifecycle components (Units)
      *
-     * @var array $units 
+     * @var array $units
      */
     private array $units = [
         'config' => [Config::class],
@@ -60,7 +61,9 @@ class Lifecycle
         $this->directory = $directory;
     }
 
-    public static function init() {}
+    public static function init()
+    {
+    }
 
     public function loadZests(): void
     {
@@ -76,7 +79,7 @@ class Lifecycle
     public function loadHandler(): void
     {
         error_reporting(-1);
-        set_error_handler([$this, 'handleError']); 
+        set_error_handler([$this, 'handleError']);
         set_exception_handler([$this, 'handle']);
     }
 
@@ -86,7 +89,7 @@ class Lifecycle
     }
 
     /**
-     * Executes error handler depending on lemon mode
+     * Executes error handler
      */
     public function handle($problem)
     {
@@ -104,39 +107,48 @@ class Lifecycle
      */
     public function config(string $unit, string $key=null): mixed
     {
-        $matched = $this->config->{'get' . Str::capitalize($unit)}(); 
-        if ($key)
+        $matched = $this->config->{'get' . Str::capitalize($unit)}();
+        if ($key) {
             return $matched->$key;
+        }
 
         return $matched;
     }
 
-    public function addUnit($name, $unit)
+    /**
+     * Adds unit
+     *
+     * @param string $name
+     * @param string $unit
+     * @return self
+     */
+    public function addUnit(string $name, string $unit): self
     {
         $this->units[$name] = [$unit];
         return $this;
     }
 
-    public function unit($name)
+    /**
+     * Returns unit instance
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function unit(string $name)
     {
-        if (!isset($this->units[$name][1]))
+        if (!isset($this->units[$name][1])) {
             $this->units[$name][1] = new $this->units[$name][0]($this);
+        }
 
         return $this->units[$name][1];
     }
 
-    /**
-     * Returns loaded unit instance
-     *
-     * @param string $name
-     * @return mixed
-     * @throws \Exception
-     */
     public function __get(string $name): mixed
     {
-        if (!isset($this->units[$name]))
+        if (!isset($this->units[$name])) {
             throw new Exception('Unit ' . $name . ' does not exist');
-        
+        }
+
         return $this->unit($name);
     }
 
@@ -145,13 +157,10 @@ class Lifecycle
      */
     public function boot()
     {
-        try
-        {
+        try {
             $request = Request::make();
             $this->routing->dispatch($request)->terminate();
-        }
-        catch (Exception|Error $e)
-        {
+        } catch (Exception|Error $e) {
             $this->handle($e);
         }
     }

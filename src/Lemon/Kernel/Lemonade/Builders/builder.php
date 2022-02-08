@@ -36,10 +36,8 @@ class Builder
     private function parse($arguments)
     {
         $parsed = [];
-        foreach($this->arguments as $argument)
-        {
-            if(strpos($argument, ":"))
-            {
+        foreach ($this->arguments as $argument) {
+            if (strpos($argument, ":")) {
                 $argument = explode(':', $argument);
                 $parsed[$argument[0]] = $argument[1];
             }
@@ -59,13 +57,11 @@ class Builder
     {
         $types = TYPES;
         $arguments = $this->parse($this->arguments);
-        if (!isset($arguments["type"]))
-        {
+        if (!isset($arguments["type"])) {
             echo textFormat("Type argument is missing!\n", 31);
             return;
         }
-        if(in_array($arguments["type"], $types))
-        {
+        if (in_array($arguments["type"], $types)) {
             $action = $arguments["type"];
             $this->$action($arguments);
             return;
@@ -84,16 +80,13 @@ class Builder
         $files = FILES;
 
         echo textFormat("\nBuilding project...\n\n", "33");
-        foreach ($dirs as $dir)
-        {
-            if(!file_exists($dir))
-            {
+        foreach ($dirs as $dir) {
+            if (!file_exists($dir)) {
                 echo textFormat("Building {$dir}...\n", "33");
                 mkdir($dir);
             }
         }
-        foreach ($files as $file => $link)
-        {
+        foreach ($files as $file => $link) {
             echo textFormat("Building {$file}...\n", "33");
             $file = fopen($file, "w");
             $content = file_get_contents($link);
@@ -114,9 +107,6 @@ class Builder
         $licenses = new LicenseBuilder();
 
         $licenses->buildLicense();
-
-
-
     }
 }
 
@@ -133,5 +123,3 @@ function build($arguments)
 
     $builder->execute();
 }
-
-

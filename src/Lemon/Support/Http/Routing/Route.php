@@ -33,13 +33,13 @@ class Route
      *
      * @return Route
      */
-    static function createRoute(String $path, Array $methods, $action)
-    {  
-        if (is_string($action))
-        {
+    public static function createRoute(String $path, array $methods, $action)
+    {
+        if (is_string($action)) {
             $action = explode(":", $action);
-            if (!isset($action[1]))
+            if (!isset($action[1])) {
                 $action = $action[0];
+            }
         }
         $route = new RouteCore($path, $methods, $action);
         array_push(self::$routes, $route);
@@ -48,7 +48,7 @@ class Route
 
     /**
      * Creates route for method GET
-     * 
+     *
      * @param String $path
      * @param Closure|String|Array $action
      *
@@ -61,7 +61,7 @@ class Route
 
     /**
      * Creates route for method POST
-     * 
+     *
      * @param String $path
      * @param Closure|String|Array $action
      *
@@ -74,7 +74,7 @@ class Route
 
     /**
      * Creates route for every request method
-     * 
+     *
      * @param String $path
      * @param Closure|String|Array $action
      *
@@ -87,14 +87,14 @@ class Route
 
     /**
      * Creates route for given request methods
-     * 
+     *
      * @param String $path
      * @param Array $methods
      * @param Closure|String|Array $action
      *
      * @return Route
      */
-    public static function use(String $path, Array $methods, $action)
+    public static function use(String $path, array $methods, $action)
     {
         return self::createRoute($path, $methods, $action);
     }
@@ -107,7 +107,7 @@ class Route
      *
      * @return RouteGroup
      */
-    public static function group(Array $parameters, Array $routes)
+    public static function group(array $parameters, array $routes)
     {
         return new RouteGroup($parameters, $routes);
     }
@@ -116,19 +116,18 @@ class Route
     {
         $methods = get_class_methods($controller);
         $routes = [];
-        foreach ($methods as $method)
-        {
-            if (in_array($method, ["get", "post", "put", "head", "delete", "path", "options"]))
+        foreach ($methods as $method) {
+            if (in_array($method, ["get", "post", "put", "head", "delete", "path", "options"])) {
                 array_push($routes, self::createRoute($base, [strtoupper($method)], [$controller, $method]));
-            if (isset(self::$controller_resources[$method]))
-            {
+            }
+            if (isset(self::$controller_resources[$method])) {
                 $resource = self::$controller_resources[$method];
                 $path = $base . $resource[1];
-                $request_method = strtoupper($resource[0]);  
+                $request_method = strtoupper($resource[0]);
                 array_push($routes, self::createRoute($path, [$request_method], [$controller, $method]));
             }
-        }   
-        
+        }
+
         return $routes;
     }
 
@@ -141,9 +140,11 @@ class Route
      */
     public static function byName(String $name)
     {
-        foreach (self::$routes as $route)
-            if ($route->name == $name)
+        foreach (self::$routes as $route) {
+            if ($route->name == $name) {
                 return $route;
+            }
+        }
     }
 
     /**
@@ -166,5 +167,3 @@ class Route
         $dispatcher->run()->terminate();
     }
 }
-
-

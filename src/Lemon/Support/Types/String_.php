@@ -17,7 +17,7 @@ class String_
      */
     public function __construct(String $subject)
     {
-        $this->content = $subject; 
+        $this->content = $subject;
         $this->lenght = strlen($subject);
     }
 
@@ -31,7 +31,7 @@ class String_
      *
      * @param String|String_ $separator=""
      * @param int $lenght=0
-     * @return Array_ 
+     * @return Array_
      */
     public function split(String|String_ $separator="", int $lenght=0): Array_
     {
@@ -46,7 +46,7 @@ class String_
      * @param Array|Array_ $array
      * @return String_
      */
-    public function join(Array|Array_ $array): String_
+    public function join(array|Array_ $array): String_
     {
         return String_::from(
             implode($this->content, $array)
@@ -66,7 +66,7 @@ class String_
 
     /**
      * Converts first character to lovercase
-     *      
+     *
      * @return String_
      */
     public function decapitalize(): String_
@@ -171,7 +171,7 @@ class String_
      * Creates new String_ instance
      *
      * @param String $subject
-     * @return 
+     * @return
      */
     public static function from(String $subject): String_
     {

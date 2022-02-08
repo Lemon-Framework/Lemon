@@ -2,9 +2,8 @@
 
 use Lemon\Kernel\Lemonade\Signature;
 
-class Command 
+class Command
 {
-
     public $signature;
 
     public $action;
@@ -26,18 +25,19 @@ class Command
      */
     public function validate(String $input)
     {
-        if ($arguments = $this->signature->matches($input))
+        if ($arguments = $this->signature->matches($input)) {
             return $arguments;
+        }
 
         return false;
     }
-    
+
     /**
      * Runs command with given arguments
      *
      * @param Array $arguments
      */
-    public function run(Array $arguments)
+    public function run(array $arguments)
     {
         call_user_func_array($this->action, $arguments);
     }
@@ -45,7 +45,7 @@ class Command
     public function info()
     {
         $name = $this->signature->name;
-        $description = $this->description ? $this->description : "";        
+        $description = $this->description ? $this->description : "";
         return ["name" => $name, "description" => $description];
     }
 }

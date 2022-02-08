@@ -9,7 +9,6 @@ use Exception;
  */
 class Array_
 {
-
     public static function fromJson(String|String_ $subject)
     {
         return json_decode($subject, true);
@@ -26,19 +25,20 @@ class Array_
     /** Arary lenght */
     public $lenght;
 
-    public function __construct(Array|Array_ $content=[])
+    public function __construct(array|Array_ $content=[])
     {
         $content = $content instanceof Array_ ? $content->content : $content;
         $this->content = $content;
         $this->lenght = sizeof($content);
-    } 
-    
+    }
+
     public function __get($key)
     {
-        if (!isset($this->content[$key]))
+        if (!isset($this->content[$key])) {
             throw new Exception("Undefined array key $key");
+        }
         return $this->content[$key];
-    } 
+    }
 
     public function __set($key, $value)
     {
@@ -49,7 +49,7 @@ class Array_
     {
         array_push($this->content, ...$values);
         $this->lenght();
-        return $this; 
+        return $this;
     }
 
     public function pop()
@@ -73,9 +73,10 @@ class Array_
     public function export()
     {
         $parsed_arrays = new Array_();
-        foreach ($this->content as $array)
+        foreach ($this->content as $array) {
             $parsed_arrays->push($array instanceof Array_ ? $array->export() : $array);
-        
+        }
+
         return $parsed_arrays->content;
     }
 
@@ -85,7 +86,7 @@ class Array_
         return $this;
     }
 
-    public function hasKey($key) 
+    public function hasKey($key)
     {
         return array_key_exists($key, $this->content);
     }
@@ -133,13 +134,13 @@ class Array_
         return $this;
     }
 
-    public function merge(Array|Array_ ...$arrays)
-    { 
+    public function merge(array|Array_ ...$arrays)
+    {
         $arrays = (new Array_($arrays))->export();
         $this->content = array_merge($this->content, ...$arrays);
         $this->lenght();
-        return $this; 
-    } 
+        return $this;
+    }
 
     public function random(int $count=1)
     {
@@ -152,7 +153,7 @@ class Array_
         return $this;
     }
 
-    public function replace(Array|Array_ ...$replacements)
+    public function replace(array|Array_ ...$replacements)
     {
         $replacements = (new Array_($replacements))->export();
         $this->content = array_replace($this->content, ...$replacements);
@@ -180,5 +181,5 @@ class Array_
     public function contains($needle)
     {
         return in_array($needle, $this->content);
-    }    
+    }
 }

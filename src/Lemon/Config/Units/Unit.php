@@ -19,12 +19,13 @@ abstract class Unit
     /**
      * Creates new Unit instance, sets pre-defined values
      */
-    abstract function __construct();
+    abstract public function __construct();
 
     public function __get($name)
     {
-        if (!isset($this->data[$name]))
+        if (!isset($this->data[$name])) {
             throw new Exception('Undefined config value ' . $name);
+        }
 
         return $this->data[$name];
     }

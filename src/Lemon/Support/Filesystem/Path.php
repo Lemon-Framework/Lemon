@@ -19,21 +19,23 @@ class Path
         $signature = String_::resolve($signature);
         $this->path = $signature->replace($separator, DIRECTORY_SEPARATOR). $suffix;
         return $this;
-    } 
+    }
 
     public function resolve()
     {
-        if ($this->isFile())
+        if ($this->isFile()) {
             return new File($this->path);
-        if ($this->isDir())
+        }
+        if ($this->isDir()) {
             return new Directory($this->path);
+        }
 
         throw new FileNotFoundException('File {$this->path} does not exist!');
     }
 
     public function append(Path $path)
     {
-        $this->path = $this->path . $path->path->endTrim('/'); 
+        $this->path = $this->path . $path->path->endTrim('/');
         return $this;
     }
 
@@ -51,5 +53,4 @@ class Path
     {
         return is_dir($this->path);
     }
-
 }

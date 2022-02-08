@@ -13,7 +13,7 @@ use Lemon\Http\MiddlewareCollection;
  * @param Array $methods
  * @param callable $action
  */
-class Route 
+class Route
 {
     /**
      * Route name
@@ -41,7 +41,7 @@ class Route
     public $action;
 
 
-    public function __construct(string $path, array $methods,  $action)
+    public function __construct(string $path, array $methods, $action)
     {
         $this->path = trim($path, "/");
         $this->methods = $methods;
@@ -49,10 +49,10 @@ class Route
         $this->name = $path ?? "main";
         $this->middlewares = new MiddlewareCollection();
     }
-    
+
     /**
      * Adds new middleware
-     * 
+     *
      * @param String|Array $middlewares
      */
     public function middleware($middlewares)
@@ -74,7 +74,7 @@ class Route
 
     /**
      * Sets route prefix
-     * 
+     *
      * @param String $prefix
      */
     public function prefix(String $prefix)
@@ -91,7 +91,7 @@ class Route
      *
      * @return Response
      */
-    public function toResponse(Request $request, Array $params)
+    public function toResponse(Request $request, array $params)
     {
         $this->middlewares->terminate($request);
 
@@ -99,26 +99,20 @@ class Route
         $param_types = getParamTypes($action);
         $last_param = 1;
         $arguments = [];
-        foreach ($param_types as $type)
-        {
-            if ($type == "Lemon\Http\Request")
-            {
+        foreach ($param_types as $type) {
+            if ($type == "Lemon\Http\Request") {
                 array_push($arguments, $request);
                 continue;
             }
             array_push($arguments, $params[$last_param]);
             $last_param++;
-
         }
 
-        if (is_array($action))
-        {
-            $controller = new $action[0];
+        if (is_array($action)) {
+            $controller = new $action[0]();
             $action = [$controller, $action[1]];
         }
 
         return new Response(call_user_func_array($action, $arguments));
     }
 }
-
-

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Lemon\Config;
 
 use Exception;
@@ -9,13 +8,13 @@ use Lemon\Kernel\Lifecycle;
 /**
  * Main interface for storing config data in organised way
  *
- * @method \Lemon\Config\Units\Init getInit() 
+ * @method \Lemon\Config\Units\Init getInit()
  */
-class Config 
+class Config
 {
     /**
      * Lifecycle config unit belongs to.
-     * 
+     *
      * @var Lifecycle $lifecycle
      */
     public Lifecycle $lifecycle;
@@ -46,14 +45,16 @@ class Config
     private function loadUnits(): void
     {
         $base = __NAMESPACE__;
-        foreach ($this->units as $unit => $_)
+        foreach ($this->units as $unit => $_) {
             $this->units[$unit] = new ($base . '\\Units\\' . $unit)($this);
-    } 
+        }
+    }
 
     public function __call($name, $_)
     {
-        if (preg_match('/get([A-Z][a-z]+)/', $name, $matches))
-            return $this->units[$matches[1]]; 
+        if (preg_match('/get([A-Z][a-z]+)/', $name, $matches)) {
+            return $this->units[$matches[1]];
+        }
 
         throw new Exception('Call to undefined method Config::' . $name . '()');
     }

@@ -6,15 +6,15 @@
  *
  * */
 class Server
-{   
+{
     private $arguments;
     private $directory;
     private $arg_list = [
         "port",
         "host"
-    
+
     ];
-    
+
     /*
      *
      * Takes arguments
@@ -34,10 +34,8 @@ class Server
     private function parse()
     {
         $parsed = [];
-        foreach($this->arguments as $argument)
-        {
-            if(str_contains($argument, ":"))
-            {
+        foreach ($this->arguments as $argument) {
+            if (str_contains($argument, ":")) {
                 $argument = explode(':', $argument);
                 $parsed[$argument[0]] = $argument[1];
             }
@@ -54,7 +52,7 @@ class Server
     private function build()
     {
         $arguments = $this->parse();
-        
+
         $address = $arguments['host'] ?? "localhost";
         $port = $arguments['port'] ?? "8000";
         $dir = $this->directory."/public/";
@@ -66,21 +64,19 @@ class Server
     /*
      *
      * Runs whole server
-     *     
+     *
      * */
     public function run()
     {
-        if (is_file("public/index.php"))
-        {
+        if (is_file("public/index.php")) {
             echo textFormat("\n\u{1F34B} Lemon development server started!\n\n", "33");
             $command = $this->build();
 
             exec($command);
-        }
-        else
+        } else {
             echo textFormat("Folder *public* is required to run server!\n", 31);
+        }
     }
-
 }
 
 /*
@@ -94,5 +90,3 @@ function serve($arguments, $directory)
 
     $server->run();
 }
-
-

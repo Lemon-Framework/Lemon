@@ -1,4 +1,5 @@
 <?php
+
 require "templates.php";
 
 /*
@@ -36,16 +37,14 @@ class LicenseBuilder
         $licenses = LICENSES;
         $type = readline("Type license you want to build: ");
 
-        if (isset($licenses[$type]))
-        {
+        if (isset($licenses[$type])) {
             $this->parameters["license"] = $type;
             $this->licenseAuthor();
             $this->parameters["date"] = date("Y");
             return;
         }
 
-        if ($type == "custom")
-        {
+        if ($type == "custom") {
             $license = readline("Type your license content: ");
             $this->parameters["license"] = $license;
             return;
@@ -53,7 +52,6 @@ class LicenseBuilder
 
         echo textFormat("This license is not available!\n", "31");
         $this->licenseType();
-
     }
 
     /*
@@ -63,14 +61,13 @@ class LicenseBuilder
      * */
     private function licenseAuthor()
     {
-       $name = readline("Type author name: ");
+        $name = readline("Type author name: ");
 
-        if ($name != null)
-        {
+        if ($name != null) {
             $this->parameters["author"] = $name;
             return;
         }
-        
+
         echo textFormat("Name must be specified!\n", "31");
         $this->licenseAuthor();
     }
@@ -85,9 +82,8 @@ class LicenseBuilder
         $licenses = LICENSES;
         $file = fopen("LICENSE.md", "w");
         $license = $this->parameters["license"];
-        
-        if (!in_array($license, $licenses))
-        {
+
+        if (!in_array($license, $licenses)) {
             echo textFormat("Building license...\n", "33");
             fwrite($file, $license);
             echo textFormat("Done!\n", "33");
@@ -100,7 +96,4 @@ class LicenseBuilder
         fwrite($file, $content);
         echo textFormat("Done!\n\n", "33");
     }
-
 }
-
-

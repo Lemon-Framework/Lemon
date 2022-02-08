@@ -1,4 +1,4 @@
 /vendor/
 /testing/
 **/*.sw*
-.phpunit.result.cache
+**/*.cache

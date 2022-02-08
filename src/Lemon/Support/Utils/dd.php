@@ -2,36 +2,33 @@
 
 $contains_style = false;
 
-if (!function_exists("parse"))
-{
+if (!function_exists("parse")) {
     function parse($target)
     {
         $result = "";
-        if (gettype($target) == "object")
+        if (gettype($target) == "object") {
             return parseObject($target);
+        }
 
-        foreach ($target as $key => $value)
-        {
-            if (is_array($value))
-            {
+        foreach ($target as $key => $value) {
+            if (is_array($value)) {
                 $parsed = parse($value);
                 $size = sizeof($value);
                 $result.= "<details><summary class=\"array-key\">$key => Array:$size</summary><div>$parsed</div></details>";
                 continue;
             }
-            if (gettype($value) == "object")
+            if (gettype($value) == "object") {
                 $value = parseObject($value);
-            
+            }
+
             $value = $value ?: "undefined";
             $result .= "<span class=\"key\">[$key]</span>=><span class=\"value\">$value</span><br>";
-                
         }
         return $result;
     }
 }
 
-if (!function_exists("parseObject"))
-{
+if (!function_exists("parseObject")) {
     function parseObject($target)
     {
         $original_class = get_class($target);
@@ -47,23 +44,19 @@ if (!function_exists("parseObject"))
     }
 }
 
-if (!function_exists("dump"))
-{
-    function dump(...$targets) 
+if (!function_exists("dump")) {
+    function dump(...$targets)
     {
         $parsed = "";
-        foreach ($targets as $target)
-        {
-            if (is_array($target))
-            {
+        foreach ($targets as $target) {
+            if (is_array($target)) {
                 $parsed_data = parse($target);
                 $size = sizeof($target);
                 $parsed .= "<div class=\"bg\"><details><summary class=\"array-key\">Array:$size</summary><div>$parsed_data</div></details></div>";
                 continue;
             }
 
-            if (!in_array(gettype($target), ["string", "int", "bool"]))
-            {
+            if (!in_array(gettype($target), ["string", "int", "bool"])) {
                 $parsed .= "<div class=\"bg\">" . parse($target) . "</div>";
                 continue;
             }
@@ -72,8 +65,7 @@ if (!function_exists("dump"))
         }
 
         global $contains_style;
-        if (!$contains_style)
-        {
+        if (!$contains_style) {
             $contains_style = true;
             echo "<style>@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap');* {outline: none}.bg {background-color: #282c34; color: #abb2bf;font-family: 'Source Code Pro', monospace; font-size: 15pt;padding: 1%; margin: 0;}.array-key {color: #56b6c2;}.key {margin-right: 2%;margin-left: 2%;color: #98c379;}.value {margin-left: 2%; color: #c678dd;}.class {color: #e0af68;}div {margin-left: 2%;}</style>";
         }
@@ -81,8 +73,7 @@ if (!function_exists("dump"))
     }
 }
 
-if (!function_exists("dd"))
-{
+if (!function_exists("dd")) {
     function dd(...$targets)
     {
         dump(...$targets);

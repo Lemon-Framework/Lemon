@@ -14,7 +14,7 @@ class Init extends Unit
     {
         $this->data = [
             'mode' => LEMON_MODE,
-            'debug' => false 
-        ]; 
+            'debug' => false
+        ];
     }
-} 
+}

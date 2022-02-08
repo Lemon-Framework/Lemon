@@ -31,7 +31,7 @@ class RouteGroup
     public $routes;
 
 
-    public function __construct(Array $parameters, Array $routes)
+    public function __construct(array $parameters, array $routes)
     {
         $this->name = $parameters["name"] ?? "";
         $this->middlewares = $parameters["middlewares"] ?? [];
@@ -43,16 +43,15 @@ class RouteGroup
 
     /**
      * Resolves nested route groups and arrays of routes
-     */ 
+     */
     public function resolve()
     {
-        foreach ($this->routes as $pos => $route)
-        {
-            if (is_array($route))
+        foreach ($this->routes as $pos => $route) {
+            if (is_array($route)) {
                 $this->resolveRoute($pos, $route);
-
-            else if ($route instanceof RouteGroup)
+            } elseif ($route instanceof RouteGroup) {
                 $this->resolveRoute($pos, $route->routes);
+            }
         }
     }
 
@@ -70,15 +69,12 @@ class RouteGroup
      */
     public function update()
     {
-        foreach ($this->routes as $route)
-        {
-            if ($this->name != "")
+        foreach ($this->routes as $route) {
+            if ($this->name != "") {
                 $route->name = $this->name . ":" . $route->name;
+            }
             $route->middleware($this->middlewares);
             $route->prefix($this->prefix);
         }
     }
-
-
 }
- 

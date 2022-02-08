@@ -23,7 +23,6 @@ function help()
 {
     echo textFormat("\n\u{1F34B} Lemon help\n", "33");
     echo HELP;
- 
 }
 
 // Shows info about project
@@ -44,5 +43,3 @@ function version()
     echo textFormat("\n\u{1F34B} Lemon version\n", "33");
     echo "\n->{$version}\n";
 }
-
-

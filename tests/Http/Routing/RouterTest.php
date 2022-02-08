@@ -24,15 +24,15 @@ class RouterTest extends TestCase
 
         $this->assertSame(400, $router->dispatch(Request::emulate('/foo', 'get'))->status_code);
 
-        foreach ($router->request_methods as $method)
+        foreach ($router::REQUEST_METHODS as $method)
             $router->$method('/bar', fn() => 'bar ' . $method);
 
-        foreach ($router->request_methods as $method)
+        foreach ($router::REQUEST_METHODS as $method)
             $this->assertSame('bar ' . $method, $router->dispatch(Request::emulate('/bar', $method))->body);
 
         $router->any('/baz', fn() => 'baz');
 
-        foreach ($router->request_methods as $method)
+        foreach ($router::REQUEST_METHODS as $method)
             $this->assertSame('baz', $router->dispatch(Request::emulate('/baz', $method))->body);
 
     }

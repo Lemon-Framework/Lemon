@@ -18,7 +18,7 @@ class Session
      * @param string $name
      *
      * */
-    static function setName($name)
+    public static function setName($name)
     {
         session_name($name);
     }
@@ -28,10 +28,8 @@ class Session
      * Starts session
      *
      * */
-    static function start()
+    public static function start()
     {
         session_start();
     }
 }
-
-

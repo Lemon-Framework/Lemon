@@ -1,7 +1,6 @@
 <?php
 
-if (!function_exists("getParamTypes"))
-{
+if (!function_exists("getParamTypes")) {
     /**
      * Returns callback parameter types
      *
@@ -13,20 +12,20 @@ if (!function_exists("getParamTypes"))
     {
         $types = [];
 
-        if (is_array($callback))
+        if (is_array($callback)) {
             $reflected = new ReflectionMethod($callback[0], $callback[1]);
-        else
+        } else {
             $reflected = new ReflectionFunction($callback);
+        }
         $params = $reflected->getParameters();
-        foreach ($params as $param)
-        {
+        foreach ($params as $param) {
             $type = $param->getType();
-            if (!$type)
+            if (!$type) {
                 $type = "mixed";
+            }
             $types[array_search($param, $params)] = (string) $type;
         }
 
         return $types;
-
     }
 }
