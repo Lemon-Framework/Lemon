@@ -4,6 +4,8 @@
 
 Use https://www.php.net/manual/en/pdo.connections.php
 
+models: DB::(User)->getAll()->where(name === "Frajer")
+
 ## Views
 
 Disable ability to <?php pls
@@ -13,3 +15,7 @@ Disable ability to <?php pls
 ## Mails
 
 - Name Envelope
+
+## utils
+
+https://www.php.net/manual/en/class.arrayaccess.php

@@ -2,34 +2,88 @@
 
 namespace Lemon\Support\Types;
 
+use ArrayAccess;
 use Exception;
+use Iterator;
 
-/**
- * TODO Docblocks
- */
-class Array_
+class Array_ implements Iterator, ArrayAccess
 {
-    public static function fromJson(String|String_ $subject)
-    {
-        return json_decode($subject, true);
-    }
+    /** 
+     * Array content 
+     * 
+     * @var array
+     */
+    public array $content;
 
-    public static function range(int $from, int $to, int $increment=1)
-    {
-        return new Array_(range($from, $to, $increment));
-    }
+    /** 
+     * Array lenght 
+     *
+     * @var int
+     */
+    public int $lenght;
 
-    /** Array content */
-    public $content;
-
-    /** Arary lenght */
-    public $lenght;
+    /** Iterating position */
+    private int $position = 0;
 
     public function __construct(array|Array_ $content=[])
     {
         $content = $content instanceof Array_ ? $content->content : $content;
         $this->content = $content;
         $this->lenght = sizeof($content);
+    }
+
+    public function current()
+    {
+        return $this->content[$this->position];
+    }
+
+    public function key()
+    {
+        return $this->position;
+    }
+
+    public function next()
+    {
+        $this->position++;
+    }
+
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    public function valid()
+    {
+        return isset($this->content[$this->position]);
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->content[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        if ($offset < 0) {
+            $offset = $this->lenght - 1 + $offset;
+        }
+        if (isset($this->content[$offset])) {
+            return $this->content[$offset];
+        }
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->content[] = $value;
+        } else {
+            $this->content[$offset] = $value;
+        }
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->content[$offset]);
     }
 
     public function __get($key)
@@ -45,13 +99,22 @@ class Array_
         $this->content[$key] = $value;
     }
 
-    public function push(...$values)
+    /**
+     * Pushes value to the top of array
+     *
+     * @param mixed ...$values 
+     * @return self
+     */
+    public function push(...$values): self
     {
         array_push($this->content, ...$values);
         $this->lenght();
         return $this;
     }
 
+    /**
+     * 
+     */
     public function pop()
     {
         array_pop($this->content);
@@ -59,6 +122,9 @@ class Array_
         return $this;
     }
 
+    // regex for parsing functions to create docblocker because this is pain
+    // dont mind this
+    // (public\s+)?function\s+(\w+)\(((.*?)\s*(...)?$(.+?))+\)(:\s*(\w+))?
     public function lenght()
     {
         $this->lenght = sizeof($this->content);
@@ -182,4 +248,10 @@ class Array_
     {
         return in_array($needle, $this->content);
     }
+
+    public function has($needle)
+    {
+        return $this->contains($needle);
+    }
 }
+

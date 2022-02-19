@@ -27,7 +27,8 @@
             "src/Lemon/Support/Http/status_codes.php",
             "src/Lemon/Support/Http/Routing/Helpers.php",
             "src/Lemon/Support/loader.php",
-            "src/Lemon/Support/load.php"
+            "src/Lemon/Support/load.php",
+            "src/Lemon/Support/Types/helpers.php"
         ]
     },
     "autoload-dev": {

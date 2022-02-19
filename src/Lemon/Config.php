@@ -7,7 +7,7 @@ use Lemon\Zest;
 /**
  * Static layer over Lemon Config
  *
- * @method
+ * @method static \Lemon\Support\Types\Array_ part(string $part) Returns part of config 
  */
 class Config extends Zest
 {

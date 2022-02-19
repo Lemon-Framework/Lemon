@@ -1,7 +1,10 @@
 <?php
 
 use Lemon\Kernel\Lifecycle;
+use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Arr;
+
+// TODO remove, switch to Lifecycle::init() since it makes more sense
 
 /*
 | -------------------------------------------------------------------------------------
@@ -28,7 +31,7 @@ if (!defined('LEMON_MODE')) {
     );
 }
 
-$dir = $_SERVER['DOCUMENT_ROOT'];
+$dir = Filesystem::parent($_SERVER['DOCUMENT_ROOT']);
 
 if (LEMON_MODE == 'web') {
     if (is_file($file = $dir . '/../maintenance.php')) {

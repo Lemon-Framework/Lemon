@@ -2,7 +2,9 @@
 
 namespace Lemon\Support\Types;
 
-class String_
+use Stringable;
+
+class String_ implements Stringable
 {
     /** String content */
     public $content;
@@ -33,7 +35,7 @@ class String_
      * @param int $lenght=0
      * @return Array_
      */
-    public function split(String|String_ $separator="", int $lenght=0): Array_
+    public function split(String $separator="", int $lenght=0): Array_
     {
         return new Array_(
             $separator == "" ? str_split($separator, $lenght) : explode($separator, $this->content)
@@ -103,33 +105,36 @@ class String_
      * @param String|String_ $substring
      * @return bool
      */
-    public function contains(String|String_ $substring): bool
+    public function contains(String $substring): bool
     {
-        return is_int(
-            strpos($this->content, $substring)
-        );
+        return str_contains($this->content, $substring);
+    }
+
+    public function has(String $substring): bool
+    {
+        return $this->contains($substring);
     }
 
     /**
      * Returns whenever string starts with given substring
      *
-     * @param String|String_ $substring
+     * @param String $substring
      * @return bool
      */
-    public function startsWith(String|String_ $substring): bool
+    public function startsWith(String $substring): bool
     {
-        return strpos($this->content, $substring) === 0;
+        return str_starts_with($this->content, $substring); 
     }
 
     /**
      * Returns whenever string ends with given substring
      *
-     * @param String|String_ $substring
+     * @param String $substring
      * @return bool
      */
-    public function endsWith(String|String_ $substring): bool
+    public function endsWith(string $substring): bool
     {
-        return $substring === '' || substr($this->content, -strlen($substring)) === $substring;
+        return str_ends_with($this->content, $substring);
     }
 
     /**
@@ -139,7 +144,7 @@ class String_
      * @param String|String_ $replace
      * @return String_
      */
-    public function replace(String|String_ $search, String|String_ $replace): String_
+    public function replace(String $search, String $replace): self 
     {
         $this->content = str_replace($search, $replace, $this->content);
         return $this;
@@ -150,7 +155,7 @@ class String_
      *
      * @return String_
      */
-    public function shuffle(): String_
+    public function shuffle(): self 
     {
         $this->content = str_shuffle($this->content);
         return $this;
@@ -161,7 +166,7 @@ class String_
      *
      * @return String_
      */
-    public function reverse(): String_
+    public function reverse(): self 
     {
         $this->content = strrev($this->content);
         return $this;
@@ -173,7 +178,7 @@ class String_
      * @param String $subject
      * @return
      */
-    public static function from(String $subject): String_
+    public static function from(String $subject): self 
     {
         return new String_($subject);
     }

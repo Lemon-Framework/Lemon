@@ -12,6 +12,7 @@ use Lemon\Exceptions\Handling\Handler;
 use Lemon\Http\Request;
 use Lemon\Http\Routing\Dispatcher;
 use Lemon\Http\Routing\Router;
+use Lemon\Support\Filesystem;
 use Lemon\Support\Http\Routing\Route;
 use Lemon\Support\Types\Str;
 use Lemon\Terminal\Terminal;
@@ -99,20 +100,33 @@ class Lifecycle
     }
 
     /**
-     * Returns config unit instance or config value from given unit
+     * Returns config part or item from config part 
      *
      * @param string $unit
      * @param string $key?
      * @return mixed
      */
-    public function config(string $unit, string $key=null): mixed
+    public function config(string $part, string $key=null): mixed
     {
-        $matched = $this->config->{'get' . Str::capitalize($unit)}();
+        $matched = $this->config->part($part);
         if ($key) {
             return $matched->$key;
         }
 
         return $matched;
+    }
+
+    /**
+     * Returns path of specific file in current project
+     *
+     * @param string @path
+     * @return string
+     */
+    public function file(string $path): string
+    {
+        return Filesystem::join($this->directory, 
+            Str::replace($path, '.', DIRECTORY_SEPARATOR)
+        );
     }
 
     /**

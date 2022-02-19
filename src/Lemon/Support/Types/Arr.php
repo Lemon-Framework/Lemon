@@ -19,4 +19,14 @@ class Arr
 
         throw new Exception("Call to undefined method Arr::{$name}()");
     }
+
+    public static function fromJson(String|String_ $subject)
+    {
+        return json_decode($subject, true);
+    }
+
+    public static function range(int $from, int $to, int $increment=1)
+    {
+        return new Array_(range($from, $to, $increment));
+    }
 }

@@ -3,7 +3,10 @@
 namespace Lemon\Config;
 
 use Exception;
+use Lemon\Exceptions\ConfigException;
 use Lemon\Kernel\Lifecycle;
+use Lemon\Support\Filesystem;
+use Lemon\Support\Types\Array_;
 
 /**
  * Main interface for storing config data in organised way
@@ -19,12 +22,9 @@ class Config
      */
     public Lifecycle $lifecycle;
 
-    /**
-     * Array of all config units (components)
-     */
-    public array $units = [
-        'Init' => null
-    ];
+    public array $data = [];
+
+    public const BASE = 'Parts';
 
     /**
      * Creates new config instance
@@ -34,28 +34,20 @@ class Config
     public function __construct(Lifecycle $lifecycle)
     {
         $this->lifecycle = $lifecycle;
-        $this->loadUnits();
     }
 
-    /**
-     * Loads all config units
-     *
-     * @return void
-     */
-    private function loadUnits(): void
+    public function part(string $name): Array_
     {
-        $base = __NAMESPACE__;
-        foreach ($this->units as $unit => $_) {
-            $this->units[$unit] = new ($base . '\\Units\\' . $unit)($this);
-        }
-    }
-
-    public function __call($name, $_)
-    {
-        if (preg_match('/get([A-Z][a-z]+)/', $name, $matches)) {
-            return $this->units[$matches[1]];
+        $path = Filesystem::join(__DIR__, self::BASE, $name) . '.php';
+        if (!Filesystem::isFile($path)) {
+            throw new ConfigException('Config part ' . $name . ' does not exist');
         }
 
-        throw new Exception('Call to undefined method Config::' . $name . '()');
+        if (!isset($this->data[$name])) {
+            $this->data[$name] = new Array_(require_once $path);
+        }
+
+        return $this->data[$name];
     }
+
 }

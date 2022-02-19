@@ -30,4 +30,15 @@ class Str
 
         throw new Exception("Call to undefined method Str::{$name}()");
     }
+
+    /**
+     * Creates new String_ instance
+     *
+     * @param String $subject
+     * @return
+     */
+    public static function from(String $subject): String_
+    {
+        return new String_($subject);
+    }
 }
