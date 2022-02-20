@@ -113,30 +113,54 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * 
+     * Pops item from the top of array
+     *
+     * @return self
      */
-    public function pop()
+    public function pop(): self
     {
         array_pop($this->content);
         $this->lenght();
         return $this;
     }
 
-    // regex for parsing functions to create docblocker because this is pain
-    // dont mind this
-    // (public\s+)?function\s+(\w+)\(((.*?)\s*(...)?$(.+?))+\)(:\s*(\w+))?
-    public function lenght()
+    /**
+     * Returns size of array
+     *
+     * @return int
+     */
+    public function lenght(): int
     {
         $this->lenght = sizeof($this->content);
         return $this->lenght;
     }
 
-    public function json()
+    /**
+     * Returns size of array
+     *
+     * @return int
+     */
+    public function size(): int
+    {
+        return $this->lenght;
+    }
+
+    /**
+     * Converts array to json
+     *
+     * @return string
+     */
+    public function json(): string
     {
         return json_encode($this->content);
     }
 
-    public function export()
+    /**
+     * Exports nested Array_ as regular array
+     *
+     * @return array
+     */
+    public function export(): array
     {
         $parsed_arrays = new Array_();
         foreach ($this->content as $array) {
@@ -146,61 +170,126 @@ class Array_ implements Iterator, ArrayAccess
         return $parsed_arrays->content;
     }
 
-    public function chunk(int $lenght)
+    /**
+     * Splits array into chunks
+     *
+     * @param int $lenght
+     * @return self
+     */
+    public function chunk(int $lenght): self
     {
         $this->content = array_chunk($this->content, $lenght);
         return $this;
     }
 
-    public function hasKey($key)
+    /**
+     * Determins whenever array contains given key
+     *
+     * @param mixed $key
+     * @return bool
+     */
+    public function hasKey($key): bool
     {
         return array_key_exists($key, $this->content);
     }
 
-    public function filter(callable $callback)
+    /**
+     * Filters array by given callback
+     *
+     * @param callable $callback
+     * @return self
+     */
+    public function filter(callable $callback): self
     {
         $this->content = array_filter($this->content, $callback);
         $this->lenght();
         return $this;
     }
 
-    public function firstKey()
+    /**
+     * Returns first key of array
+     *
+     * @return mixed
+     */
+    public function firstKey(): mixed
     {
         return array_key_first($this->content);
     }
 
-    public function lastKey()
+    /**
+     * Returns last key of array
+     *
+     * @return mixed
+     */
+    public function lastKey(): mixed
     {
         return array_key_last($this->content);
     }
 
-    public function first()
+    /**
+     * Returns first item from array
+     *
+     * @return mixed
+     */
+    public function first(): mixed
     {
         return $this->content[$this->firstKey()];
     }
 
-    public function last()
+    /**
+     * Returns last item from array
+     *
+     * @return mixed
+     */
+    public function last(): mixed
     {
         return $this->content[$this->lastKey()];
     }
 
-    public function keys()
+    /**
+     * Returns all array keys
+     *
+     * @return self
+     */
+    public function keys(): self
     {
-        return new Array_(array_keys($this->content));
+        return new self(array_keys($this->content));
     }
 
-    public function values()
+    /**
+     * Returns all array items
+     *
+     * @return self
+     */
+    public function values(): self
     {
         return new Array_(array_values($this->content));
     }
 
-    public function map(callable $callback)
+    public function items(): self
+    {
+        return $this->values();
+    }
+
+    /**
+     * Applies given callback to each item of array
+     *
+     * @param callable $callback
+     * @return self
+     */
+    public function map(callable $callback): self
     {
         $this->content = array_map($callback, $this->content);
         return $this;
     }
 
-    public function merge(array|Array_ ...$arrays)
+    /**
+     * Merges all given arrays into curent
+     *
+     * @param array|Array_ ...$arrays
+     * @return self
+     */
+    public function merge(array|Array_ ...$arrays): self
     {
         $arrays = (new Array_($arrays))->export();
         $this->content = array_merge($this->content, ...$arrays);
@@ -208,48 +297,94 @@ class Array_ implements Iterator, ArrayAccess
         return $this;
     }
 
-    public function random(int $count=1)
+    /**
+     * Returns random item from array
+     *
+     * @param int $count=1
+     * @return mixed
+     */
+    public function random(int $count=1): mixed
     {
         return array_rand($this->content, $count);
     }
 
-    public function shuffle()
+    /**
+     * Randomly shuffles array
+     *
+     * @return self
+     */
+    public function shuffle(): self
     {
         $this->content = shuffle($this->content);
         return $this;
     }
 
-    public function replace(array|Array_ ...$replacements)
+    /**
+     * Replaces elements from passed arrays into array
+     *
+     * @param array|Array_ ...$replacements
+     * @return self
+     */
+    public function replace(array|Array_ ...$replacements): self
     {
-        $replacements = (new Array_($replacements))->export();
+        $replacements = (new self($replacements))->export();
         $this->content = array_replace($this->content, ...$replacements);
         $this->lenght();
         return $this;
     }
 
-    public function reverse()
+    /**
+     * Puts item in array in reverse order
+     *
+     * @return self
+     */
+    public function reverse(): self
     {
         $this->content = array_reverse($this->content);
         return $this;
     }
 
+    /**
+     * Extract a slice of the array
+     *
+     * @param int $start
+     * @param mixed int $lenght
+     * @return void
+     */
     public function slice(int $start, int $lenght)
     {
         $this->content = array_slice($this->content, $start, $lenght);
         return $this;
     }
 
-    public function sum()
+    /**
+     * Returns sum of array
+     *
+     * @return int|float
+     */
+    public function sum(): int|float
     {
         return array_sum($this->content);
     }
 
-    public function contains($needle)
+    /**
+     * Determins whenever array contains given needle
+     *
+     * @param mixed $needle
+     * @return bool
+     */
+    public function contains($needle): bool
     {
         return in_array($needle, $this->content);
     }
 
-    public function has($needle)
+    /**
+     * Determins whenever array contains given needle
+     *
+     * @param mixed $needle
+     * @return bool
+     */
+    public function has($needle): bool
     {
         return $this->contains($needle);
     }
