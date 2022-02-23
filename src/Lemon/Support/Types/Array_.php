@@ -32,37 +32,37 @@ class Array_ implements Iterator, ArrayAccess
         $this->lenght = sizeof($content);
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->content[$this->position];
     }
 
-    public function key()
+    public function key(): mixed
     {
         return $this->position;
     }
 
-    public function next()
+    public function next(): void
     {
         $this->position++;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->content[$this->position]);
     }
 
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->content[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         if ($offset < 0) {
             $offset = $this->lenght - 1 + $offset;
@@ -72,7 +72,7 @@ class Array_ implements Iterator, ArrayAccess
         }
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->content[] = $value;
@@ -81,7 +81,7 @@ class Array_ implements Iterator, ArrayAccess
         }
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->content[$offset]);
     }
