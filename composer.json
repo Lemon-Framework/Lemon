@@ -20,8 +20,6 @@
             "Lemon\\": "src/Lemon"
         },
         "files": [
-            "src/Lemon/Kernel/init.php",
-            "src/Lemon/Support/Utils/dd.php",
             "src/Lemon/Support/Http/page.php",
             "src/Lemon/Support/Http/shorthands.php",
             "src/Lemon/Support/Http/status_codes.php",

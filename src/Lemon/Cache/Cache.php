@@ -3,6 +3,7 @@
 namespace Lemon\Cache;
 
 use Lemon\Kernel\Lifecycle;
+use Lemon\Support\Filesystem;
 
 class Cache
 {
@@ -17,14 +18,20 @@ class Cache
 
     public function load()
     {
-        $file = $this->lifecycle
-        // nacte vec
+        $directory = $this->lifecycle->config('cache', 'storage');
+        $path = $this->lifecycle->file($directory);
+        if (!Filesystem::isDir($directory)) {
+            Filesystem::makeDir($path);
+            Filesystem::write(Filesystem::join($path, '.gitignore'), "*\n!.gitignore");
+        }
+
+        
+
     }
 
     public function getData()
     {
-        if (!$this->data)
-        
+        return $this->data;
     }
 
     public function get(string $key)

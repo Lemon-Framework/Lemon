@@ -2,7 +2,6 @@
 
 namespace Lemon\Config;
 
-use Exception;
 use Lemon\Exceptions\ConfigException;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Filesystem;
@@ -10,8 +9,6 @@ use Lemon\Support\Types\Array_;
 
 /**
  * Main interface for storing config data in organised way
- *
- * @method \Lemon\Config\Units\Init getInit()
  */
 class Config
 {

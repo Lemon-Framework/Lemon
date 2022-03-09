@@ -2,6 +2,7 @@
 
 namespace Lemon\Exceptions\Handling;
 
+use Lemon\Http\Response;
 use Lemon\Kernel\Lifecycle;
 
 class Handler
@@ -25,7 +26,7 @@ class Handler
             echo $this->problem;
         } // TODO REPORTER
         else {
-            raise(500)->terminate();
+            (new Response('', 500))->terminate();
         }
     }
 }

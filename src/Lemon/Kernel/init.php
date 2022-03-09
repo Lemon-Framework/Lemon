@@ -16,7 +16,11 @@ use Lemon\Support\Types\Arr;
 |
 */
 
+return;
 
+// DEPRECATED
+// TODO SWITCH TO LIFECYCLE::INIT
+// NEZ MI PRASKNE CEVKA
 
 // If vendor/autoload.php is loaded in console context or with constant LEMON_NO_INIT
 if (defined('LEMON_NO_INIT')) {

@@ -25,9 +25,8 @@ class Array_ implements Iterator, ArrayAccess
     /** Iterating position */
     private int $position = 0;
 
-    public function __construct(array|Array_ $content=[])
+    public function __construct(array $content=[])
     {
-        $content = $content instanceof Array_ ? $content->content : $content;
         $this->content = $content;
         $this->lenght = sizeof($content);
     }
@@ -65,10 +64,12 @@ class Array_ implements Iterator, ArrayAccess
     public function offsetGet(mixed $offset): mixed
     {
         if ($offset < 0) {
-            $offset = $this->lenght - 1 + $offset;
+            $offset = $this->lenght + $offset;
         }
         if (isset($this->content[$offset])) {
             return $this->content[$offset];
+        } else {
+            throw new Exception("Undefined array key $offset");
         }
     }
 
@@ -349,12 +350,11 @@ class Array_ implements Iterator, ArrayAccess
      *
      * @param int $start
      * @param mixed int $lenght
-     * @return void
+     * @return self
      */
-    public function slice(int $start, int $lenght)
+    public function slice(int $start, int $lenght = null): self
     {
-        $this->content = array_slice($this->content, $start, $lenght);
-        return $this;
+        return new self(array_slice($this->content, $start, $lenght));
     }
 
     /**
