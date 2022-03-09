@@ -13,7 +13,11 @@ trust me
 TODO:
 
 - [x] setup unit testing
-    - [ ] proper unit testing
+- [ ] split routing from http
+- [x] array slicing ["1..2"]
+- [ ] tests for array
+- [ ] tests for string
+- [ ] tests for kernel
 - [ ] new kernel
 - [ ] database
 - [ ] new lemonade kernel

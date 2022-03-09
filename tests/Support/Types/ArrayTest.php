@@ -25,4 +25,11 @@ class ArrayTest extends TestCase
         $this->assertSame('bar', $asoc['foo']);
         $this->assertSame('bar', $asoc->foo);
     }
+
+    public function testOffsetSlicing()
+    {
+        $array = new Array_([1, 2, 3, 4, 5]);
+        $this->assertSame([2, 3, 4], $array['1..3']->content);
+        $this->assertSame([2, 3, 4, 5], $array['1..']->content);
+    }
 }
