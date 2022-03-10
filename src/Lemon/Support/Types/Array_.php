@@ -15,20 +15,12 @@ class Array_ implements Iterator, ArrayAccess
      */
     public array $content;
 
-    /** 
-     * Array lenght 
-     *
-     * @var int
-     */
-    public int $lenght;
-
     /** Iterating position */
     private int $position = 0;
 
     public function __construct(array $content=[])
     {
         $this->content = $content;
-        $this->lenght = sizeof($content);
     }
 
     public function current(): mixed
@@ -68,8 +60,10 @@ class Array_ implements Iterator, ArrayAccess
             $len = isset($matches[2]) ? (int) $matches[2] - $matches[1] + 1 : null;
             return $this->slice($from, $len);
         }
-        if ($offset < 0) {
-            $offset = $this->lenght + $offset;
+        if (is_int($offset)) {
+            if ($offset < 0) {
+                $offset = $this->lenght() + $offset;
+            }
         }
         if (isset($this->content[$offset])) {
             return $this->content[$offset];
@@ -92,42 +86,64 @@ class Array_ implements Iterator, ArrayAccess
         unset($this->content[$offset]);
     }
 
-    public function __get($key)
+    /**
+     * Returns value for given key
+     *
+     * @param mixed $key
+     * @param mixed
+     */
+    public function get($key): mixed
     {
         if (!isset($this->content[$key])) {
-            throw new Exception("Undefined array key $key");
+    throw new Exception("Undefined array key $key");
         }
         return $this->content[$key];
     }
 
-    public function __set($key, $value)
+    /**
+     * Sets value for given key
+     *
+     * @param mixed $key
+     * @param mixed $value
+     * @return self
+     */
+    public function set($key, $value): self
     {
         $this->content[$key] = $value;
+        return $this;
+    }
+
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+
+    public function __set($key, $value)
+    {
+        $this->set($key, $value);
     }
 
     /**
      * Pushes value to the top of array
-     *
+    *
      * @param mixed ...$values 
      * @return self
      */
     public function push(...$values): self
     {
-        array_push($this->content, ...$values);
-        $this->lenght();
+    array_push($this->content, ...$values);
         return $this;
     }
 
     /**
      * Pops item from the top of array
      *
-     * @return self
+     * @return mixed
      */
-    public function pop(): self
+    public function pop(): mixed
     {
-        array_pop($this->content);
-        $this->lenght();
-        return $this;
+        $value = array_pop($this->content);
+        return $value;
     }
 
     /**
@@ -137,8 +153,7 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function lenght(): int
     {
-        $this->lenght = sizeof($this->content);
-        return $this->lenght;
+        return sizeof($this->content);
     }
 
     /**
@@ -148,12 +163,12 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function size(): int
     {
-        return $this->lenght;
+    return $this->lenght();
     }
 
     /**
      * Converts array to json
-     *
+    *
      * @return string
      */
     public function json(): string
@@ -168,12 +183,12 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function export(): array
     {
-        $parsed_arrays = new Array_();
-        foreach ($this->content as $array) {
-            $parsed_arrays->push($array instanceof Array_ ? $array->export() : $array);
+        $parsed_arrays = [];
+        foreach ($this->content as $key => $value) {
+            $parsed_arrays[$key] = $value instanceof self ? $value->export() : $value;
         }
 
-        return $parsed_arrays->content;
+        return $parsed_arrays;
     }
 
     /**
@@ -182,10 +197,19 @@ class Array_ implements Iterator, ArrayAccess
      * @param int $lenght
      * @return self
      */
-    public function chunk(int $lenght): self
+    public function chunk(int $lenght): self 
     {
-        $this->content = array_chunk($this->content, $lenght);
-        return $this;
+        $array = new self([new self()]);
+        $counter = 0;
+        foreach ($this as $item) {
+            $counter++;
+            $array[-1][] = $item;
+            if ($counter == $lenght) {
+                $array[] = new self();
+                $counter = 0;
+            }
+        }
+        return $array;
     }
 
     /**
@@ -207,9 +231,7 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function filter(callable $callback): self
     {
-        $this->content = array_filter($this->content, $callback);
-        $this->lenght();
-        return $this;
+        return new self(array_filter($this->content, $callback));
     }
 
     /**
@@ -269,7 +291,7 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function values(): self
     {
-        return new Array_(array_values($this->content));
+        return new self(array_values($this->content));
     }
 
     public function items(): self
@@ -285,8 +307,7 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function map(callable $callback): self
     {
-        $this->content = array_map($callback, $this->content);
-        return $this;
+        return new self(array_map($callback, $this->content));
     }
 
     /**
@@ -298,9 +319,7 @@ class Array_ implements Iterator, ArrayAccess
     public function merge(array|Array_ ...$arrays): self
     {
         $arrays = (new Array_($arrays))->export();
-        $this->content = array_merge($this->content, ...$arrays);
-        $this->lenght();
-        return $this;
+        return new self(array_merge($this->content, ...$arrays));
     }
 
     /**
@@ -321,12 +340,13 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function shuffle(): self
     {
-        $this->content = shuffle($this->content);
-        return $this;
+        $content = $this->content;
+        shuffle($content);
+        return new self($content);
     }
 
     /**
-     * Replaces elements from passed arrays into array
+     * Replaces values in array with values from passed arrays
      *
      * @param array|Array_ ...$replacements
      * @return self
@@ -334,9 +354,7 @@ class Array_ implements Iterator, ArrayAccess
     public function replace(array|Array_ ...$replacements): self
     {
         $replacements = (new self($replacements))->export();
-        $this->content = array_replace($this->content, ...$replacements);
-        $this->lenght();
-        return $this;
+        return new self(array_replace($this->content, ...$replacements));
     }
 
     /**
@@ -346,8 +364,7 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function reverse(): self
     {
-        $this->content = array_reverse($this->content);
-        return $this;
+        return new self(array_reverse($this->content));
     }
 
     /**
