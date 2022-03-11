@@ -15,8 +15,7 @@ TODO:
 - [x] setup unit testing
 - [ ] split routing from http
 - [x] array slicing ["1..2"]
-- [ ] tests for array
-    - allmost done but tests for changing the array
+- [x] tests for array
 - [ ] array->hasSimilar
 - [ ] other cool array methods propably BUT not that much ok do it while writing pls
 - [ ] tests for string
