@@ -323,14 +323,25 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Returns random item from array
+     * Returns random key from array
      *
      * @param int $count=1
      * @return mixed
      */
-    public function random(int $count=1): mixed
+    public function randomKey(int $count = 1): mixed
     {
         return array_rand($this->content, $count);
+    }
+
+    /**
+     * Returns random item from array
+     *
+     * @param int $count = 1
+     * @return mixed
+     */
+    public function random(int $count = 1): mixed
+    {
+        return $this->content[$this->randomKey($count)];
     }
 
     /**

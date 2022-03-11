@@ -7,10 +7,7 @@ use Stringable;
 class String_ implements Stringable
 {
     /** String content */
-    public $content;
-
-    /** String lenght */
-    public $lenght;
+    public string $content;
 
     /**
      * Lemon string type
@@ -19,8 +16,27 @@ class String_ implements Stringable
      */
     public function __construct(String $subject)
     {
-        $this->content = $subject;
-        $this->lenght = strlen($subject);
+        $this->content = $subject; 
+    }
+
+    /**
+     * Returns size of string
+     *
+     * @return int
+     */
+    public function size(): int
+    {
+        return strlen($this->content);
+    }
+
+    /**
+     * Returns size of string
+     *
+     * @return int
+     */
+    public function len(): int
+    {
+        return strlen($this->content);
     }
 
     public function __toString()
@@ -29,16 +45,15 @@ class String_ implements Stringable
     }
 
     /**
-     * Splits string to array by separator or lenght
+     * Splits string to array by separator 
      *
-     * @param String|String_ $separator=""
-     * @param int $lenght=0
+     * @param String $separator
      * @return Array_
      */
-    public function split(String $separator="", int $lenght=0): Array_
+    public function split(string $separator): Array_
     {
         return new Array_(
-            $separator == "" ? str_split($separator, $lenght) : explode($separator, $this->content)
+            explode($separator, $this->content)
         );
     }
 
@@ -46,9 +61,9 @@ class String_ implements Stringable
      * Joins given Array items with string
      *
      * @param Array|Array_ $array
-     * @return String_
+     * @return self
      */
-    public function join(array|Array_ $array): String_
+    public function join(array $array): self
     {
         return String_::from(
             implode($this->content, $array)
@@ -58,9 +73,9 @@ class String_ implements Stringable
     /**
      * Converts first character to uppercase
      *
-     * @return String_
+     * @return self
      */
-    public function capitalize(): String_
+    public function capitalize(): self 
     {
         $this->content = ucfirst($this->content);
         return $this;
@@ -69,9 +84,9 @@ class String_ implements Stringable
     /**
      * Converts first character to lovercase
      *
-     * @return String_
+     * @return self
      */
-    public function decapitalize(): String_
+    public function decapitalize(): self
     {
         $this->content = lcfirst($this->content);
         return $this;
@@ -80,9 +95,9 @@ class String_ implements Stringable
     /**
      * Converts string to lovercase
      *
-     * @return String_
+     * @return self
      */
-    public function toLower(): String_
+    public function toLower(): self
     {
         $this->content = strtolower($this->content);
         return $this;
@@ -91,9 +106,9 @@ class String_ implements Stringable
     /**
      * Converts string to uppercase
      *
-     * @return String_
+     * @return self
      */
-    public function toUpper(): String_
+    public function toUpper(): self
     {
         $this->content = strtoupper($this->content);
         return $this;

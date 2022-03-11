@@ -157,10 +157,17 @@ class ArrayTest extends TestCase
         $this->assertSame([1], $array->content);
     } 
 
+    public function testRandomKey()
+    {
+        $array = new Array_(['foo' => 1, 2 => 'bar']);
+        $this->assertContains($array->randomKey(), $array->keys()->content);
+        $this->assertSame(['foo' => 1, 2 => 'bar'], $array->content);
+    }
+
     public function testRandom()
     {
         $array = new Array_([1, 2, 3, 4]);
-        $this->assertContains($array->random(), $array);
+        $this->assertContains($array->random(), $array->content);
         $this->assertSame([1, 2, 3, 4], $array->content);
     }
 

@@ -30,7 +30,7 @@ $content = preg_replace_callback('/(\/\/(.*?)\n(\s*)(?:public|private|protected)
 }, $content);
 
 $content = preg_replace_callback('/\/\/(.+)\n(\s*)(?:public|private|protected)\s*(.*?)\s*\$.*?;/', function($matches) {
-    $ta = $matches[2];
+    $tab = $matches[2];
     $docblock = '/**' . PHP_EOL;
     $docblock .= $tab . ' * ' . trim($matches[1]) . PHP_EOL;
     $docblock .= $tab . ' *' . PHP_EOL;
@@ -40,4 +40,4 @@ $content = preg_replace_callback('/\/\/(.+)\n(\s*)(?:public|private|protected)\s
     return preg_replace('/\/\/.+/', $docblock, $matches[0]);
 }, $content);
 
-file_put_contents($file, $content);b
+file_put_contents($file, $content);

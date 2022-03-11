@@ -18,7 +18,8 @@ TODO:
 - [x] tests for array
 - [ ] array->hasSimilar
 - [ ] other cool array methods propably BUT not that much ok do it while writing pls
-- [ ] tests for string
+- [x] tests for string
+- [ ] tests for arr and str
 - [ ] tests for kernel
 - [ ] new kernel
 - [ ] database
