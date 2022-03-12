@@ -45,23 +45,28 @@ class Arr
         throw new Exception("Call to undefined method Arr::{$name}()");
     }
 
-    public static function fromJson(string $subject)
+    public static function fromJson(string $subject): Array_
     {
-        return json_decode($subject, true);
+        return new Array_(json_decode($subject, true));
     }
 
-    public static function from(array $array)
+    public static function from(array $array): Array_
     {
         return new Array_($array);
     }
 
-    public static function of(...$data)
+    public static function of(...$data): Array_
     {
         return new Array_($data);
     }
 
-    public static function range(int $from, int $to, int $increment=1)
+    public static function range(int $from, int $to, int $increment = 1): Array_
     {
         return new Array_(range($from, $to, $increment));
+    }
+
+    public static function empty(): Array_
+    {
+        return new Array_();
     }
 }

@@ -69,24 +69,33 @@ class ArrayTest extends TestCase
         $array = new Array_([20, 10]);
         $this->assertSame(10, $array->pop());
         $this->assertSame([20], $array->content);
+        $array = new Array_();
+        $this->assertNull($array->pop());
+        $this->assertSame([], $array->content);
     }
 
     public function testLenght()
     {
         $array = new Array_([1, 2, 3, 4, "foo", 0.3, [1, 2, 3]]);
         $this->assertSame(7, $array->lenght());
+        $array = new Array_();
+        $this->assertSame(0, $array->size());
     }
 
     public function testJson()
     {
         $array = new Array_([1, 2, 'foo', ['foo' => 1, 'bar' => '"baz"']]);
-        $this->assertSame('[1,2,"foo",{"foo":1,"bar":"\"baz\""}]', $array->json());
+        $this->assertSame('[1,2,"foo",{"foo":1,"bar":"\"baz\""}]', $array->json());    
+        $array = new Array_();
+        $this->assertSame('[]', $array->json());
     }
 
     public function testExport()
     {
         $array = new Array_([1, 'foo', new Array_(['bar' => new Array_(['baz', 37])])]);
         $this->assertSame([1, 'foo', ['bar' => ['baz', 37]]], $array->export());
+        $array = new Array_();
+        $this->assertSame([], $array->export());
     }
 
     public function testChunks()
@@ -94,6 +103,9 @@ class ArrayTest extends TestCase
         $array = new Array_([1, 2, 3, 4, 5]);
         $this->assertSame([[1, 2, 3], [4, 5]], $array->chunk(3)->export());
         $this->assertSame([1, 2, 3, 4, 5], $array->content);
+        $array = new Array_();
+        $this->assertSame([[]], $array->chunk(5)->export());
+
     }
 
     public function testHasKey()
@@ -111,6 +123,8 @@ class ArrayTest extends TestCase
         $array = new Array_([1, 2, 3, 4, 5, 6]);
         $this->assertSame([0 => 1, 2 => 3, 4 => 5], $array->filter(fn($item) => $item % 2)->content);
         $this->assertSame([1, 2, 3, 4, 5, 6], $array->content);
+        $array = new Array_();
+        $this->assertEmpty($array->filter(fn($item) => $item == 2)->content);
     }
 
     public function testFirst()
@@ -119,6 +133,12 @@ class ArrayTest extends TestCase
         $this->assertSame('foo', $array->firstKey());
         $this->assertSame('bar', $array->first());
         $this->assertSame(['foo' => 'bar', 'baz' => 'foo'], $array->content);
+        $array = new Array_([1, 2, 3]);
+        $this->assertSame(0, $array->firstKey());
+        $this->assertSame(1, $array->first());
+        $array = new Array_();
+        $this->assertNull($array->firstKey());
+        $this->assertNull($array->first());
     }
 
     public function testLast()
@@ -127,6 +147,15 @@ class ArrayTest extends TestCase
         $this->assertSame('baz', $array->lastKey());
         $this->assertSame('foo', $array->last());
         $this->assertSame(['foo' => 'bar', 'baz' => 'foo'], $array->content);
+        $array = new Array_([1, 2, 3]);
+        $this->assertSame(2, $array->lastKey());
+        $this->assertSame(3, $array->last());
+        $array = new Array_([1]);
+        $this->assertSame(0, $array->lastKey());
+        $this->assertSame(1, $array->last());
+        $array = new Array_();
+        $this->assertNull($array->lastKey());
+        $this->assertNull($array->last());
     }
 
     public function testKeys()
@@ -134,6 +163,8 @@ class ArrayTest extends TestCase
         $array = new Array_(['foo' => 'bar', 'baz' => 'foo']);       
         $this->assertSame(['foo', 'baz'], $array->keys()->content);
         $this->assertSame(['foo' => 'bar', 'baz' => 'foo'], $array->content);
+        $array = new Array_();
+        $this->assertEmpty($array->keys()->content);
     }
 
     public function testValues()
@@ -141,6 +172,8 @@ class ArrayTest extends TestCase
         $array = new Array_(['foo' => 'bar', 'baz' => 'foo']);       
         $this->assertSame(['bar', 'foo'], $array->values()->content);
         $this->assertSame(['foo' => 'bar', 'baz' => 'foo'], $array->content);
+        $array = new Array_();
+        $this->assertEmpty($array->values()->content);
     }
 
     public function testMap()
@@ -148,6 +181,8 @@ class ArrayTest extends TestCase
         $array = new Array_([1, 2, 3, 4, 5, 6]); 
         $this->assertSame([2, 4, 6, 8, 10, 12], $array->map(fn($item) => $item * 2)->content);
         $this->assertSame([1, 2, 3, 4, 5, 6], $array->content);
+        $array = new Array_();
+        $this->assertEmpty($array->map(fn($item) => $item * 2)->content);
     }
 
     public function testMerge()
@@ -162,6 +197,8 @@ class ArrayTest extends TestCase
         $array = new Array_(['foo' => 1, 2 => 'bar']);
         $this->assertContains($array->randomKey(), $array->keys()->content);
         $this->assertSame(['foo' => 1, 2 => 'bar'], $array->content);
+        $array = new Array_();
+        $this->assertNull($array->randomKey());
     }
 
     public function testRandom()
@@ -169,6 +206,8 @@ class ArrayTest extends TestCase
         $array = new Array_([1, 2, 3, 4]);
         $this->assertContains($array->random(), $array->content);
         $this->assertSame([1, 2, 3, 4], $array->content);
+        $array = new Array_();
+        $this->assertNull($array->random());
     }
 
     public function testShuffle()
@@ -176,6 +215,8 @@ class ArrayTest extends TestCase
         $array = new Array_([1, 2, 3, 4]);
         $array->shuffle();
         $this->assertSame([1, 2, 3, 4], $array->content);
+        $array = new Array_();
+        $this->assertEmpty($array->shuffle()->content);
     }
 
     public function testReplace()
@@ -183,6 +224,8 @@ class ArrayTest extends TestCase
         $array = new Array_([1, 2, 3, 4]);
         $this->assertSame([4, 5, 3, 6], $array->replace([4, 5], new Array_([3 => 6]))->content);
         $this->assertSame([1, 2, 3, 4], $array->content);
+        $array = new Array_();
+        $this->assertSame([1, 2, 3], $array->replace([1, 2, 3])->content);
     }
 
     public function testReverse()
@@ -190,6 +233,8 @@ class ArrayTest extends TestCase
         $array = new Array_(['foo', 'bar', 'baz']);
         $this->assertSame(['baz', 'bar', 'foo'], $array->reverse()->content);
         $this->assertSame(['foo', 'bar', 'baz'], $array->content);
+        $array = new Array_();
+        $this->assertEmpty($array->reverse()->content);
     }
 
     public function testSlice()
@@ -197,6 +242,8 @@ class ArrayTest extends TestCase
         $array = new Array_([1, 2, 3, 4, 5]);
         $this->assertSame([2, 3], $array->slice(1, 2)->content);
         $this->assertSame([1, 2, 3, 4, 5], $array->content);
+        $array = new Array_();
+        $this->assertEmpty($array->slice(1, 2)->content);
     }
 
     public function testSum()
@@ -207,6 +254,8 @@ class ArrayTest extends TestCase
         $array = new Array_(['foo', 2, 3]);
         $this->assertSame(5, $array->sum());
         $this->assertSame(['foo', 2, 3], $array->content);
+        $array = new Array_();
+        $this->assertSame(0, $array->sum());
     }
 
     public function testContains() 

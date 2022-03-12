@@ -261,7 +261,8 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function first(): mixed
     {
-        return $this->content[$this->firstKey()];
+        $key = $this->firstKey();
+        return is_null($key) ? $key : $this->content[$key] ;
     }
 
     /**
@@ -271,7 +272,8 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function last(): mixed
     {
-        return $this->content[$this->lastKey()];
+        $key = $this->lastKey();
+        return is_null($key) ? $key : $this->content[$key] ;
     }
 
     /**
@@ -330,7 +332,7 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function randomKey(int $count = 1): mixed
     {
-        return array_rand($this->content, $count);
+        return $this->content ? array_rand($this->content, $count) : null;
     }
 
     /**
@@ -341,7 +343,8 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function random(int $count = 1): mixed
     {
-        return $this->content[$this->randomKey($count)];
+        $key = $this->randomKey($count);
+        return is_null($key) ? $key : $this->content[$key];
     }
 
     /**
