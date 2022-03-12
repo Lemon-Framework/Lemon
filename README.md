@@ -20,6 +20,7 @@ TODO:
 - [ ] other cool array methods propably BUT not that much ok do it while writing pls
 - [x] tests for string
 - [x] tests for arr and str
+- [ ] filesystem
 - [ ] tests for kernel
 - [ ] new kernel
 - [ ] database
