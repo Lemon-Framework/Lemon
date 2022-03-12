@@ -5,18 +5,20 @@ namespace Lemon\Support\Types;
 use Exception;
 
 /**
- * @method static \Lemon\Support\Types\Array_ split(String|String_ $subject, String|String_ $separator="", int $lenght=0)
- * @method static \Lemon\Support\Types\String_ join(String|String_ $subject, Array|Array_ $array)
- * @method static \Lemon\Support\Types\String_ capitalize(String|String_ $subject)
- * @method static \Lemon\Support\Types\String_ decapitalize(String|String_ $subject)
- * @method static \Lemon\Support\Types\String_ toLower(String|String_ $subject)
- * @method static \Lemon\Support\Types\String_ toUpper(String|String_ $subject)
- * @method static \Lemon\Support\Types\String_ replace(String|String_ $subject, String|String_ $search, String|String_ $replace)
- * @method static \Lemon\Support\Types\String_ shuffle(String|String_ $subject)
- * @method static \Lemon\Support\Types\String_ reverse(String|String_ $subject)
- * @method static bool contains(String|String_ $subject, String|String_ $substring)
- * @method static bool startsWith(String|String_ $subject, String|String_ $substring)
- * @method static bool endsWith(String|String_ $subject, String|String_ $substring)
+ * @method static int size(string $subject) Lemon string type
+ * @method static int len(string $subject) Returns size of string
+ * @method static \Lemon\Support\Types\Array_ split(string $subject, string $separator) Splits string to array by separator 
+ * @method static \Lemon\Support\Types\String_ join(string $subject, array $array) Joins given Array items with string
+ * @method static \Lemon\Support\Types\String_ capitalize(string $subject) Converts first character to uppercase
+ * @method static \Lemon\Support\Types\String_ decapitalize(string $subject) Converts first character to lovercase
+ * @method static \Lemon\Support\Types\String_ toLower(string $subject) Converts string to lovercase
+ * @method static \Lemon\Support\Types\String_ toUpper(string $subject) Converts string to uppercase
+ * @method static bool contains(string $subject, string $substring) Returns whenever string contains given substring
+ * @method static bool startsWith(string $subject, string $substring) Returns whenever string starts with given substring
+ * @method static bool endsWith(string $subject, string $substring) Returns whenever string ends with given substring
+ * @method static \Lemon\Support\Types\String_ replace(string $subject, string $search, string $replace) Replaces all occurences of given search string with replace string
+ * @method static \Lemon\Support\Types\String_ shuffle(string $subject) Randomly shuffles string
+ * @method static \Lemon\Support\Types\String_ reverse(string $subject) Reverses string
  *
  * @see \Lemon\Support\Types\String_
  */

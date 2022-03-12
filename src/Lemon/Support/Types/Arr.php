@@ -31,14 +31,16 @@ use Exception;
  * @method static int|float sum(array $array) Extracts a slice of the array
  * @method static bool contains(array $haystack, $needle) Determins whenever array contains given needle
  * @method static bool has(array $haystack, $needle) Determins whenever array contains given needle
- * 
+ * @method static mixed get(array $array, $key) Returns value for given key
+ * @method static \Lemon\Support\Types\Array_ set(array $array, $key, $value) Sets value for given key
+ *
  * @see \Lemon\Support\Types\Array_
  */
 class Arr
 {
     public static function __callStatic($name, $arguments)
     {
-        if (in_array($name, get_class_methods(Array_::class)) && $name != "from") {
+        if (in_array($name, get_class_methods(Array_::class)) && $name != "from") {  
             return (new Array_($arguments[0]))->$name(...array_slice($arguments, 1));
         }
 

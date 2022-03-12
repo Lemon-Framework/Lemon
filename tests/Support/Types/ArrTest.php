@@ -2,6 +2,7 @@
 
 namespace Lemon\Tests\Types;
 
+use Exception;
 use Lemon\Support\Types\Arr;
 use PHPUnit\Framework\TestCase;
 
@@ -39,5 +40,12 @@ class ArrTest extends TestCase
     public function testEmpty()
     {
         $this->assertEmpty(Arr::empty()->content);
+    }
+
+    public function testCalling()
+    {
+        $this->assertSame(10, Arr::get([20, 30, 10, 40], 2));
+        $this->expectException(Exception::class);
+        Arr::klobasa();
     }
 }
