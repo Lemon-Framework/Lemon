@@ -23,11 +23,7 @@ class Session
         session_name($name);
     }
 
-    /*
-     *
-     * Starts session
-     *
-     * */
+    // Starts session
     public static function start()
     {
         session_start();

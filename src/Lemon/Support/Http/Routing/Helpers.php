@@ -1,12 +1,12 @@
 <?php
 
-if (!function_exists("getParamTypes")) {
+if (!function_exists('getParamTypes')) {
     /**
-     * Returns callback parameter types
+     * Returns callback parameter types.
      *
-     * @param Closure|String|Array $callback|$function_name
+     * @param array|Closure|string $callback|$function_name
      *
-     * @return Array
+     * @return array
      */
     function getParamTypes($callback)
     {
@@ -21,7 +21,7 @@ if (!function_exists("getParamTypes")) {
         foreach ($params as $param) {
             $type = $param->getType();
             if (!$type) {
-                $type = "mixed";
+                $type = 'mixed';
             }
             $types[array_search($param, $params)] = (string) $type;
         }

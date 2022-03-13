@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'colorscheme' => 'gruvbox'
+    'colorscheme' => 'gruvbox',
 ];

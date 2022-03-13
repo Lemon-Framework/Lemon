@@ -12,7 +12,7 @@ class StyleCollection
         'blue' => 4,
         'magenta' => 5,
         'cyan' => 6,
-        'white' => 7
+        'white' => 7,
     ];
 
     public array $classes = [
@@ -30,7 +30,7 @@ class StyleCollection
     public function resolveClass(string $class)
     {
         foreach ($this->classes as $pattern => $handler) {
-            if (preg_match("/^$pattern$/", $class, $matches)) {
+            if (preg_match("/^{$pattern}$/", $class, $matches)) {
                 return $this->{$handler}($matches);
             }
         }

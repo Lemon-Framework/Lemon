@@ -18,7 +18,7 @@ class Handler
     }
 
     /**
-     * Executes handler depending on debug settings
+     * Executes handler depending on debug settings.
      */
     public function terminate()
     {

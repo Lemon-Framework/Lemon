@@ -7,6 +7,10 @@ use Lemon\Support\Types\Str;
 use Lemon\Support\Types\String_;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class StrTest extends TestCase
 {
     public function testCalling()

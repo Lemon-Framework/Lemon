@@ -8,19 +8,27 @@ use Iterator;
 
 class Array_ implements Iterator, ArrayAccess
 {
-    /** 
-     * Array content 
-     * 
-     * @var array
+    /**
+     * Array content.
      */
     public array $content;
 
     /** Iterating position */
     private int $position = 0;
 
-    public function __construct(array $content=[])
+    public function __construct(array $content = [])
     {
         $this->content = $content;
+    }
+
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+
+    public function __set($key, $value)
+    {
+        $this->set($key, $value);
     }
 
     public function current(): mixed
@@ -35,7 +43,7 @@ class Array_ implements Iterator, ArrayAccess
 
     public function next(): void
     {
-        $this->position++;
+        ++$this->position;
     }
 
     public function rewind(): void
@@ -55,9 +63,10 @@ class Array_ implements Iterator, ArrayAccess
 
     public function offsetGet(mixed $offset): mixed
     {
-        if (preg_match("/^(\d+)\.\.(\d+)?$/", $offset, $matches) === 1) {
+        if (1 === preg_match('/^(\\d+)\\.\\.(\\d+)?$/', $offset, $matches)) {
             $from = (int) $matches[1];
             $len = isset($matches[2]) ? (int) $matches[2] - $matches[1] + 1 : null;
+
             return $this->slice($from, $len);
         }
         if (is_int($offset)) {
@@ -67,9 +76,9 @@ class Array_ implements Iterator, ArrayAccess
         }
         if (isset($this->content[$offset])) {
             return $this->content[$offset];
-        } else {
-            throw new Exception("Undefined array key $offset");
         }
+
+        throw new Exception("Undefined array key {$offset}");
     }
 
     public function offsetSet(mixed $offset, mixed $value): void
@@ -87,7 +96,7 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Returns value for given key
+     * Returns value for given key.
      *
      * @param mixed $key
      * @param mixed
@@ -95,61 +104,47 @@ class Array_ implements Iterator, ArrayAccess
     public function get($key): mixed
     {
         if (!isset($this->content[$key])) {
-    throw new Exception("Undefined array key $key");
+            throw new Exception("Undefined array key {$key}");
         }
+
         return $this->content[$key];
     }
 
     /**
-     * Sets value for given key
+     * Sets value for given key.
      *
      * @param mixed $key
      * @param mixed $value
-     * @return self
      */
     public function set($key, $value): self
     {
         $this->content[$key] = $value;
+
         return $this;
     }
 
-    public function __get($name)
-    {
-        return $this->get($name);
-    }
-
-    public function __set($key, $value)
-    {
-        $this->set($key, $value);
-    }
-
     /**
-     * Pushes value to the top of array
-    *
-     * @param mixed ...$values 
-     * @return self
+     * Pushes value to the top of array.
+     *
+     * @param mixed ...$values
      */
     public function push(...$values): self
     {
-    array_push($this->content, ...$values);
+        array_push($this->content, ...$values);
+
         return $this;
     }
 
     /**
-     * Pops item from the top of array
-     *
-     * @return mixed
+     * Pops item from the top of array.
      */
     public function pop(): mixed
     {
-        $value = array_pop($this->content);
-        return $value;
+        return array_pop($this->content);
     }
 
     /**
-     * Returns size of array
-     *
-     * @return int
+     * Returns size of array.
      */
     public function lenght(): int
     {
@@ -157,19 +152,15 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Returns size of array
-     *
-     * @return int
+     * Returns size of array.
      */
     public function size(): int
     {
-    return $this->lenght();
+        return $this->lenght();
     }
 
     /**
-     * Converts array to json
-    *
-     * @return string
+     * Converts array to json.
      */
     public function json(): string
     {
@@ -177,9 +168,7 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Exports nested Array_ as regular array
-     *
-     * @return array
+     * Exports nested Array_ as regular array.
      */
     public function export(): array
     {
@@ -192,31 +181,28 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Splits array into chunks
-     *
-     * @param int $lenght
-     * @return self
+     * Splits array into chunks.
      */
-    public function chunk(int $lenght): self 
+    public function chunk(int $lenght): self
     {
         $array = new self([new self()]);
         $counter = 0;
         foreach ($this as $item) {
-            $counter++;
+            ++$counter;
             $array[-1][] = $item;
             if ($counter == $lenght) {
                 $array[] = new self();
                 $counter = 0;
             }
         }
+
         return $array;
     }
 
     /**
-     * Determins whenever array contains given key
+     * Determins whenever array contains given key.
      *
      * @param mixed $key
-     * @return bool
      */
     public function hasKey($key): bool
     {
@@ -224,10 +210,7 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Filters array by given callback
-     *
-     * @param callable $callback
-     * @return self
+     * Filters array by given callback.
      */
     public function filter(callable $callback): self
     {
@@ -235,9 +218,7 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Returns first key of array
-     *
-     * @return mixed
+     * Returns first key of array.
      */
     public function firstKey(): mixed
     {
@@ -245,9 +226,7 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Returns last key of array
-     *
-     * @return mixed
+     * Returns last key of array.
      */
     public function lastKey(): mixed
     {
@@ -255,31 +234,27 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Returns first item from array
-     *
-     * @return mixed
+     * Returns first item from array.
      */
     public function first(): mixed
     {
         $key = $this->firstKey();
-        return is_null($key) ? $key : $this->content[$key] ;
+
+        return is_null($key) ? $key : $this->content[$key];
     }
 
     /**
-     * Returns last item from array
-     *
-     * @return mixed
+     * Returns last item from array.
      */
     public function last(): mixed
     {
         $key = $this->lastKey();
-        return is_null($key) ? $key : $this->content[$key] ;
+
+        return is_null($key) ? $key : $this->content[$key];
     }
 
     /**
-     * Returns all array keys
-     *
-     * @return self
+     * Returns all array keys.
      */
     public function keys(): self
     {
@@ -287,9 +262,7 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Returns all array items
-     *
-     * @return self
+     * Returns all array items.
      */
     public function values(): self
     {
@@ -302,10 +275,7 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Applies given callback to each item of array
-     *
-     * @param callable $callback
-     * @return self
+     * Applies given callback to each item of array.
      */
     public function map(callable $callback): self
     {
@@ -313,22 +283,19 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Merges all given arrays into curent
-     *
-     * @param array|Array_ ...$arrays
-     * @return self
+     * Merges all given arrays into curent.
      */
     public function merge(array|Array_ ...$arrays): self
     {
         $arrays = (new Array_($arrays))->export();
+
         return new self(array_merge($this->content, ...$arrays));
     }
 
     /**
-     * Returns random key from array
+     * Returns random key from array.
      *
      * @param int $count=1
-     * @return mixed
      */
     public function randomKey(int $count = 1): mixed
     {
@@ -336,45 +303,40 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Returns random item from array
+     * Returns random item from array.
      *
      * @param int $count = 1
-     * @return mixed
      */
     public function random(int $count = 1): mixed
     {
         $key = $this->randomKey($count);
+
         return is_null($key) ? $key : $this->content[$key];
     }
 
     /**
-     * Randomly shuffles array
-     *
-     * @return self
+     * Randomly shuffles array.
      */
     public function shuffle(): self
     {
         $content = $this->content;
         shuffle($content);
+
         return new self($content);
     }
 
     /**
-     * Replaces values in array with values from passed arrays
-     *
-     * @param array|Array_ ...$replacements
-     * @return self
+     * Replaces values in array with values from passed arrays.
      */
     public function replace(array|Array_ ...$replacements): self
     {
         $replacements = (new self($replacements))->export();
+
         return new self(array_replace($this->content, ...$replacements));
     }
 
     /**
-     * Puts item in array in reverse order
-     *
-     * @return self
+     * Puts item in array in reverse order.
      */
     public function reverse(): self
     {
@@ -382,11 +344,9 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Extract a slice of the array
+     * Extract a slice of the array.
      *
-     * @param int $start
      * @param mixed int $lenght
-     * @return self
      */
     public function slice(int $start, int $lenght = null): self
     {
@@ -394,9 +354,7 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Returns sum of array
-     *
-     * @return int|float
+     * Returns sum of array.
      */
     public function sum(): int|float
     {
@@ -404,10 +362,9 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Determins whenever array contains given needle
+     * Determins whenever array contains given needle.
      *
      * @param mixed $needle
-     * @return bool
      */
     public function contains($needle): bool
     {
@@ -415,14 +372,12 @@ class Array_ implements Iterator, ArrayAccess
     }
 
     /**
-     * Determins whenever array contains given needle
+     * Determins whenever array contains given needle.
      *
      * @param mixed $needle
-     * @return bool
      */
     public function has($needle): bool
     {
         return $this->contains($needle);
     }
 }
-

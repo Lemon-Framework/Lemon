@@ -4,7 +4,7 @@ namespace Lemon\Tests\Kernel\Resources\Zests;
 
 use Lemon\Zest;
 
-class Foo extends Zest 
+class Foo extends Zest
 {
     protected static function unit()
     {

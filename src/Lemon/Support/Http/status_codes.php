@@ -1,8 +1,7 @@
 <?php
 
 /**
- *
- * Errors
+ * Errors.
  *
  * In this array are all the main http status codes
  *
@@ -43,23 +42,22 @@ const ERRORS = [
     506 => 'Variant Also Negotiates',
     507 => 'Insufficient Storage',
     509 => 'Bandwidth Limit Exceeded',
-    510 => 'Not Extended'
+    510 => 'Not Extended',
 ];
 
 /**
- *
- * Colors
+ * Colors.
  *
  * In this array are stored colors for console function
  *
  * */
 const COLORS = [
-        'black' => "30",
-        'red' => "31",
-        'green' => "32",
-        'yellow' => "33",
-        'blue' => "34",
-        'magenta' => "35",
-        'cyan' => "36",
-        'white' => "37",
+    'black' => '30',
+    'red' => '31',
+    'green' => '32',
+    'yellow' => '33',
+    'blue' => '34',
+    'magenta' => '35',
+    'cyan' => '36',
+    'white' => '37',
 ];

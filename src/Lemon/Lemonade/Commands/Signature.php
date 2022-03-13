@@ -8,17 +8,17 @@ class Signature
 
     public $name;
 
-    public function __construct(String $signature)
+    public function __construct(string $signature)
     {
         $this->signature = $signature;
-        $this->name = explode(" ", $signature)[0];
+        $this->name = explode(' ', $signature)[0];
     }
 
-    public function matches(String $input)
+    public function matches(string $input)
     {
-        return explode(" ", $input)[0] == $this->name;
+        return explode(' ', $input)[0] == $this->name;
     }
 }
 
-$s = new Signature("make:parek {parek} {-rohlik} {-prasopes}");
-echo $s->matches("make:parek rizek -prasopes -rohlik") ? "cs" : "asg";
+$s = new Signature('make:parek {parek} {-rohlik} {-prasopes}');
+echo $s->matches('make:parek rizek -prasopes -rohlik') ? 'cs' : 'asg';

@@ -5,9 +5,12 @@ namespace Lemon\Tests\Support;
 use Lemon\Support\Filesystem;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class FilesystemTest extends TestCase
 {
-
     private static $tmp;
 
     /**
@@ -15,14 +18,14 @@ class FilesystemTest extends TestCase
      */
     public static function setUpTempDir()
     {
-        self::$tmp = __DIR__ . DIRECTORY_SEPARATOR . 'tmp';
+        self::$tmp = __DIR__.DIRECTORY_SEPARATOR.'tmp';
         mkdir(self::$tmp);
     }
 
     public function testWrite()
     {
-        $file = self::$tmp . DIRECTORY_SEPARATOR . 'test.txt';
+        $file = self::$tmp.DIRECTORY_SEPARATOR.'test.txt';
         Filesystem::write($file, 'foo');
-        $this->assertFileExists($file); 
-    } 
+        $this->assertFileExists($file);
+    }
 }

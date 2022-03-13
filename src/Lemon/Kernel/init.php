@@ -17,7 +17,6 @@ use Lemon\Support\Types\Arr;
 */
 
 return;
-
 // DEPRECATED
 // TODO SWITCH TO LIFECYCLE::INIT
 // NEZ MI PRASKNE CEVKA
@@ -38,17 +37,15 @@ if (!defined('LEMON_MODE')) {
 $dir = Filesystem::parent($_SERVER['DOCUMENT_ROOT']);
 
 if (LEMON_MODE == 'web') {
-    if (is_file($file = $dir . '/../maintenance.php')) {
+    if (is_file($file = $dir.'/../maintenance.php')) {
         require $file;
     }
 }
-
 
 // If lemon debug is not defined, it will set it to false, so debug mode must be explicitly enabled
 if (!defined('LEMON_DEBUG')) {
     define('LEMON_DEBUG', false);
 }
-
 
 /*
 | -------------------------------------------------------
@@ -70,8 +67,6 @@ $app->config('init')->debug = LEMON_DEBUG;
 
 // Loading error/exception handlers
 $app->loadHandler();
-
-
 
 /*
 | ------------------------------------------------------------------------------------------------------------------------

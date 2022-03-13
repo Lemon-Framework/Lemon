@@ -24,9 +24,6 @@ class Cache
             Filesystem::makeDir($path);
             Filesystem::write(Filesystem::join($path, '.gitignore'), "*\n!.gitignore");
         }
-
-        
-
     }
 
     public function getData()
@@ -39,7 +36,7 @@ class Cache
         // vezme hodnotu klice z cache a defaultniho souboru
     }
 
-    public function set($key, $value, $expires=null)
+    public function set($key, $value, $expires = null)
     {
         // setne hodnotu do cache pripadne nastavi expiraci - nejaka datetime operace i guess PICI TIMEZONY
     }
@@ -48,20 +45,17 @@ class Cache
     {
         // smaze cache
     }
-
-
 }
 
-
-/**
-
-
-
-$c = new Cache($lifecycle);
-$c->set('parke', 'rizek');
-$c->get('parke');
-$c->remove('parke');
-
-
-
+/*
+ *
+ *
+ *
+ * $c = new Cache($lifecycle);
+ * $c->set('parke', 'rizek');
+ * $c->get('parke');
+ * $c->remove('parke');
+ *
+ *
+ *
  */

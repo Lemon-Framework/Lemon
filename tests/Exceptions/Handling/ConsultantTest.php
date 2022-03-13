@@ -5,6 +5,10 @@ namespace Lemon\Tests\Exceptions\Handling;
 use Lemon\Exceptions\Handling\Consultant;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ConsultantTest extends TestCase
 {
     public function testRegularExpressions()
@@ -14,16 +18,16 @@ class ConsultantTest extends TestCase
 
         $consultant = new Consultant('Call to undefined method Foo::bar()');
         $this->assertSame('method', $consultant->findHandler());
-        
+
         $consultant = new Consultant('Undefined property: Foo::$bar');
         $this->assertSame('property', $consultant->findHandler());
-        
+
         $consultant = new Consultant('Unexpected <?php at line 37');
         $this->assertSame('viewPHPTags', $consultant->findHandler());
-        
-        $consultant = new Consultant('Unexpected <?= at line 37'); 
+
+        $consultant = new Consultant('Unexpected <?= at line 37');
         $this->assertSame('viewPHPTags', $consultant->findHandler());
-        
+
         $consultant = new Consultant('View bramboraky.foo does not exist or is not readable');
         $this->assertSame('wrongViewName', $consultant->findHandler());
     }
@@ -34,7 +38,7 @@ class ConsultantTest extends TestCase
             'kulovy_fid',
             'mrkvovy_dort',
             'parkovar',
-            'fid_kulovy'
+            'fid_kulovy',
         ];
         $consultant = new Consultant('');
         $this->assertSame('kulovy_fid', $consultant->bestMatch($haystack, 'kylovyfid'));
@@ -42,14 +46,14 @@ class ConsultantTest extends TestCase
         $this->assertSame('kulovy_fid', $consultant->bestMatch($haystack, 'kylovy'));
     }
 
-    /**
-    public function testUndefinedFunctionHandler()
-    {
-        $consultant = new Consultant('');
-
-        $this->assertSame(['Did you mean strpos?'], $consultant->handleFunction([
-            '',
-            'strpso'
-        ]));
-    }*/
+    /*
+     * public function testUndefinedFunctionHandler()
+     * {
+     * $consultant = new Consultant('');
+     *
+     * $this->assertSame(['Did you mean strpos?'], $consultant->handleFunction([
+     * '',
+     * 'strpso'
+     * ]));
+     * }*/
 }

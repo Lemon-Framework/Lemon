@@ -2,7 +2,7 @@
 
 class Kernel
 {
-    public function __construct(array $arguments, String $directory)
+    public function __construct(array $arguments, string $directory)
     {
     }
 

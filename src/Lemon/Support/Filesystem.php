@@ -9,10 +9,7 @@ use Lemon\Support\Types\Str;
 class Filesystem
 {
     /**
-     * Returns content of given file
-     *
-     * @param string $file
-     * @return string
+     * Returns content of given file.
      */
     public static function read(string $file): string
     {
@@ -24,11 +21,7 @@ class Filesystem
     }
 
     /**
-     * Writes content to given file
-     *
-     * @param string $file
-     * @param string $content
-     * @return string
+     * Writes content to given file.
      */
     public static function write(string $file, string $content): string
     {
@@ -36,10 +29,7 @@ class Filesystem
     }
 
     /**
-     * Creates new directory
-     *
-     * @param string $dir
-     * @return void
+     * Creates new directory.
      */
     public static function makeDir(string $dir): void
     {
@@ -47,38 +37,34 @@ class Filesystem
     }
 
     /**
-     * Returns array of paths in given directory
-     *
-     * @param string $dir
-     * @return array
+     * Returns array of paths in given directory.
      */
     public static function listDir(string $dir): array
     {
         if (!self::isDir($dir)) {
-            throw FilesystemException::explainDirectoryNotFound($dir); 
+            throw FilesystemException::explainDirectoryNotFound($dir);
         }
 
         $result = [];
         foreach (scandir($dir) as $file) {
             $file = Filesystem::join($dir, $file);
             if (Filesystem::isFile($file)) {
-                $result[] = $file; 
+                $result[] = $file;
             }
 
             if (Filesystem::isDir($file)) {
-                $result = Arr::merge($result, 
+                $result = Arr::merge(
+                    $result,
                     self::listDir($file)
-                ); 
+                );
             }
         }
+
         return $result;
     }
 
     /**
-     * Returns whenever given path is file
-     *
-     * @param string $file
-     * @return bool 
+     * Returns whenever given path is file.
      */
     public static function isFile(string $file): bool
     {
@@ -86,21 +72,15 @@ class Filesystem
     }
 
     /**
-     * Returns whenever given path is directory
-     *
-     * @param string $dir
-     * @return bool
+     * Returns whenever given path is directory.
      */
-    public static function isDir(string $dir): bool 
+    public static function isDir(string $dir): bool
     {
         return is_dir($dir);
     }
 
     /**
-     * Deletes given file/directory
-     *
-     * @param string $file
-     * @return void
+     * Deletes given file/directory.
      */
     public static function delete(string $file)
     {
@@ -117,47 +97,41 @@ class Filesystem
     }
 
     /**
-     * Joins given paths with directory separator
+     * Joins given paths with directory separator.
      *
-     * @param string ...$paths
      * @return \Lemon\Support\Types\String_
      */
-    public static function join(string ...$paths): \Lemon\Support\Types\String_
+    public static function join(string ...$paths): Types\String_
     {
-        return Str::join(DIRECTORY_SEPARATOR, 
+        return Str::join(
+            DIRECTORY_SEPARATOR,
             $paths
         );
     }
 
     /**
-     * Converts path into os-compatible
+     * Converts path into os-compatible.
      *
      * @param string $path
-     * return string
+     *                     return string
      */
     public static function normalize(string $path): string
     {
         $path = rtrim($path, '/\\');
 
-        $path = preg_replace('/(\\/|\\\)/', DIRECTORY_SEPARATOR, $path);
-
-        return $path;
+        return preg_replace('/(\\/|\\\)/', DIRECTORY_SEPARATOR, $path);
     }
 
     /**
-     * Returns parent of given path
-     *
-     * @param string $path
-     * @return void
+     * Returns parent of given path.
      */
     public static function parent(string $path)
     {
         $path = self::normalize($path);
 
-        return Str::join(DIRECTORY_SEPARATOR, 
+        return Str::join(
+            DIRECTORY_SEPARATOR,
             Str::split($path, DIRECTORY_SEPARATOR)->slice(0, -2)->content
         );
     }
-
 }
-

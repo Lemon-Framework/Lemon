@@ -5,12 +5,9 @@ namespace Lemon\Kernel;
 use Error;
 use ErrorException;
 use Exception;
-use Lemon\Config as ConfigZest;
-use Lemon\Route as RouteZest;
 use Lemon\Config\Config;
 use Lemon\Exceptions\Handling\Handler;
 use Lemon\Http\Request;
-use Lemon\Http\Routing\Dispatcher;
 use Lemon\Http\Routing\Router;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Http\Routing\Route;
@@ -19,47 +16,50 @@ use Lemon\Terminal\Terminal;
 use Lemon\Zest;
 
 /**
- * The Lemon Framework Lifecycle
+ * The Lemon Framework Lifecycle.
  *
- * @property Config $config
- * @property Route $routing
+ * @property Config   $config
+ * @property Route    $routing
  * @property Terminal $terminal
  */
 class Lifecycle
 {
     /**
-     * Current Lemon version
+     * Current Lemon version.
      *
-     * @var string $directory
+     * @var string
      */
     public const VERSION = '3-develop';
 
     /**
-     * App directory
-     *
-     * @var string $directory
+     * App directory.
      */
     public readonly string $directory;
 
     /**
-     * List of all Lifecycle components (Units)
-     *
-     * @var array $units
+     * List of all Lifecycle components (Units).
      */
     private array $units = [
         'config' => [Config::class],
         'routing' => [Router::class],
-        'terminal' => [Terminal::class]
+        'terminal' => [Terminal::class],
     ];
 
     /**
-     * Creates new lifecycle instance
-     *
-     * @param string $directory
+     * Creates new lifecycle instance.
      */
     public function __construct(string $directory)
     {
         $this->directory = $directory;
+    }
+
+    public function __get(string $name): mixed
+    {
+        if (!isset($this->units[$name])) {
+            throw new Exception('Unit '.$name.' does not exist');
+        }
+
+        return $this->unit($name);
     }
 
     public static function init()
@@ -71,11 +71,8 @@ class Lifecycle
         Zest::init($this);
     }
 
-
     /**
-     * Loads error/exception handlers
-     *
-     * @return void
+     * Loads error/exception handlers.
      */
     public function loadHandler(): void
     {
@@ -84,68 +81,66 @@ class Lifecycle
         set_exception_handler([$this, 'handle']);
     }
 
-    public function handleError($level, $message, $file = '', $line  =0, $context = [])
+    public function handleError($level, $message, $file = '', $line = 0, $context = [])
     {
         throw new ErrorException($message, 0, $level, $file, $line);
     }
 
     /**
-     * Executes error handler
+     * Executes error handler.
+     *
+     * @param mixed $problem
      */
     public function handle($problem)
     {
         $handler = new Handler($problem, $this);
         $handler->terminate();
+
         exit;
     }
 
     /**
-     * Returns config part or item from config part 
+     * Returns config part or item from config part.
      *
      * @param string $unit
      * @param string $key?
-     * @return mixed
      */
-    public function config(string $part, string $key=null): mixed
+    public function config(string $part, string $key = null): mixed
     {
         $matched = $this->config->part($part);
         if ($key) {
-            return $matched->$key;
+            return $matched->{$key};
         }
 
         return $matched;
     }
 
     /**
-     * Returns path of specific file in current project
+     * Returns path of specific file in current project.
      *
      * @param string @path
-     * @return string
      */
     public function file(string $path): string
     {
-        return Filesystem::join($this->directory, 
+        return Filesystem::join(
+            $this->directory,
             Str::replace($path, '.', DIRECTORY_SEPARATOR)
         );
     }
 
     /**
-     * Adds unit
-     *
-     * @param string $name
-     * @param string $unit
-     * @return self
+     * Adds unit.
      */
     public function addUnit(string $name, string $unit): self
     {
         $this->units[$name] = [$unit];
+
         return $this;
     }
 
     /**
-     * Returns unit instance
+     * Returns unit instance.
      *
-     * @param string $name
      * @return mixed
      */
     public function unit(string $name)
@@ -157,17 +152,8 @@ class Lifecycle
         return $this->units[$name][1];
     }
 
-    public function __get(string $name): mixed
-    {
-        if (!isset($this->units[$name])) {
-            throw new Exception('Unit ' . $name . ' does not exist');
-        }
-
-        return $this->unit($name);
-    }
-
     /**
-     * Executes whole lifecycle
+     * Executes whole lifecycle.
      */
     public function boot()
     {

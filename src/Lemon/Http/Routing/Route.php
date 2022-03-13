@@ -2,92 +2,87 @@
 
 namespace Lemon\Http\Routing;
 
+use Lemon\Http\MiddlewareCollection;
 use Lemon\Http\Request;
 use Lemon\Http\Response;
-use Lemon\Http\MiddlewareCollection;
 
 /**
- * Class representing registered route
+ * Class representing registered route.
  *
- * @param String $path
- * @param Array $methods
+ * @param string   $path
+ * @param array    $methods
  * @param callable $action
  */
 class Route
 {
     /**
-     * Route name
+     * Route name.
      */
     public $name;
 
     /**
-     * Route path
+     * Route path.
      */
     public $path;
 
     /**
-     * List of route middlewares
+     * List of route middlewares.
      */
     public $middlewares;
 
     /**
-     * List of supported route methods
+     * List of supported route methods.
      */
     public $methods;
 
     /**
-     * Route action
+     * Route action.
      */
     public $action;
 
-
     public function __construct(string $path, array $methods, $action)
     {
-        $this->path = trim($path, "/");
+        $this->path = trim($path, '/');
         $this->methods = $methods;
         $this->action = $action;
-        $this->name = $path ?? "main";
+        $this->name = $path ?? 'main';
         $this->middlewares = new MiddlewareCollection();
     }
 
     /**
-     * Adds new middleware
+     * Adds new middleware.
      *
-     * @param String|Array $middlewares
+     * @param array|string $middlewares
      */
     public function middleware($middlewares)
     {
         $this->middlewares->add($middlewares);
+
         return $this;
     }
 
     /**
-     * Sets route name
-     *
-     * @param String $name
+     * Sets route name.
      */
-    public function name(String $name)
+    public function name(string $name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     /**
-     * Sets route prefix
-     *
-     * @param String $prefix
+     * Sets route prefix.
      */
-    public function prefix(String $prefix)
+    public function prefix(string $prefix)
     {
-        $this->path = trim($prefix) . "/" . $this->path;
+        $this->path = trim($prefix).'/'.$this->path;
+
         return $this;
     }
 
     /**
-     * Creates response from route action
-     *
-     * @param Request $request
-     * @param Array $params
+     * Creates response from route action.
      *
      * @return Response
      */
@@ -100,12 +95,13 @@ class Route
         $last_param = 1;
         $arguments = [];
         foreach ($param_types as $type) {
-            if ($type == "Lemon\Http\Request") {
+            if ('Lemon\\Http\\Request' == $type) {
                 array_push($arguments, $request);
+
                 continue;
             }
             array_push($arguments, $params[$last_param]);
-            $last_param++;
+            ++$last_param;
         }
 
         if (is_array($action)) {

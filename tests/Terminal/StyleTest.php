@@ -7,9 +7,12 @@ use Lemon\Terminal\StyleCollection;
 use Lemon\Terminal\Terminal;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class StyleTest extends TestCase
 {
-
     protected StyleCollection $styles;
 
     /**
@@ -39,5 +42,4 @@ class StyleTest extends TestCase
         $this->assertSame(['', ''], $this->styles->resolveClass('foo'));
         $this->assertSame(["\033[31m", '<PARENT>'], $this->styles->resolveClass('text-red'));
     }
-
 }

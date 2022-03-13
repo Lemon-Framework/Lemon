@@ -2,11 +2,9 @@
 
 namespace Lemon;
 
-use Lemon\Zest;
-
 /**
  * Lemon Router Zest
- * Provides static layer over the Lemon Router
+ * Provides static layer over the Lemon Router.
  *
  * @see \Lemon\Terminal\Terminal
  */

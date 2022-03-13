@@ -7,6 +7,10 @@ use Lemon\Terminal\Output;
 use Lemon\Terminal\Terminal;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class OutputTest extends TestCase
 {
     public function testRendering()

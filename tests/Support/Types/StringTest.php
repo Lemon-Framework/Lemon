@@ -2,11 +2,14 @@
 
 namespace Lemon\Tests\Types;
 
-use Lemon\Support\Types\Array_;
 use Lemon\Support\Types\String_;
 use PHPUnit\Framework\TestCase;
 
-class StringTest extends TestCase 
+/**
+ * @internal
+ * @coversNothing
+ */
+class StringTest extends TestCase
 {
     public function testSize()
     {
@@ -18,7 +21,7 @@ class StringTest extends TestCase
     public function testToString()
     {
         $string = String_::from('FidoKul');
-        $this->assertSame('FidoKul is podvodnik', $string . ' is podvodnik');
+        $this->assertSame('FidoKul is podvodnik', $string.' is podvodnik');
     }
 
     public function testSplit()
@@ -96,5 +99,4 @@ class StringTest extends TestCase
         $string->reverse();
         $this->assertSame('rexim', $string->content);
     }
-    
 }

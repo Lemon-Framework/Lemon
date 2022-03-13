@@ -6,7 +6,7 @@ class ColorScheme
 {
     public $colors = [
         'gruvbox' => [
-            ''
-        ]
+            '',
+        ],
     ];
 }

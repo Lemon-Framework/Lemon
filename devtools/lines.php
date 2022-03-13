@@ -4,24 +4,24 @@ function countLines($directory)
 {
     $lines = 0;
 
-    foreach (scandir($directory) as $file)
-    {
-        if (in_array($file, ['.', '..']))
+    foreach (scandir($directory) as $file) {
+        if (in_array($file, ['.', '..'])) {
             continue;
+        }
 
-        $path = $directory . DIRECTORY_SEPARATOR . $file;
+        $path = $directory.DIRECTORY_SEPARATOR.$file;
 
-        if (is_file($path))
-        {
+        if (is_file($path)) {
             $file_lines = count(file($path));
-            echo $path . ': ' . $file_lines . PHP_EOL;
+            echo $path.': '.$file_lines.PHP_EOL;
             $lines += $file_lines;
         }
 
-        if (is_dir($path))
+        if (is_dir($path)) {
             $lines += countLines($path);
+        }
     }
-    
+
     return $lines;
 }
 

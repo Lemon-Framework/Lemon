@@ -7,16 +7,20 @@ use Lemon\Http\Routing\Router;
 use Lemon\Kernel\Lifecycle;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class RouterTest extends TestCase
 {
     public function testBasicRouting()
     {
         $router = $this->makeRouter();
 
-        $router->get('/', fn() => 'foo');
+        $router->get('/', fn () => 'foo');
         $this->assertSame('foo', $router->dispatch(Request::emulate('/', 'get'))->body);
 
-        $router->post('/foo', fn() => 'bar');
+        $router->post('/foo', fn () => 'bar');
         $this->assertSame('bar', $router->dispatch(Request::emulate('/foo', 'post'))->body);
         $this->assertSame('bar', $router->dispatch(Request::emulate('/foo', 'POST'))->body);
 
@@ -24,28 +28,30 @@ class RouterTest extends TestCase
 
         $this->assertSame(400, $router->dispatch(Request::emulate('/foo', 'get'))->status_code);
 
-        foreach ($router::REQUEST_METHODS as $method)
-            $router->$method('/bar', fn() => 'bar ' . $method);
+        foreach ($router::REQUEST_METHODS as $method) {
+            $router->{$method}('/bar', fn () => 'bar '.$method);
+        }
 
-        foreach ($router::REQUEST_METHODS as $method)
-            $this->assertSame('bar ' . $method, $router->dispatch(Request::emulate('/bar', $method))->body);
+        foreach ($router::REQUEST_METHODS as $method) {
+            $this->assertSame('bar '.$method, $router->dispatch(Request::emulate('/bar', $method))->body);
+        }
 
-        $router->any('/baz', fn() => 'baz');
+        $router->any('/baz', fn () => 'baz');
 
-        foreach ($router::REQUEST_METHODS as $method)
+        foreach ($router::REQUEST_METHODS as $method) {
             $this->assertSame('baz', $router->dispatch(Request::emulate('/baz', $method))->body);
-
+        }
     }
 
     public function testGetArgumentsParsing()
     {
         $router = $this->makeRouter();
-        
-        $router->get('/', fn() => 'foo');
+
+        $router->get('/', fn () => 'foo');
 
         $this->assertSame('foo', $router->dispatch(Request::emulate('/?bar=baz', 'get'))->body);
 
-        $router->post('/foo', fn() => 'bar');
+        $router->post('/foo', fn () => 'bar');
 
         $this->assertSame('bar', $router->dispatch(Request::emulate('/foo?baz=bar', 'post'))->body);
     }
@@ -53,7 +59,7 @@ class RouterTest extends TestCase
     public function makeRouter()
     {
         $lifecycle = new Lifecycle(__DIR__);
-        $router = new Router($lifecycle);
-        return $router;
+
+        return new Router($lifecycle);
     }
 }

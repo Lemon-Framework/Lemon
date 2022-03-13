@@ -10,7 +10,7 @@ class Command
 
     public $description;
 
-    public function __construct(String $signature, $action, $description="")
+    public function __construct(string $signature, $action, $description = '')
     {
         $this->signature = new Signature($signature);
         $this->action = $action;
@@ -18,12 +18,11 @@ class Command
     }
 
     /**
-     * Validates command signature with given input
+     * Validates command signature with given input.
      *
-     * @param String $input
-     * @return Array|false
+     * @return array|false
      */
-    public function validate(String $input)
+    public function validate(string $input)
     {
         if ($arguments = $this->signature->matches($input)) {
             return $arguments;
@@ -33,9 +32,7 @@ class Command
     }
 
     /**
-     * Runs command with given arguments
-     *
-     * @param Array $arguments
+     * Runs command with given arguments.
      */
     public function run(array $arguments)
     {
@@ -45,7 +42,8 @@ class Command
     public function info()
     {
         $name = $this->signature->name;
-        $description = $this->description ? $this->description : "";
-        return ["name" => $name, "description" => $description];
+        $description = $this->description ? $this->description : '';
+
+        return ['name' => $name, 'description' => $description];
     }
 }

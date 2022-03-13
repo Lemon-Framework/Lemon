@@ -10,33 +10,11 @@ class String_ implements Stringable
     public string $content;
 
     /**
-     * Lemon string type
-     *
-     * @param String $subject
+     * Lemon string type.
      */
-    public function __construct(String $subject)
+    public function __construct(string $subject)
     {
-        $this->content = $subject; 
-    }
-
-    /**
-     * Returns size of string
-     *
-     * @return int
-     */
-    public function size(): int
-    {
-        return strlen($this->content);
-    }
-
-    /**
-     * Returns size of string
-     *
-     * @return int
-     */
-    public function len(): int
-    {
-        return strlen($this->content);
+        $this->content = $subject;
     }
 
     public function __toString()
@@ -45,10 +23,23 @@ class String_ implements Stringable
     }
 
     /**
-     * Splits string to array by separator 
-     *
-     * @param String $separator
-     * @return Array_
+     * Returns size of string.
+     */
+    public function size(): int
+    {
+        return strlen($this->content);
+    }
+
+    /**
+     * Returns size of string.
+     */
+    public function len(): int
+    {
+        return strlen($this->content);
+    }
+
+    /**
+     * Splits string to array by separator.
      */
     public function split(string $separator): Array_
     {
@@ -58,10 +49,9 @@ class String_ implements Stringable
     }
 
     /**
-     * Joins given Array items with string
+     * Joins given Array items with string.
      *
-     * @param Array|Array_ $array
-     * @return self
+     * @param array|Array_ $array
      */
     public function join(array $array): self
     {
@@ -71,81 +61,70 @@ class String_ implements Stringable
     }
 
     /**
-     * Converts first character to uppercase
-     *
-     * @return self
+     * Converts first character to uppercase.
      */
-    public function capitalize(): self 
+    public function capitalize(): self
     {
         $this->content = ucfirst($this->content);
+
         return $this;
     }
 
     /**
-     * Converts first character to lovercase
-     *
-     * @return self
+     * Converts first character to lovercase.
      */
     public function decapitalize(): self
     {
         $this->content = lcfirst($this->content);
+
         return $this;
     }
 
     /**
-     * Converts string to lovercase
-     *
-     * @return self
+     * Converts string to lovercase.
      */
     public function toLower(): self
     {
         $this->content = strtolower($this->content);
+
         return $this;
     }
 
     /**
-     * Converts string to uppercase
-     *
-     * @return self
+     * Converts string to uppercase.
      */
     public function toUpper(): self
     {
         $this->content = strtoupper($this->content);
+
         return $this;
     }
 
     /**
-     * Returns whenever string contains given substring
+     * Returns whenever string contains given substring.
      *
-     * @param String|String_ $substring
-     * @return bool
+     * @param string|String_ $substring
      */
-    public function contains(String $substring): bool
+    public function contains(string $substring): bool
     {
         return str_contains($this->content, $substring);
     }
 
-    public function has(String $substring): bool
+    public function has(string $substring): bool
     {
         return $this->contains($substring);
     }
 
     /**
-     * Returns whenever string starts with given substring
-     *
-     * @param String $substring
-     * @return bool
+     * Returns whenever string starts with given substring.
      */
-    public function startsWith(String $substring): bool
+    public function startsWith(string $substring): bool
     {
-        return str_starts_with($this->content, $substring); 
+        return str_starts_with($this->content, $substring);
     }
 
     /**
-     * Returns whenever string ends with given substring
-     *
-     * @param String $substring
-     * @return bool
+     * Returns whenever string ends with given substring.
      */
     public function endsWith(string $substring): bool
     {
@@ -153,47 +132,50 @@ class String_ implements Stringable
     }
 
     /**
-     * Replaces all occurences of given search string with replace string
+     * Replaces all occurences of given search string with replace string.
      *
-     * @param String|String_ $search
-     * @param String|String_ $replace
+     * @param string|String_ $search
+     * @param string|String_ $replace
+     *
      * @return String_
      */
-    public function replace(String $search, String $replace): self 
+    public function replace(string $search, string $replace): self
     {
         $this->content = str_replace($search, $replace, $this->content);
+
         return $this;
     }
 
     /**
-     * Randomly shuffles string
+     * Randomly shuffles string.
      *
      * @return String_
      */
-    public function shuffle(): self 
+    public function shuffle(): self
     {
         $this->content = str_shuffle($this->content);
+
         return $this;
     }
 
     /**
-     * Reverses string
+     * Reverses string.
      *
      * @return String_
      */
-    public function reverse(): self 
+    public function reverse(): self
     {
         $this->content = strrev($this->content);
+
         return $this;
     }
 
     /**
-     * Creates new String_ instance
+     * Creates new String_ instance.
      *
-     * @param String $subject
      * @return
      */
-    public static function from(String $subject): self 
+    public static function from(string $subject): self
     {
         return new String_($subject);
     }

@@ -1,6 +1,6 @@
 <?php
 
-require "licenses.php";
+require 'licenses.php';
 
 /*
  *
@@ -28,26 +28,6 @@ class Builder
 
     /*
      *
-     * Parses arguments to associative array
-     *
-     * @param array $arguments
-     *
-     * */
-    private function parse($arguments)
-    {
-        $parsed = [];
-        foreach ($this->arguments as $argument) {
-            if (strpos($argument, ":")) {
-                $argument = explode(':', $argument);
-                $parsed[$argument[0]] = $argument[1];
-            }
-        }
-
-        return $parsed;
-    }
-
-    /*
-     *
      * Executes specific builder
      *
      * Executing is provided by argument `type`
@@ -57,13 +37,15 @@ class Builder
     {
         $types = TYPES;
         $arguments = $this->parse($this->arguments);
-        if (!isset($arguments["type"])) {
+        if (!isset($arguments['type'])) {
             echo textFormat("Type argument is missing!\n", 31);
+
             return;
         }
-        if (in_array($arguments["type"], $types)) {
-            $action = $arguments["type"];
-            $this->$action($arguments);
+        if (in_array($arguments['type'], $types)) {
+            $action = $arguments['type'];
+            $this->{$action}($arguments);
+
             return;
         }
         echo textFormat("Type not found!\n", 31);
@@ -71,28 +53,44 @@ class Builder
 
     /*
      *
-     * Builds starting project
+     * Parses arguments to associative array
+     *
+     * @param array $arguments
      *
      * */
+    private function parse($arguments)
+    {
+        $parsed = [];
+        foreach ($this->arguments as $argument) {
+            if (strpos($argument, ':')) {
+                $argument = explode(':', $argument);
+                $parsed[$argument[0]] = $argument[1];
+            }
+        }
+
+        return $parsed;
+    }
+
+    // Builds starting project
     private function project()
     {
         $dirs = DIRS;
         $files = FILES;
 
-        echo textFormat("\nBuilding project...\n\n", "33");
+        echo textFormat("\nBuilding project...\n\n", '33');
         foreach ($dirs as $dir) {
             if (!file_exists($dir)) {
-                echo textFormat("Building {$dir}...\n", "33");
+                echo textFormat("Building {$dir}...\n", '33');
                 mkdir($dir);
             }
         }
         foreach ($files as $file => $link) {
-            echo textFormat("Building {$file}...\n", "33");
-            $file = fopen($file, "w");
+            echo textFormat("Building {$file}...\n", '33');
+            $file = fopen($file, 'w');
             $content = file_get_contents($link);
             fwrite($file, $content);
         }
-        echo textFormat("\nDone!\n\n", "33");
+        echo textFormat("\nDone!\n\n", '33');
     }
 
     /*

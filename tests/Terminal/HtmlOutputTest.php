@@ -4,13 +4,15 @@ namespace Lemon\Tests\Terminal;
 
 use Lemon\Kernel\Lifecycle;
 use Lemon\Terminal\HtmlOutput;
-use Lemon\Terminal\Output;
 use Lemon\Terminal\Terminal;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class HtmlOutputTest extends TestCase
 {
-
     public function makeOutput(string $content)
     {
         $lifecycle = new Lifecycle(__DIR__);
@@ -22,14 +24,14 @@ class HtmlOutputTest extends TestCase
     public function testParsingHeadings()
     {
         $output = $this->makeOutput('<h1>foo</h1>Lorem');
-        $this->assertSame('+-----+' . PHP_EOL . '| foo |' . PHP_EOL . '+-----+' . PHP_EOL . 'Lorem', $output->parse());
+        $this->assertSame('+-----+'.PHP_EOL.'| foo |'.PHP_EOL.'+-----+'.PHP_EOL.'Lorem', $output->parse());
     }
 
     public function testParsingLines()
     {
         putenv('COLUMNS=10');
         $output = $this->makeOutput('foo<hr>bar');
-        $this->assertSame('foo' . PHP_EOL . '——————————' . PHP_EOL . 'bar', $output->parse());
+        $this->assertSame('foo'.PHP_EOL.'——————————'.PHP_EOL.'bar', $output->parse());
     }
 
     public function testParsingBold()
@@ -66,7 +68,7 @@ baz", $output->parse());
 
     public function testRemovingWhitespaces()
     {
-        $output = $this->makeOutput(<<<HTML
+        $output = $this->makeOutput(<<<'HTML'
             <div>foo
 
 
@@ -83,5 +85,4 @@ baz", $output->parse());
 
         $this->assertSame('<div>foo </div> bar baz <h1> baz </h1>', $output->removeWhiteSpaces()->content);
     }
-
 }

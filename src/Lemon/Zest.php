@@ -9,9 +9,11 @@ abstract class Zest
 {
     protected static Lifecycle $lifecycle;
 
-    protected static function unit()
+    public static function __callStatic($name, $arguments)
     {
-        throw new Exception('Zest ' . get_called_class() . ' does not provide target unit');
+        $instance = self::getAccessor();
+
+        return $instance->{$name}(...$arguments);
     }
 
     public static function init(Lifecycle $lifecycle)
@@ -22,12 +24,12 @@ abstract class Zest
     public static function getAccessor()
     {
         $unit = static::unit();
-        return self::$lifecycle->$unit;
+
+        return self::$lifecycle->{$unit};
     }
 
-    public static function __callStatic($name, $arguments)
+    protected static function unit()
     {
-        $instance = self::getAccessor();
-        return $instance->$name(...$arguments);
+        throw new Exception('Zest '.get_called_class().' does not provide target unit');
     }
 }

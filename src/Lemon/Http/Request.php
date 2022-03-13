@@ -30,12 +30,28 @@ class Request
     public function __construct($request_data)
     {
         foreach ($request_data as $key => $value) {
-            $this->$key = $value;
+            $this->{$key} = $value;
         }
     }
 
     /**
-     * Creates new Request instance from sent request
+     * Returns value from data array.
+     *
+     * @param mixed $key
+     *
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        if (isset($this->data[$key])) {
+            return $this->data[$key];
+        }
+
+        return null;
+    }
+
+    /**
+     * Creates new Request instance from sent request.
      *
      * @return self
      */
@@ -47,22 +63,20 @@ class Request
             'headers' => getallheaders(),
             'input' => $_POST,
             'json' => json_decode(file_get_contents('php://input')),
-            'body' => file_get_contents('php://input')
+            'body' => file_get_contents('php://input'),
         ]);
     }
 
     /**
-     * Emulates requestwith given data
+     * Emulates requestwith given data.
      *
-     * @param string $path
-     * @param string $method
      * @return self
      */
     public static function emulate(string $path, string $method)
     {
         return new self([
             'uri' => $path,
-            'method' => $method
+            'method' => $method,
         ]);
     }
 
@@ -72,7 +86,9 @@ class Request
     }
 
     /**
-     * Returns json value
+     * Returns json value.
+     *
+     * @param mixed $key
      *
      * @return mixed
      */
@@ -82,9 +98,11 @@ class Request
     }
 
     /**
-     * Returns POST input value
+     * Returns POST input value.
      *
-     * @return String
+     * @param mixed $key
+     *
+     * @return string
      */
     public function input($key)
     {
@@ -92,9 +110,9 @@ class Request
     }
 
     /**
-     * Returns GET query value
+     * Returns GET query value.
      *
-     * @return String
+     * @return string
      */
     public function query()
     {
@@ -102,22 +120,11 @@ class Request
     }
 
     /**
-     * Returns value from data array
+     * Returns value from header.
      *
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        if (isset($this->data[$key])) {
-            return $this->data[$key];
-        }
-        return null;
-    }
-
-    /**
-     * Returns value from header
+     * @param mixed $name
      *
-     * @return String
+     * @return string
      */
     public function header($name)
     {

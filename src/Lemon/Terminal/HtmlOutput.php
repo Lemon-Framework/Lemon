@@ -22,10 +22,11 @@ class HtmlOutput
     public function parseHeading($heading)
     {
         $line = str_repeat('-', strlen($heading) + 2);
+
         return
-            '+' .       $line .      '+' . PHP_EOL .
-            '| ' . trim($heading) . ' |' . PHP_EOL .
-            '+' .       $line .      '+' . PHP_EOL;
+            '+'.$line.'+'.PHP_EOL.
+            '| '.trim($heading).' |'.PHP_EOL.
+            '+'.$line.'+'.PHP_EOL;
     }
 
     public function parseClasses($node)
@@ -44,12 +45,11 @@ class HtmlOutput
         foreach (explode(' ', $classes->value) as $class_name) {
             $style = $styles->resolveClass($class_name);
             $result[0] .= $style[0];
-            $result[1] = $style[1] . $result[1];
+            $result[1] = $style[1].$result[1];
         }
 
         return $result;
     }
-
 
     public function getParrentStyles(DOMNode|DOMText $node)
     {
@@ -61,33 +61,26 @@ class HtmlOutput
         $classes = $this->parseClasses($node);
 
         $close =
-            $classes[1] == '<PARENT>'
+            '<PARENT>' == $classes[1]
             ? $this->getParrentStyles($node)
             : $classes[1];
 
-        if ($node->nodeName == 'div') {
+        if ('div' == $node->nodeName) {
             $close .= PHP_EOL;
         }
 
         return
-            $classes[0] .
+            $classes[0].
             match ($node->nodeName) {
-                'h1'=>
-                    $this->parseHeading($node->textContent),
-                'hr' =>
-                    PHP_EOL . str_repeat('—', $this->terminal->width()) . PHP_EOL,
-                'b', 'strong' =>
-                    "\033[1m" . $node->textContent . "\033[39m",
-                'i' =>
-                    "\033[3m" . $node->textContent . "\033[39m",
-                'u' =>
-                    "\033[4m" . $node->textContent . "\033[39m",
-                'div' =>
-                    $this->parseNodes($node->childNodes),
-                default =>
-                    $node->textContent
+                'h1' => $this->parseHeading($node->textContent),
+                'hr' => PHP_EOL.str_repeat('—', $this->terminal->width()).PHP_EOL,
+                'b', 'strong' => "\033[1m".$node->textContent."\033[39m",
+                'i' => "\033[3m".$node->textContent."\033[39m",
+                'u' => "\033[4m".$node->textContent."\033[39m",
+                'div' => $this->parseNodes($node->childNodes),
+                default => $node->textContent
             }
-        . $close;
+        .$close;
     }
 
     public function parseNodes($nodes)

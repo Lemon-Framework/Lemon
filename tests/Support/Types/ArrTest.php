@@ -6,6 +6,10 @@ use Exception;
 use Lemon\Support\Types\Arr;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ArrTest extends TestCase
 {
     public function testFromJson()

@@ -2,11 +2,15 @@
 
 namespace Lemon\Tests\Debug;
 
-use Lemon\Tests\Debug\Fixtures\FooObject;
 use Lemon\Debug\Dumper;
 use Lemon\Support\Types\Array_;
+use Lemon\Tests\Debug\Fixtures\FooObject;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class DumperTest extends TestCase
 {
     public function getDumper()
@@ -42,7 +46,6 @@ class DumperTest extends TestCase
         $this->assertSame('<details><summary>array [</summary><span class="ldg-array-item"><span class="ldg-array-key">[0]</span> => <span class="ldg-number">10</span></span><span class="ldg-array-item"><span class="ldg-array-key">[1]</span> => <details><summary>array [</summary><span class="ldg-array-item"><span class="ldg-array-key">[0]</span> => <span class="ldg-string">"lisky"</span></span></details>]</span></details>]', $dumper->parseIterator([10, ['lisky']]));
     }
 
-
     public function testTypeResolver()
     {
         $dumper = $this->getDumper();
@@ -53,5 +56,4 @@ class DumperTest extends TestCase
         $this->assertSame('parseIterator', $dumper->resolveType(new Array_(['foo, bar, baz'])));
         $this->assertSame('parseObject', $dumper->resolveType(new FooObject()));
     }
-
 }

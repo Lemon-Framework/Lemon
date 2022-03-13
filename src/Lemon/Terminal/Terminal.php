@@ -18,12 +18,14 @@ class Terminal
     public function width()
     { // WIP
         $columns = getenv('COLUMNS');
+
         return is_numeric($columns) ? (int) $columns : 80;
     }
 
     public function height()
     {
         $rows = getenv('LINES');
+
         return is_int($rows) ? (int) $rows : 50;
     }
 
@@ -47,7 +49,7 @@ class Terminal
 
         $render .= PHP_EOL;
 
-        if ($this->lifecycle->config('init', 'mode') == 'web') {
+        if ('web' == $this->lifecycle->config('init', 'mode')) {
             return file_put_contents('php://stdout', $render);
         }
 

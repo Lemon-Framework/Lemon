@@ -4,74 +4,36 @@ namespace Lemon\Http\Routing;
 
 use Lemon\Http\Request;
 use Lemon\Http\Response;
-use Lemon\Support\Types\Array_;
 use Lemon\Support\Types\Str;
 
 /**
- * Class for executing Lemon Lifecycle
+ * Class for executing Lemon Lifecycle.
  *
- * @param Array $routes
+ * @param array $routes
  */
 class Dispatcher
 {
-
     private Request $request;
 
     /**
-     * Request path
+     * Request path.
      */
     private string $request_uri;
 
     /**
-     * List of all registered routes
+     * List of all registered routes.
      */
     private array $routes;
-
 
     public function __construct(array $routes, Request $request)
     {
         $this->request = $request;
-        $this->request_uri = trim($request->uri, "/");
+        $this->request_uri = trim($request->uri, '/');
         $this->routes = $routes;
     }
 
     /**
-     * Parses get arguments to array
-     *
-     * @return Array
-     */
-    private function parseGet()
-    {
-        $get_args = [];
-        if (preg_match("/\?(.+)$/", $this->request_uri, $matches) == 1) {
-            $this->request_uri = str_replace($matches[0], "", $this->request_uri); // kinda wip
-            parse_str($matches[1], $get_args);
-        }
-
-        return $get_args;
-    }
-
-    /**
-     * Finds matching routes
-     *
-     * @return Array
-     */
-    private function dispatchUri()
-    {
-        $matched_routes = [];
-        foreach ($this->routes as $route) {
-            $path = preg_replace("/{.*?}/", "([^/]+)", $route->path);
-            if (preg_match("%^{$path}$%", $this->request_uri, $params) === 1) {
-                unset($params[0]);
-                array_push($matched_routes, [$route, $params]);
-            }
-        }
-
-        return $matched_routes;
-    }
-
-    /**
-     * Finds matching route for request parameters
+     * Finds matching route for request parameters.
      *
      * @return Response
      */
@@ -90,6 +52,41 @@ class Dispatcher
             }
         }
 
-        return new Response("", 400);
+        return new Response('', 400);
+    }
+
+    /**
+     * Parses get arguments to array.
+     *
+     * @return array
+     */
+    private function parseGet()
+    {
+        $get_args = [];
+        if (1 == preg_match('/\\?(.+)$/', $this->request_uri, $matches)) {
+            $this->request_uri = str_replace($matches[0], '', $this->request_uri); // kinda wip
+            parse_str($matches[1], $get_args);
+        }
+
+        return $get_args;
+    }
+
+    /**
+     * Finds matching routes.
+     *
+     * @return array
+     */
+    private function dispatchUri()
+    {
+        $matched_routes = [];
+        foreach ($this->routes as $route) {
+            $path = preg_replace('/{.*?}/', '([^/]+)', $route->path);
+            if (1 === preg_match("%^{$path}$%", $this->request_uri, $params)) {
+                unset($params[0]);
+                array_push($matched_routes, [$route, $params]);
+            }
+        }
+
+        return $matched_routes;
     }
 }

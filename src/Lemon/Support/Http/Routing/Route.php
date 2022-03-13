@@ -3,107 +3,98 @@
 namespace Lemon\Support\Http\Routing;
 
 use Lemon\Http\Request;
+use Lemon\Http\Routing\Dispatcher;
 use Lemon\Http\Routing\Route as RouteCore;
 use Lemon\Http\Routing\RouteGroup;
-use Lemon\Http\Routing\Dispatcher;
 
 class Route
 {
     /**
-     * All registered routes
+     * All registered routes.
      */
     public static $routes = [];
 
     public static $controller_resources = [
-        "index" => ["get", "/"],
-        "create" => ["get", "/create"],
-        "store" => ["get", "/create"],
-        "show" => ["get", "/{target}"],
-        "edit" => ["get", "/{target}/edit"],
-        "update" => ["post", "/{target}"],
-        "delete" => ["get", "/{target}/delete"]
+        'index' => ['get', '/'],
+        'create' => ['get', '/create'],
+        'store' => ['get', '/create'],
+        'show' => ['get', '/{target}'],
+        'edit' => ['get', '/{target}/edit'],
+        'update' => ['post', '/{target}'],
+        'delete' => ['get', '/{target}/delete'],
     ];
 
     /**
-     * Creates new route
+     * Creates new route.
      *
-     * @param String $path
-     * @param Array $methods
-     * @param Closure|String|Array $action
+     * @param array|Closure|string $action
      *
      * @return Route
      */
-    public static function createRoute(String $path, array $methods, $action)
+    public static function createRoute(string $path, array $methods, $action)
     {
         if (is_string($action)) {
-            $action = explode(":", $action);
+            $action = explode(':', $action);
             if (!isset($action[1])) {
                 $action = $action[0];
             }
         }
         $route = new RouteCore($path, $methods, $action);
         array_push(self::$routes, $route);
+
         return $route;
     }
 
     /**
-     * Creates route for method GET
+     * Creates route for method GET.
      *
-     * @param String $path
-     * @param Closure|String|Array $action
+     * @param array|Closure|string $action
      *
      * @return Route
      */
-    public static function get(String $path, $action)
+    public static function get(string $path, $action)
     {
-        return self::createRoute($path, ["GET"], $action);
+        return self::createRoute($path, ['GET'], $action);
     }
 
     /**
-     * Creates route for method POST
+     * Creates route for method POST.
      *
-     * @param String $path
-     * @param Closure|String|Array $action
+     * @param array|Closure|string $action
      *
      * @return Route
      */
-    public static function post(String $path, $action)
+    public static function post(string $path, $action)
     {
-        return self::createRoute($path, ["POST"], $action);
+        return self::createRoute($path, ['POST'], $action);
     }
 
     /**
-     * Creates route for every request method
+     * Creates route for every request method.
      *
-     * @param String $path
-     * @param Closure|String|Array $action
+     * @param array|Closure|string $action
      *
      * @return Route
      */
-    public static function any(String $path, $action)
+    public static function any(string $path, $action)
     {
-        return self::createRoute($path, ["GET", "POST", "PUT", "HEAD", "DELETE", "PATCH", "OPTIONS"], $action);
+        return self::createRoute($path, ['GET', 'POST', 'PUT', 'HEAD', 'DELETE', 'PATCH', 'OPTIONS'], $action);
     }
 
     /**
-     * Creates route for given request methods
+     * Creates route for given request methods.
      *
-     * @param String $path
-     * @param Array $methods
-     * @param Closure|String|Array $action
+     * @param array|Closure|string $action
      *
      * @return Route
      */
-    public static function use(String $path, array $methods, $action)
+    public static function use(string $path, array $methods, $action)
     {
         return self::createRoute($path, $methods, $action);
     }
 
     /**
-     * Sets given parameters for every route
-     *
-     * @param Array $parameters
-     * @param Array $routes
+     * Sets given parameters for every route.
      *
      * @return RouteGroup
      */
@@ -112,17 +103,17 @@ class Route
         return new RouteGroup($parameters, $routes);
     }
 
-    public static function controller(String $base, String $controller)
+    public static function controller(string $base, string $controller)
     {
         $methods = get_class_methods($controller);
         $routes = [];
         foreach ($methods as $method) {
-            if (in_array($method, ["get", "post", "put", "head", "delete", "path", "options"])) {
+            if (in_array($method, ['get', 'post', 'put', 'head', 'delete', 'path', 'options'])) {
                 array_push($routes, self::createRoute($base, [strtoupper($method)], [$controller, $method]));
             }
             if (isset(self::$controller_resources[$method])) {
                 $resource = self::$controller_resources[$method];
-                $path = $base . $resource[1];
+                $path = $base.$resource[1];
                 $request_method = strtoupper($resource[0]);
                 array_push($routes, self::createRoute($path, [$request_method], [$controller, $method]));
             }
@@ -132,13 +123,11 @@ class Route
     }
 
     /**
-     * Returns route with given name
-     *
-     * @param String $name
+     * Returns route with given name.
      *
      * @return Route
      */
-    public static function byName(String $name)
+    public static function byName(string $name)
     {
         foreach (self::$routes as $route) {
             if ($route->name == $name) {
@@ -148,9 +137,9 @@ class Route
     }
 
     /**
-     * Returns all routes
+     * Returns all routes.
      *
-     * @return Array
+     * @return array
      */
     public static function all()
     {
@@ -158,7 +147,7 @@ class Route
     }
 
     /**
-     * Executes routing lifecycle
+     * Executes routing lifecycle.
      */
     public static function execute()
     {

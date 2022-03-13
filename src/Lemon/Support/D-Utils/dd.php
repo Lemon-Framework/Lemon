@@ -2,11 +2,11 @@
 
 $contains_style = false;
 
-if (!function_exists("parse")) {
+if (!function_exists('parse')) {
     function parse($target)
     {
-        $result = "";
-        if (gettype($target) == "object") {
+        $result = '';
+        if ('object' == gettype($target)) {
             return parseObject($target);
         }
 
@@ -14,54 +14,56 @@ if (!function_exists("parse")) {
             if (is_array($value)) {
                 $parsed = parse($value);
                 $size = sizeof($value);
-                $result.= "<details><summary class=\"array-key\">$key => Array:$size</summary><div>$parsed</div></details>";
+                $result .= "<details><summary class=\"array-key\">{$key} => Array:{$size}</summary><div>{$parsed}</div></details>";
+
                 continue;
             }
-            if (gettype($value) == "object") {
+            if ('object' == gettype($value)) {
                 $value = parseObject($value);
             }
 
-            $value = $value ?: "undefined";
-            $result .= "<span class=\"key\">[$key]</span>=><span class=\"value\">$value</span><br>";
+            $value = $value ?: 'undefined';
+            $result .= "<span class=\"key\">[{$key}]</span>=><span class=\"value\">{$value}</span><br>";
         }
+
         return $result;
     }
 }
 
-if (!function_exists("parseObject")) {
+if (!function_exists('parseObject')) {
     function parseObject($target)
     {
         $original_class = get_class($target);
         $class_vars = get_class_vars($original_class);
         $class_methods = get_class_methods($original_class);
 
-        $class_content = ["variables" => $class_vars, "methods" => $class_methods];
+        $class_content = ['variables' => $class_vars, 'methods' => $class_methods];
         $parsed = parse($class_content);
 
-        $result = "<details><summary class=\"class\">Class $original_class</summary><div>$parsed</div></details>";
-
-        return $result;
+        return "<details><summary class=\"class\">Class {$original_class}</summary><div>{$parsed}</div></details>";
     }
 }
 
-if (!function_exists("dump")) {
+if (!function_exists('dump')) {
     function dump(...$targets)
     {
-        $parsed = "";
+        $parsed = '';
         foreach ($targets as $target) {
             if (is_array($target)) {
                 $parsed_data = parse($target);
                 $size = sizeof($target);
-                $parsed .= "<div class=\"bg\"><details><summary class=\"array-key\">Array:$size</summary><div>$parsed_data</div></details></div>";
+                $parsed .= "<div class=\"bg\"><details><summary class=\"array-key\">Array:{$size}</summary><div>{$parsed_data}</div></details></div>";
+
                 continue;
             }
 
-            if (!in_array(gettype($target), ["string", "int", "bool"])) {
-                $parsed .= "<div class=\"bg\">" . parse($target) . "</div>";
+            if (!in_array(gettype($target), ['string', 'int', 'bool'])) {
+                $parsed .= '<div class="bg">'.parse($target).'</div>';
+
                 continue;
             }
 
-            $parsed .= "<div class=\"bg\">" . $target . "</div>";
+            $parsed .= '<div class="bg">'.$target.'</div>';
         }
 
         global $contains_style;
@@ -73,10 +75,11 @@ if (!function_exists("dump")) {
     }
 }
 
-if (!function_exists("dd")) {
+if (!function_exists('dd')) {
     function dd(...$targets)
     {
         dump(...$targets);
-        die();
+
+        exit();
     }
 }

@@ -5,47 +5,49 @@ namespace Lemon\Sessions;
 use Lemon\Http\Response;
 
 /**
- * CSRF preventing class
+ * CSRF preventing class.
  */
 class Csrf
 {
     /**
-     * Creates new CSRF token and saves it into user's session
+     * Creates new CSRF token and saves it into user's session.
      */
     public static function setToken()
     {
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        if ('GET' == $_SERVER['REQUEST_METHOD']) {
             $token = uniqid();
-            $token = hash("sha256", $token);
-            $_SESSION["csrf_token"] = $token;
+            $token = hash('sha256', $token);
+            $_SESSION['csrf_token'] = $token;
         }
     }
 
     /**
-     * Validates CSRF token by comparing the one from POST input and session
+     * Validates CSRF token by comparing the one from POST input and session.
      */
     public static function check()
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (isset($_POST["csrf_token"]) && isset($_SESSION["csrf_token"])) {
-                if ($_POST["csrf_token"] != $_SESSION["csrf_token"]) {
+        if ('POST' == $_SERVER['REQUEST_METHOD']) {
+            if (isset($_POST['csrf_token'], $_SESSION['csrf_token'])) {
+                if ($_POST['csrf_token'] != $_SESSION['csrf_token']) {
                     (new Response('', 400))->terminate();
+
                     exit();
                 }
             } else {
                 (new Response('', 400))->terminate();
+
                 exit();
             }
         }
     }
 
     /**
-     * Returns CSRF token from session
+     * Returns CSRF token from session.
      *
-     * @return String
+     * @return string
      */
     public static function getToken()
     {
-        return $_SESSION["csrf_token"] ?? "";
+        return $_SESSION['csrf_token'] ?? '';
     }
 }

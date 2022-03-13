@@ -5,7 +5,7 @@ namespace Lemon\Support\Utils;
 use Exception;
 
 /**
- * .env managing utility
+ * .env managing utility.
  */
 class Env
 {
@@ -13,85 +13,80 @@ class Env
     public static $path;
 
     /**
-     * Sets .env location
-     *
-     * @param String $path
+     * Sets .env location.
      */
-    public static function setPath(String $path)
+    public static function setPath(string $path)
     {
-        self::$path = $path . "/.env";
+        self::$path = $path.'/.env';
     }
 
     /**
-     * Returns value saved by given key
+     * Returns value saved by given key.
      *
-     * @param String $key
-     * @return String
+     * @return string
      */
-    public static function get(String $key)
+    public static function get(string $key)
     {
         $data = self::all();
         if (!isset($data[$key])) {
-            throw new Exception("Env key $key does not exist!");
+            throw new Exception("Env key {$key} does not exist!");
         }
+
         return $data[$key];
     }
 
     /**
-     * Sets value for given key
+     * Sets value for given key.
      *
-     * @param String $key
      * @param mixed $value
      */
-    public static function set(String $key, $value)
+    public static function set(string $key, $value)
     {
         if (!is_string($value)) {
             throw new Exception("Value can't be converted to string!");
         }
 
         $data = self::all();
-        $data[$key] = (string)$value;
+        $data[$key] = (string) $value;
 
         self::replace($data);
     }
 
     /**
-     * Sets whole .env file to given Array
+     * Sets whole .env file to given Array.
      *
-     * @param Array<String, String> $data
+     * @param array<string, string> $data
      */
     public static function replace(array $data)
     {
-        $result = "";
+        $result = '';
         foreach ($data as $key => $value) {
-            $result .= "$key=$value" . PHP_EOL;
+            $result .= "{$key}={$value}".PHP_EOL;
         }
 
-        $file = fopen(self::$path, "w");
+        $file = fopen(self::$path, 'w');
         fwrite($file, $result);
         fclose($file);
     }
 
     /**
-     * Clears whole .env file
+     * Clears whole .env file.
      */
     public static function clear()
     {
-        $file = fopen(self::$path, "w");
-        fwrite($file, "");
+        $file = fopen(self::$path, 'w');
+        fwrite($file, '');
         fclose($file);
     }
 
     /**
-     * Removes given key with value
-     *
-     * @param String $key
+     * Removes given key with value.
      */
-    public static function remove(String $key)
+    public static function remove(string $key)
     {
         $data = self::all();
         if (!isset($data[$key])) {
-            throw new Exception("Env key $key does not exist!");
+            throw new Exception("Env key {$key} does not exist!");
         }
 
         unset($data[$key]);
@@ -99,9 +94,9 @@ class Env
     }
 
     /**
-     * Returns .env file content
+     * Returns .env file content.
      *
-     * @return Array<String, String>
+     * @return array<string, string>
      */
     public static function all()
     {
@@ -109,11 +104,12 @@ class Env
         $result = [];
 
         foreach (explode(PHP_EOL, $data) as $line) {
-            $pair = explode("=", $line);
+            $pair = explode('=', $line);
             if (isset($pair[1])) {
                 $result[$pair[0]] = $pair[1];
             }
         }
+
         return $result;
     }
 }

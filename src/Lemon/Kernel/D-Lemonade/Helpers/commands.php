@@ -1,22 +1,20 @@
 <?php
 
-require "info.php";
-require __DIR__."/../Server/server.php";
-require __DIR__."/../Builders/builder.php";
-require __DIR__."/../Repl/repl.php";
+require 'info.php';
 
-/*
- *
- * List of all commands
- *
- * */
+require __DIR__.'/../Server/server.php';
+
+require __DIR__.'/../Builders/builder.php';
+
+require __DIR__.'/../Repl/repl.php';
+
+// List of all commands
 const COMMANDS = [
-    "-h" => "help",
-    "-i" => "info",
-    "-v" => "version",
-    "serve" => "serve",
-    "build" => "build",
-    "routes" => "routes",
-    "repl" => "repl"
-
+    '-h' => 'help',
+    '-i' => 'info',
+    '-v' => 'version',
+    'serve' => 'serve',
+    'build' => 'build',
+    'routes' => 'routes',
+    'repl' => 'repl',
 ];
