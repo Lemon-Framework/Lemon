@@ -133,9 +133,9 @@ class Filesystem
      * Converts path into os-compatible
      *
      * @param string $path
-     * @return void
+     * return string
      */
-    public static function normalize(string $path)
+    public static function normalize(string $path): string
     {
         $path = rtrim($path, '/\\');
 

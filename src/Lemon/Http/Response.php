@@ -162,11 +162,6 @@ class Response
         if (get_class($body) == "Lemon\Views\View") {
             echo $body->resolved_template;
         }
-
-        if ($body instanceof \Lemon\Views\View) {
-            extract($body->arguments);
-            eval($body->compiled_template);
-        }
     }
 
     /**

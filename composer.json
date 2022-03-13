@@ -40,11 +40,14 @@
     "require-dev": {
         "phpunit/phpunit": "^9",
         "vimeo/psalm": "^4.20",
-        "friendsofphp/php-cs-fixer": "^3.6"
+        "friendsofphp/php-cs-fixer": "^3.6",
+        "phpstan/phpstan": "^1.4",
+        "nunomaduro/phpinsights": "^2.1"
     },
     "config": {
         "allow-plugins": {
-            "composer/package-versions-deprecated": true
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     }
 }

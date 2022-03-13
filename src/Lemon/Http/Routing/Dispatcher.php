@@ -14,15 +14,18 @@ use Lemon\Support\Types\Str;
  */
 class Dispatcher
 {
+
+    private Request $request;
+
     /**
      * Request path
      */
-    private $request_uri;
+    private string $request_uri;
 
     /**
      * List of all registered routes
      */
-    private $routes;
+    private array $routes;
 
 
     public function __construct(array $routes, Request $request)

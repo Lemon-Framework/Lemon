@@ -29,11 +29,11 @@ class Csrf
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["csrf_token"]) && isset($_SESSION["csrf_token"])) {
                 if ($_POST["csrf_token"] != $_SESSION["csrf_token"]) {
-                    Response::raise(400);
+                    (new Response('', 400))->terminate();
                     exit();
                 }
             } else {
-                Response::raise(400);
+                (new Response('', 400))->terminate();
                 exit();
             }
         }
