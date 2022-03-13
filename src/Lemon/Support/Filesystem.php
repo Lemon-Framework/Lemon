@@ -2,33 +2,62 @@
 
 namespace Lemon\Support;
 
-use Lemon\Exceptions\DirectoryNotFoundException;
+use Lemon\Exceptions\FilesystemException;
 use Lemon\Support\Types\Arr;
-use Lemon\Support\Types\Array_;
 use Lemon\Support\Types\Str;
 
 class Filesystem
 {
+    /**
+     * Returns content of given file
+     *
+     * @param string $file
+     * @return string
+     */
     public static function read(string $file): string
     {
-        return file_get_contents($file);
+        if (self::isFile($file)) {
+            return file_get_contents($file);
+        }
+
+        throw FilesystemException::explainFileNotFound($file);
     }
 
+    /**
+     * Writes content to given file
+     *
+     * @param string $file
+     * @param string $content
+     * @return string
+     */
     public static function write(string $file, string $content): string
     {
         return file_put_contents($file, $content);
     }
 
+    /**
+     * Creates new directory
+     *
+     * @param string $dir
+     * @return void
+     */
     public static function makeDir(string $dir): void
     {
         mkdir($dir, recursive: true);
     }
 
+    /**
+     * Returns array of paths in given directory
+     *
+     * @param string $dir
+     * @return array
+     */
     public static function listDir(string $dir): array
     {
         if (!self::isDir($dir)) {
-            throw DirectoryNotFoundException::explain($dir); 
+            throw FilesystemException::explainDirectoryNotFound($dir); 
         }
+
         $result = [];
         foreach (scandir($dir) as $file) {
             $file = Filesystem::join($dir, $file);
@@ -45,36 +74,67 @@ class Filesystem
         return $result;
     }
 
-    public static function isFile(string $file)
+    /**
+     * Returns whenever given path is file
+     *
+     * @param string $file
+     * @return bool 
+     */
+    public static function isFile(string $file): bool
     {
         return is_file($file);
     }
 
-    public static function isDir(string $dir) {
+    /**
+     * Returns whenever given path is directory
+     *
+     * @param string $dir
+     * @return bool
+     */
+    public static function isDir(string $dir): bool 
+    {
         return is_dir($dir);
     }
 
+    /**
+     * Deletes given file/directory
+     *
+     * @param string $file
+     * @return void
+     */
     public static function delete(string $file)
     {
-
-        if (self::isFile($file))
+        if (self::isFile($file)) {
             unlink($file);
+        }
 
-        if (self::isDir($file))
-        {
-            foreach (scandir($file) as $sub)
+        if (self::isDir($file)) {
+            foreach (scandir($file) as $sub) {
                 self::delete(self::join($file, $sub));
+            }
             rmdir($file);
         }
     }
 
-    public static function join(string ...$paths)
+    /**
+     * Joins given paths with directory separator
+     *
+     * @param string ...$paths
+     * @return \Lemon\Support\Types\String_
+     */
+    public static function join(string ...$paths): \Lemon\Support\Types\String_
     {
         return Str::join(DIRECTORY_SEPARATOR, 
             $paths
         );
     }
 
+    /**
+     * Converts path into os-compatible
+     *
+     * @param string $path
+     * @return void
+     */
     public static function normalize(string $path)
     {
         $path = rtrim($path, '/\\');
@@ -84,12 +144,18 @@ class Filesystem
         return $path;
     }
 
+    /**
+     * Returns parent of given path
+     *
+     * @param string $path
+     * @return void
+     */
     public static function parent(string $path)
     {
         $path = self::normalize($path);
 
         return Str::join(DIRECTORY_SEPARATOR, 
-            Str::split($path, DIRECTORY_SEPARATOR)->slice(0, -1)->content
+            Str::split($path, DIRECTORY_SEPARATOR)->slice(0, -2)->content
         );
     }
 

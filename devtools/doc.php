@@ -11,7 +11,7 @@ $file = $argv[0];
 
 $content = file_get_contents($file);
 
-$content = preg_replace_callback('/(\/\/(.*?)\n(\s*)(?:public|private|protected)?\s*function\s+.*?\((.*?)\)(?:\s*:\s*(.*?))?\s*{[\s\S]*?})/m', function($matches) {
+$content = preg_replace_callback('/(\/\/(.*?)\n(\s*)(?:public|private|protected)?\s+(?:static\s+)?function\s+.*?\((.*?)\)(?:\s*:\s*(.*?))?\s*{[\s\S]*?})/m', function($matches) {
 
     $tab = $matches[3];
     $docblock = '/**' . PHP_EOL;
