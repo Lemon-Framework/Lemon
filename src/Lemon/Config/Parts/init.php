@@ -3,6 +3,6 @@
 declare(strict_types=1);
 
 return [
-    'mode' => LEMON_MODE,
+    'mode' => 'web',
     'debug' => false,
 ];

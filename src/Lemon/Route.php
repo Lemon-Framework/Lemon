@@ -20,7 +20,7 @@ namespace Lemon;
  */
 class Route extends Zest
 {
-    public static function unit()
+    public static function unit(): string
     {
         return 'routing';
     }

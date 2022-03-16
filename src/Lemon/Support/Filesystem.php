@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Support;
 
-use Lemon\Exceptions\FilesystemException;
+use Lemon\Exceptions\Filesystem as FilesystemException;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 
@@ -49,7 +49,7 @@ class Filesystem
 
         $result = [];
         foreach (scandir($dir) as $file) {
-            $file = Filesystem::join($dir, $file);
+            $file = Filesystem::join($dir, $file)->__toString();
             if (Filesystem::isFile($file)) {
                 $result[] = $file;
             }
@@ -92,7 +92,7 @@ class Filesystem
 
         if (self::isDir($file)) {
             foreach (scandir($file) as $sub) {
-                self::delete(self::join($file, $sub));
+                self::delete(self::join($file, $sub)->__toString());
             }
             rmdir($file);
         }

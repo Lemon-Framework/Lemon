@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Lemon\Http\Response;
+use Lemon\Support\Http\Routing\Route;
 
 if (! function_exists('redirect')) {
     /**

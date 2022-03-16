@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon\Debug;
 
+use Lemon\Exceptions\Debuger as DebugerException;
+
 class Dumper
 {
     /**
@@ -98,6 +100,8 @@ class Dumper
         if (is_null($data)) {
             return 'parseNull';
         }
+        $type = gettype($data);
+        throw new DebugerException("Type {$type} cant be dumped."); 
     }
 
     public function resolve($data): string

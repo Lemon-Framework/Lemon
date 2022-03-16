@@ -24,7 +24,7 @@ class Cache
         $path = $this->lifecycle->file($directory);
         if (! Filesystem::isDir($directory)) {
             Filesystem::makeDir($path);
-            Filesystem::write(Filesystem::join($path, '.gitignore'), "*\n!.gitignore");
+            Filesystem::write(Filesystem::join($path, '.gitignore')->content, "*\n!.gitignore");
         }
     }
 

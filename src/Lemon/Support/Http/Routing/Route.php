@@ -29,7 +29,7 @@ class Route
     /**
      * Creates new route.
      */
-    public static function createRoute(string $path, array $methods, array|Closure|string $action): Route
+    public static function createRoute(string $path, array $methods, callable $action)
     {
         if (is_string($action)) {
             $action = explode(':', $action);
@@ -46,7 +46,7 @@ class Route
     /**
      * Creates route for method GET.
      */
-    public static function get(string $path, array|Closure|string $action): Route
+    public static function get(string $path, callable $action)
     {
         return self::createRoute($path, ['GET'], $action);
     }
@@ -54,7 +54,7 @@ class Route
     /**
      * Creates route for method POST.
      */
-    public static function post(string $path, array|Closure|string $action): Route
+    public static function post(string $path, callable $action)
     {
         return self::createRoute($path, ['POST'], $action);
     }
@@ -62,7 +62,7 @@ class Route
     /**
      * Creates route for every request method.
      */
-    public static function any(string $path, array|Closure|string $action): Route
+    public static function any(string $path, callable $action) 
     {
         return self::createRoute($path, ['GET', 'POST', 'PUT', 'HEAD', 'DELETE', 'PATCH', 'OPTIONS'], $action);
     }
@@ -70,7 +70,7 @@ class Route
     /**
      * Creates route for given request methods.
      */
-    public static function use(string $path, array $methods, array|Closure|string $action): Route
+    public static function use(string $path, array $methods, callable $action) 
     {
         return self::createRoute($path, $methods, $action);
     }
@@ -105,13 +105,14 @@ class Route
     /**
      * Returns route with given name.
      */
-    public static function byName(string $name): Route
+    public static function byName(string $name): ?Route
     {
         foreach (self::$routes as $route) {
             if ($route->name === $name) {
                 return $route;
             }
         }
+        return null;
     }
 
     /**
@@ -129,8 +130,8 @@ class Route
      */
     public static function execute(): void
     {
-        $request = new Request();
+        $request = Request::make();
         $dispatcher = new Dispatcher(self::$routes, $request);
-        $dispatcher->run()->terminate();
+        $dispatcher->dispatch()->terminate();
     }
 }

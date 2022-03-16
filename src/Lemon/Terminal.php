@@ -12,7 +12,7 @@ namespace Lemon;
  */
 class Terminal extends Zest
 {
-    public static function unit()
+    public static function unit(): string
     {
         return 'terminal';
     }

@@ -59,13 +59,14 @@ if (! defined('LEMON_DEBUG')) {
 */
 
 // Using server variable DOCUMENT_ROOT we can get the folder of our entry point and manual setting is not needed
-$app = new Lifecycle($dir);
+$app = new Lifecycle($dir->content);
 
 // Loading Lemon Zests which provide static layer over Units
 $app->loadZests();
 
 // Configuring debug mode
 $app->config('init')->debug = LEMON_DEBUG;
+
 
 // Loading error/exception handlers
 $app->loadHandler();

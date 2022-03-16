@@ -1,0 +1,18 @@
+name: PHPStan static analysis
+
+on:
+  push:
+    branches: [ v3-develop ]
+  pull_request:
+    branches: [ v3-develop ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: composer install
+    - run: ./vendor/bin/phpstan analyze src tests

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Config;
 
-use Lemon\Exceptions\ConfigException;
+use Lemon\Exceptions\Config as ConfigException;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Array_;

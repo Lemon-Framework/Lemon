@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon\Http;
 
+use Closure;
+
 /**
  * Class representing HTTP Response.
  *
