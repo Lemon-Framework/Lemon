@@ -25,9 +25,9 @@ class Filesystem
     /**
      * Writes content to given file.
      */
-    public static function write(string $file, string $content): string
+    public static function write(string $file, string $content): void
     {
-        return file_put_contents($file, $content);
+        file_put_contents($file, $content);
     }
 
     /**

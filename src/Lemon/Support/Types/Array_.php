@@ -65,11 +65,13 @@ class Array_ implements Iterator, ArrayAccess
 
     public function offsetGet(mixed $offset): mixed
     {
-        if (preg_match('/^(\\d+)\\.\\.(\\d+)?$/', $offset, $matches) === 1) {
-            $from = (int) $matches[1];
-            $len = isset($matches[2]) ? (int) $matches[2] - $matches[1] + 1 : null;
+        if (is_string($offset)) {
+            if (preg_match('/^(\\d+)\\.\\.(\\d+)?$/', $offset, $matches) === 1) {
+                $from = (int) $matches[1];
+                $len = isset($matches[2]) ? (int) $matches[2] - $matches[1] + 1 : null;
 
-            return $this->slice($from, $len);
+                return $this->slice($from, $len);
+            }
         }
         if (is_int($offset)) {
             if ($offset < 0) {
