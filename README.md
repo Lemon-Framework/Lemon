@@ -20,6 +20,10 @@ TODO:
 - [ ] other cool array methods propably BUT not that much ok do it while writing pls
 - [x] tests for string
 - [x] tests for arr and str
+- [ ] new session
+- [ ] new csrf (middleware?)
+- [ ] cors
+- [ ] env
 - [ ] filesystem
 - [ ] tests for kernel
 - [ ] new kernel
@@ -35,7 +39,23 @@ TODO:
 
 Directories with D means deprecated so they will have to be completely rewritten
 
-# Thanks
+## Contributing
+
+Lemon 3 is under rapid rewriting, if you have ideas for Lemon 3 please create issue first. Bug fixes or tests will be propably accepted but please wait with features.
+
+### How to contribute
+
+Fork repo, create new branch, add stuff and:
+
+```sh
+$ ./vendor/bin/phpunit # test
+$ ./vendor/bin/phpstan # first static analysis
+$ ./vendor/bin/psalm # second static analysis
+$ ./vendor/bin/php-cs-fixer # fixes style
+```
+
+Make sure all of them pass before sending pull request, if they wont pr wont be ignored, but its better to use it.
+## Thanks
 
 - CoolFido - Psychical helping, contributting, ideas, the whole idea of creating framework from scratch (he didn't expect that to happen)
 - Mia - 'Lemon 2'
