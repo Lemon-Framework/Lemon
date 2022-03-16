@@ -18,6 +18,17 @@ class DumperTest extends TestCase
         return new Dumper();
     }
 
+    public function testTypeResolver()
+    {
+        $dumper = $this->getDumper();
+        $this->assertSame('parseNull', $dumper->resolveType(null));
+        $this->assertSame('parseNumber', $dumper->resolveType(-11.5));
+        $this->assertSame('parseString', $dumper->resolveType('bramboraky'));
+        $this->assertSame('parseIterator', $dumper->resolveType(['foo', 'bar', 'baz']));
+        $this->assertSame('parseIterator', $dumper->resolveType(new Array_(['foo, bar, baz'])));
+        $this->assertSame('parseObject', $dumper->resolveType(new FooObject()));
+    }
+
     public function testNumericParsing()
     {
         $dumper = $this->getDumper();
@@ -46,14 +57,4 @@ class DumperTest extends TestCase
         $this->assertSame('<details><summary>array [</summary><span class="ldg-array-item"><span class="ldg-array-key">[0]</span> => <span class="ldg-number">10</span></span><span class="ldg-array-item"><span class="ldg-array-key">[1]</span> => <details><summary>array [</summary><span class="ldg-array-item"><span class="ldg-array-key">[0]</span> => <span class="ldg-string">"lisky"</span></span></details>]</span></details>]', $dumper->parseIterator([10, ['lisky']]));
     }
 
-    public function testTypeResolver()
-    {
-        $dumper = $this->getDumper();
-        $this->assertSame('parseNull', $dumper->resolveType(null));
-        $this->assertSame('parseNumber', $dumper->resolveType(-11.5));
-        $this->assertSame('parseString', $dumper->resolveType('bramboraky'));
-        $this->assertSame('parseIterator', $dumper->resolveType(['foo', 'bar', 'baz']));
-        $this->assertSame('parseIterator', $dumper->resolveType(new Array_(['foo, bar, baz'])));
-        $this->assertSame('parseObject', $dumper->resolveType(new FooObject()));
-    }
 }

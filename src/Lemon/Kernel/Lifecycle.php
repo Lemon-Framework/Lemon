@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Kernel;
 
 use Error;
@@ -26,8 +28,6 @@ class Lifecycle
 {
     /**
      * Current Lemon version.
-     *
-     * @var string
      */
     public const VERSION = '3-develop';
 
@@ -55,14 +55,14 @@ class Lifecycle
 
     public function __get(string $name): mixed
     {
-        if (!isset($this->units[$name])) {
+        if (! isset($this->units[$name])) {
             throw new Exception('Unit '.$name.' does not exist');
         }
 
         return $this->unit($name);
     }
 
-    public static function init()
+    public static function init(): void
     {
     }
 
@@ -81,17 +81,15 @@ class Lifecycle
         set_exception_handler([$this, 'handle']);
     }
 
-    public function handleError($level, $message, $file = '', $line = 0, $context = [])
+    public function handleError($level, $message, $file = '', $line = 0, $context = []): void
     {
         throw new ErrorException($message, 0, $level, $file, $line);
     }
 
     /**
      * Executes error handler.
-     *
-     * @param mixed $problem
      */
-    public function handle($problem)
+    public function handle(mixed $problem): void
     {
         $handler = new Handler($problem, $this);
         $handler->terminate();
@@ -105,7 +103,7 @@ class Lifecycle
      * @param string $unit
      * @param string $key?
      */
-    public function config(string $part, string $key = null): mixed
+    public function config(string $part, ?string $key = null): mixed
     {
         $matched = $this->config->part($part);
         if ($key) {
@@ -140,12 +138,10 @@ class Lifecycle
 
     /**
      * Returns unit instance.
-     *
-     * @return mixed
      */
-    public function unit(string $name)
+    public function unit(string $name): mixed
     {
-        if (!isset($this->units[$name][1])) {
+        if (! isset($this->units[$name][1])) {
             $this->units[$name][1] = new $this->units[$name][0]($this);
         }
 
@@ -155,7 +151,7 @@ class Lifecycle
     /**
      * Executes whole lifecycle.
      */
-    public function boot()
+    public function boot(): void
     {
         try {
             $request = Request::make();

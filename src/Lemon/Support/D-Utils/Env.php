@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Support\Utils;
 
 use Exception;
@@ -15,20 +17,18 @@ class Env
     /**
      * Sets .env location.
      */
-    public static function setPath(string $path)
+    public static function setPath(string $path): void
     {
         self::$path = $path.'/.env';
     }
 
     /**
      * Returns value saved by given key.
-     *
-     * @return string
      */
-    public static function get(string $key)
+    public static function get(string $key): string
     {
         $data = self::all();
-        if (!isset($data[$key])) {
+        if (! isset($data[$key])) {
             throw new Exception("Env key {$key} does not exist!");
         }
 
@@ -37,12 +37,10 @@ class Env
 
     /**
      * Sets value for given key.
-     *
-     * @param mixed $value
      */
-    public static function set(string $key, $value)
+    public static function set(string $key, mixed $value): void
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             throw new Exception("Value can't be converted to string!");
         }
 
@@ -57,7 +55,7 @@ class Env
      *
      * @param array<string, string> $data
      */
-    public static function replace(array $data)
+    public static function replace(array $data): void
     {
         $result = '';
         foreach ($data as $key => $value) {
@@ -72,7 +70,7 @@ class Env
     /**
      * Clears whole .env file.
      */
-    public static function clear()
+    public static function clear(): void
     {
         $file = fopen(self::$path, 'w');
         fwrite($file, '');
@@ -82,10 +80,10 @@ class Env
     /**
      * Removes given key with value.
      */
-    public static function remove(string $key)
+    public static function remove(string $key): void
     {
         $data = self::all();
-        if (!isset($data[$key])) {
+        if (! isset($data[$key])) {
             throw new Exception("Env key {$key} does not exist!");
         }
 
@@ -98,7 +96,7 @@ class Env
      *
      * @return array<string, string>
      */
-    public static function all()
+    public static function all(): array
     {
         $data = file_get_contents(self::$path);
         $result = [];

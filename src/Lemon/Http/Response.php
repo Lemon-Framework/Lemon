@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Http;
 
 /**
@@ -84,7 +86,7 @@ class Response
     /**
      * Displays response parameters.
      */
-    public function terminate()
+    public function terminate(): void
     {
         $this->handleStatusCode();
         $this->handleLocation();
@@ -94,11 +96,8 @@ class Response
 
     /**
      * Sets status code handler.
-     *
-     * @param Closure|string $action
-     *
-     * */
-    public static function handle(int $code, $action)
+     */
+    public static function handle(int $code, Closure|string $action): void
     {
         self::$handlers[$code] = $action;
     }
@@ -106,10 +105,10 @@ class Response
     /**
      * Handles response status code.
      */
-    private function handleStatusCode()
+    private function handleStatusCode(): void
     {
         $code = $this->status_code;
-        if (!isset(\ERRORS[$code])) {
+        if (! isset(\ERRORS[$code])) {
             return;
         }
 
@@ -121,13 +120,13 @@ class Response
             status_page($code);
         }
 
-        exit();
+        exit;
     }
 
     /**
      * Redirects to given location, if set.
      */
-    private function handleLocation()
+    private function handleLocation(): void
     {
         $location = $this->location;
 
@@ -139,7 +138,7 @@ class Response
     /**
      * Sends set response headers.
      */
-    private function handleHeaders()
+    private function handleHeaders(): void
     {
         foreach ($this->headers as $header => $value) {
             header($header.':'.$value);
@@ -149,7 +148,7 @@ class Response
     /**
      * Displays handled response body.
      */
-    private function handleBody()
+    private function handleBody(): void
     {
         $body = $this->body;
 
@@ -166,7 +165,7 @@ class Response
             return;
         }
 
-        if (!is_object($body)) {
+        if (! is_object($body)) {
             return;
         }
 
@@ -174,7 +173,7 @@ class Response
             $body->terminate();
         }
 
-        if ('Lemon\\Views\\View' == get_class($body)) {
+        if ($body::class === 'Lemon\\Views\\View') {
             echo $body->resolved_template;
         }
     }

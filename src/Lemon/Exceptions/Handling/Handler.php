@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Exceptions\Handling;
 
 use Lemon\Http\Response;
@@ -20,7 +22,7 @@ class Handler
     /**
      * Executes handler depending on debug settings.
      */
-    public function terminate()
+    public function terminate(): void
     {
         if ($this->lifecycle->config('init', 'debug')) {
             echo $this->problem;

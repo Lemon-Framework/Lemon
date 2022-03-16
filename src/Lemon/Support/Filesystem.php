@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Support;
 
 use Lemon\Exceptions\FilesystemException;
@@ -41,7 +43,7 @@ class Filesystem
      */
     public static function listDir(string $dir): array
     {
-        if (!self::isDir($dir)) {
+        if (! self::isDir($dir)) {
             throw FilesystemException::explainDirectoryNotFound($dir);
         }
 
@@ -82,7 +84,7 @@ class Filesystem
     /**
      * Deletes given file/directory.
      */
-    public static function delete(string $file)
+    public static function delete(string $file): void
     {
         if (self::isFile($file)) {
             unlink($file);
@@ -98,8 +100,6 @@ class Filesystem
 
     /**
      * Joins given paths with directory separator.
-     *
-     * @return \Lemon\Support\Types\String_
      */
     public static function join(string ...$paths): Types\String_
     {

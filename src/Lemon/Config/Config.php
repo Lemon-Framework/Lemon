@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Config;
 
 use Lemon\Exceptions\ConfigException;
@@ -32,11 +34,11 @@ class Config
     public function part(string $name): Array_
     {
         $path = Filesystem::join(__DIR__, self::BASE, $name).'.php';
-        if (!Filesystem::isFile($path)) {
+        if (! Filesystem::isFile($path)) {
             throw new ConfigException('Config part '.$name.' does not exist');
         }
 
-        if (!isset($this->data[$name])) {
+        if (! isset($this->data[$name])) {
             $this->data[$name] = new Array_(require_once $path);
         }
 

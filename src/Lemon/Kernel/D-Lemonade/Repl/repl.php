@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class Repl
 {
     /**
@@ -14,12 +16,10 @@ class Repl
 
     /**
      * Runs whole repl.
-     *
-     * @param mixed $directory
      */
-    public function run($directory)
+    public function run(mixed $directory): void
     {
-        readline_completion_function(function () {
+        readline_completion_function(static function () {
             $text = end(explode(' ', readline_info()['line_buffer']));
             $functions = get_defined_functions();
             $constants = array_keys(get_defined_constants());
@@ -53,7 +53,7 @@ class Repl
     /**
      * Parses command, if its condition, calls statements method.
      */
-    private function command()
+    private function command(): void
     {
         $command = readline($this->cursor);
 
@@ -71,7 +71,7 @@ class Repl
             echo "\n";
             $this->last_command = '';
             $this->cursor = '--> ';
-        } elseif ('' !== $command) {
+        } elseif ($command !== '') {
             $this->last_command .= $command;
             $this->cursor = '--- ';
         }
@@ -82,7 +82,7 @@ class Repl
     /**
      * Parses more complicated statements.
      */
-    private function statements()
+    private function statements(): void
     {
         $command = readline('--- ');
         if (preg_match('/}$/', $command)) {
@@ -105,11 +105,8 @@ class Repl
 
 /**
  * Helping function.
- *
- * @param mixed $arguments
- * @param mixed $directory
  */
-function repl($arguments, $directory)
+function repl(mixed $arguments, mixed $directory): void
 {
     $repl = new Repl();
     $repl->run($directory);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Http\Routing;
 
 /**
@@ -43,7 +45,7 @@ class RouteGroup
     /**
      * Resolves nested route groups and arrays of routes.
      */
-    public function resolve()
+    public function resolve(): void
     {
         foreach ($this->routes as $pos => $route) {
             if (is_array($route)) {
@@ -56,11 +58,8 @@ class RouteGroup
 
     /**
      * Resolves routes that aren't Route instance.
-     *
-     * @param mixed $pos
-     * @param mixed $routes
      */
-    public function resolveRoute($pos, $routes)
+    public function resolveRoute(mixed $pos, mixed $routes): void
     {
         unset($this->routes[$pos]);
         $this->routes = array_merge($this->routes, $routes);
@@ -69,10 +68,10 @@ class RouteGroup
     /**
      * Updates every group member to given parameters.
      */
-    public function update()
+    public function update(): void
     {
         foreach ($this->routes as $route) {
-            if ('' != $this->name) {
+            if ($this->name !== '') {
                 $route->name = $this->name.':'.$route->name;
             }
             $route->middleware($this->middlewares);

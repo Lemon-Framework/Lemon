@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Kernel\Lemonade;
 
 require 'Helpers/commands.php';
@@ -22,7 +24,7 @@ class Kernel
         $this->directory = $directory;
     }
 
-    public function execute()
+    public function execute(): void
     {
         $command = $this->command[1] ?? '';
         $arguments = array_slice($this->command, 2);

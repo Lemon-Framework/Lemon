@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Arr;
@@ -27,7 +29,7 @@ if (defined('LEMON_NO_INIT')) {
 }
 
 // If lemon mode is not defined nor is web, it won't initialize
-if (!defined('LEMON_MODE')) {
+if (! defined('LEMON_MODE')) {
     define(
         'LEMON_MODE',
         isset($_SERVER['REQUEST_METHOD']) ? 'web' : 'terminal'
@@ -36,14 +38,14 @@ if (!defined('LEMON_MODE')) {
 
 $dir = Filesystem::parent($_SERVER['DOCUMENT_ROOT']);
 
-if (LEMON_MODE == 'web') {
+if (LEMON_MODE === 'web') {
     if (is_file($file = $dir.'/../maintenance.php')) {
         require $file;
     }
 }
 
 // If lemon debug is not defined, it will set it to false, so debug mode must be explicitly enabled
-if (!defined('LEMON_DEBUG')) {
+if (! defined('LEMON_DEBUG')) {
     define('LEMON_DEBUG', false);
 }
 
@@ -79,11 +81,11 @@ $app->loadHandler();
 |
  */
 
-if (LEMON_MODE != 'web') {
+if (LEMON_MODE !== 'web') {
     return;
 }
 
-register_shutdown_function(function () use ($app) {
+register_shutdown_function(static function () use ($app): void {
     if (http_response_code() >= 500) {
         return;
     }

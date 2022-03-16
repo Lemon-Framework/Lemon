@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Exceptions\Handling;
 
 use Lemon\Support\Types\Arr;
@@ -20,7 +22,7 @@ class Consultant
         $this->message = $message;
     }
 
-    public function giveAdvice()
+    public function giveAdvice(): void
     {
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Terminal;
 
 use Lemon\Kernel\Lifecycle;
@@ -31,7 +33,7 @@ class Terminal
 
     public function getStyles()
     {
-        if (!isset($this->styles)) {
+        if (! isset($this->styles)) {
             $this->styles = new StyleCollection($this);
         }
 
@@ -49,7 +51,7 @@ class Terminal
 
         $render .= PHP_EOL;
 
-        if ('web' == $this->lifecycle->config('init', 'mode')) {
+        if ($this->lifecycle->config('init', 'mode') === 'web') {
             return file_put_contents('php://stdout', $render);
         }
 

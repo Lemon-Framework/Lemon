@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 $contains_style = false;
 
-if (!function_exists('parse')) {
+if (! function_exists('parse')) {
     function parse($target)
     {
         $result = '';
-        if ('object' == gettype($target)) {
+        if (gettype($target) === 'object') {
             return parseObject($target);
         }
 
@@ -18,11 +20,11 @@ if (!function_exists('parse')) {
 
                 continue;
             }
-            if ('object' == gettype($value)) {
+            if (gettype($value) === 'object') {
                 $value = parseObject($value);
             }
 
-            $value = $value ?: 'undefined';
+            $value = $value ? $value : 'undefined';
             $result .= "<span class=\"key\">[{$key}]</span>=><span class=\"value\">{$value}</span><br>";
         }
 
@@ -30,10 +32,10 @@ if (!function_exists('parse')) {
     }
 }
 
-if (!function_exists('parseObject')) {
+if (! function_exists('parseObject')) {
     function parseObject($target)
     {
-        $original_class = get_class($target);
+        $original_class = $target::class;
         $class_vars = get_class_vars($original_class);
         $class_methods = get_class_methods($original_class);
 
@@ -44,8 +46,8 @@ if (!function_exists('parseObject')) {
     }
 }
 
-if (!function_exists('dump')) {
-    function dump(...$targets)
+if (! function_exists('dump')) {
+    function dump(...$targets): void
     {
         $parsed = '';
         foreach ($targets as $target) {
@@ -57,7 +59,7 @@ if (!function_exists('dump')) {
                 continue;
             }
 
-            if (!in_array(gettype($target), ['string', 'int', 'bool'])) {
+            if (! in_array(gettype($target), ['string', 'int', 'bool'])) {
                 $parsed .= '<div class="bg">'.parse($target).'</div>';
 
                 continue;
@@ -67,7 +69,7 @@ if (!function_exists('dump')) {
         }
 
         global $contains_style;
-        if (!$contains_style) {
+        if (! $contains_style) {
             $contains_style = true;
             echo "<style>@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap');* {outline: none}.bg {background-color: #282c34; color: #abb2bf;font-family: 'Source Code Pro', monospace; font-size: 15pt;padding: 1%; margin: 0;}.array-key {color: #56b6c2;}.key {margin-right: 2%;margin-left: 2%;color: #98c379;}.value {margin-left: 2%; color: #c678dd;}.class {color: #e0af68;}div {margin-left: 2%;}</style>";
         }
@@ -75,11 +77,11 @@ if (!function_exists('dump')) {
     }
 }
 
-if (!function_exists('dd')) {
-    function dd(...$targets)
+if (! function_exists('dd')) {
+    function dd(...$targets): void
     {
         dump(...$targets);
 
-        exit();
+        exit;
     }
 }

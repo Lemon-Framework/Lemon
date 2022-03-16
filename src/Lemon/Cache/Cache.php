@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Cache;
 
 use Lemon\Kernel\Lifecycle;
@@ -16,11 +18,11 @@ class Cache
         $this->lifecycle = $lifecycle;
     }
 
-    public function load()
+    public function load(): void
     {
         $directory = $this->lifecycle->config('cache', 'storage');
         $path = $this->lifecycle->file($directory);
-        if (!Filesystem::isDir($directory)) {
+        if (! Filesystem::isDir($directory)) {
             Filesystem::makeDir($path);
             Filesystem::write(Filesystem::join($path, '.gitignore'), "*\n!.gitignore");
         }
@@ -31,17 +33,17 @@ class Cache
         return $this->data;
     }
 
-    public function get(string $key)
+    public function get(string $key): void
     {
         // vezme hodnotu klice z cache a defaultniho souboru
     }
 
-    public function set($key, $value, $expires = null)
+    public function set($key, $value, $expires = null): void
     {
         // setne hodnotu do cache pripadne nastavi expiraci - nejaka datetime operace i guess PICI TIMEZONY
     }
 
-    public function clear()
+    public function clear(): void
     {
         // smaze cache
     }

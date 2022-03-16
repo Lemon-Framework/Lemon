@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Support\Types;
 
 use ArrayAccess;
@@ -26,7 +28,7 @@ class Array_ implements Iterator, ArrayAccess
         return $this->get($name);
     }
 
-    public function __set($key, $value)
+    public function __set($key, $value): void
     {
         $this->set($key, $value);
     }
@@ -63,7 +65,7 @@ class Array_ implements Iterator, ArrayAccess
 
     public function offsetGet(mixed $offset): mixed
     {
-        if (1 === preg_match('/^(\\d+)\\.\\.(\\d+)?$/', $offset, $matches)) {
+        if (preg_match('/^(\\d+)\\.\\.(\\d+)?$/', $offset, $matches) === 1) {
             $from = (int) $matches[1];
             $len = isset($matches[2]) ? (int) $matches[2] - $matches[1] + 1 : null;
 
@@ -98,12 +100,11 @@ class Array_ implements Iterator, ArrayAccess
     /**
      * Returns value for given key.
      *
-     * @param mixed $key
      * @param mixed
      */
-    public function get($key): mixed
+    public function get(mixed $key): mixed
     {
-        if (!isset($this->content[$key])) {
+        if (! isset($this->content[$key])) {
             throw new Exception("Undefined array key {$key}");
         }
 
@@ -112,11 +113,8 @@ class Array_ implements Iterator, ArrayAccess
 
     /**
      * Sets value for given key.
-     *
-     * @param mixed $key
-     * @param mixed $value
      */
-    public function set($key, $value): self
+    public function set(mixed $key, mixed $value): self
     {
         $this->content[$key] = $value;
 
@@ -125,10 +123,8 @@ class Array_ implements Iterator, ArrayAccess
 
     /**
      * Pushes value to the top of array.
-     *
-     * @param mixed ...$values
      */
-    public function push(...$values): self
+    public function push(mixed ...$values): self
     {
         array_push($this->content, ...$values);
 
@@ -190,7 +186,7 @@ class Array_ implements Iterator, ArrayAccess
         foreach ($this as $item) {
             ++$counter;
             $array[-1][] = $item;
-            if ($counter == $lenght) {
+            if ($counter === $lenght) {
                 $array[] = new self();
                 $counter = 0;
             }
@@ -201,10 +197,8 @@ class Array_ implements Iterator, ArrayAccess
 
     /**
      * Determins whenever array contains given key.
-     *
-     * @param mixed $key
      */
-    public function hasKey($key): bool
+    public function hasKey(mixed $key): bool
     {
         return array_key_exists($key, $this->content);
     }
@@ -348,7 +342,7 @@ class Array_ implements Iterator, ArrayAccess
      *
      * @param mixed int $lenght
      */
-    public function slice(int $start, int $lenght = null): self
+    public function slice(int $start, ?int $lenght = null): self
     {
         return new self(array_slice($this->content, $start, $lenght));
     }
@@ -363,20 +357,16 @@ class Array_ implements Iterator, ArrayAccess
 
     /**
      * Determins whenever array contains given needle.
-     *
-     * @param mixed $needle
      */
-    public function contains($needle): bool
+    public function contains(mixed $needle): bool
     {
         return in_array($needle, $this->content);
     }
 
     /**
      * Determins whenever array contains given needle.
-     *
-     * @param mixed $needle
      */
-    public function has($needle): bool
+    public function has(mixed $needle): bool
     {
         return $this->contains($needle);
     }

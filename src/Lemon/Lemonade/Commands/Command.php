@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Lemon\Kernel\Lemonade\Signature;
 
 class Command
@@ -19,10 +21,8 @@ class Command
 
     /**
      * Validates command signature with given input.
-     *
-     * @return array|false
      */
-    public function validate(string $input)
+    public function validate(string $input): array|false
     {
         if ($arguments = $this->signature->matches($input)) {
             return $arguments;
@@ -34,7 +34,7 @@ class Command
     /**
      * Runs command with given arguments.
      */
-    public function run(array $arguments)
+    public function run(array $arguments): void
     {
         call_user_func_array($this->action, $arguments);
     }

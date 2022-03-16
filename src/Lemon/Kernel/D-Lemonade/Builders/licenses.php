@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require 'templates.php';
 
 // Class for building licenses using interactive command
@@ -20,13 +22,13 @@ class LicenseBuilder
     }
 
     // Builds whole license file
-    public function buildLicense()
+    public function buildLicense(): void
     {
         $licenses = LICENSES;
         $file = fopen('LICENSE.md', 'w');
         $license = $this->parameters['license'];
 
-        if (!in_array($license, $licenses)) {
+        if (! in_array($license, $licenses)) {
             echo textFormat("Building license...\n", '33');
             fwrite($file, $license);
             echo textFormat("Done!\n", '33');
@@ -42,7 +44,7 @@ class LicenseBuilder
     }
 
     // Assigns license type
-    private function licenseType()
+    private function licenseType(): void
     {
         $licenses = LICENSES;
         $type = readline('Type license you want to build: ');
@@ -55,7 +57,7 @@ class LicenseBuilder
             return;
         }
 
-        if ('custom' == $type) {
+        if ($type === 'custom') {
             $license = readline('Type your license content: ');
             $this->parameters['license'] = $license;
 
@@ -67,11 +69,11 @@ class LicenseBuilder
     }
 
     // Assigns license author
-    private function licenseAuthor()
+    private function licenseAuthor(): void
     {
         $name = readline('Type author name: ');
 
-        if (null != $name) {
+        if ($name !== null) {
             $this->parameters['author'] = $name;
 
             return;

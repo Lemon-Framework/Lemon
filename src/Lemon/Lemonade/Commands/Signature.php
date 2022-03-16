@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Kernel\Lemonade;
 
 class Signature
@@ -16,7 +18,7 @@ class Signature
 
     public function matches(string $input)
     {
-        return explode(' ', $input)[0] == $this->name;
+        return explode(' ', $input)[0] === $this->name;
     }
 }
 

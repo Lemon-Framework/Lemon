@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Http;
 
 class Request
@@ -36,12 +38,8 @@ class Request
 
     /**
      * Returns value from data array.
-     *
-     * @param mixed $key
-     *
-     * @return mixed
      */
-    public function __get($key)
+    public function __get(mixed $key): mixed
     {
         if (isset($this->data[$key])) {
             return $this->data[$key];
@@ -52,10 +50,8 @@ class Request
 
     /**
      * Creates new Request instance from sent request.
-     *
-     * @return self
      */
-    public static function make()
+    public static function make(): self
     {
         return new self([
             'uri' => $_SERVER['REQUEST_URI'],
@@ -69,10 +65,8 @@ class Request
 
     /**
      * Emulates requestwith given data.
-     *
-     * @return self
      */
-    public static function emulate(string $path, string $method)
+    public static function emulate(string $path, string $method): self
     {
         return new self([
             'uri' => $path,
@@ -80,53 +74,39 @@ class Request
         ]);
     }
 
-    public function setQuery($query)
+    public function setQuery($query): void
     {
         $this->query = $query;
     }
 
     /**
      * Returns json value.
-     *
-     * @param mixed $key
-     *
-     * @return mixed
      */
-    public function json($key)
+    public function json(mixed $key): mixed
     {
         return $this->json[$key];
     }
 
     /**
      * Returns POST input value.
-     *
-     * @param mixed $key
-     *
-     * @return string
      */
-    public function input($key)
+    public function input(mixed $key): string
     {
         return $this->input[$key];
     }
 
     /**
      * Returns GET query value.
-     *
-     * @return string
      */
-    public function query()
+    public function query(): string
     {
         return $this->query;
     }
 
     /**
      * Returns value from header.
-     *
-     * @param mixed $name
-     *
-     * @return string
      */
-    public function header($name)
+    public function header(mixed $name): string
     {
         return $this->headers[$name];
     }

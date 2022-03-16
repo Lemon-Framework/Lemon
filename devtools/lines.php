@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 function countLines($directory)
 {
     $lines = 0;

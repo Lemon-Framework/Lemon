@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Http\Routing;
 
 use Lemon\Http\MiddlewareCollection;
@@ -51,10 +53,8 @@ class Route
 
     /**
      * Adds new middleware.
-     *
-     * @param array|string $middlewares
      */
-    public function middleware($middlewares)
+    public function middleware(array|string $middlewares)
     {
         $this->middlewares->add($middlewares);
 
@@ -83,10 +83,8 @@ class Route
 
     /**
      * Creates response from route action.
-     *
-     * @return Response
      */
-    public function toResponse(Request $request, array $params)
+    public function toResponse(Request $request, array $params): Response
     {
         $this->middlewares->terminate($request);
 
@@ -95,7 +93,7 @@ class Route
         $last_param = 1;
         $arguments = [];
         foreach ($param_types as $type) {
-            if ('Lemon\\Http\\Request' == $type) {
+            if ($type === 'Lemon\\Http\\Request') {
                 array_push($arguments, $request);
 
                 continue;

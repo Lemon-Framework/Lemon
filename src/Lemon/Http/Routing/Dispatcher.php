@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Http\Routing;
 
 use Lemon\Http\Request;
@@ -34,15 +36,13 @@ class Dispatcher
 
     /**
      * Finds matching route for request parameters.
-     *
-     * @return Response
      */
-    public function dispatch()
+    public function dispatch(): Response
     {
         $this->request->setQuery($this->parseGet());
         $routes = $this->dispatchUri();
 
-        if (!$routes) {
+        if (! $routes) {
             return new Response('', 404);
         }
 
@@ -60,10 +60,10 @@ class Dispatcher
      *
      * @return array
      */
-    private function parseGet()
+    private function parseGet(): array
     {
         $get_args = [];
-        if (1 == preg_match('/\\?(.+)$/', $this->request_uri, $matches)) {
+        if (preg_match('/\\?(.+)$/', $this->request_uri, $matches) === 1) {
             $this->request_uri = str_replace($matches[0], '', $this->request_uri); // kinda wip
             parse_str($matches[1], $get_args);
         }
@@ -76,12 +76,12 @@ class Dispatcher
      *
      * @return array
      */
-    private function dispatchUri()
+    private function dispatchUri(): array
     {
         $matched_routes = [];
         foreach ($this->routes as $route) {
             $path = preg_replace('/{.*?}/', '([^/]+)', $route->path);
-            if (1 === preg_match("%^{$path}$%", $this->request_uri, $params)) {
+            if (preg_match("%^{$path}$%", $this->request_uri, $params) === 1) {
                 unset($params[0]);
                 array_push($matched_routes, [$route, $params]);
             }

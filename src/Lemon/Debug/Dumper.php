@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Debug;
 
 class Dumper
@@ -7,12 +9,11 @@ class Dumper
     /**
      * Parses countable object as visualization.
      *
-     * @param Countable $countable
-     * @param mixed     $iterator
+     * @param mixed $countable
      */
-    public function parseIterator($iterator): string
+    public function parseIterator(mixed $iterator): string
     {
-        $class = is_object($iterator) ? get_class($iterator) : gettype($iterator);
+        $class = is_object($iterator) ? $iterator::class : gettype($iterator);
         $result = '<details><summary>'.$class.' [</summary>';
         foreach ($iterator as $key => $value) {
             $result .= '<span class="ldg-array-item"><span class="ldg-array-key">['.$key.']</span> => '.$this->resolve($value).'</span>';
@@ -26,7 +27,7 @@ class Dumper
      */
     public function parseObject(object $object): string
     {
-        $class = get_class($object);
+        $class = $object::class;
         $result = '<details><summary>'.$class.' [</summary>';
         foreach (array_keys(get_class_vars($class)) as $property) {
             $result .= '<span class="ldg-property"><span class="ldg-property-name">'.$property.'</span> => '.$object->{$property}.'</span>';
@@ -45,10 +46,8 @@ class Dumper
 
     /**
      * Parses numeric value as visualization.
-     *
-     * @param mixed $numeric
      */
-    public function parseNumber($numeric): string
+    public function parseNumber(mixed $numeric): string
     {
         return '<span class="ldg-number">'.$numeric.'</span>';
     }
@@ -73,10 +72,8 @@ class Dumper
 
     /**
      * Resolves parsing method depending on datatype.
-     *
-     * @param mixed $data
      */
-    public function resolveType($data): string
+    public function resolveType(mixed $data): string
     {
         if (is_iterable($data)) {
             return 'parseIterator';
@@ -112,10 +109,8 @@ class Dumper
 
     /**
      * Dumps given value.
-     *
-     * @param mixed $data
      */
-    public function dump($data): string
+    public function dump(mixed $data): string
     {
         return '<div class="ldg-bg">'.$this->resolve($data).'</div>';
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Support\Types;
 
 use Exception;
@@ -40,7 +42,7 @@ class Arr
 {
     public static function __callStatic($name, $arguments)
     {
-        if (in_array($name, get_class_methods(Array_::class)) && 'from' != $name) {
+        if (in_array($name, get_class_methods(Array_::class)) && $name !== 'from') {
             return (new Array_($arguments[0]))->{$name}(...array_slice($arguments, 1));
         }
 

@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Errors.
  *
  * In this array are all the main http status codes
- *
- * */
+ */
 const ERRORS = [
     400 => 'Bad Request',
     401 => 'Unauthorized',
@@ -49,8 +50,7 @@ const ERRORS = [
  * Colors.
  *
  * In this array are stored colors for console function
- *
- * */
+ */
 const COLORS = [
     'black' => '30',
     'red' => '31',

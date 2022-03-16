@@ -1,6 +1,8 @@
 <?php
 
-readline_callback_handler_install('', function () {
+declare(strict_types=1);
+
+readline_callback_handler_install('', static function (): void {
 });
 while (true) {
     $r = [STDIN];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Http;
 
 class MiddlewareCollection
@@ -16,10 +18,8 @@ class MiddlewareCollection
 
     /**
      * Adds new middleware.
-     *
-     * @param array|string $middlewares
      */
-    public function add($middlewares)
+    public function add(array|string $middlewares)
     {
         $parsed = $this->parse($middlewares);
         array_push($this->middlewares, $parsed);
@@ -30,7 +30,7 @@ class MiddlewareCollection
     /**
      * Executes given middlewares.
      */
-    public function terminate(Request $request)
+    public function terminate(Request $request): void
     {
         foreach ($this->middlewares as $middleware) {
             $middleware_params = explode(':', $middleware);
@@ -59,11 +59,9 @@ class MiddlewareCollection
     /**
      * Parses middleware to array.
      *
-     * @param array|string $middlewares
-     *
      * @return array
      */
-    private function parse($middlewares)
+    private function parse(array|string $middlewares): array
     {
         if (is_string($this->middlewares)) {
             return explode('|', $this->middlewares);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Terminal;
 
 use DOMDocument;
@@ -23,8 +25,7 @@ class HtmlOutput
     {
         $line = str_repeat('-', strlen($heading) + 2);
 
-        return
-            '+'.$line.'+'.PHP_EOL.
+        return '+'.$line.'+'.PHP_EOL.
             '| '.trim($heading).' |'.PHP_EOL.
             '+'.$line.'+'.PHP_EOL;
     }
@@ -36,7 +37,7 @@ class HtmlOutput
             return $result;
         }
 
-        if (!($classes = $node->attributes->getNamedItem('class'))) {
+        if (! ($classes = $node->attributes->getNamedItem('class'))) {
             return $result;
         }
 
@@ -61,16 +62,15 @@ class HtmlOutput
         $classes = $this->parseClasses($node);
 
         $close =
-            '<PARENT>' == $classes[1]
+            $classes[1] === '<PARENT>'
             ? $this->getParrentStyles($node)
             : $classes[1];
 
-        if ('div' == $node->nodeName) {
+        if ($node->nodeName === 'div') {
             $close .= PHP_EOL;
         }
 
-        return
-            $classes[0].
+        return $classes[0].
             match ($node->nodeName) {
                 'h1' => $this->parseHeading($node->textContent),
                 'hr' => PHP_EOL.str_repeat('—', $this->terminal->width()).PHP_EOL,

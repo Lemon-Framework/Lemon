@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon;
 
 use Exception;
@@ -16,7 +18,7 @@ abstract class Zest
         return $instance->{$name}(...$arguments);
     }
 
-    public static function init(Lifecycle $lifecycle)
+    public static function init(Lifecycle $lifecycle): void
     {
         self::$lifecycle = $lifecycle;
     }
@@ -28,8 +30,8 @@ abstract class Zest
         return self::$lifecycle->{$unit};
     }
 
-    protected static function unit()
+    protected static function unit(): void
     {
-        throw new Exception('Zest '.get_called_class().' does not provide target unit');
+        throw new Exception('Zest '.static::class.' does not provide target unit');
     }
 }

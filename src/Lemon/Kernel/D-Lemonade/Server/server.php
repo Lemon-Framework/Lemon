@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // Running local production server
 class Server
 {
@@ -18,7 +20,7 @@ class Server
     }
 
     // Runs whole server
-    public function run()
+    public function run(): void
     {
         if (is_file('public/index.php')) {
             echo textFormat("\n\u{1F34B} Lemon development server started!\n\n", '33');
@@ -58,7 +60,7 @@ class Server
 }
 
 // Function for command registration
-function serve($arguments, $directory)
+function serve($arguments, $directory): void
 {
     $server = new Server($arguments, $directory);
 

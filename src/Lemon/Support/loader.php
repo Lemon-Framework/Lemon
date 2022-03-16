@@ -1,11 +1,13 @@
 <?php
 
-if (!function_exists('loader')) {
+declare(strict_types=1);
+
+if (! function_exists('loader')) {
     /**
      * Loads all files from specific folder
      * Inspired by loader from CoolFido.
      */
-    function loader(string $dir)
+    function loader(string $dir): void
     {
         foreach (scandir($dir) as $file) {
             $path = $dir.DIRECTORY_SEPARATOR.$file;

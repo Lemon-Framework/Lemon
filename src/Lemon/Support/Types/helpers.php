@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use Lemon\Support\Types\Array_;
 
-if (!function_exists('arr')) {
+if (! function_exists('arr')) {
     /**
      * Creates new Array_ object with given items.
      *

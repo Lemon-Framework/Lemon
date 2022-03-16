@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Support\Http\Routing;
 
 use Lemon\Http\Request;
@@ -26,16 +28,12 @@ class Route
 
     /**
      * Creates new route.
-     *
-     * @param array|Closure|string $action
-     *
-     * @return Route
      */
-    public static function createRoute(string $path, array $methods, $action)
+    public static function createRoute(string $path, array $methods, array|Closure|string $action): Route
     {
         if (is_string($action)) {
             $action = explode(':', $action);
-            if (!isset($action[1])) {
+            if (! isset($action[1])) {
                 $action = $action[0];
             }
         }
@@ -47,58 +45,40 @@ class Route
 
     /**
      * Creates route for method GET.
-     *
-     * @param array|Closure|string $action
-     *
-     * @return Route
      */
-    public static function get(string $path, $action)
+    public static function get(string $path, array|Closure|string $action): Route
     {
         return self::createRoute($path, ['GET'], $action);
     }
 
     /**
      * Creates route for method POST.
-     *
-     * @param array|Closure|string $action
-     *
-     * @return Route
      */
-    public static function post(string $path, $action)
+    public static function post(string $path, array|Closure|string $action): Route
     {
         return self::createRoute($path, ['POST'], $action);
     }
 
     /**
      * Creates route for every request method.
-     *
-     * @param array|Closure|string $action
-     *
-     * @return Route
      */
-    public static function any(string $path, $action)
+    public static function any(string $path, array|Closure|string $action): Route
     {
         return self::createRoute($path, ['GET', 'POST', 'PUT', 'HEAD', 'DELETE', 'PATCH', 'OPTIONS'], $action);
     }
 
     /**
      * Creates route for given request methods.
-     *
-     * @param array|Closure|string $action
-     *
-     * @return Route
      */
-    public static function use(string $path, array $methods, $action)
+    public static function use(string $path, array $methods, array|Closure|string $action): Route
     {
         return self::createRoute($path, $methods, $action);
     }
 
     /**
      * Sets given parameters for every route.
-     *
-     * @return RouteGroup
      */
-    public static function group(array $parameters, array $routes)
+    public static function group(array $parameters, array $routes): RouteGroup
     {
         return new RouteGroup($parameters, $routes);
     }
@@ -124,13 +104,11 @@ class Route
 
     /**
      * Returns route with given name.
-     *
-     * @return Route
      */
-    public static function byName(string $name)
+    public static function byName(string $name): Route
     {
         foreach (self::$routes as $route) {
-            if ($route->name == $name) {
+            if ($route->name === $name) {
                 return $route;
             }
         }
@@ -141,7 +119,7 @@ class Route
      *
      * @return array
      */
-    public static function all()
+    public static function all(): array
     {
         return self::$routes;
     }
@@ -149,7 +127,7 @@ class Route
     /**
      * Executes routing lifecycle.
      */
-    public static function execute()
+    public static function execute(): void
     {
         $request = new Request();
         $dispatcher = new Dispatcher(self::$routes, $request);

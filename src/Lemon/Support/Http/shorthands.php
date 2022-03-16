@@ -1,54 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 use Lemon\Http\Response;
 
-if (!function_exists('redirect')) {
+if (! function_exists('redirect')) {
     /**
      * Redirects user to given uri.
-     *
-     * @return Response
      */
-    function redirect(string $uri)
+    function redirect(string $uri): Response
     {
         return (new Response(''))->redirect($uri);
     }
 }
 
-if (!function_exists('raise')) {
+if (! function_exists('raise')) {
     /**
      * Sets page status code.
-     *
-     * @return Response
      */
-    function raise(int $code)
+    function raise(int $code): Response
     {
         return new Response('', $code);
     }
 }
 
-if (!function_exists('route')) {
+if (! function_exists('route')) {
     /**
      * Returns route with given name.
-     *
-     * @return Route
      */
-    function route(string $name)
+    function route(string $name): Route
     {
         return Route::byName($name);
     }
 }
 
-if (!function_exists('to_route')) {
+if (! function_exists('to_route')) {
     /**
      * Redirects user to given route.
-     *
-     * @return Response
      */
-    function to_route(string $route_name, array $dynamic_params = [])
+    function to_route(string $route_name, array $dynamic_params = []): Response
     {
-        $route_name = '/' == $route_name ? 'main' : $route_name;
+        $route_name = $route_name === '/' ? 'main' : $route_name;
         if ($route = route($route_name)) {
-            $path = '' == $route->path ? '/' : $route->path;
+            $path = $route->path === '' ? '/' : $route->path;
             foreach ($dynamic_params as $param) {
                 $path = preg_replace('/{[^}]+}/', $param, $path);
             }
@@ -58,15 +52,13 @@ if (!function_exists('to_route')) {
     }
 }
 
-if (!function_exists('response')) {
+if (! function_exists('response')) {
     /**
      * Creates new response.
      *
      * @param mixed $body=""
-     *
-     * @return Response
      */
-    function response($body = '')
+    function response(mixed $body = ''): Response
     {
         return new Response($body);
     }

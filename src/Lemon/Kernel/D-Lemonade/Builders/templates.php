@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // Builders variables
 
 // List of supported arguments

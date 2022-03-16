@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require 'licenses.php';
 
 /*
@@ -33,11 +35,11 @@ class Builder
      * Executing is provided by argument `type`
      *
      * */
-    public function execute()
+    public function execute(): void
     {
         $types = TYPES;
         $arguments = $this->parse($this->arguments);
-        if (!isset($arguments['type'])) {
+        if (! isset($arguments['type'])) {
             echo textFormat("Type argument is missing!\n", 31);
 
             return;
@@ -72,14 +74,14 @@ class Builder
     }
 
     // Builds starting project
-    private function project()
+    private function project(): void
     {
         $dirs = DIRS;
         $files = FILES;
 
         echo textFormat("\nBuilding project...\n\n", '33');
         foreach ($dirs as $dir) {
-            if (!file_exists($dir)) {
+            if (! file_exists($dir)) {
                 echo textFormat("Building {$dir}...\n", '33');
                 mkdir($dir);
             }
@@ -100,7 +102,7 @@ class Builder
      * Generator is in LicenseBuilder class
      *
      * */
-    private function license()
+    private function license(): void
     {
         $licenses = new LicenseBuilder();
 
@@ -115,7 +117,7 @@ class Builder
  * @param array $arguments
  *
  * */
-function build($arguments)
+function build($arguments): void
 {
     $builder = new Builder($arguments);
 

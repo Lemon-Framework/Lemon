@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Http\Routing;
 
 use Exception;
@@ -43,7 +45,7 @@ class Router
 
     public function __call($name, $arguments)
     {
-        if (!Arr::contains(self::REQUEST_METHODS, $name)) {
+        if (! Arr::contains(self::REQUEST_METHODS, $name)) {
             throw new Exception('Call to undefined method Router::'.$name.'()');
         }
 
@@ -54,10 +56,8 @@ class Router
      * Creates new route.
      *
      * @param array<string> $methods
-     *
-     * @return \Lemon\Http\Routing\Route
      */
-    public function crate(string $path, array $methods, callable $action)
+    public function crate(string $path, array $methods, callable $action): \Lemon\Http\Routing\Route
     {
         $route = new Route($path, $methods, $action);
         $this->routes->push($route);
@@ -67,15 +67,13 @@ class Router
 
     /**
      * Creates new route with every request method.
-     *
-     * @return \Lemon\Http\Routing\Route
      */
-    public function any(string $path, callable $action)
+    public function any(string $path, callable $action): \Lemon\Http\Routing\Route
     {
         return $this->crate($path, self::REQUEST_METHODS, $action);
     }
 
-    public function view(string $path, string $view = null)
+    public function view(string $path, ?string $view = null)
     {
         // TODO
         return $this->create($path, $view);
@@ -100,10 +98,8 @@ class Router
      * Finds route depending on given request.
      *
      * @param \Lemon\Http\Request
-     *
-     * @return \Lemon\Http\Response
      */
-    public function dispatch(Request $request)
+    public function dispatch(Request $request): \Lemon\Http\Response
     {
         $dispatcher = new Dispatcher($this->routes->content, $request);
 

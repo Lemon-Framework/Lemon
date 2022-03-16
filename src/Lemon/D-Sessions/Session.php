@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Sessions;
 
 /*
@@ -18,13 +20,13 @@ class Session
      * @param string $name
      *
      * */
-    public static function setName($name)
+    public static function setName($name): void
     {
         session_name($name);
     }
 
     // Starts session
-    public static function start()
+    public static function start(): void
     {
         session_start();
     }

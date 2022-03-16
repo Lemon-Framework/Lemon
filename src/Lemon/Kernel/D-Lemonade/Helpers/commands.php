@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require 'info.php';
 
 require __DIR__.'/../Server/server.php';

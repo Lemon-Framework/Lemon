@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 // Automaticaly generates docblock stuff
 
 $argv = array_slice($argv, 1);
 
-if (!isset($argv[0])) {
+if (! isset($argv[0])) {
     exit('Expected file name');
 }
 
@@ -12,7 +14,7 @@ $file = $argv[0];
 
 $content = file_get_contents($file);
 
-$content = preg_replace_callback('/(\/\/(.*?)\n(\s*)(?:public|private|protected)?\s+(?:static\s+)?function\s+.*?\((.*?)\)(?:\s*:\s*(.*?))?\s*{[\s\S]*?})/m', function ($matches) {
+$content = preg_replace_callback('/(\/\/(.*?)\n(\s*)(?:public|private|protected)?\s+(?:static\s+)?function\s+.*?\((.*?)\)(?:\s*:\s*(.*?))?\s*{[\s\S]*?})/m', static function ($matches) {
     $tab = $matches[3];
     $docblock = '/**'.PHP_EOL;
     $docblock .= $tab.' * '.trim($matches[2]).PHP_EOL;
@@ -31,12 +33,12 @@ $content = preg_replace_callback('/(\/\/(.*?)\n(\s*)(?:public|private|protected)
     return preg_replace('/\/\/.+/', $docblock, $matches[0]);
 }, $content);
 
-$content = preg_replace_callback('/\/\/(.+)\n(\s*)(?:public|private|protected)\s*(.*?)\s*\$.*?;/', function ($matches) {
+$content = preg_replace_callback('/\/\/(.+)\n(\s*)(?:public|private|protected)\s*(.*?)\s*\$.*?;/', static function ($matches) {
     $tab = $matches[2];
     $docblock = '/**'.PHP_EOL;
     $docblock .= $tab.' * '.trim($matches[1]).PHP_EOL;
     $docblock .= $tab.' *'.PHP_EOL;
-    $docblock .= $tab.' * @var '.('' == $matches[3] ? 'mixed' : '').PHP_EOL;
+    $docblock .= $tab.' * @var '.($matches[3] === '' ? 'mixed' : '').PHP_EOL;
     $docblock .= $tab.' */';
 
     return preg_replace('/\/\/.+/', $docblock, $matches[0]);

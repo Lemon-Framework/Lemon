@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // Importing text format for better colors
 require 'helpers.php';
 
@@ -19,14 +21,14 @@ const HELP = '
 const VERSION = '2.6.0';
 
 // Shows help
-function help()
+function help(): void
 {
     echo textFormat("\n\u{1F34B} Lemon help\n", '33');
     echo HELP;
 }
 
 // Shows info about project
-function info()
+function info(): void
 {
     $version = VERSION;
 
@@ -36,7 +38,7 @@ function info()
 }
 
 // Show version
-function version()
+function version(): void
 {
     $version = VERSION;
 
