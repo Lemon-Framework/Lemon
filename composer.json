@@ -1,6 +1,6 @@
 {
     "name": "lemon_framework/lemon",
-    "description": "Dead simple micoframework.",
+    "description": "Dead simple microframework allowing you to squeeze the most out of your code",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -10,8 +10,8 @@
         }
     ],
     "scripts": {
-        "test": "./vendor/bin/pest"
-    },
+            "test": "./vendor/bin/pest"
+        },
     "scripts-descriptions": {
         "test": "Starts unit test"
     },
