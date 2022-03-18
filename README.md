@@ -1,5 +1,7 @@
 # 🍋 Lemon 3 
 
+> Lemon is not revolution, Lemon is not for everyone. Its not 🚀 Web 3 🚀Fast 🚀Framework 🚀For 🚀 Today 🚀. I mean its php framework written in neovim. But its tool that was made for fun and can introduce to you to the world of php frameworks. Welcome to Lemon 3 development repo
+
 Pracujem na jednom phpcku ten sa bude volat Lemon... 3. Bude tam nieco zo symfony nieco z laravelu nieco z nette nieco z termwindu chcem to akokeby spojit do jedneho. 
 
 ![Blueprint](https://raw.githubusercontent.com/Lemon-Framework/static/master/images/lemon_bp.png)
@@ -47,7 +49,7 @@ Lemon 3 is under rapid rewriting, if you have ideas for Lemon 3 please create is
 
 Fork repo, create new branch, add stuff and:
 
-```sh
+```h
 $ ./vendor/bin/phpunit # test
 $ ./vendor/bin/phpstan # first static analysis
 $ ./vendor/bin/psalm # second static analysis
