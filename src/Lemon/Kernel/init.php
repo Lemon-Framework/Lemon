@@ -67,7 +67,6 @@ $app->loadZests();
 // Configuring debug mode
 $app->config('init')->debug = LEMON_DEBUG;
 
-
 // Loading error/exception handlers
 $app->loadHandler();
 

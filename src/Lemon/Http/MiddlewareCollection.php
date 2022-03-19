@@ -58,8 +58,6 @@ class MiddlewareCollection
 
     /**
      * Parses middleware to array.
-     *
-     * @return array
      */
     private function parse(array|string $middlewares): array
     {

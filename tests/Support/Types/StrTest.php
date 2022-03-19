@@ -15,8 +15,8 @@ class StrTest extends TestCase
 {
     public function testCalling()
     {
-        $this->assertSame('mixer', Str::reverse('rexim')->content);
-        $this->assertSame('krokodyl', Str::from('krokodyl')->content);
+        $this->assertSame('mixer', Str::reverse('rexim')->value);
+        $this->assertSame('krokodyl', Str::from('krokodyl')->value);
         $this->assertInstanceOf(String_::class, Str::from('krokodyl'));
         $this->expectException(Exception::class);
         Str::lokomotivize();

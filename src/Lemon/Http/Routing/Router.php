@@ -57,7 +57,7 @@ class Router
      *
      * @param array<string> $methods
      */
-    public function crate(string $path, array $methods, callable $action): \Lemon\Http\Routing\Route
+    public function crate(string $path, array $methods, callable $action): Route
     {
         $route = new Route($path, $methods, $action);
         $this->routes->push($route);
@@ -68,7 +68,7 @@ class Router
     /**
      * Creates new route with every request method.
      */
-    public function any(string $path, callable $action): \Lemon\Http\Routing\Route
+    public function any(string $path, callable $action): Route
     {
         return $this->crate($path, self::REQUEST_METHODS, $action);
     }

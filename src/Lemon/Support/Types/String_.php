@@ -8,20 +8,20 @@ use Stringable;
 
 class String_ implements Stringable
 {
-    /** String content */
-    public string $content;
+    /** String value */
+    public string $value;
 
     /**
      * Lemon string type.
      */
     public function __construct(string $subject)
     {
-        $this->content = $subject;
+        $this->value = $subject;
     }
 
     public function __toString()
     {
-        return $this->content;
+        return $this->value;
     }
 
     /**
@@ -29,7 +29,7 @@ class String_ implements Stringable
      */
     public function size(): int
     {
-        return strlen($this->content);
+        return strlen($this->value);
     }
 
     /**
@@ -37,7 +37,7 @@ class String_ implements Stringable
      */
     public function len(): int
     {
-        return strlen($this->content);
+        return strlen($this->value);
     }
 
     /**
@@ -46,7 +46,7 @@ class String_ implements Stringable
     public function split(string $separator): Array_
     {
         return new Array_(
-            explode($separator, $this->content)
+            explode($separator, $this->value)
         );
     }
 
@@ -58,7 +58,7 @@ class String_ implements Stringable
     public function join(array $array): self
     {
         return String_::from(
-            implode($this->content, $array)
+            implode($this->value, $array)
         );
     }
 
@@ -67,7 +67,7 @@ class String_ implements Stringable
      */
     public function capitalize(): self
     {
-        $this->content = ucfirst($this->content);
+        $this->value = ucfirst($this->value);
 
         return $this;
     }
@@ -77,7 +77,7 @@ class String_ implements Stringable
      */
     public function decapitalize(): self
     {
-        $this->content = lcfirst($this->content);
+        $this->value = lcfirst($this->value);
 
         return $this;
     }
@@ -87,7 +87,7 @@ class String_ implements Stringable
      */
     public function toLower(): self
     {
-        $this->content = strtolower($this->content);
+        $this->value = strtolower($this->value);
 
         return $this;
     }
@@ -97,7 +97,7 @@ class String_ implements Stringable
      */
     public function toUpper(): self
     {
-        $this->content = strtoupper($this->content);
+        $this->value = strtoupper($this->value);
 
         return $this;
     }
@@ -109,7 +109,7 @@ class String_ implements Stringable
      */
     public function contains(string $substring): bool
     {
-        return str_contains($this->content, $substring);
+        return str_contains($this->value, $substring);
     }
 
     public function has(string $substring): bool
@@ -122,7 +122,7 @@ class String_ implements Stringable
      */
     public function startsWith(string $substring): bool
     {
-        return str_starts_with($this->content, $substring);
+        return str_starts_with($this->value, $substring);
     }
 
     /**
@@ -130,7 +130,7 @@ class String_ implements Stringable
      */
     public function endsWith(string $substring): bool
     {
-        return str_ends_with($this->content, $substring);
+        return str_ends_with($this->value, $substring);
     }
 
     /**
@@ -143,7 +143,7 @@ class String_ implements Stringable
      */
     public function replace(string $search, string $replace): self
     {
-        $this->content = str_replace($search, $replace, $this->content);
+        $this->value = str_replace($search, $replace, $this->value);
 
         return $this;
     }
@@ -155,7 +155,7 @@ class String_ implements Stringable
      */
     public function shuffle(): self
     {
-        $this->content = str_shuffle($this->content);
+        $this->value = str_shuffle($this->value);
 
         return $this;
     }
@@ -167,7 +167,7 @@ class String_ implements Stringable
      */
     public function reverse(): self
     {
-        $this->content = strrev($this->content);
+        $this->value = strrev($this->value);
 
         return $this;
     }

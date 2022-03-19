@@ -33,33 +33,33 @@ class StringTest extends TestCase
     public function testJoin()
     {
         $string = String_::from('|');
-        $this->assertSame('foo|bar|baz', $string->join(['foo', 'bar', 'baz'])->content);
+        $this->assertSame('foo|bar|baz', $string->join(['foo', 'bar', 'baz'])->value);
     }
 
     public function testCapitalize()
     {
         $string = String_::from('vrtacka');
         $string->capitalize();
-        $this->assertSame('Vrtacka', $string->content);
+        $this->assertSame('Vrtacka', $string->value);
     }
 
     public function testDecapitalize()
     {
         $string = String_::from('Vrtacka');
         $string->decapitalize();
-        $this->assertSame('vrtacka', $string->content);
+        $this->assertSame('vrtacka', $string->value);
     }
 
     public function testToLower()
     {
         $string = String_::from('KlObAsA vE sLEvE');
-        $this->assertSame('klobasa ve sleve', $string->toLower()->content);
+        $this->assertSame('klobasa ve sleve', $string->toLower()->value);
     }
 
     public function testToUpper()
     {
         $string = String_::from('KlObAsA vE sLEvE');
-        $this->assertSame('KLOBASA VE SLEVE', $string->toUpper()->content);
+        $this->assertSame('KLOBASA VE SLEVE', $string->toUpper()->value);
     }
 
     public function testContains()
@@ -90,13 +90,13 @@ class StringTest extends TestCase
     {
         $string = String_::from('Vim is awesome');
         $string->replace('Vim', 'Neovim');
-        $this->assertSame('Neovim is awesome', $string->content);
+        $this->assertSame('Neovim is awesome', $string->value);
     }
 
     public function testReverse()
     {
         $string = String_::from('mixer');
         $string->reverse();
-        $this->assertSame('rexim', $string->content);
+        $this->assertSame('rexim', $string->value);
     }
 }

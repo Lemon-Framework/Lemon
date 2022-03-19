@@ -49,7 +49,7 @@ class Filesystem
 
         $result = [];
         foreach (scandir($dir) as $file) {
-            $file = Filesystem::join($dir, $file)->__toString();
+            $file = Filesystem::join($dir, $file);
             if (Filesystem::isFile($file)) {
                 $result[] = $file;
             }
@@ -92,7 +92,7 @@ class Filesystem
 
         if (self::isDir($file)) {
             foreach (scandir($file) as $sub) {
-                self::delete(self::join($file, $sub)->__toString());
+                self::delete(self::join($file, $sub));
             }
             rmdir($file);
         }
@@ -101,12 +101,12 @@ class Filesystem
     /**
      * Joins given paths with directory separator.
      */
-    public static function join(string ...$paths): Types\String_
+    public static function join(string ...$paths): string
     {
         return Str::join(
             DIRECTORY_SEPARATOR,
             $paths
-        );
+        )->value;
     }
 
     /**
@@ -131,7 +131,7 @@ class Filesystem
 
         return Str::join(
             DIRECTORY_SEPARATOR,
-            Str::split($path, DIRECTORY_SEPARATOR)->slice(0, -2)->content
+            Str::split($path, DIRECTORY_SEPARATOR)->slice(0, -2)->value
         );
     }
 }

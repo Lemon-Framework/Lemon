@@ -7,8 +7,6 @@ if (! function_exists('getParamTypes')) {
      * Returns callback parameter types.
      *
      * @param array|Closure|string $callback|$function_name
-     *
-     * @return array
      */
     function getParamTypes(array|Closure|string $callback): array
     {

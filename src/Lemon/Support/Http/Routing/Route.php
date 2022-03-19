@@ -62,7 +62,7 @@ class Route
     /**
      * Creates route for every request method.
      */
-    public static function any(string $path, callable $action) 
+    public static function any(string $path, callable $action)
     {
         return self::createRoute($path, ['GET', 'POST', 'PUT', 'HEAD', 'DELETE', 'PATCH', 'OPTIONS'], $action);
     }
@@ -70,7 +70,7 @@ class Route
     /**
      * Creates route for given request methods.
      */
-    public static function use(string $path, array $methods, callable $action) 
+    public static function use(string $path, array $methods, callable $action)
     {
         return self::createRoute($path, $methods, $action);
     }
@@ -112,13 +112,12 @@ class Route
                 return $route;
             }
         }
+
         return null;
     }
 
     /**
      * Returns all routes.
-     *
-     * @return array
      */
     public static function all(): array
     {

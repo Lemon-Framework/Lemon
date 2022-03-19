@@ -101,7 +101,8 @@ class Dumper
             return 'parseNull';
         }
         $type = gettype($data);
-        throw new DebugerException("Type {$type} cant be dumped."); 
+
+        throw new DebugerException("Type {$type} cant be dumped.");
     }
 
     public function resolve($data): string

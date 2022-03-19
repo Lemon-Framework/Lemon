@@ -57,8 +57,6 @@ class Dispatcher
 
     /**
      * Parses get arguments to array.
-     *
-     * @return array
      */
     private function parseGet(): array
     {
@@ -73,8 +71,6 @@ class Dispatcher
 
     /**
      * Finds matching routes.
-     *
-     * @return array
      */
     private function dispatchUri(): array
     {
