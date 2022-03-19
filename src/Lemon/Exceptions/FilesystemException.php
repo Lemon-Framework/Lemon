@@ -6,7 +6,7 @@ namespace Lemon\Exceptions;
 
 use Exception;
 
-class Filesystem extends Exception
+class FilesystemException extends Exception
 {
     public static function explainFileNotFound($file): self
     {

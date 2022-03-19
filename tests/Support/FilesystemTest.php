@@ -2,6 +2,7 @@
 
 namespace Lemon\Tests\Support;
 
+use Lemon\Exceptions\FilesystemException;
 use Lemon\Support\Filesystem;
 use PHPUnit\Framework\TestCase;
 
@@ -13,19 +14,49 @@ class FilesystemTest extends TestCase
 {
     private static $tmp;
 
-    /**
-     * @beforeClass
-     */
-    public static function setUpTempDir()
+    public static function setUpBeforeClass(): void
     {
         self::$tmp = __DIR__.DIRECTORY_SEPARATOR.'tmp';
         mkdir(self::$tmp);
     }
 
+    public static function tearDownAfterClass(): void
+    {
+        rmdir(self::$tmp);
+    }
+
+    public function testRead()
+    {
+        $file = self::$tmp.DIRECTORY_SEPARATOR.'test.txt';
+        file_put_contents($file, 'foo');
+        $this->assertSame('foo', Filesystem::read($file));
+        unlink($file);
+    }
+
     public function testWrite()
     {
         $file = self::$tmp.DIRECTORY_SEPARATOR.'test.txt';
+        fclose(fopen($file, "w"));
+        
+        Filesystem::write($file, 'bar');
+        $this->assertSame('bar', file_get_contents($file));
+        
+        unlink($file);
+
+        $this->expectException(FilesystemException::class);
         Filesystem::write($file, 'foo');
-        $this->assertFileExists($file);
+    }
+    
+    public function testMakeDir()
+    {
+        $dir = self::$tmp.DIRECTORY_SEPARATOR.'test';
+        Filesystem::makeDir($dir);
+        $this->assertDirectoryExists($dir, $dir);
+        rmdir($dir);
+        Filesystem::makeDir($dir.DIRECTORY_SEPARATOR);
+        $this->assertDirectoryExists($dir);
+        rmdir($dir);
+        $this->expectException(FilesystemException::class);
+        Filesystem::makeDir(self::$tmp);
     }
 }

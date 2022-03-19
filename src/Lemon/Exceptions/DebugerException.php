@@ -6,6 +6,6 @@ namespace Lemon\Exceptions;
 
 use Exception;
 
-class Debuger extends Exception
+class DebugerException extends Exception
 {
 }

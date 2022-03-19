@@ -6,6 +6,6 @@ namespace Lemon\Exceptions;
 
 use Exception;
 
-class Config extends Exception
+class ConfigException extends Exception
 {
 }

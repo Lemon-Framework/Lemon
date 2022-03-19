@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Support;
 
-use Lemon\Exceptions\Filesystem as FilesystemException;
+use Lemon\Exceptions\FilesystemException;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 
@@ -12,30 +12,58 @@ class Filesystem
 {
     /**
      * Returns content of given file.
+     *
+     * @throws \Lemon\Exceptions\FilesystemException
      */
     public static function read(string $file): string
     {
-        if (self::isFile($file)) {
-            return file_get_contents($file);
+        if (! is_file($file)) {
+            throw FilesystemException::explainFileNotFound($file);
         }
-
-        throw FilesystemException::explainFileNotFound($file);
+        
+        return file_get_contents($file);
     }
 
     /**
      * Writes content to given file.
+     *
+     * @throws \Lemon\Exceptions\FilesystemException
      */
     public static function write(string $file, string $content): void
     {
+        if (! is_file($file)) {
+            throw FilesystemException::explainFileNotFound($file);
+        }
+        
         file_put_contents($file, $content);
     }
 
     /**
      * Creates new directory.
+     *
+     * @throws \Lemon\Exceptions\FilesystemException
      */
     public static function makeDir(string $dir): void
     {
+        if (is_dir($dir)) {
+            throw new FilesystemException("Directory {$dir} already exist");
+        }
+
         mkdir($dir, recursive: true);
+    }
+
+    /**
+     * Creates new file.
+     *
+     * @throws \Lemon\Exceptions\FilesystemException
+     */
+    public static function create(string $file): void
+    {
+        if (is_file($file)) {
+            throw new FilesystemException("File {$file} already exist");
+        }
+
+        file_put_contents($file, '');
     }
 
     /**

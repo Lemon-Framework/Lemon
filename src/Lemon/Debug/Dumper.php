@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Debug;
 
-use Lemon\Exceptions\Debuger as DebugerException;
+use Lemon\Exceptions\DebugerException;
 
 class Dumper
 {
