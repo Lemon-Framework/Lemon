@@ -57,17 +57,19 @@ class Filesystem
      *
      * @throws \Lemon\Exceptions\FilesystemException
      */
-    public static function create(string $file): void
+    public static function touch(string $file): void
     {
         if (is_file($file)) {
             throw new FilesystemException("File {$file} already exist");
         }
 
-        file_put_contents($file, '');
+        touch($file);
     }
 
     /**
      * Returns array of paths in given directory.
+     *
+     * @throws \Lemon\Exceptions\FilesystemException
      */
     public static function listDir(string $dir): array
     {
@@ -86,7 +88,7 @@ class Filesystem
                 $result = Arr::merge(
                     $result,
                     self::listDir($file)
-                );
+                )->content;
             }
         }
 

@@ -59,4 +59,15 @@ class FilesystemTest extends TestCase
         $this->expectException(FilesystemException::class);
         Filesystem::makeDir(self::$tmp);
     }
+
+    public function testTouch()
+    {
+        $file = self::$tmp.DIRECTORY_SEPARATOR.'code_20320';
+        Filesystem::touch($file);
+        $this->assertFileExists($file);
+        unlink($file);
+        $this->expectException(FilesystemException::class);
+        Filesystem::touch(__FILE__);  // ?     
+    }
+
 }
