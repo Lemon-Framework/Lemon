@@ -30,8 +30,5 @@ abstract class Zest
         return self::$lifecycle->{$unit};
     }
 
-    protected static function unit(): void
-    {
-        throw new Exception('Zest '.static::class.' does not provide target unit');
-    }
+    abstract public static function unit(): string;
 }

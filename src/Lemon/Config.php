@@ -11,7 +11,7 @@ namespace Lemon;
  */
 class Config extends Zest
 {
-    protected static function unit(): string
+    public static function unit(): string
     {
         return 'config';
     }
