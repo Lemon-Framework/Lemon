@@ -22,13 +22,16 @@ TODO:
 - [ ] other cool array methods propably BUT not that much ok do it while writing pls
 - [x] tests for string
 - [x] tests for arr and str
+- [ ] Strng::trim
+- [ ] Better array map
 - [ ] new session
 - [ ] new csrf (middleware?)
 - [ ] cors
 - [ ] env
-- [ ] filesystem
+- [x] basic filesystem
 - [ ] tests for kernel
 - [ ] new kernel
+- [ ] split container
 - [ ] database
 - [ ] new lemonade kernel
 - [ ] dump die

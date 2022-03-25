@@ -146,7 +146,7 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function lenght(): int
     {
-        return sizeof($this->content);
+        return count($this->content);
     }
 
     /**

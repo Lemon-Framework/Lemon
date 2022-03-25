@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Support;
 
+use Exception;
 use Lemon\Exceptions\FilesystemException;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
@@ -20,7 +21,7 @@ class Filesystem
         if (! is_file($file)) {
             throw FilesystemException::explainFileNotFound($file);
         }
-        
+
         return file_get_contents($file);
     }
 
@@ -34,7 +35,7 @@ class Filesystem
         if (! is_file($file)) {
             throw FilesystemException::explainFileNotFound($file);
         }
-        
+
         file_put_contents($file, $content);
     }
 
@@ -79,16 +80,25 @@ class Filesystem
 
         $result = [];
         foreach (scandir($dir) as $file) {
-            $file = Filesystem::join($dir, $file);
-            if (Filesystem::isFile($file)) {
+            if (Arr::contains(['.', '..'], $file)) {
+                continue;
+            }
+
+            $file = self::join($dir, $file);
+
+            if (self::isFile($file)) {
                 $result[] = $file;
             }
 
-            if (Filesystem::isDir($file)) {
-                $result = Arr::merge(
-                    $result,
-                    self::listDir($file)
-                )->content;
+            if (self::isDir($file)) {
+                if (Arr::size(scandir($file)) > 2) {
+                    $result = Arr::merge(
+                        $result,
+                        self::listDir($file)
+                    )->content;
+                } else {
+                    $result[] = $file;
+                }
             }
         }
 
@@ -122,7 +132,9 @@ class Filesystem
 
         if (self::isDir($file)) {
             foreach (scandir($file) as $sub) {
-                self::delete(self::join($file, $sub));
+                if (! Arr::contains(['.', '..'], $sub)) {
+                    self::delete(self::join($file, $sub));
+                }
             }
             rmdir($file);
         }
@@ -133,35 +145,41 @@ class Filesystem
      */
     public static function join(string ...$paths): string
     {
-        return Str::join(
+        if (Arr::size($paths) < 2) {
+            throw new Exception('Function Filesystem::join takes at least 2 arguments');
+        }
+
+        $start = Str::startsWith($paths[0], DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '';
+
+        return $start.Str::join(
             DIRECTORY_SEPARATOR,
-            $paths
+            Arr::map(
+                $paths,
+                static fn (string $item) => trim($item, DIRECTORY_SEPARATOR)
+            )->content
         )->value;
     }
 
     /**
      * Converts path into os-compatible.
-     *
-     * @param string $path
-     *                     return string
      */
     public static function normalize(string $path): string
     {
         $path = rtrim($path, '/\\');
 
-        return preg_replace('/(\\/|\\\)/', DIRECTORY_SEPARATOR, $path);
+        return preg_replace('/(\\/|\\\)+/', DIRECTORY_SEPARATOR, $path);
     }
 
     /**
      * Returns parent of given path.
      */
-    public static function parent(string $path)
+    public static function parent(string $path): string
     {
         $path = self::normalize($path);
 
         return Str::join(
             DIRECTORY_SEPARATOR,
-            Str::split($path, DIRECTORY_SEPARATOR)->slice(0, -2)->value
-        );
+            Str::split($path, DIRECTORY_SEPARATOR)->slice(0, -1)->content
+        )->value;
     }
 }
