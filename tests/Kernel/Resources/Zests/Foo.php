@@ -6,7 +6,7 @@ use Lemon\Zest;
 
 class Foo extends Zest
 {
-    protected static function unit()
+    public static function unit(): string
     {
         return 'foo';
     }
