@@ -35,11 +35,8 @@ class Router
 
     public Array_ $routes;
 
-    private Lifecycle $lifecycle;
-
-    public function __construct(Lifecycle $lifecycle)
+    public function __construct()
     {
-        $this->lifecycle = $lifecycle;
         $this->routes = new Array_();
     }
 
@@ -76,7 +73,6 @@ class Router
     public function view(string $path, ?string $view = null)
     {
         // TODO
-        return $this->create($path, $view);
     }
 
     /*
@@ -96,8 +92,6 @@ class Router
 
     /**
      * Finds route depending on given request.
-     *
-     * @param \Lemon\Http\Request
      */
     public function dispatch(Request $request): \Lemon\Http\Response
     {

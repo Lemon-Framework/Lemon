@@ -175,8 +175,8 @@ class Response
             $body->terminate();
         }
 
-        if ($body::class === 'Lemon\\Views\\View') {
-            echo $body->resolved_template;
-        }
+       // if ($body::class === 'Lemon\\Views\\View') {
+       //     echo $body->resolved_template;
+       // }
     }
 }

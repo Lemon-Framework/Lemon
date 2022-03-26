@@ -30,8 +30,8 @@ TODO:
 - [ ] env
 - [x] basic filesystem
 - [ ] tests for kernel
-- [ ] new kernel
-- [ ] split container
+- [x] new kernel
+- [x] split container
 - [ ] database
 - [ ] new lemonade kernel
 - [ ] dump die

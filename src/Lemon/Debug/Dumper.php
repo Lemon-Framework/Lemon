@@ -10,8 +10,6 @@ class Dumper
 {
     /**
      * Parses countable object as visualization.
-     *
-     * @param mixed $countable
      */
     public function parseIterator(mixed $iterator): string
     {
