@@ -2,9 +2,16 @@
 
 namespace Lemon\Tests\Kernel\Resources\Units;
 
+use Lemon\Kernel\Container;
+
 class Bar
 {
-    private array $array;
+    private array $array = [];
+
+    public function __construct(Foo $foo, Container $c)
+    {
+        unset($foo, $c);
+    }
 
     public function add($item)
     {
