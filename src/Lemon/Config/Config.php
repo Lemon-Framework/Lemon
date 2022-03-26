@@ -10,7 +10,7 @@ use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Array_;
 
 /**
- * Main interface for storing config data in organised way.
+ * The Lemon Config Manager. 
  */
 class Config
 {

@@ -5,27 +5,50 @@ declare(strict_types=1);
 namespace Lemon\Cache;
 
 use Lemon\Kernel\Lifecycle;
-use Lemon\Support\Filesystem;
+use Lemon\Support\Filesystem as FS;
+use Lemon\Support\Types\Str;
 
 class Cache
 {
+    /**
+     * Current lifecycle instance
+     */
     private Lifecycle $lifecycle;
 
+    /**
+     * Cached data
+     */
     private array $data = [];
+
+    /**
+     * Path of data file
+     */
+    private string $data_path;
 
     public function __construct(Lifecycle $lifecycle)
     {
         $this->lifecycle = $lifecycle;
+        $this->load();
     }
 
     public function load(): void
     {
         $directory = $this->lifecycle->config('cache', 'storage');
         $path = $this->lifecycle->file($directory);
-        if (! Filesystem::isDir($directory)) {
-            Filesystem::makeDir($path);
-            Filesystem::write(Filesystem::join($path, '.gitignore'), "*\n!.gitignore");
+        $this->data_path = FS::join($path, 'data.json');
+        if (! FS::isDir($directory)) {
+            FS::makeDir($path);
+            FS::write(FS::join($path, '.gitignore'), "*\n!.gitignore");
+            FS::write($this->data_path, '{}');
         }
+        
+        $this->data = json_decode(FS::read($this->data_path), true);
+        
+    }
+
+    public function __destruct()
+    {
+        FS::write($this->data_path, json_encode($this->data));
     }
 
     public function getData()
@@ -33,31 +56,30 @@ class Cache
         return $this->data;
     }
 
-    public function get(string $key): void
+    public function get(string $key, callable $callback=null): ?mixed
     {
-        // vezme hodnotu klice z cache a defaultniho souboru
+        if (isset($this->data[$key])) {
+            return $this->data[$key];
+        }
+
+        $callback($this);
     }
 
-    public function set($key, $value, $expires = null): void
+    public function set(mixed $key, mixed $value): self
     {
-        // setne hodnotu do cache pripadne nastavi expiraci - nejaka datetime operace i guess PICI TIMEZONY
+        $this->data[$key] = $value;
+        return $this;
+    }
+
+    public function remove(mixed $key): self
+    {
+        unset($this->data[$key]);
+        return $this;
     }
 
     public function clear(): void
     {
-        // smaze cache
+        $this->data = [];
+
     }
 }
-
-/*
- *
- *
- *
- * $c = new Cache($lifecycle);
- * $c->set('parke', 'rizek');
- * $c->get('parke');
- * $c->remove('parke');
- *
- *
- *
- */

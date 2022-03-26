@@ -27,15 +27,9 @@ class Filesystem
 
     /**
      * Writes content to given file.
-     *
-     * @throws \Lemon\Exceptions\FilesystemException
      */
     public static function write(string $file, string $content): void
     {
-        if (! is_file($file)) {
-            throw FilesystemException::explainFileNotFound($file);
-        }
-
         file_put_contents($file, $content);
     }
 
@@ -51,20 +45,6 @@ class Filesystem
         }
 
         mkdir($dir, recursive: true);
-    }
-
-    /**
-     * Creates new file.
-     *
-     * @throws \Lemon\Exceptions\FilesystemException
-     */
-    public static function touch(string $file): void
-    {
-        if (is_file($file)) {
-            throw new FilesystemException("File {$file} already exist");
-        }
-
-        touch($file);
     }
 
     /**

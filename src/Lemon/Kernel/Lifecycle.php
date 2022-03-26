@@ -17,7 +17,7 @@ use Lemon\Support\Types\Str;
 use Lemon\Zest;
 
 /**
- * The Lemon Framework Lifecycle.
+ * The Lemon Lifecycle 
  */
 final class Lifecycle
 {

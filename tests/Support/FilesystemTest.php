@@ -69,8 +69,8 @@ class FilesystemTest extends TestCase
         
         unlink($file);
 
-        $this->expectException(FilesystemException::class);
         Filesystem::write($file, 'foo');
+        $this->assertFileExists($file);
     }
     
     public function testMakeDir()
@@ -84,16 +84,6 @@ class FilesystemTest extends TestCase
         rmdir($dir);
         $this->expectException(FilesystemException::class);
         Filesystem::makeDir(self::$tmp);
-    }
-
-    public function testTouch()
-    {
-        $file = self::$tmp.DIRECTORY_SEPARATOR.'code_20320';
-        Filesystem::touch($file);
-        $this->assertFileExists($file);
-        unlink($file);
-        $this->expectException(FilesystemException::class);
-        Filesystem::touch(__FILE__);  // ?     
     }
 
     public function testIsFile()
