@@ -56,13 +56,13 @@ class Cache
         return $this->data;
     }
 
-    public function get(string $key, callable $callback=null): ?mixed
+    public function get(string $key, callable $callback=null): mixed
     {
         if (isset($this->data[$key])) {
             return $this->data[$key];
         }
 
-        $callback($this);
+        return $callback($this);
     }
 
     public function set(mixed $key, mixed $value): self
