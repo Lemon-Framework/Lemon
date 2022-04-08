@@ -37,7 +37,8 @@ TODO:
 - [ ] dump die
 - [ ] reporter
 - [ ] consultant
-- [ ] caching
+- [ ] caching (psr?)
+- [ ] tests for caching
 - [ ] juice template engine
 - [ ] mailer?
 - [ ] auth?
@@ -52,7 +53,7 @@ Lemon 3 is under rapid rewriting, if you have ideas for Lemon 3 please create is
 
 Fork repo, create new branch, add stuff and:
 
-```h
+```php
 $ ./vendor/bin/phpunit # test
 $ ./vendor/bin/phpstan # first static analysis
 $ ./vendor/bin/psalm # second static analysis

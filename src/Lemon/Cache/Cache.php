@@ -60,7 +60,7 @@ class Cache
     /**
      * Returns cached data
      */
-    public function getData(): array
+    public function data(): array
     {
         return $this->data;
     }
