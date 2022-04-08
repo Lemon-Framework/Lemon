@@ -19,7 +19,7 @@ use Lemon\Zest;
 /**
  * The Lemon Lifecycle 
  */
-final class Lifecycle
+final class Lifecycle extends Container
 {
     /**
      * Current Lemon version.
@@ -31,9 +31,15 @@ final class Lifecycle
      */
     public readonly string $directory;
 
+    /**
+     * Dependency injection container for curent lifecycle
+     */
     private Container $container;
 
-    private array $aliases = [
+    /**
+     * Aliases for units
+     */
+    private array $default = [
         'routing' => \Lemon\Http\Routing\Router::class,
         'terminal' => \Lemon\Terminal\Terminal::class,
         'config' => \Lemon\Config\Config::class,            
@@ -53,39 +59,10 @@ final class Lifecycle
      */
     public function loadServices(): void
     {
-        foreach(Arr::values($this->aliases) as $unit) {
-            $this->container->addService($unit);
+        foreach(Arr::values($this->default) as $alias => $unit) {
+            $this->add($unit);
+            $this->alias($alias, $unit);
         }
-    }
-
-    /**
-     * Returns given Unit
-     *
-     * @throws \Lemon\Exceptions\LifecycleException
-     */
-    public function unit(string $alias): mixed
-    {
-        if (! isset($this->aliases[$alias])) {
-            throw new LifecycleException('Unit '.$alias.' does not exist');
-        }
-
-        return $this->container->getService($this->aliases[$alias]);
-    }
-
-    /**
-     * Adds new Unit
-     *
-     * @throws \Lemon\Exceptions\LifecycleException
-     */
-    public function addUnit(string $alias, string $class): static
-    {
-        if (isset($this->aliases[$alias])) {
-            throw new LifecycleException('Unit '.$alias.' already exist');
-        }
-
-        $this->container->addService($class);
-        $this->aliases[$alias] = $class;
-        return $this;
     }
 
     /**
@@ -127,7 +104,7 @@ final class Lifecycle
      */
     public function config(string $part, ?string $key = null): mixed
     {
-        $matched = $this->unit('config')->part($part);
+        $matched = $this->get('config')->part($part);
         if ($key) {
             return $matched->{$key};
         }
@@ -138,12 +115,20 @@ final class Lifecycle
     /**
      * Returns path of specific file in current project.
      */
-    public function file(string $path): string
+    public function file(string $path, string $extension=null): string
     {
-        return Filesystem::join(
+        $dir = Filesystem::join(
             $this->directory,
             Str::replace($path, '.', DIRECTORY_SEPARATOR)->value
         );
+
+        $dir = Filesystem::normalize($dir);
+
+        if ($extension) {
+            return $dir.'.'.trim($extension, " \t\n\r.");
+        }
+
+        return $dir;
     }
 
     /**
@@ -153,7 +138,7 @@ final class Lifecycle
     {
         try {
             $request = Request::make();
-            $this->unit('routing')->dispatch($request)->terminate();
+            $this->get('routing')->dispatch($request)->terminate();
         } catch (Exception|Error $e) {
             $this->handle($e);
         }
@@ -165,12 +150,21 @@ final class Lifecycle
      */
     public static function init(string $directory): self
     {
-        // TODO some fancy comments
-        $lifecycle = new Lifecycle($directory); 
+        /*--- Creating Lifecycle instance ---*/
+        $lifecycle = new self($directory); 
+
+        /*--- Loading default Lemon services ---*/
         $lifecycle->loadServices();
+
+        /*--- Loading Zests for services ---*/       
         $lifecycle->loadZests();
+
+        /* --- Loading Error/Exception handlers ---*/
         $lifecycle->loadHandler();
 
+        /* --- The end ---
+         * This function automaticaly boots our app at the end of file
+         */
         register_shutdown_function(function() use ($lifecycle) {
             if (http_response_code() >= 500) {
                 return;

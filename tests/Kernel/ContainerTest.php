@@ -16,30 +16,49 @@ class ContainerTests extends TestCase
     {
         $container = new Container();
 
-        $container->addService(Foo::class);
-        $this->assertSame([Foo::class], $container->getAllServices());
-        $container->addService(Bar::class);
-        $this->assertSame([Foo::class, Bar::class], $container->getAllServices());
+        $container->add(Foo::class);
+        $this->assertSame([Foo::class], $container->services());
+        $container->add(Bar::class);
+        $this->assertSame([Foo::class, Bar::class], $container->services());
 
         $this->expectException(ContainerException::class);
-        $container->addService(Foo::class);
-        $container->addService('Klobna');
+        $container->add(Foo::class);
+        $container->add('Klobna');
     }
 
     public function testGetService()
     {
         $container = new Container();
-        $container->addService(Foo::class);
-        $foo = $container->getService(Foo::class);
+        $container->add(Foo::class);
+        $foo = $container->get(Foo::class);
         $this->assertInstanceOf(Foo::class, $foo);
-        $this->assertSame($foo, $container->getService(Foo::class));
+        $this->assertSame($foo, $container->get(Foo::class));
 
-        $container->addService(Bar::class);
-        $this->assertInstanceOf(Bar::class, $container->getService(Bar::class));
+        $container->add(Bar::class);
+        $this->assertInstanceOf(Bar::class, $container->get(Bar::class));
 
         $container = new Container();
         $this->expectException(ContainerException::class);
-        $container->getService(Bar::class);
+        $container->get(Bar::class);
+    }
+
+    public function testHasService()
+    {
+        $container = new Container();
+        $container->add(Foo::class);
+        $this->assertTrue($container->has(Foo::class));
+        $this->assertFalse($container->has('klobna'));
+    }
+
+    public function testAlias()
+    {
+        $container = new Container();
+        $container->add(Foo::class);
+        $container->alias('klobna', Foo::class);
+        $this->assertSame($container->get(Foo::class), $container->get('klobna'));
+        $this->expectException(ContainerException::class);
+        $container->get('parek');
+        $container->alias('rizek', Bar::class);
     }
 
 }

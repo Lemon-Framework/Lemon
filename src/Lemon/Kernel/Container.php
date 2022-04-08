@@ -10,26 +10,39 @@ use ReflectionClass;
 
 class Container 
 {
-    private array $instances = [];
-
+    /**
+     * Container services
+     *
+     * @var array<string, mixed> $services
+     */
     private array $services = [];
 
     /**
-     * Returns service of given class
+     * Service aliases
+     *
+     * @var array<string, string> $aliases
+     */
+    private array $aliases = [];
+
+    /**
+     * Returns service of given class/alias
      *
      * @throws \Lemon\Exceptions\ContainerException 
      */
-    public function getService(string $service): mixed
+    public function get(string $id): mixed
     {
-        if (! Arr::has($this->services, $service)) {
-            throw new ContainerException('Service '.$service.' does not exist');
+        if (! Arr::hasKey($this->services, $id)) {
+            if (! Arr::hasKey($this->aliases, $id)) {
+                throw new ContainerException('Service '.$id.' does not exist');
+            }
+            $id = $this->aliases[$id];
         }
 
-        if (! isset($this->instances[$service])) {
-            $this->instances[$service] = $this->makeService($service);
+        if (! $this->services[$id]) {
+            $this->services[$id] = $this->make($id);
         }
 
-        return $this->instances[$service];
+        return $this->services[$id];
     }
 
     /**
@@ -37,7 +50,7 @@ class Container
      *
      * @throws \Lemon\Exceptions\ContainerException 
      */
-    private function makeService(string $service): mixed 
+    private function make(string $service): mixed 
     {
         $class = new ReflectionClass($service);
         $constructor = $class->getConstructor();
@@ -51,7 +64,7 @@ class Container
 
         foreach ($class_params as $param) {
             $type = (string) $param->getType();
-            $params[] = $type === static::class ? $this : $this->getService($type);
+            $params[] = $type === static::class ? $this : $this->get($type);
         }
         return new $service(...$params);
     }
@@ -61,7 +74,7 @@ class Container
      *
      * @throws \Lemon\Exceptions\ContainerException
      */
-    public function addService(string $service): static
+    public function add(string $service): static
     {
         if (! class_exists($service)) {
             throw new ContainerException('Class '.$service.' does not exist');
@@ -69,13 +82,40 @@ class Container
         if (Arr::has($this->services, $service)) {
             throw new ContainerException('Service '.$service.' is already registered');
         }
-        $this->services[] = $service;
+        $this->services[$service] = null;
         
         return $this;
     }
 
-    public function getAllServices(): array
+    /**
+     * Creates new alias
+     *
+     * @throws \Lemon\Exceptions\ContainerException
+     */
+    public function alias(string $alias, string $class): static
     {
-        return $this->services;
+        if (!$this->has($class)) {
+            throw new ContainerException('Service '.$class.' does not exist');
+        }
+        $this->aliases[$alias] = $class;
+        return $this;
     }
+
+    /**
+     * Returns all registered services
+     */
+    public function services(): array
+    {
+        return Arr::keys($this->services)->content;
+    }
+
+    /**
+     * Returns whenever service exist
+     */
+    public function has(string $id): bool
+    {
+        return Arr::hasKey($this->services, $id);
+    }
+
+    // public funciton call(callable $callback): mixed
 }

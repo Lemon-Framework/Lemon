@@ -8,7 +8,7 @@ use DOMDocument;
 use DOMNode;
 use DOMText;
 use DOMXPath;
-
+// TODO rewrite
 class HtmlOutput
 {
     public string $content;

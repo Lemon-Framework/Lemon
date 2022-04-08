@@ -31,6 +31,9 @@ class Cache
         $this->load();
     }
 
+    /**
+     * Loads cache, creates files if they dont exist
+     */
     public function load(): void
     {
         $directory = $this->lifecycle->config('cache', 'storage');
@@ -46,40 +49,61 @@ class Cache
         
     }
 
+    /**
+     * Writes data to cache at the end
+     */
     public function __destruct()
     {
         FS::write($this->data_path, json_encode($this->data));
     }
 
-    public function getData()
+    /**
+     * Returns cached data
+     */
+    public function getData(): array
     {
         return $this->data;
     }
 
+    /**
+     * Returns data for given key, if not set calls given function
+     */
     public function get(string $key, callable $callback=null): mixed
     {
         if (isset($this->data[$key])) {
             return $this->data[$key];
         }
 
-        return $callback($this);
+        if ($callback) {
+            return $callback($this);
+        }
+
+        return null;
     }
 
+    /**
+     * Sets value for given key
+     */
     public function set(mixed $key, mixed $value): self
     {
         $this->data[$key] = $value;
         return $this;
     }
 
+    /**
+     * Removes given key
+     */
     public function remove(mixed $key): self
     {
         unset($this->data[$key]);
         return $this;
     }
 
+    /**
+     * Clears cache
+     */
     public function clear(): void
     {
         $this->data = [];
-
     }
 }

@@ -62,7 +62,7 @@ class FilesystemTest extends TestCase
     public function testWrite()
     {
         $file = self::$tmp.DIRECTORY_SEPARATOR.'test.txt';
-        fclose(fopen($file, "w"));
+        touch($file);
         
         Filesystem::write($file, 'bar');
         $this->assertSame('bar', file_get_contents($file));
@@ -71,6 +71,7 @@ class FilesystemTest extends TestCase
 
         Filesystem::write($file, 'foo');
         $this->assertFileExists($file);
+        unlink($file);
     }
     
     public function testMakeDir()
