@@ -7,10 +7,9 @@ namespace Lemon\Tests\Config;
 use Lemon\Cache\Cache as LemonCache;
 use Lemon\Kernel\Lifecycle;
 use PHPUnit\Framework\TestCase;
-
+/*
 /**
  * Class for testing cache without writing to actual files
- */
 class FakeCache extends LemonCache
 {
     public function __construct()
@@ -63,3 +62,4 @@ class FakeCacheTest extends TestCase
 
     }
 }
+*/
