@@ -1,14 +1,16 @@
 <?php
-// TODO tests
+
 declare(strict_types=1);
 
 namespace Lemon\Kernel;
 
-use Lemon\Exceptions\ContainerException;
+use Lemon\Kernel\Exceptions\ContainerException;
+use Lemon\Kernel\Exceptions\NotFoundException;
 use Lemon\Support\Types\Arr;
+use Psr\Container\ContainerInterface;
 use ReflectionClass;
 
-class Container 
+class Container implements ContainerInterface
 {
     /**
      * Container services
@@ -27,13 +29,13 @@ class Container
     /**
      * Returns service of given class/alias
      *
-     * @throws \Lemon\Exceptions\ContainerException 
+     * @throws \Lemon\Kernel\Exceptions\NotFoundException
      */
     public function get(string $id): mixed
     {
         if (! Arr::hasKey($this->services, $id)) {
             if (! Arr::hasKey($this->aliases, $id)) {
-                throw new ContainerException('Service '.$id.' does not exist');
+                throw new NotFoundException('Service '.$id.' does not exist');
             }
             $id = $this->aliases[$id];
         }
@@ -47,8 +49,6 @@ class Container
 
     /**
      * Creates service instance of given class
-     *
-     * @throws \Lemon\Exceptions\ContainerException 
      */
     private function make(string $service): mixed 
     {
@@ -72,12 +72,13 @@ class Container
     /**
      * Adds new service
      *
-     * @throws \Lemon\Exceptions\ContainerException
+     * @throws \Lemon\Kernel\Exceptions\ContainerException
+     * @throws \Lemon\Kernel\Exceptions\NotFoundException    
      */
     public function add(string $service): static
     {
         if (! class_exists($service)) {
-            throw new ContainerException('Class '.$service.' does not exist');
+            throw new NotFoundException('Class '.$service.' does not exist');
         } 
         if (Arr::has($this->services, $service)) {
             throw new ContainerException('Service '.$service.' is already registered');
@@ -90,12 +91,12 @@ class Container
     /**
      * Creates new alias
      *
-     * @throws \Lemon\Exceptions\ContainerException
+     * @throws \Lemon\Kernel\Exceptions\NotFoundException
      */
     public function alias(string $alias, string $class): static
     {
         if (!$this->has($class)) {
-            throw new ContainerException('Service '.$class.' does not exist');
+            throw new NotFoundException('Service '.$class.' does not exist');
         }
         $this->aliases[$alias] = $class;
         return $this;
