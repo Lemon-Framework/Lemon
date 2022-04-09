@@ -14,10 +14,8 @@ use Psr\SimpleCache\CacheInterface;
 
 class Cache implements CacheInterface
 {
-    /**
-     * Current lifecycle instance
-     */
-    private Lifecycle $lifecycle;
+
+    protected int $time;
 
     /**
      * Cached data
@@ -31,9 +29,9 @@ class Cache implements CacheInterface
      */
     private string $data_path;
 
-    public function __construct(Lifecycle $lifecycle)
+    public function __construct(private Lifecycle $lifecycle)
     {
-        $this->lifecycle = $lifecycle;
+        $this->time = time();
         $this->load();
     }
 
@@ -71,31 +69,45 @@ class Cache implements CacheInterface
         return $this->data;
     }
 
+    /**
+     * Returns cached value or default value
+     */
     public function get(string $key, mixed $default = null): mixed
     {
         if ($this->has($key)) {
-            return $this->data[$key]['value'];
+            $value = $this->data[$key];
+            if (! $value['expires_at'] || $value['expires_at'] > $this->time) {
+                return $value['value'];
+            }
+            $this->delete($key);
         }
-
-        if ($default) {
-            return $default;
-        }
-
-        throw new InvalidArgumentException('Item '.$key.' does not exist');
+        
+        return $default;
     }
 
+    /**
+     * Sets new value to cache
+     */
     public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
     {
         $expires_at = null;
-        if ($ttl) {
-            $expires_at = new DateTime('now');
-            $ttl = $ttl instanceof DateInterval ? $ttl : new DateInterval("P{$ttl}S");
-            $expires_at = $expires_at->add($ttl);
+        if ($ttl) {  
+            if (is_int($ttl)) {
+                if ($ttl <= 0) {
+                    throw new InvalidArgumentException('TTL must be bigger than 0');
+                }
+            }
+            $expires_at = new DateTime('@'.$this->time);
+            $ttl = $ttl instanceof DateInterval ? $ttl : new DateInterval("PT{$ttl}S");
+            $expires_at = $expires_at->add($ttl)->getTimestamp();
         }
         $this->data[$key] = ['value' => $value, 'expires_at' => $expires_at];
         return true;
     }
 
+    /**
+     * Removes value from cache
+     */
     public function delete(string $key): bool
     {
         if (! $this->has($key)) {
@@ -114,6 +126,9 @@ class Cache implements CacheInterface
         return true;
     }
 
+    /**
+     * Returns value for every given key
+     */
     public function getMultiple(iterable $keys, mixed $default = null): iterable
     {
         $result = [];
@@ -121,11 +136,14 @@ class Cache implements CacheInterface
             if (! is_string($key)) {
                 throw new InvalidArgumentException('Argument 1 must contain only strings');
             }
-            $result[] = $this->get($key);
+            $result[$key] = $this->get($key, $default);
         }
         return $result;
     }
 
+    /**
+     * Removes item for every given key
+     */
     public function deleteMultiple(iterable $keys): bool
     {
         foreach ($keys as $key) {
@@ -137,6 +155,9 @@ class Cache implements CacheInterface
         return true;
     }
 
+    /**
+     * Sets multiple items
+     */
     public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool
     { 
         foreach ($values as $key => $value) {
@@ -148,15 +169,20 @@ class Cache implements CacheInterface
         return true;
     }
 
-
-    public function commit(): bool
-    {
-        return FS::write($this->data_path, json_encode($this->data));
-    }
-
-
+    /**
+     * Returns whenever key exist
+     */
     public function has(string $key): bool
     {
         return Arr::hasKey($this->data, $key);
+    }
+
+
+    /**
+     * Saves data to file
+     */
+    public function commit(): bool
+    {
+        return FS::write($this->data_path, json_encode($this->data));
     }
 }

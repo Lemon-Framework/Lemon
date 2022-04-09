@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Config;
 
+use DateInterval;
 use Lemon\Cache\Cache as LemonCache;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Cache\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-/*
+
 /**
  * Class for testing cache without writing to actual files
+ */
 class FakeCache extends LemonCache
 {
-    public function __construct()
+    public function __construct(
+        public int $time
+    )
     {
-        
     }
 
     public function __destruct()
@@ -27,39 +30,154 @@ class FakeCacheTest extends TestCase
 {
     public function testSet()
     {
-        $cache = new FakeCache();
-        $cache->set('user', ['name' => 'majkel', 'id' => 37]);
-        $this->assertSame(['user' => ['name' => 'majkel', 'id' => 37]], $cache->data());
-        $cache->set('user', 'klobna');
-        $this->assertSame(['user' => 'klobna'], $cache->data());
-        $cache->set('frajer', 'fid');
-        $this->assertSame(['user' => 'klobna', 'frajer' => 'fid'], $cache->data());
+        $time = time();
+        $cache = new FakeCache($time);
+        $cache->set('foo', 'bar');
+        $this->assertSame(['foo' => ['value' => 'bar', 'expires_at' => null]], $cache->data());
+        $cache->set('foo', 'baz', 10);
+        $this->assertSame(['foo' => ['value' => 'baz', 'expires_at' => $time + 10]], $cache->data());
+        $cache->set('foo', 'klobna', new DateInterval('PT12S'));
+        $this->assertSame(['foo' => ['value' => 'klobna', 'expires_at' => $time + 12]], $cache->data());
+        $this->expectException(InvalidArgumentException::class);
+        $cache->set('klobna', 'rizek', -5);
+        $cache->set('klobna', 'rizek', 0);
+    }
+
+    public function testHas()
+    {
+        $cache = new FakeCache(time());
+        $cache->set('klobna', 'dekel');
+        $this->assertTrue($cache->has('klobna'));
+        $this->assertFalse($cache->has('cukr'));
+    }
+
+    public function testDelete()
+    {
+        $cache = new FakeCache(time());
+        $cache->set('klobna', 'dekel');
+        $cache->delete('klobna');
+        $this->assertEmpty($cache->data());
+        $this->expectException(InvalidArgumentException::class);
+        $cache->delete('parkovar');
     }
 
     public function testGet()
     {
-        $cache = new FakeCache();
-        $cache->set('user', 'klobna');
-        $this->assertSame('klobna', $cache->get('user'));
-        $this->assertSame('rizek', $cache->get('chabr', function(FakeCache $c) {
-            $c->set('chabr', 'rizek');
-            return 'rizek';
-        }));
-        $this->assertSame(['user' => 'klobna', 'chabr' => 'rizek'], $cache->data());   
-        $this->assertNull($cache->get('FIDO JE CHAD 90 % CHAD'));
+        $cache = new FakeCache(time());
+        $cache->set('foo', 'bar');
+        $this->assertSame('bar', $cache->get('foo'));
+        $this->assertSame('baz', $cache->get('bar', 'baz'));
+        $this->assertNull($cache->get('klobasnik'));
+        $cache->set('bar', 'baz', 10);
+        $this->assertSame('baz', $cache->get('bar'));
+        $cache->set('klobna', 'nevim', 1);
+        $cache->time += 2;
+        $this->assertNull($cache->get('klobna'));
+        $this->assertFalse($cache->has('klobna'));
     }
 
-    public function testRemove()
+    public function testSetMultiple()
     {
-        $cache = new FakeCache();
-        $cache->set('user', 'klobasnik');
-        $cache->remove('user');
-        $this->assertEmpty($cache->data());
+        $time = time();
+        $cache = new FakeCache($time);
+        $cache->setMultiple([
+            'majkel' => 'blazen',
+            'fid' => 'frajer',
+            'neco' => 'rizky',
+        ]);
+        $this->assertSame([
+            'majkel' => ['value' => 'blazen', 'expires_at' => null],
+            'fid' => ['value' => 'frajer', 'expires_at' => null],
+            'neco' => ['value' => 'rizky', 'expires_at' => null],       
+        ], $cache->data());
+
+        $cache->setMultiple([
+            'majkel' => 'podvodnik',
+            'fid' => 'klobasnik',
+            'neco' => 'rizek',
+        ]);
+
+        $this->assertSame([
+            'majkel' => ['value' => 'podvodnik', 'expires_at' => null],
+            'fid' => ['value' => 'klobasnik', 'expires_at' => null],
+            'neco' => ['value' => 'rizek', 'expires_at' => null],       
+        ], $cache->data());
+
+        $cache->setMultiple([
+            'majkel' => 'klobasnik',
+            'fid' => 'parek'
+        ], 1);
+
+        $this->assertSame([
+            'majkel' => ['value' => 'klobasnik', 'expires_at' => $time + 1],
+            'fid' => ['value' => 'parek', 'expires_at' => $time + 1],
+            'neco' => ['value' => 'rizek', 'expires_at' => null],       
+        ], $cache->data());
+
+        $cache->setMultiple([
+            'majkel' => 'klobasnik',
+            'fid' => 'parek'        
+        ], new DateInterval('PT2S'));
+
+        $this->assertSame([
+            'majkel' => ['value' => 'klobasnik', 'expires_at' => $time + 2],
+            'fid' => ['value' => 'parek', 'expires_at' => $time + 2],
+            'neco' => ['value' => 'rizek', 'expires_at' => null],       
+        ], $cache->data());
+
+        $this->expectException(InvalidArgumentException::class);
+        $cache->setMultiple(['parky', 'burty', 'horcice']);
+        $cache->setMultiple(['parek' => 'chalec'], -5);
+    }
+
+    public function testGetMultiple()
+    {
+        $time = time();
+        $cache = new FakeCache($time);
+        $cache->setMultiple([
+            'cs' => 'ok',
+            'nevim' => 'neco',
+            'fid'=> 'cs',
+        ]);
+
+        $this->assertSame(['cs' => 'ok', 'fid' => 'cs'], $cache->getMultiple(['cs', 'fid']));
+        $this->assertSame([
+            'nevim' => 'neco',
+            'klobna' => 'chalka',
+            'ok' => 'chalka',
+        ], $cache->getMultiple(['nevim', 'klobna', 'ok'], 'chalka'));
+
+        $this->expectException(InvalidArgumentException::class);
+        $cache->getMultiple([10, false, 'cs']);
+    }
+
+    public function testDeleteMutliple()
+    {
+        $time = time();
+        $cache = new FakeCache($time);
+        $cache->setMultiple([
+            'cs' => 'ok',
+            'nevim' => 'neco',
+            'fid'=> 'cs',
+        ]);
+
+        $cache->deleteMultiple(['cs', 'fid']);
+        $this->assertSame(['nevim' => ['value' => 'neco', 'expires_at' => null]], $cache->data());
+        
+        $this->expectException(InvalidArgumentException::class);
+        $cache->deleteMultiple([10, false, 'cs']);
+        $cache->deleteMultiple(['cs', 'fid']);
     }
 
     public function testClear()
     {
-
+        $cache = new FakeCache(time());
+        $cache->setMultiple([
+            'cs' => 'ok',
+            'nevim' => 'neco',
+            'fid'=> 'cs',
+        ]);
+        $cache->clear();
+        $this->assertEmpty($cache->data());
     }
 }
-*/
