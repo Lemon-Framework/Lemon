@@ -40,6 +40,7 @@ TODO:
 - [ ] caching (psr?)
 - [ ] tests for caching
 - [ ] juice template engine
+- [ ] Datetime manipulation witch config propably
 - [ ] mailer?
 - [ ] auth?
 

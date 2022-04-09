@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Lemon\Cache;
 
+use DateInterval;
+use DateTime;
+use Lemon\Cache\Exceptions\InvalidArgumentException;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Filesystem as FS;
-use Lemon\Support\Types\Str;
+use Lemon\Support\Types\Arr;
+use Psr\SimpleCache\CacheInterface;
 
-class Cache
+class Cache implements CacheInterface
 {
     /**
      * Current lifecycle instance
@@ -17,6 +21,8 @@ class Cache
 
     /**
      * Cached data
+     *
+     * @var array<string, array<string, mixed>>
      */
     private array $data = [];
 
@@ -54,7 +60,7 @@ class Cache
      */
     public function __destruct()
     {
-        FS::write($this->data_path, json_encode($this->data));
+        $this->commit();
     }
 
     /**
@@ -65,45 +71,92 @@ class Cache
         return $this->data;
     }
 
-    /**
-     * Returns data for given key, if not set calls given function
-     */
-    public function get(string $key, callable $callback=null): mixed
+    public function get(string $key, mixed $default = null): mixed
     {
-        if (isset($this->data[$key])) {
-            return $this->data[$key];
+        if ($this->has($key)) {
+            return $this->data[$key]['value'];
         }
 
-        if ($callback) {
-            return $callback($this);
+        if ($default) {
+            return $default;
         }
 
-        return null;
+        throw new InvalidArgumentException('Item '.$key.' does not exist');
     }
 
-    /**
-     * Sets value for given key
-     */
-    public function set(mixed $key, mixed $value): self
+    public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
     {
-        $this->data[$key] = $value;
-        return $this;
+        $expires_at = null;
+        if ($ttl) {
+            $expires_at = new DateTime('now');
+            $ttl = $ttl instanceof DateInterval ? $ttl : new DateInterval("P{$ttl}S");
+            $expires_at = $expires_at->add($ttl);
+        }
+        $this->data[$key] = ['value' => $value, 'expires_at' => $expires_at];
+        return true;
     }
 
-    /**
-     * Removes given key
-     */
-    public function remove(mixed $key): self
+    public function delete(string $key): bool
     {
+        if (! $this->has($key)) {
+            throw new InvalidArgumentException('Item '.$key.' does not exist');
+        }
         unset($this->data[$key]);
-        return $this;
+        return true;
     }
 
     /**
      * Clears cache
      */
-    public function clear(): void
+    public function clear(): bool
     {
         $this->data = [];
+        return true;
+    }
+
+    public function getMultiple(iterable $keys, mixed $default = null): iterable
+    {
+        $result = [];
+        foreach ($keys as $key) {
+            if (! is_string($key)) {
+                throw new InvalidArgumentException('Argument 1 must contain only strings');
+            }
+            $result[] = $this->get($key);
+        }
+        return $result;
+    }
+
+    public function deleteMultiple(array $keys): bool
+    {
+        foreach ($keys as $key) {
+            if (! is_string($key)) {
+                throw new ('Given keys must be type string');
+            }
+            $this->delete($key);
+        }
+        return true;
+    }
+
+    public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool
+    { 
+        foreach ($values as $key => $value) {
+            if (! is_string($key)) {
+                throw new InvalidArgumentException('Argument 1 must contain only strings');
+            }
+            $this->set($key, $value, $ttl);
+        }       
+        return true;
+    }
+
+
+    public function commit(): bool
+    {
+        return FS::write($this->data_path, json_encode($this->data));
+    }
+
+
+    public function has(string $key): bool
+    {
+        return Arr::hasKey($this->data, $key);
     }
 }
