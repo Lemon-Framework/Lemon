@@ -126,11 +126,11 @@ class Cache implements CacheInterface
         return $result;
     }
 
-    public function deleteMultiple(array $keys): bool
+    public function deleteMultiple(iterable $keys): bool
     {
         foreach ($keys as $key) {
             if (! is_string($key)) {
-                throw new ('Given keys must be type string');
+                throw new InvalidArgumentException('Given keys must be type string');
             }
             $this->delete($key);
         }
