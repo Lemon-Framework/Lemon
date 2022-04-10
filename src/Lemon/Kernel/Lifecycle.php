@@ -37,12 +37,13 @@ final class Lifecycle extends Container
     private Container $container;
 
     /**
-     * Aliases for units
+     * Default units with aliases 
      */
     private array $default = [
         'routing' => \Lemon\Http\Routing\Router::class,
         'terminal' => \Lemon\Terminal\Terminal::class,
         'config' => \Lemon\Config\Config::class,            
+        'cache' => \Lemon\Cache\Cache::class,
     ];
 
     /**
