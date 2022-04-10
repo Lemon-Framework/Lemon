@@ -27,7 +27,7 @@ abstract class Zest
     {
         $unit = static::unit();
 
-        return self::$lifecycle->unit($unit);
+        return self::$lifecycle->get($unit);
     }
 
     abstract public static function unit(): string;

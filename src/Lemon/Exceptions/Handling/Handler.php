@@ -24,7 +24,7 @@ class Handler
      */
     public function terminate(): void
     {
-        if ($this->lifecycle->config('init', 'debug')) {
+        if ($this->lifecycle->config('kernel', 'debug')) {
             echo $this->problem;
         } // TODO REPORTER
         else {
