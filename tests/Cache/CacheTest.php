@@ -7,6 +7,9 @@ namespace Lemon\Tests\Config;
 use DateInterval;
 use Lemon\Cache\Cache as LemonCache;
 use Lemon\Cache\Exceptions\InvalidArgumentException;
+use Lemon\Config\Config;
+use Lemon\Kernel\Lifecycle;
+use Lemon\Support\Filesystem;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -180,4 +183,49 @@ class FakeCacheTest extends TestCase
         $cache->clear();
         $this->assertEmpty($cache->data());
     }
+}
+
+class CacheTest extends TestCase
+{
+
+    private LemonCache $cache;
+
+    public function setUp(): void
+    {
+        $lc = new Lifecycle(__DIR__);
+        $lc->add(Config::class);
+        $lc->alias('config', Config::class);
+        $this->cache = new LemonCache($lc);   
+    }
+
+    public function testLoad()
+    {
+        $s = DIRECTORY_SEPARATOR;
+        $dir = __DIR__.$s.'cache';
+        $this->assertDirectoryExists($dir);
+        $gitignore = $dir.$s.'.gitignore';
+        $this->assertFileExists($gitignore);
+        $data = $dir.$s.'data.json';
+        $this->assertFileExists($data);       
+        $this->assertStringEqualsFile($gitignore, '*'.PHP_EOL.'!.gitignore');
+        $this->assertStringEqualsFile($data, '{}');
+        unset($this->cache);
+    }
+    
+
+    public function testCommit()
+    {
+        $this->cache->setMultiple([
+            'klobna' => 'neco',
+            'hej' => 'ja fakt nevim',
+        ], 10);
+        unset($this->cache); // calling destructor
+
+        $s = DIRECTORY_SEPARATOR;
+        $this->assertJsonStringEqualsJsonFile(__DIR__.$s.'cache'.$s.'data.json',
+            '{"klobna":{"value":"neco","expires_at":'.(time() + 10).'},"hej":{"value": "ja fakt nevim", "expires_at":'.(time() + 10).'}}'
+        );
+        Filesystem::delete(__DIR__.$s.'cache');   
+    }
+
 }

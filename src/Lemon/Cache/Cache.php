@@ -43,7 +43,7 @@ class Cache implements CacheInterface
         $directory = $this->lifecycle->config('cache', 'storage');
         $path = $this->lifecycle->file($directory);
         $this->data_path = FS::join($path, 'data.json');
-        if (! FS::isDir($directory)) {
+        if (! FS::isDir($path)) {
             FS::makeDir($path);
             FS::write(FS::join($path, '.gitignore'), "*\n!.gitignore");
             FS::write($this->data_path, '{}');

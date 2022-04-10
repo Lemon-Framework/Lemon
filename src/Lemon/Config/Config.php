@@ -37,7 +37,11 @@ class Config
                 throw new ConfigException('Config part '.$name.' does not exist');
             }
 
-            $this->data[$name] = new Array_(require_once $path);
+            $data = require $path;
+            if (! is_array($data)) {
+                throw new ConfigException('Config file for part '.$name.' does not return array');
+            }
+            $this->data[$name] = new Array_($data);
         }
 
         return $this->data[$name];

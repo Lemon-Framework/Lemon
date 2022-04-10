@@ -39,7 +39,7 @@ TODO:
 - [ ] consultant
 - [x] caching core, psr
 - [x] fake tests for caching
-- [ ] tests for caching
+- [x] tests for caching
 - [ ] juice template engine
 - [ ] Datetime manipulation witch config propably
 - [ ] mailer?
