@@ -1,5 +1,9 @@
 <?php
 
+// TODO ADD:
+// getting via decorators
+// LITERALY THE WHOLE THING
+
 declare(strict_types=1);
 
 namespace Lemon\Http;

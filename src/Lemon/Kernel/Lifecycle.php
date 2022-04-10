@@ -137,6 +137,10 @@ final class Lifecycle extends Container
      */
     public function boot(): void
     {
+        if ($this->config('kernel', 'mode') !== 'web') {
+            return;
+        }
+
         try {
             $request = Request::make();
             $this->get('routing')->dispatch($request)->terminate();
