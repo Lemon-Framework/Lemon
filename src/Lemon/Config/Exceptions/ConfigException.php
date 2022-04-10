@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lemon\Exceptions;
+namespace Lemon\Config\Exceptions;
 
 use Exception;
 

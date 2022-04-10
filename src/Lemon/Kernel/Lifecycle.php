@@ -60,7 +60,7 @@ final class Lifecycle extends Container
      */
     public function loadServices(): void
     {
-        foreach(Arr::values($this->default) as $alias => $unit) {
+        foreach($this->default as $alias => $unit) {
             $this->add($unit);
             $this->alias($alias, $unit);
         }

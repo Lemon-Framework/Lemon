@@ -4,44 +4,57 @@ declare(strict_types=1);
 
 namespace Lemon\Config;
 
-use Lemon\Exceptions\ConfigException;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Config\Exceptions\ConfigException;
 use Lemon\Support\Filesystem;
+use Lemon\Support\Properties\Properties;
+use Lemon\Support\Properties\Read;
 use Lemon\Support\Types\Array_;
+use Lemon\Support\Types\Str;
 
 /**
- * The Lemon Config Manager. 
+ * The Lemon Config Manager.
+ *
+ * @property array<string, mixed> $data
+ * @property array<string, string> $parts 
  */
 class Config
 {
-    public const BASE = 'Parts';
 
-    /**
-     * Lifecycle config unit belongs to.
-     */
-    public Lifecycle $lifecycle;
+    use Properties;
 
-    public array $data = [];
+    #[Read]
+    private array $data = [];
 
-    /**
-     * Creates new config instance.
-     */
-    public function __construct(Lifecycle $lifecycle)
-    {
-        $this->lifecycle = $lifecycle;
-    }
+    #[Read]
+    private array $parts = [];
 
     public function part(string $name): Array_
-    {
-        $path = Filesystem::join(__DIR__, self::BASE, $name).'.php';
-        if (! Filesystem::isFile($path)) {
-            throw new ConfigException('Config part '.$name.' does not exist');
-        }
-
+    { 
+        $name = Str::toLower($name)->value;
         if (! isset($this->data[$name])) {
+            $path = $this->parts[$name] ?? Filesystem::join(__DIR__, '..', Str::capitalize($name)->value, 'config.php');
+            if (! Filesystem::isFile($path)) {
+                throw new ConfigException('Config part '.$name.' does not exist');
+            }
+
             $this->data[$name] = new Array_(require_once $path);
         }
 
         return $this->data[$name];
+    }
+
+    public function load(string $directory): static
+    {
+        if (! Filesystem::isDir($directory)) {
+            throw new ConfigException('Directory '.$directory.' does not exist');
+        }
+        foreach (Filesystem::listDir($directory) as $path) {
+            static $s = DIRECTORY_SEPARATOR;
+            if (preg_match('/^'.Str::replace($directory, $s, '\\'.$s)->value.'\\'.$s.'(.+?)\.php$/', $path, $matches)) {
+                $key = Str::replace($matches[1], $s, '.')->value;
+                $this->parts[$key] = $path;
+            }
+        }
+        return $this;
     }
 }
