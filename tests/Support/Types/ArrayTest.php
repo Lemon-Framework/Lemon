@@ -183,6 +183,7 @@ class ArrayTest extends TestCase
     {
         $array = new Array_([1, 2, 3, 4, 5, 6]);
         $this->assertSame([2, 4, 6, 8, 10, 12], $array->map(fn ($item) => $item * 2)->content);
+        $this->assertSame([1, 3, 5, 7, 9, 11], $array->map(fn($item, $index) => $item + $index)->content);
         $this->assertSame([1, 2, 3, 4, 5, 6], $array->content);
         $array = new Array_();
         $this->assertEmpty($array->map(fn ($item) => $item * 2)->content);

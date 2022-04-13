@@ -8,9 +8,7 @@ Pracujem na jednom phpcku ten sa bude volat Lemon... 3. Bude tam nieco zo symfon
 
 WIP Lemon 3
 
-❗NOT READY FOR PRODUCTION ❗
-
-trust me
+❗NOT READY FOR PRODUCTION EVERYTHING COULD (AND PROPABLY WILL) CHANGE❗
 
 TODO:
 
@@ -22,8 +20,9 @@ TODO:
 - [ ] other cool array methods propably BUT not that much ok do it while writing pls
 - [x] tests for string
 - [x] tests for arr and str
+- [ ] remove string_, arr utils should return array
 - [ ] Strng::trim
-- [ ] Better array map
+- [x] Better array map
 - [ ] new session
 - [ ] new csrf (middleware?)
 - [ ] cors
@@ -63,6 +62,7 @@ $ ./vendor/bin/php-cs-fixer # fixes style
 ```
 
 Make sure all of them pass before sending pull request, if they wont pr wont be ignored, but its better to use it.
+
 ## Thanks
 
 - CoolFido - Psychical helping, contributting, ideas, the whole idea of creating framework from scratch (he didn't expect that to happen)
@@ -73,5 +73,3 @@ Make sure all of them pass before sending pull request, if they wont pr wont be 
 - Nuno Maduro - Created Termwind which was used as inspiration in Terminal Component
 - Azeem Hassni - Tutorial for creating simple router
 - Starganzers - ❤
-
-*"Stolen from the best, with pride!"*

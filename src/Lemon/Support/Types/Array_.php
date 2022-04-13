@@ -275,7 +275,11 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function map(callable $callback): self
     {
-        return new self(array_map($callback, $this->content));
+        $result = new self();
+        foreach ($this->content as $key => $value) {
+            $result->push($callback($value, $key));
+        }
+        return $result;
     }
 
     /**
