@@ -51,7 +51,7 @@ final class Lifecycle extends Container
      */
     public function __construct(string $directory)
     {
-        $this->directory = $directory;
+        $this->directory = Filesystem::parent($directory);
         $this->container = new Container();
     }
 
@@ -155,6 +155,16 @@ final class Lifecycle extends Container
      */
     public static function init(string $directory): self
     {
+        /*--- Terminal ---
+         * While using ::init the app contains minimal amount of files and Lemonade
+         * is not included. If you run your index.php it will automaticaly run your development
+         * server and end. Using superglobal $_SERVER we can whenever its ran in terminal
+         */
+        if (! isset($_SERVER['REQUEST_URI'])) {
+            exec('php -S localhost:8000 -t '.$directory);
+            exit;
+        }
+
         /*--- Creating Lifecycle instance ---*/
         $lifecycle = new self($directory); 
 

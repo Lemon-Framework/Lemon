@@ -12,6 +12,8 @@ Disable ability to <?php pls
 
 - regex for errors `{%%}.\*(?<!{%%})$`
 
+THE FORMULA preg_split("/(\[\[.+?\]\])|(\[.+?\])/", "klobna[[parek]]     rizek    [c]   klovna [parkovar]\nklobna", -1, PREG_SPLIT_DELIM_CAPTURE)
+
 ## Mails
 
 - Name Envelope
