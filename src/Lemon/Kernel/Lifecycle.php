@@ -51,7 +51,7 @@ final class Lifecycle extends Container
      */
     public function __construct(string $directory)
     {
-        $this->directory = Filesystem::parent($directory);
+        $this->directory = $directory;
         $this->container = new Container();
     }
 
@@ -166,7 +166,7 @@ final class Lifecycle extends Container
         }
 
         /*--- Creating Lifecycle instance ---*/
-        $lifecycle = new self($directory); 
+        $lifecycle = new self(Filesystem::parent($directory)); 
 
         /*--- Loading default Lemon services ---*/
         $lifecycle->loadServices();
