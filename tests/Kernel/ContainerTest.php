@@ -7,7 +7,9 @@ namespace Lemon\Tests\Kernel;
 use Lemon\Kernel\Container;
 use Lemon\Kernel\Exceptions\ContainerException;
 use Lemon\Kernel\Exceptions\NotFoundException;
+use Lemon\Tests\Kernel\Resources\IFoo;
 use Lemon\Tests\Kernel\Resources\Units\Bar;
+use Lemon\Tests\Kernel\Resources\Units\Baz;
 use Lemon\Tests\Kernel\Resources\Units\Foo;
 use PHPUnit\Framework\TestCase;
 
@@ -58,6 +60,12 @@ class ContainerTests extends TestCase
         $container->add(Foo::class);
         $container->alias('klobna', Foo::class);
         $this->assertSame($container->get(Foo::class), $container->get('klobna'));
+
+        $container->alias(IFoo::class, Foo::class);
+        $this->assertSame($container->get(Foo::class), $container->get(IFoo::class));
+        $container->add(Baz::class);
+        $this->assertInstanceOf(Baz::class, $container->get(Baz::class));
+
         $this->expectException(NotFoundException::class);
         $container->get('parek');
         $container->alias('rizek', Bar::class);

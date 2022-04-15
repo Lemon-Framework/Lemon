@@ -39,11 +39,11 @@ final class Lifecycle extends Container
     /**
      * Default units with aliases 
      */
-    private array $default = [
-        'routing' => \Lemon\Http\Routing\Router::class,
-        'terminal' => \Lemon\Terminal\Terminal::class,
-        'config' => \Lemon\Config\Config::class,            
-        'cache' => \Lemon\Cache\Cache::class,
+    private const DEFAULTS = [
+        \Lemon\Http\Routing\Router::class => ['router'],
+        \Lemon\Terminal\Terminal::class => ['terminal'],
+        \Lemon\Config\Config::class => ['config'],            
+        \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class],
     ];
 
     /**
@@ -60,9 +60,11 @@ final class Lifecycle extends Container
      */
     public function loadServices(): void
     {
-        foreach($this->default as $alias => $unit) {
+        foreach(self::DEFAULTS as $unit => $aliases) {
             $this->add($unit);
-            $this->alias($alias, $unit);
+            foreach ($aliases as $alias) {
+                $this->alias($alias, $unit);
+            }
         }
     }
 
@@ -149,6 +151,10 @@ final class Lifecycle extends Container
         }
     }
 
+    public function __get(string $name): mixed
+    {
+        return $this->get($name);
+    }
 
     /**
      * Initializes whole application for you

@@ -2,7 +2,9 @@
 
 namespace Lemon\Tests\Kernel\Resources\Units;
 
-class Foo
+use Lemon\Tests\Kernel\Resources\IFoo;
+
+class Foo implements IFoo
 {
     private array $array;
 
