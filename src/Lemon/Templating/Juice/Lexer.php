@@ -17,13 +17,13 @@ final class Lexer
         $result = [];
         foreach ($lex as $word) {
             if (preg_match($this->syntax->tag, $word, $matches)) {
-                $result[] = new Token(TokenKind::TAG, $matches[1]);
+                $result[] = new Token(Token::TAG, $matches[1]);
             } else if (preg_match($this->syntax->echo, $word, $matches)) {
-                $result[] = new Token(TokenKind::OUTPUT, $matches[1]);               
+                $result[] = new Token(Token::OUTPUT, $matches[1]);               
             } else if (preg_match($this->syntax->unescaped, $word, $matches)) {
-                $result[] = new Token(TokenKind::UNESCAPED, $matches[1]);               
+                $result[] = new Token(Token::UNESCAPED, $matches[1]);               
             } else {
-                $result[] = new Token(TokenKind::TEXT, $word);
+                $result[] = new Token(Token::TEXT, $word);
             }
         }
 

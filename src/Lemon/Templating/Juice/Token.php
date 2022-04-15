@@ -9,6 +9,13 @@ use Lemon\Support\Properties\Read;
 
 class Token
 {
+
+    const TAG = 0,
+          OUTPUT = 1,
+          UNESCAPED = 2,
+          TEXT = 3
+    ;
+
     use Properties;
 
     public function __construct(
