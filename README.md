@@ -31,6 +31,7 @@ TODO:
 - [ ] tests for kernel
 - [x] new kernel
 - [x] split container
+- [ ] think of using contracts
 - [ ] database
 - [ ] new lemonade kernel
 - [ ] dump die
