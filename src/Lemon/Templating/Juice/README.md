@@ -15,3 +15,16 @@ You can modify those syntax in config:
 - Echo and unescaped echo tags must have 1 match for content
 
 Custom syntax are very risky so be aware.
+
+## Plans
+
+- [x] lexer
+- [ ] each tag compiler is separate class that takes token and returns php code
+- [ ] context-based rendering like in Latte https://stackoverflow.com/questions/2725156/complete-list-of-html-tag-attributes-which-have-a-url-value
+- [ ] improve syntax?
+- [ ] syntax bundle of blade and twig
+- [ ] vim syntax highlighting
+- [ ] emacs sytnax highlighting?
+- [ ] tests tests tests tests
+- [ ] ability of custom tags
+- [ ] metaframework
