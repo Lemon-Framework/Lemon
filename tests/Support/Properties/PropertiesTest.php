@@ -22,6 +22,10 @@ class Foo
     private $baz;
 }
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class PropertiesTest extends TestCase
 {
     public function testGet()

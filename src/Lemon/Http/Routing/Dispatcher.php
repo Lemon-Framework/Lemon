@@ -42,7 +42,7 @@ class Dispatcher
         $this->request->setQuery($this->parseGet());
         $routes = $this->dispatchUri();
 
-        if (! $routes) {
+        if (!$routes) {
             return new Response('', 404);
         }
 
@@ -61,7 +61,7 @@ class Dispatcher
     private function parseGet(): array
     {
         $get_args = [];
-        if (preg_match('/\\?(.+)$/', $this->request_uri, $matches) === 1) {
+        if (1 === preg_match('/\\?(.+)$/', $this->request_uri, $matches)) {
             $this->request_uri = str_replace($matches[0], '', $this->request_uri); // kinda wip
             parse_str($matches[1], $get_args);
         }
@@ -77,7 +77,7 @@ class Dispatcher
         $matched_routes = [];
         foreach ($this->routes as $route) {
             $path = preg_replace('/{.*?}/', '([^/]+)', $route->path);
-            if (preg_match("%^{$path}$%", $this->request_uri, $params) === 1) {
+            if (1 === preg_match("%^{$path}$%", $this->request_uri, $params)) {
                 unset($params[0]);
                 array_push($matched_routes, [$route, $params]);
             }

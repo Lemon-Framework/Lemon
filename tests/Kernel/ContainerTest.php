@@ -13,6 +13,10 @@ use Lemon\Tests\Kernel\Resources\Units\Baz;
 use Lemon\Tests\Kernel\Resources\Units\Foo;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ContainerTests extends TestCase
 {
     public function testAddService()
@@ -70,5 +74,4 @@ class ContainerTests extends TestCase
         $container->get('parek');
         $container->alias('rizek', Bar::class);
     }
-
 }

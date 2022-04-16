@@ -33,7 +33,7 @@ class Route
     {
         if (is_string($action)) {
             $action = explode(':', $action);
-            if (! isset($action[1])) {
+            if (!isset($action[1])) {
                 $action = $action[0];
             }
         }

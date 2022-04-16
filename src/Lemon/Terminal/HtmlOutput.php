@@ -8,6 +8,7 @@ use DOMDocument;
 use DOMNode;
 use DOMText;
 use DOMXPath;
+
 // TODO rewrite
 class HtmlOutput
 {
@@ -37,7 +38,7 @@ class HtmlOutput
             return $result;
         }
 
-        if (! ($classes = $node->attributes->getNamedItem('class'))) {
+        if (!($classes = $node->attributes->getNamedItem('class'))) {
             return $result;
         }
 
@@ -62,11 +63,11 @@ class HtmlOutput
         $classes = $this->parseClasses($node);
 
         $close =
-            $classes[1] === '<PARENT>'
+            '<PARENT>' === $classes[1]
             ? $this->getParrentStyles($node)
             : $classes[1];
 
-        if ($node->nodeName === 'div') {
+        if ('div' === $node->nodeName) {
             $close .= PHP_EOL;
         }
 

@@ -66,7 +66,7 @@ class Array_ implements Iterator, ArrayAccess
     public function offsetGet(mixed $offset): mixed
     {
         if (is_string($offset)) {
-            if (preg_match('/^(\\d+)\\.\\.(\\d+)?$/', $offset, $matches) === 1) {
+            if (1 === preg_match('/^(\\d+)\\.\\.(\\d+)?$/', $offset, $matches)) {
                 $from = (int) $matches[1];
                 $len = isset($matches[2]) ? (int) $matches[2] - $matches[1] + 1 : null;
 
@@ -106,7 +106,7 @@ class Array_ implements Iterator, ArrayAccess
      */
     public function get(mixed $key): mixed
     {
-        if (! isset($this->content[$key])) {
+        if (!isset($this->content[$key])) {
             throw new Exception("Undefined array key {$key}");
         }
 
@@ -279,6 +279,7 @@ class Array_ implements Iterator, ArrayAccess
         foreach ($this->content as $key => $value) {
             $result->push($callback($value, $key));
         }
+
         return $result;
     }
 

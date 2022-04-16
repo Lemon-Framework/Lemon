@@ -18,7 +18,7 @@ class Filesystem
      */
     public static function read(string $file): string
     {
-        if (! is_file($file)) {
+        if (!is_file($file)) {
             throw FilesystemException::explainFileNotFound($file);
         }
 
@@ -54,7 +54,7 @@ class Filesystem
      */
     public static function listDir(string $dir): array
     {
-        if (! self::isDir($dir)) {
+        if (!self::isDir($dir)) {
             throw FilesystemException::explainDirectoryNotFound($dir);
         }
 
@@ -112,7 +112,7 @@ class Filesystem
 
         if (self::isDir($file)) {
             foreach (scandir($file) as $sub) {
-                if (! Arr::contains(['.', '..'], $sub)) {
+                if (!Arr::contains(['.', '..'], $sub)) {
                     self::delete(self::join($file, $sub));
                 }
             }

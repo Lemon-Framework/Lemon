@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 $argv = array_slice($argv, 1);
 
-if (! isset($argv[0])) {
+if (!isset($argv[0])) {
     exit('Expected file name');
 }
 
@@ -38,7 +38,7 @@ $content = preg_replace_callback('/\/\/(.+)\n(\s*)(?:public|private|protected)\s
     $docblock = '/**'.PHP_EOL;
     $docblock .= $tab.' * '.trim($matches[1]).PHP_EOL;
     $docblock .= $tab.' *'.PHP_EOL;
-    $docblock .= $tab.' * @var '.($matches[3] === '' ? 'mixed' : '').PHP_EOL;
+    $docblock .= $tab.' * @var '.('' === $matches[3] ? 'mixed' : '').PHP_EOL;
     $docblock .= $tab.' */';
 
     return preg_replace('/\/\/.+/', $docblock, $matches[0]);

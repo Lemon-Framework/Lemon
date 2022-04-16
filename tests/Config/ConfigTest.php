@@ -8,6 +8,10 @@ use Lemon\Config\Config;
 use Lemon\Config\Exceptions\ConfigException;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ConfigTest extends TestCase
 {
     public function testLoad()

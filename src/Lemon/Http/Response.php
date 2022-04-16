@@ -110,7 +110,7 @@ class Response
     private function handleStatusCode(): void
     {
         $code = $this->status_code;
-        if (! isset(\ERRORS[$code])) {
+        if (!isset(\ERRORS[$code])) {
             return;
         }
 
@@ -167,7 +167,7 @@ class Response
             return;
         }
 
-        if (! is_object($body)) {
+        if (!is_object($body)) {
             return;
         }
 
@@ -175,7 +175,7 @@ class Response
             $body->terminate();
         }
 
-       // if ($body::class === 'Lemon\\Views\\View') {
+        // if ($body::class === 'Lemon\\Views\\View') {
        //     echo $body->resolved_template;
        // }
     }

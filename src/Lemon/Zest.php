@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon;
 
-use Exception;
 use Lemon\Kernel\Lifecycle;
 
 abstract class Zest

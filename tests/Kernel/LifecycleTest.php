@@ -7,6 +7,10 @@ namespace Lemon\Tests\Kernel;
 use Lemon\Kernel\Lifecycle;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class LifecycleTest extends TestCase
 {
     public function testFile()
@@ -15,5 +19,5 @@ class LifecycleTest extends TestCase
         $this->assertSame(__DIR__.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'klobasa', $lc->file('views.klobasa'));
         $this->assertSame(__DIR__.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'klobasa.juice', $lc->file('views.klobasa', '   .    juice...   '));
         $this->assertSame(__DIR__.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'klobasa.juice', $lc->file('.....views......klobasa...', '   .    juice...   '));
-    }    
+    }
 }

@@ -8,16 +8,13 @@ use Error;
 use ErrorException;
 use Exception;
 use Lemon\Exceptions\Handling\Handler;
-use Lemon\Exceptions\LifecycleException;
 use Lemon\Http\Request;
 use Lemon\Support\Filesystem;
-use Lemon\Support\Http\Routing\Route;
-use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 use Lemon\Zest;
 
 /**
- * The Lemon Lifecycle 
+ * The Lemon Lifecycle.
  */
 final class Lifecycle extends Container
 {
@@ -27,24 +24,24 @@ final class Lifecycle extends Container
     public const VERSION = '3-develop';
 
     /**
+     * Default units with aliases.
+     */
+    private const DEFAULTS = [
+        \Lemon\Http\Routing\Router::class => ['router'],
+        \Lemon\Terminal\Terminal::class => ['terminal'],
+        \Lemon\Config\Config::class => ['config'],
+        \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class],
+    ];
+
+    /**
      * App directory.
      */
     public readonly string $directory;
 
     /**
-     * Dependency injection container for curent lifecycle
+     * Dependency injection container for curent lifecycle.
      */
     private Container $container;
-
-    /**
-     * Default units with aliases 
-     */
-    private const DEFAULTS = [
-        \Lemon\Http\Routing\Router::class => ['router'],
-        \Lemon\Terminal\Terminal::class => ['terminal'],
-        \Lemon\Config\Config::class => ['config'],            
-        \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class],
-    ];
 
     /**
      * Creates new lifecycle instance.
@@ -55,12 +52,17 @@ final class Lifecycle extends Container
         $this->container = new Container();
     }
 
+    public function __get(string $name): mixed
+    {
+        return $this->get($name);
+    }
+
     /**
-     * Registers default services
+     * Registers default services.
      */
     public function loadServices(): void
     {
-        foreach(self::DEFAULTS as $unit => $aliases) {
+        foreach (self::DEFAULTS as $unit => $aliases) {
             $this->add($unit);
             foreach ($aliases as $alias) {
                 $this->alias($alias, $unit);
@@ -69,7 +71,7 @@ final class Lifecycle extends Container
     }
 
     /**
-     * Initializes zests
+     * Initializes zests.
      */
     public function loadZests(): void
     {
@@ -118,7 +120,7 @@ final class Lifecycle extends Container
     /**
      * Returns path of specific file in current project.
      */
-    public function file(string $path, string $extension=null): string
+    public function file(string $path, string $extension = null): string
     {
         $dir = Filesystem::join(
             $this->directory,
@@ -139,7 +141,7 @@ final class Lifecycle extends Container
      */
     public function boot(): void
     {
-        if ($this->config('kernel', 'mode') !== 'web') {
+        if ('web' !== $this->config('kernel', 'mode')) {
             return;
         }
 
@@ -151,13 +153,8 @@ final class Lifecycle extends Container
         }
     }
 
-    public function __get(string $name): mixed
-    {
-        return $this->get($name);
-    }
-
     /**
-     * Initializes whole application for you
+     * Initializes whole application for you.
      */
     public static function init(string $directory): self
     {
@@ -166,27 +163,28 @@ final class Lifecycle extends Container
          * is not included. If you run your index.php it will automaticaly run your development
          * server and end. Using superglobal $_SERVER we can whenever its ran in terminal
          */
-        if (! isset($_SERVER['REQUEST_URI'])) {
+        if (!isset($_SERVER['REQUEST_URI'])) {
             exec('php -S localhost:8000 -t '.$directory);
+
             exit;
         }
 
-        /*--- Creating Lifecycle instance ---*/
-        $lifecycle = new self(Filesystem::parent($directory)); 
+        // --- Creating Lifecycle instance ---
+        $lifecycle = new self(Filesystem::parent($directory));
 
-        /*--- Loading default Lemon services ---*/
+        // --- Loading default Lemon services ---
         $lifecycle->loadServices();
 
-        /*--- Loading Zests for services ---*/       
+        // --- Loading Zests for services ---
         $lifecycle->loadZests();
 
-        /* --- Loading Error/Exception handlers ---*/
+        // --- Loading Error/Exception handlers ---
         $lifecycle->loadHandler();
 
         /* --- The end ---
          * This function automaticaly boots our app at the end of file
          */
-        register_shutdown_function(function() use ($lifecycle) {
+        register_shutdown_function(function () use ($lifecycle) {
             if (http_response_code() >= 500) {
                 return;
             }

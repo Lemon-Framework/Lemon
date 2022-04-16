@@ -71,7 +71,7 @@ class RouteGroup
     public function update(): void
     {
         foreach ($this->routes as $route) {
-            if ($this->name !== '') {
+            if ('' !== $this->name) {
                 $route->name = $this->name.':'.$route->name;
             }
             $route->middleware($this->middlewares);

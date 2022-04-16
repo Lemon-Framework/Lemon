@@ -13,34 +13,34 @@ use ReflectionClass;
 class Container implements ContainerInterface
 {
     /**
-     * Container services
+     * Container services.
      *
-     * @var array<string, mixed> $services
+     * @var array<string, mixed>
      */
     private array $services = [];
 
     /**
-     * Service aliases
+     * Service aliases.
      *
-     * @var array<string, string> $aliases
+     * @var array<string, string>
      */
     private array $aliases = [];
 
     /**
-     * Returns service of given class/alias
+     * Returns service of given class/alias.
      *
      * @throws \Lemon\Kernel\Exceptions\NotFoundException
      */
     public function get(string $id): mixed
     {
-        if (! Arr::hasKey($this->services, $id)) {
-            if (! Arr::hasKey($this->aliases, $id)) {
+        if (!Arr::hasKey($this->services, $id)) {
+            if (!Arr::hasKey($this->aliases, $id)) {
                 throw new NotFoundException('Service '.$id.' does not exist');
             }
             $id = $this->aliases[$id];
         }
 
-        if (! $this->services[$id]) {
+        if (!$this->services[$id]) {
             $this->services[$id] = $this->make($id);
         }
 
@@ -48,48 +48,26 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Creates service instance of given class
-     */
-    private function make(string $service): mixed 
-    {
-        $class = new ReflectionClass($service);
-        $constructor = $class->getConstructor();
-        
-        if (! $constructor) {
-            return new $service;
-        }
-
-        $class_params = $constructor->getParameters();
-        $params = [];
-
-        foreach ($class_params as $param) {
-            $type = (string) $param->getType();
-            $params[] = $type === static::class ? $this : $this->get($type);
-        }
-        return new $service(...$params);
-    }
-
-    /**
-     * Adds new service
+     * Adds new service.
      *
      * @throws \Lemon\Kernel\Exceptions\ContainerException
-     * @throws \Lemon\Kernel\Exceptions\NotFoundException    
+     * @throws \Lemon\Kernel\Exceptions\NotFoundException
      */
     public function add(string $service): static
     {
-        if (! class_exists($service)) {
+        if (!class_exists($service)) {
             throw new NotFoundException('Class '.$service.' does not exist');
-        } 
+        }
         if (Arr::has($this->services, $service)) {
             throw new ContainerException('Service '.$service.' is already registered');
         }
         $this->services[$service] = null;
-        
+
         return $this;
     }
 
     /**
-     * Creates new alias
+     * Creates new alias.
      *
      * @throws \Lemon\Kernel\Exceptions\NotFoundException
      */
@@ -99,11 +77,12 @@ class Container implements ContainerInterface
             throw new NotFoundException('Service '.$class.' does not exist');
         }
         $this->aliases[$alias] = $class;
+
         return $this;
     }
 
     /**
-     * Returns all registered services
+     * Returns all registered services.
      */
     public function services(): array
     {
@@ -111,11 +90,34 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Returns whenever service exist
+     * Returns whenever service exist.
      */
     public function has(string $id): bool
     {
         return Arr::hasKey($this->services, $id);
+    }
+
+    /**
+     * Creates service instance of given class.
+     */
+    private function make(string $service): mixed
+    {
+        $class = new ReflectionClass($service);
+        $constructor = $class->getConstructor();
+
+        if (!$constructor) {
+            return new $service();
+        }
+
+        $class_params = $constructor->getParameters();
+        $params = [];
+
+        foreach ($class_params as $param) {
+            $type = (string) $param->getType();
+            $params[] = $type === static::class ? $this : $this->get($type);
+        }
+
+        return new $service(...$params);
     }
 
     // public funciton call(callable $callback): mixed

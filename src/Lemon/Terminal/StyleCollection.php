@@ -43,7 +43,7 @@ class StyleCollection
     public function handleTextColor($matches)
     {
         $color = $matches[1];
-        if (! isset($this->colors[$color])) {
+        if (!isset($this->colors[$color])) {
             return ['', ''];
         }
 
@@ -55,7 +55,7 @@ class StyleCollection
     public function handleBackgroundColor($matches)
     {
         $color = $matches[1];
-        if (! isset($this->colors[$color])) {
+        if (!isset($this->colors[$color])) {
             return ['', ''];
         }
 

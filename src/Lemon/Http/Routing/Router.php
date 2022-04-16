@@ -6,7 +6,6 @@ namespace Lemon\Http\Routing;
 
 use Exception;
 use Lemon\Http\Request;
-use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Array_;
 
@@ -42,7 +41,7 @@ class Router
 
     public function __call($name, $arguments)
     {
-        if (! Arr::contains(self::REQUEST_METHODS, $name)) {
+        if (!Arr::contains(self::REQUEST_METHODS, $name)) {
             throw new Exception('Call to undefined method Router::'.$name.'()');
         }
 

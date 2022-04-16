@@ -34,8 +34,8 @@ class FilesystemTest extends TestCase
         touch($where.$s.'bar.php');
         mkdir($where.$s.'kombajn'.$s.'traktor', recursive: true);
         touch($where.$s.'kombajn'.$s.'parek.php');
-        touch($where.$s.'kombajn'.$s.'traktor'.$s.'rizek.php');  
-        mkdir($where.$s.'lisky');  
+        touch($where.$s.'kombajn'.$s.'traktor'.$s.'rizek.php');
+        mkdir($where.$s.'lisky');
     }
 
     public function removeRecursiveDir($where)
@@ -44,10 +44,10 @@ class FilesystemTest extends TestCase
         unlink($where.$s.'foo.php');
         unlink($where.$s.'bar.php');
         unlink($where.$s.'kombajn'.$s.'parek.php');
-        unlink($where.$s.'kombajn'.$s.'traktor'.$s.'rizek.php');  
+        unlink($where.$s.'kombajn'.$s.'traktor'.$s.'rizek.php');
         rmdir($where.$s.'kombajn'.$s.'traktor');
         rmdir($where.$s.'kombajn'.$s);
-        rmdir($where.$s.'lisky'); 
+        rmdir($where.$s.'lisky');
         rmdir($where);
     }
 
@@ -63,17 +63,17 @@ class FilesystemTest extends TestCase
     {
         $file = self::$tmp.DIRECTORY_SEPARATOR.'test.txt';
         touch($file);
-        
+
         Filesystem::write($file, 'bar');
         $this->assertSame('bar', file_get_contents($file));
-        
+
         unlink($file);
 
         Filesystem::write($file, 'foo');
         $this->assertFileExists($file);
         unlink($file);
     }
-    
+
     public function testMakeDir()
     {
         $dir = self::$tmp.DIRECTORY_SEPARATOR.'test';
@@ -153,7 +153,7 @@ class FilesystemTest extends TestCase
         $this->assertSame('foo'.$s.'klobna', Filesystem::parent('foo'.$s.'klobna'.$s.'bar.php'));
         $this->assertSame('', Filesystem::parent('foo'));
     }
-    
+
     public function testListDir()
     {
         $s = DIRECTORY_SEPARATOR;
@@ -165,9 +165,8 @@ class FilesystemTest extends TestCase
             $base.$s.'foo.php',
             $base.$s.'kombajn'.$s.'parek.php',
             $base.$s.'kombajn'.$s.'traktor'.$s.'rizek.php',
-            $base.$s.'lisky'
+            $base.$s.'lisky',
         ], $list);
         $this->removeRecursiveDir($base);
     }
-
 }

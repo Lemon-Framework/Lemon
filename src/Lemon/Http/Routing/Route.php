@@ -93,7 +93,7 @@ class Route
         $last_param = 1;
         $arguments = [];
         foreach ($param_types as $type) {
-            if ($type === 'Lemon\\Http\\Request') {
+            if ('Lemon\\Http\\Request' === $type) {
                 array_push($arguments, $request);
 
                 continue;

@@ -8,8 +8,14 @@ final class Lexer
 {
     public function __construct(
         private Syntax $syntax,
-    )
-    {    
+    ) {
+    }
+
+    public function lex(string $template): Stream
+    {
+        $lex = preg_split($this->syntax->regex, $template, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+        return new Stream($this->tokenize($lex));
     }
 
     private function tokenize(array $lex): array
@@ -18,22 +24,15 @@ final class Lexer
         foreach ($lex as $word) {
             if (preg_match($this->syntax->tag, $word, $matches)) {
                 $result[] = new Token(Token::TAG, $matches[1]);
-            } else if (preg_match($this->syntax->echo, $word, $matches)) {
-                $result[] = new Token(Token::OUTPUT, $matches[1]);               
-            } else if (preg_match($this->syntax->unescaped, $word, $matches)) {
-                $result[] = new Token(Token::UNESCAPED, $matches[1]);               
+            } elseif (preg_match($this->syntax->echo, $word, $matches)) {
+                $result[] = new Token(Token::OUTPUT, $matches[1]);
+            } elseif (preg_match($this->syntax->unescaped, $word, $matches)) {
+                $result[] = new Token(Token::UNESCAPED, $matches[1]);
             } else {
                 $result[] = new Token(Token::TEXT, $word);
             }
         }
 
         return $result;
-    }
-
-    public function lex(string $template): Stream
-    {
-        $lex = preg_split($this->syntax->regex, $template, -1, PREG_SPLIT_DELIM_CAPTURE);   
-        
-        return new Stream($this->tokenize($lex));
     }
 }

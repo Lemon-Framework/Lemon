@@ -13,22 +13,24 @@ use Lemon\Support\Filesystem;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class for testing cache without writing to actual files
+ * Class for testing cache without writing to actual files.
  */
 class FakeCache extends LemonCache
 {
     public function __construct(
         public int $time
-    )
-    {
+    ) {
     }
 
     public function __destruct()
     {
-        
     }
 }
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class FakeCacheTest extends TestCase
 {
     public function testSet()
@@ -91,7 +93,7 @@ class FakeCacheTest extends TestCase
         $this->assertSame([
             'majkel' => ['value' => 'blazen', 'expires_at' => null],
             'fid' => ['value' => 'frajer', 'expires_at' => null],
-            'neco' => ['value' => 'rizky', 'expires_at' => null],       
+            'neco' => ['value' => 'rizky', 'expires_at' => null],
         ], $cache->data());
 
         $cache->setMultiple([
@@ -103,29 +105,29 @@ class FakeCacheTest extends TestCase
         $this->assertSame([
             'majkel' => ['value' => 'podvodnik', 'expires_at' => null],
             'fid' => ['value' => 'klobasnik', 'expires_at' => null],
-            'neco' => ['value' => 'rizek', 'expires_at' => null],       
+            'neco' => ['value' => 'rizek', 'expires_at' => null],
         ], $cache->data());
 
         $cache->setMultiple([
             'majkel' => 'klobasnik',
-            'fid' => 'parek'
+            'fid' => 'parek',
         ], 1);
 
         $this->assertSame([
             'majkel' => ['value' => 'klobasnik', 'expires_at' => $time + 1],
             'fid' => ['value' => 'parek', 'expires_at' => $time + 1],
-            'neco' => ['value' => 'rizek', 'expires_at' => null],       
+            'neco' => ['value' => 'rizek', 'expires_at' => null],
         ], $cache->data());
 
         $cache->setMultiple([
             'majkel' => 'klobasnik',
-            'fid' => 'parek'        
+            'fid' => 'parek',
         ], new DateInterval('PT2S'));
 
         $this->assertSame([
             'majkel' => ['value' => 'klobasnik', 'expires_at' => $time + 2],
             'fid' => ['value' => 'parek', 'expires_at' => $time + 2],
-            'neco' => ['value' => 'rizek', 'expires_at' => null],       
+            'neco' => ['value' => 'rizek', 'expires_at' => null],
         ], $cache->data());
 
         $this->expectException(InvalidArgumentException::class);
@@ -140,7 +142,7 @@ class FakeCacheTest extends TestCase
         $cache->setMultiple([
             'cs' => 'ok',
             'nevim' => 'neco',
-            'fid'=> 'cs',
+            'fid' => 'cs',
         ]);
 
         $this->assertSame(['cs' => 'ok', 'fid' => 'cs'], $cache->getMultiple(['cs', 'fid']));
@@ -161,12 +163,12 @@ class FakeCacheTest extends TestCase
         $cache->setMultiple([
             'cs' => 'ok',
             'nevim' => 'neco',
-            'fid'=> 'cs',
+            'fid' => 'cs',
         ]);
 
         $cache->deleteMultiple(['cs', 'fid']);
         $this->assertSame(['nevim' => ['value' => 'neco', 'expires_at' => null]], $cache->data());
-        
+
         $this->expectException(InvalidArgumentException::class);
         $cache->deleteMultiple([10, false, 'cs']);
         $cache->deleteMultiple(['cs', 'fid']);
@@ -178,16 +180,19 @@ class FakeCacheTest extends TestCase
         $cache->setMultiple([
             'cs' => 'ok',
             'nevim' => 'neco',
-            'fid'=> 'cs',
+            'fid' => 'cs',
         ]);
         $cache->clear();
         $this->assertEmpty($cache->data());
     }
 }
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class CacheTest extends TestCase
 {
-
     private LemonCache $cache;
 
     public function setUp(): void
@@ -195,7 +200,7 @@ class CacheTest extends TestCase
         $lc = new Lifecycle(__DIR__);
         $lc->add(Config::class);
         $lc->alias('config', Config::class);
-        $this->cache = new LemonCache($lc);   
+        $this->cache = new LemonCache($lc);
     }
 
     public function testLoad()
@@ -206,12 +211,11 @@ class CacheTest extends TestCase
         $gitignore = $dir.$s.'.gitignore';
         $this->assertFileExists($gitignore);
         $data = $dir.$s.'data.json';
-        $this->assertFileExists($data);       
+        $this->assertFileExists($data);
         $this->assertStringEqualsFile($gitignore, '*'.PHP_EOL.'!.gitignore');
         $this->assertStringEqualsFile($data, '{}');
         unset($this->cache);
     }
-    
 
     public function testCommit()
     {
@@ -222,10 +226,10 @@ class CacheTest extends TestCase
         unset($this->cache); // calling destructor
 
         $s = DIRECTORY_SEPARATOR;
-        $this->assertJsonStringEqualsJsonFile(__DIR__.$s.'cache'.$s.'data.json',
+        $this->assertJsonStringEqualsJsonFile(
+            __DIR__.$s.'cache'.$s.'data.json',
             '{"klobna":{"value":"neco","expires_at":'.(time() + 10).'},"hej":{"value": "ja fakt nevim", "expires_at":'.(time() + 10).'}}'
         );
-        Filesystem::delete(__DIR__.$s.'cache');   
+        Filesystem::delete(__DIR__.$s.'cache');
     }
-
 }

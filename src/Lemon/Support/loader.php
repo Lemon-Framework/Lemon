@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if (! function_exists('loader')) {
+if (!function_exists('loader')) {
     /**
      * Loads all files from specific folder
      * Inspired by loader from CoolFido.

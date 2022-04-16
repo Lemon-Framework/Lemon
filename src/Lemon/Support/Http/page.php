@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if (! function_exists('status_page')) {
+if (!function_exists('status_page')) {
     function status_page($code): void
     {
         $errors = ERRORS;

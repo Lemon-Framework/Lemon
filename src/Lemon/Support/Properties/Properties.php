@@ -15,10 +15,10 @@ trait Properties
             $class = new ReflectionClass(static::class);
             $property = $class->getProperty($name);
             if ($property->getAttributes(Read::class)) {
-                return $this->$name;
+                return $this->{$name};
             }
         }
 
-        throw new Exception('Undefined property '.$name);        
+        throw new Exception('Undefined property '.$name);
     }
 }

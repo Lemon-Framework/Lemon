@@ -56,5 +56,4 @@ class DumperTest extends TestCase
         // I apologize to eveyone who will try to read it
         $this->assertSame('<details><summary>array [</summary><span class="ldg-array-item"><span class="ldg-array-key">[0]</span> => <span class="ldg-number">10</span></span><span class="ldg-array-item"><span class="ldg-array-key">[1]</span> => <details><summary>array [</summary><span class="ldg-array-item"><span class="ldg-array-key">[0]</span> => <span class="ldg-string">"lisky"</span></span></details>]</span></details>]', $dumper->parseIterator([10, ['lisky']]));
     }
-
 }
