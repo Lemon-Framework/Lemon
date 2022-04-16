@@ -7,6 +7,12 @@ namespace Lemon\Templating\Juice;
 use Lemon\Support\Properties\Properties;
 use Lemon\Support\Properties\Read;
 
+/**
+ * Represents template Token
+ *
+ * @property-read int $kind
+ * @property-read string|array<string> $context
+ */
 class Token
 {
     use Properties;

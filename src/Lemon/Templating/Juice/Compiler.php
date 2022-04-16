@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Lemon\Views\Juice;
+namespace Lemon\Templating\Juice;
 
 class Compiler
-{
+{    
 }

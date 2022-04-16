@@ -26,7 +26,7 @@ final class Lexer
         // TODO refactor
         $result = [];
         $lex = Arr::from($lex);
-        foreach ($lex as $index => $word) {
+        foreach ($lex as $word) {
             if (preg_match("/^{$this->syntax->tag}$/", $word, $matches)) {
                 $lex->next();
                 $size = count($matches);
