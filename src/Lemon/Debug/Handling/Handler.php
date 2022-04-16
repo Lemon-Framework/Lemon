@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lemon\Exceptions\Handling;
+namespace Lemon\Debug\Handling;
 
 use Lemon\Http\Response;
 use Lemon\Kernel\Lifecycle;

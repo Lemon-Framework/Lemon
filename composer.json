@@ -10,7 +10,7 @@
         }
     ],
     "scripts": {
-        "test": "./vendor/bin/pest"
+        "test": "./vendor/bin/phpunit"
     },
     "scripts-descriptions": {
         "test": "Starts unit test"

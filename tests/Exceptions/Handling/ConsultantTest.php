@@ -2,7 +2,7 @@
 
 namespace Lemon\Tests\Exceptions\Handling;
 
-use Lemon\Exceptions\Handling\Consultant;
+use Lemon\Debug\Handling\Consultant;
 use PHPUnit\Framework\TestCase;
 
 /**
