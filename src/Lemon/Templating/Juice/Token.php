@@ -12,16 +12,16 @@ class Token
     use Properties;
 
     public const TAG = 0;
-    public const OUTPUT = 1;
-    public const UNESCAPED = 2;
-    public const TEXT = 3
-    ;
+    public const TAG_END = 1;
+    public const OUTPUT = 2;
+    public const UNESCAPED = 3;
+    public const TEXT = 4;
 
     public function __construct(
         #[Read]
         private int $kind,
         #[Read]
-        private string $context,
+        private string|array $context,
     ) {
     }
 }

@@ -8,12 +8,14 @@ use Lemon\Support\Properties\Properties;
 use Lemon\Support\Properties\Read;
 
 /**
- * Stores tag syntax for juice.
+ * Stores tag syntax for Juice.
  *
- * @property string $tag
- * @property string $echo
- * @property string $unescaped
- * @property string $regex
+ * @property-read string $tag
+ * @property-read string $echo
+ * @property-read string $unescaped
+ * @property-read string $end
+ * @property-read string $comment
+ * @property-read string $regex
  */
 final class Syntax
 {
@@ -24,11 +26,15 @@ final class Syntax
 
     public function __construct(
         #[Read]
-        private string $tag,
+        private string $tag = '\{\s*([^\{!#].*?)(?:\s+?([^\s].+?[^!\}#]))?\s*\}',
         #[Read]
-        private string $echo,
+        private string $end = 'end(.+)',
         #[Read]
-        private string $unescaped
+        private string $echo = '\{\{\s*(.+?)\s*\}\}',
+        #[Read]
+        private string $unescaped = '\{!\s*(.+?)\s*!\}',
+        #[Read]
+        private string $comment = '\{#.+#\}',
     ) {
         $this->buildRegex();
     }
@@ -38,9 +44,9 @@ final class Syntax
      */
     private function prepare(string $target)
     {
-        // This regex adds \ to every () except the ones taht already have
-        // it so if we are compiling, we won't have bad matches
-        return preg_replace('/(?<!\\\\)(\(|\))/', '\\$1', $target);
+        // This regex removes every () except the ones taht already have \
+        // so if we are compiling, we won't have bad matches
+        return preg_replace('/(?<!\\\\)(\(|\))/', '', $target);
     }
 
     /**
@@ -48,6 +54,6 @@ final class Syntax
      */
     private function buildRegex()
     {
-        $this->regex = "/({$this->prepare($this->tag)})|({$this->prepare($this->echo)})|({$this->prepare($this->unescaped)})/";
+        $this->regex = "/({$this->tag})|({$this->echo})|({$this->unescaped})/";
     }
 }
