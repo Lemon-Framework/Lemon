@@ -44,7 +44,7 @@ class Parser
                     if ($this->tags->isClosable($token->content[0])) {
                         $this->stack[] = $token->content[0];
                     }
-                    $result .= $this->tags->compileOpenning(...[...$token->content, $this->stack]);
+                    $result .= $this->tags->compileOpenning($token->content[0], $token->content[1], $this->stack);
                     break;
 
                 case Token::TAG_END:
