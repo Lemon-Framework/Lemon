@@ -7,7 +7,7 @@ namespace Lemon\Templating\Juice\Compilers\Directives;
 use Lemon\Support\Types\Arr;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 
-final class ElseDirective implements Directive
+final class CaseDirective implements Directive
 {
     public function compileOpenning(string $content, array $stack): string
     {
