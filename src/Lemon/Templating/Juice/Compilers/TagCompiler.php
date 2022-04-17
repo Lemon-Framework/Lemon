@@ -24,49 +24,47 @@ final class TagCompiler
 
     private function loadDefaults(): void
     {
-        foreach (self::DEFAULTS as $tag => $class) {
-            $this->addTagCompiler($tag, $class);
+        foreach (self::DEFAULTS as $directive => $class) {
+            $this->addTagCompiler($directive, $class);
         }
     }
 
-    public function getTagCompiler(string $tag): Directive
+    public function getTagCompiler(string $directive): Directive
     {
-        if (! $this->hasTagCompiler($tag)) {
-            throw new CompilerException('Unknown tag '.$tag);
+        if (! $this->hasTagCompiler($directive)) {
+            throw new CompilerException('Unknown directive '.$directive);
         }
 
-        return $this->compilers->get($tag);
+        return $this->compilers->get($directive);
     }
 
-    public function addTagCompiler(string $tag, string $class): self
+    public function addTagCompiler(string $directive, string $class): self
     {
         $this->compilers->add($class);
-        $this->compilers->alias($tag, $class);
+        $this->compilers->alias($directive, $class);
         return $this;
     }
 
-    public function hasTagCompiler(string $tag): bool
+    public function hasTagCompiler(string $directive): bool
     {
-        return $this->compilers->has($tag);
+        return $this->compilers->has($directive);
     }
 
-    public function isClosable(string $tag): bool
+    public function isClosable(string $directive): bool
     {
-        return method_exists($this->getTagCompiler($tag), 'compileClosing');
+        return $this->getTagCompiler($directive)->hasClosing();
     }
 
-    public function compileOpenning(string $tag, string $context, array $stack): string
+    public function compileOpenning(string $directive, string $context, array $stack): string
     { 
-        $class = $this->getTagCompiler($tag);
+        $class = $this->getTagCompiler($directive);
 
-        return $class->compileOpenning($context, $stack);        
+        return '<?php '.trim($class->compileOpenning($context, $stack)).' ?>';        
     }
     
-    public function compileClosing(string $tag): string
+    public function compileClosing(string $directive): string
     { 
-        $class = $this->getTagCompiler($tag);
-
-        return $class->compileClosing();        
+        return '<?php end'.$directive.' ?>';
     }
 
 }
