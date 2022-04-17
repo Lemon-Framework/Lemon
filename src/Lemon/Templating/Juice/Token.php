@@ -27,7 +27,7 @@ class Token
         #[Read]
         private int $kind,
         #[Read]
-        private string|array $context,
+        private string|array $content
     ) {
     }
 }

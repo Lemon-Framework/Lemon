@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Lemon\Templating\Juice\Compilers;
 
 use Lemon\Kernel\Container;
-use Lemon\Support\Types\Arr;
-use Lemon\Templating\Juice\Compilers\Tags\Tag;
+use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
-use Lemon\Templating\Juice\Token;
 
 // TODO solve problems with else and stuff 
 final class TagCompiler
@@ -31,7 +29,7 @@ final class TagCompiler
         }
     }
 
-    public function getTagCompiler(string $tag): Tag
+    public function getTagCompiler(string $tag): Directive
     {
         if (! $this->hasTagCompiler($tag)) {
             throw new CompilerException('Unknown tag '.$tag);
@@ -57,18 +55,18 @@ final class TagCompiler
         return method_exists($this->getTagCompiler($tag), 'compileClosing');
     }
 
-    public function compile(Token $token): string
-    {
-        if (!Arr::has([Token::TAG, Token::TAG_END], $token->kind)) {
-            throw new CompilerException('Given token must be of kind TAG or TAG_END');
-        }
+    public function compileOpenning(string $tag, string $context, array $stack): string
+    { 
+        $class = $this->getTagCompiler($tag);
 
-        $class = $this->getTagCompiler($token->context);
-        if ($token->kind === Token::TAG_END) {
-            return $class->getClosing();
-        }
-
-        return $class->compileOpenning($token->context);
-            
+        return $class->compileOpenning($context, $stack);        
     }
+    
+    public function compileClosing(string $tag): string
+    { 
+        $class = $this->getTagCompiler($tag);
+
+        return $class->compileClosing();        
+    }
+
 }

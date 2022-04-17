@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
-use Lemon\Kernel\Container;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Array_;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
@@ -13,6 +12,11 @@ use Lemon\Templating\Juice\Exceptions\ParserException;
 
 class Parser
 {
+
+    public const CONTEXT_HTML = 0;
+    public const CONTEXT_JS = 1;
+    public const CONTEXT_ATTRIBUTE = 2;
+
     private array $stack = [];
 
     /**
@@ -37,30 +41,34 @@ class Parser
         foreach ($this->tokens as $token) {
             switch ($token->kind) {
                 case Token::TAG:
-                    if ($this->tags->isClosable($token->context[0])) {
-                        $this->stack[] = $token->context[0];
+                    if ($this->tags->isClosable($token->content[0])) {
+                        $this->stack[] = $token->content[0];
                     }
-                    $result .= $this->tags->compile($token);
+                    $result .= $this->tags->compileOpenning(...[...$token->content, $this->stack]);
                     break;
+
                 case Token::TAG_END:
                     $top = Arr::pop($this->stack);
-                    if ($top !== $token->context[0]) {
+                    if ($top !== $token->content[0]) {
                         throw new ParserException(''); // TODO line counting
                     }
-                    $result .= $this->tags->compile($token);
+                    $result .= $this->tags->compileClosing($token->content);
                     break;
+
                 case Token::OUTPUT:
-                    $result .= $this->output->compileEcho($token->context, 0);
+                    $result .= $this->output->compileEcho($token->content, 0);
                     break;
+
                 case Token::UNESCAPED:
-                    $result .= $this->output->compileUnescaped($token->context);
+                    $result .= $this->output->compileUnescaped($token->content);
                     break;
+
                 case Token::TEXT:
-                    // TODO context
-                    $result .= $token->context;
+                    $result .= $token->content;
                     break;
             } 
         }
+
         return $result;
     }
 }
