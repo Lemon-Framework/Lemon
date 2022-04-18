@@ -1,0 +1,22 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Lemon;
+
+{% for class in prototype.classes %}
+/**
+ * Lemon  Zest
+ * Provides static layer over the Lemon .
+ *
+ * @see 
+ */
+class {{ class.name }} extends Zest
+{
+    public static function unit(): string
+    {
+        return '';
+    }
+}
+
+{% endfor %}

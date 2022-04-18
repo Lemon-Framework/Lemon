@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Lemon;
 
 /**
- * Lemon Router Zest
- * Provides static layer over the Lemon Router.
+ * Lemon Terminal Zest
+ * Provides static layer over the Lemon Terminal.
  *
  * @see \Lemon\Terminal\Terminal
  */
