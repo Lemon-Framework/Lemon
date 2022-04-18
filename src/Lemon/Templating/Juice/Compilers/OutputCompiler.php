@@ -13,7 +13,7 @@ class OutputCompiler
         $method = '$_env->('.match ($context) {
             Parser::CONTEXT_HTML => 'escape',
             Parser::CONTEXT_ATTRIBUTE => 'escapeAttribute',
-            Parser::CONTEXT_JS => 'escapeScript',
+            Parser::CONTEXT_JS | Parser::CONTEXT_JS_ATTRIBUTE => 'escapeScript',
         };
 
         return '<?= '.$method.$content.') ?>';
