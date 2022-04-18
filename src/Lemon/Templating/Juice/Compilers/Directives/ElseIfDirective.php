@@ -11,7 +11,7 @@ final class ElseIfDirective implements Directive
 {
     public function compileOpenning(string $content, array $stack): string
     {
-        if (Arr::last($stack) !== 'if') {
+        if ('if' !== Arr::last($stack)) {
             throw new CompilerException('Unexpected elseif'); // TODO
         }
 

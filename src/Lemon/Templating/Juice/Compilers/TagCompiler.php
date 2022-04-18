@@ -8,13 +8,12 @@ use Lemon\Kernel\Container;
 use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 
-// TODO solve problems with else and stuff 
+// TODO solve problems with else and stuff
 final class TagCompiler
 {
-    private Container $compilers;
-
     public const DEFAULTS = [
     ];
+    private Container $compilers;
 
     public function __construct()
     {
@@ -22,16 +21,9 @@ final class TagCompiler
         $this->loadDefaults();
     }
 
-    private function loadDefaults(): void
-    {
-        foreach (self::DEFAULTS as $directive => $class) {
-            $this->addTagCompiler($directive, $class);
-        }
-    }
-
     public function getTagCompiler(string $directive): Directive
     {
-        if (! $this->hasTagCompiler($directive)) {
+        if (!$this->hasTagCompiler($directive)) {
             throw new CompilerException('Unknown directive '.$directive);
         }
 
@@ -42,6 +34,7 @@ final class TagCompiler
     {
         $this->compilers->add($class);
         $this->compilers->alias($directive, $class);
+
         return $this;
     }
 
@@ -56,15 +49,21 @@ final class TagCompiler
     }
 
     public function compileOpenning(string $directive, string $context, array $stack): string
-    { 
+    {
         $class = $this->getTagCompiler($directive);
 
-        return '<?php '.trim($class->compileOpenning($context, $stack)).' ?>';        
+        return '<?php '.trim($class->compileOpenning($context, $stack)).' ?>';
     }
-    
+
     public function compileClosing(string $directive): string
-    { 
+    {
         return '<?php end'.$directive.' ?>';
     }
 
+    private function loadDefaults(): void
+    {
+        foreach (self::DEFAULTS as $directive => $class) {
+            $this->addTagCompiler($directive, $class);
+        }
+    }
 }

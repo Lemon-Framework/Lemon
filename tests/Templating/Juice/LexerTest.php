@@ -11,6 +11,9 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Theese tests are testing lexer along with default syntax.
+ *
+ * @internal
+ * @coversNothing
  */
 class LexerTest extends TestCase
 {
@@ -18,7 +21,7 @@ class LexerTest extends TestCase
     {
         return new Lexer(new Syntax());
     }
-    
+
     public function testLexingTags()
     {
         $lexer = $this->getLexer();
@@ -53,13 +56,13 @@ class LexerTest extends TestCase
         $tokens = $lexer->lex('{{$foo}}');
         $this->assertThat($tokens, $this->equalTo([
             new Token(Token::OUTPUT, '$foo'),
-        ]));      
+        ]));
 
         $tokens = $lexer->lex('{{    $foo                }}{{ klobna("sth")}}');
         $this->assertThat($tokens, $this->equalTo([
             new Token(Token::OUTPUT, '$foo'),
             new Token(Token::OUTPUT, 'klobna("sth")'),
-        ]));       
+        ]));
     }
 
     public function testLexingUnescaped()
@@ -68,14 +71,14 @@ class LexerTest extends TestCase
         $tokens = $lexer->lex('{!$foo!}');
         $this->assertThat($tokens, $this->equalTo([
             new Token(Token::UNESCAPED, '$foo'),
-        ]));     
+        ]));
 
         $tokens = $lexer->lex('{! $foo    !}{!SOMETHINGUNSAFE($foo) !}{! ok!}');
         $this->assertThat($tokens, $this->equalTo([
             new Token(Token::UNESCAPED, '$foo'),
             new Token(Token::UNESCAPED, 'SOMETHINGUNSAFE($foo)'),
             new Token(Token::UNESCAPED, 'ok'),
-        ]));      
+        ]));
     }
 
     public function testLexingText()
@@ -92,7 +95,7 @@ class LexerTest extends TestCase
                 <script>alert('hello')</script>
                 <p>ok</p>
             HTML),
-        ]));            
+        ]));
     }
 
     public function testLexingComments()
@@ -123,6 +126,6 @@ class LexerTest extends TestCase
             new Token(Token::UNESCAPED, 'md($user->description)'),
             new Token(Token::TEXT, PHP_EOL.'    '),
             new Token(Token::TAG_END, 'foreach'),
-        ]));      
+        ]));
     }
 }

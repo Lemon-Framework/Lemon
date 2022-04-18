@@ -11,7 +11,7 @@ final class CaseDirective implements Directive
 {
     public function compileOpenning(string $content, array $stack): string
     {
-        if (Arr::last($stack) !== 'switch') {
+        if ('switch' !== Arr::last($stack)) {
             throw new CompilerException('Unexpected switch'); // TODO
         }
 

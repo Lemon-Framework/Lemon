@@ -16,4 +16,3 @@ final class SwitchDirective implements Directive
         return true;
     }
 }
-

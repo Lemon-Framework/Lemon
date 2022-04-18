@@ -7,14 +7,14 @@ namespace Lemon\Templating\Juice\Compilers\Directives;
 interface Directive
 {
     /**
-     * Compiles openning directive
+     * Compiles openning directive.
      *
      * @throws \Lemon\Templating\Juice\Exceptions\CompilerException
      */
     public function compileOpenning(string $content, array $stack): string;
 
     /**
-     * Returns whenever directive can be closed
+     * Returns whenever directive can be closed.
      */
     public function hasClosing(): bool;
 }

@@ -10,12 +10,12 @@ use Lemon\Support\Properties\Read;
 /**
  * Stores tag syntax for Juice.
  *
- * @property-read string $tag
- * @property-read string $echo
- * @property-read string $unescaped
- * @property-read string $end
- * @property-read string $comment
- * @property-read string $regex
+ * @property string $tag
+ * @property string $echo
+ * @property string $unescaped
+ * @property string $end
+ * @property string $comment
+ * @property string $regex
  */
 final class Syntax
 {

@@ -17,7 +17,7 @@ class OutputCompiler
         };
 
         return '<?= '.$method.$content.') ?>';
-    }        
+    }
 
     public function compileUnescaped(string $content): string
     {

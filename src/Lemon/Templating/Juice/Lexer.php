@@ -31,17 +31,22 @@ final class Lexer
                 $lex->next();
                 $size = count($matches);
                 $kind = Token::TAG;
+
                 switch ($size) {
                     case 2:
                         if (preg_match("/^{$this->syntax->end}$/", $matches[1], $matches)) {
                             $kind = Token::TAG_END;
                         }
                         $content = $matches[1];
+
                         break;
+
                     case 3:
                         $content = [$matches[1], $matches[2]];
                         $lex->next();
+
                         break;
+
                     default:
                         throw new LexerException('Regex for tag should have 2 or 3 matches, '.$size.' given');
                 }
