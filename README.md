@@ -44,6 +44,7 @@ TODO:
 - [ ] Datetime manipulation witch config propably
 - [ ] mailer?
 - [ ] auth?
+- [ ] rewrite exceptiont esting
 
 Directories with D means deprecated so they will have to be completely rewritten
 

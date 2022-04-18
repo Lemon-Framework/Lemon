@@ -56,6 +56,7 @@ final class DirectiveCompiler
     public function compileOpenning(string $directive, string $context, array $stack): string
     {
         $class = $this->getDirectiveCompiler($directive);
+        $class->setStack($stack);
 
         return '<?php '.trim($class->compileOpenning($context, $stack)).' ?>';
     }

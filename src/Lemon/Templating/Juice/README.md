@@ -19,8 +19,8 @@ Custom syntax are very risky so be aware.
 ## Plans
 
 - [x] lexer
-- [ ] each tag compiler is separate class that takes token and returns php code
-- [ ] context-based rendering like in Latte https://stackoverflow.com/questions/2725156/complete-list-of-html-tag-attributes-which-have-a-url-value, `on.+='|"`, `src|href|...=`
+- [x] each tag compiler is separate class that takes token and returns php code
+- [x] context-based rendering like in Latte https://stackoverflow.com/questions/2725156/complete-list-of-html-tag-attributes-which-have-a-url-value, `on.+='|"`, `src|href|...=`
 - [ ] improve syntax?
 - [ ] syntax bundle of blade and twig
 - [ ] vim syntax highlighting
