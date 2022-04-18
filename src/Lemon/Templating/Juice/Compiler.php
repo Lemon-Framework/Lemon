@@ -6,6 +6,7 @@ namespace Lemon\Templating\Juice;
 
 use Lemon\Templating\Compiler as CompilerInterface;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
+use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
 
 class Compiler implements CompilerInterface
@@ -29,5 +30,11 @@ class Compiler implements CompilerInterface
         $lex = $this->lexer->lex($template);
         $parser = new Parser($lex, $this->output, $this->directives);
         return $parser->parse();        
+    }
+
+    public function addDirectiveCompiler(string $directive, string $class): static
+    {
+        $this->directives->addDirectiveCompiler($directive, $class);
+        return $this;
     }
 }

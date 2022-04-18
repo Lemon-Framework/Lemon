@@ -10,7 +10,7 @@ use Lemon\Templating\Juice\Compilers\OutputCompiler;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Exceptions\ParserException;
 
-class Parser
+final class Parser
 {
     public const CONTEXT_HTML = 0;
     public const CONTEXT_JS = 1;

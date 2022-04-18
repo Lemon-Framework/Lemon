@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Templating\Juice\Compilers;
 
 use Lemon\Kernel\Container;
+use Lemon\Support\Types\Arr;
 use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 
@@ -32,6 +33,10 @@ final class DirectiveCompiler
 
     public function addDirectiveCompiler(string $directive, string $class): self
     {
+        if (! Arr::has(class_implements($class), Directive::class)) {
+            throw new CompilerException('Directive class '.$class.' does not implement '.Directive::class.' Interface');
+        }
+
         $this->compilers->add($class);
         $this->compilers->alias($directive, $class);
 
