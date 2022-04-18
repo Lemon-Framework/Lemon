@@ -7,7 +7,7 @@ namespace Lemon\Templating\Juice;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Array_;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
-use Lemon\Templating\Juice\Compilers\TagCompiler;
+use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Exceptions\ParserException;
 
 class Parser
@@ -31,7 +31,7 @@ class Parser
     public function __construct(
         array $tokens,
         private OutputCompiler $output,
-        private TagCompiler $tags
+        private DirectiveCompiler $directives 
     ) {
         $this->tokens = new Array_($tokens);
     }
@@ -42,10 +42,10 @@ class Parser
         foreach ($this->tokens as $token) {
             switch ($token->kind) {
                 case Token::TAG:
-                    if ($this->tags->isClosable($token->content[0])) {
+                    if ($this->directives->isClosable($token->content[0])) {
                         $this->stack[] = $token->content[0];
                     }
-                    $result .= $this->tags->compileOpenning($token->content[0], $token->content[1], $this->stack);
+                    $result .= $this->directives->compileOpenning($token->content[0], $token->content[1], $this->stack);
 
                     break;
 
@@ -54,7 +54,7 @@ class Parser
                     if ($top !== $token->content[0]) {
                         throw new ParserException(''); // TODO line counting
                     }
-                    $result .= $this->tags->compileClosing($token->content);
+                    $result .= $this->directives->compileClosing($token->content);
 
                     break;
 
