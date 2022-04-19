@@ -6,7 +6,6 @@ namespace Lemon\Templating\Juice;
 
 use Lemon\Templating\Compiler as CompilerInterface;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
-use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
 
 class Compiler implements CompilerInterface

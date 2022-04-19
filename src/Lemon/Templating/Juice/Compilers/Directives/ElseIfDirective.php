@@ -15,6 +15,10 @@ final class ElseIfDirective implements Directive
             throw new CompilerException('Unexpected elseif'); // TODO
         }
 
+        if ('' === $content) {
+            throw new CompilerException('Directive elseif takes arguments'); // TODO
+        }
+
         return 'elseif ('.$content.'):';
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace {{ prototype.namespace }};
 
-use Lemon\TestCase;
+use Lemon\Tests\TestCase;
 
 {% for class in prototype.classes %}
 class {{ class.name }} extends TestCase

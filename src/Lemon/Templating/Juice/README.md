@@ -29,3 +29,4 @@ Custom syntax are very risky so be aware.
 - [x] ability of custom tags
 - [x] metaframework
 - [ ] elixir-like piping?
+- [ ] directive syntax check

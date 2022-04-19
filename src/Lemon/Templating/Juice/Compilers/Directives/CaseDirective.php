@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Templating\Juice\Compilers\Directives;
 
 use Lemon\Support\Types\Arr;
-use Lemon\Support\Types\Str;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 
 final class CaseDirective implements Directive
@@ -18,10 +17,6 @@ final class CaseDirective implements Directive
 
         if ('' === $content) {
             throw new CompilerException('Directive case expects arguments'); // TODO
-        }
-
-        if (Str::endsWith($content, ':')) {
-            throw new CompilerException('Unexpected :');
         }
 
         return 'case '.$content.':';
