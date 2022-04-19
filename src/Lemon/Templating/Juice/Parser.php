@@ -81,8 +81,10 @@ final class Parser
 
     public static function resolveContext(string $target, int $context): int
     {
-        preg_match('/(<script.*?>)|(<\/script>)/', $target, $matches);
+        preg_match_all('/(<script.*?>)|(<\/script>)/', $target, $matches);
 
+        $matches = $matches[0];
+    
         if (Arr::size($matches) > 0) {
             if (preg_match('/<script.*?>/', Arr::last($matches))) {
                 return self::CONTEXT_JS;
@@ -94,7 +96,9 @@ final class Parser
             }
         }
 
-        if (preg_match('/on.+?=(\'[^\']*|"[^\"]*)$/', $target)) {
+        $target = preg_replace('/\\\(\'|")/', '', $target);
+
+        if (preg_match('/<[^>]+?on\w+?=(\'[^\']*|"[^\"]*)$/', $target)) {
             return self::CONTEXT_JS_ATTRIBUTE;
         }
 
@@ -103,7 +107,7 @@ final class Parser
             return self::CONTEXT_HTML;
         }
 
-        if (preg_match('/(src|href|codebase|cite|action|longdesc|profile|usemap|cite|classid|data|usemap|icon|manifest|formaction|poster|srcset|archive|content)=(\'[^\']*|"[^\"]*)$/', $target)) {
+        if (preg_match('/<[^>]+?(src|href|codebase|cite|action|longdesc|profile|usemap|cite|classid|data|usemap|icon|manifest|formaction|poster|srcset|archive|content)=(\'[^\']*|"[^\"]*)$/', $target)) {
             return self::CONTEXT_ATTRIBUTE;
         }
 
