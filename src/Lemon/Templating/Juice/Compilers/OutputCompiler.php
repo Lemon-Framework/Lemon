@@ -38,7 +38,7 @@ class OutputCompiler
 
         foreach ($parts['1..'] as $part) {
             $part = trim($part);
-            $result = "\$_env->{$part}({$result})"; 
+            $result = "\$_env->{$part}({$result})";
         }
 
         return $result;

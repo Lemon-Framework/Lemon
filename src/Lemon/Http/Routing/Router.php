@@ -38,8 +38,7 @@ class Router
 
     public function __construct(
 //        private TemplateFactory $templates
-    )
-    {
+    ) {
         $this->routes = new Array_();
     }
 
@@ -75,7 +74,7 @@ class Router
 
     public function view(string $path, ?string $view = null)
     {
-// TODO        $view = $view ?? Str::replace($view, '/', '.');
+        // TODO        $view = $view ?? Str::replace($view, '/', '.');
 //        return $this->crate($path, ['get'], fn() => $this->templates->make($view));
     }
 

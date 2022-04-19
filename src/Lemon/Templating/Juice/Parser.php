@@ -69,7 +69,7 @@ final class Parser
                     break;
 
                 case Token::TEXT:
-                    $this->context = $this->resolveContext($token->content);
+                    $this->context = $this->resolveContext($token->content, $this->context);
                     $result .= $token->content;
 
                     break;
@@ -79,17 +79,19 @@ final class Parser
         return $result;
     }
 
-    public function resolveContext(string $target): int
+    public static function resolveContext(string $target, int $context): int
     {
-        $tags = preg_match('/(<script(?:.*)>)|(<\/script>)/', $target, $matches);
+        preg_match('/(<script.*?>)|(<\/script>)/', $target, $matches);
 
-        if (preg_match('/<script.*>/', Arr::last($matches))) {
-            return self::CONTEXT_JS;
-        }
+        if (Arr::size($matches) > 0) {
+            if (preg_match('/<script.*?>/', Arr::last($matches))) {
+                return self::CONTEXT_JS;
+            }
 
-        if ('</script>' === $tags[0]
-            && self::CONTEXT_JS === $this->context) {
-            return self::CONTEXT_HTML;
+            if ('</script>' === $matches[0]
+                && self::CONTEXT_JS === $context) {
+                return self::CONTEXT_HTML;
+            }
         }
 
         if (preg_match('/on.+?=(\'[^\']*|"[^\"]*)$/', $target)) {
@@ -97,7 +99,7 @@ final class Parser
         }
 
         if (preg_match('/([^\']*?\'|[^\"]*?\")/', $target)
-            && Arr::has([self::CONTEXT_ATTRIBUTE, self::CONTEXT_JS_ATTRIBUTE], $this->context)) {
+            && Arr::has([self::CONTEXT_ATTRIBUTE, self::CONTEXT_JS_ATTRIBUTE], $context)) {
             return self::CONTEXT_HTML;
         }
 
@@ -105,6 +107,6 @@ final class Parser
             return self::CONTEXT_ATTRIBUTE;
         }
 
-        return self::CONTEXT_HTML;
+        return $context;
     }
 }

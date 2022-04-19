@@ -27,6 +27,10 @@ class BarDirective
 }
 
 // TODO switch compilers test to directivecompiler like youknow
+/**
+ * @internal
+ * @coversNothing
+ */
 class DirectiveCompilerTest extends TestCase
 {
     public function testGetDirectiveCompiler()
@@ -34,7 +38,7 @@ class DirectiveCompilerTest extends TestCase
         $c = new DirectiveCompiler();
         $this->assertInstanceOf(IfDirective::class, $c->getDirectiveCompiler('if'));
 
-        $this->assertThrowable(function(DirectiveCompiler $c) {
+        $this->assertThrowable(function (DirectiveCompiler $c) {
             $c->getDirectiveCompiler('foo');
         }, CompilerException::class, $c);
     }
@@ -46,11 +50,11 @@ class DirectiveCompilerTest extends TestCase
 
         $this->assertInstanceOf(FooDirective::class, $c->getDirectiveCompiler('foo'));
 
-        $this->assertThrowable(function(DirectiveCompiler $c) {
+        $this->assertThrowable(function (DirectiveCompiler $c) {
             $c->addDirectiveCompiler('foo', FooDirective::class);
         }, CompilerException::class, $c);
 
-        $this->assertThrowable(function(DirectiveCompiler $c) {
+        $this->assertThrowable(function (DirectiveCompiler $c) {
             $c->addDirectiveCompiler('bar', BarDirective::class);
         }, CompilerException::class, $c);
     }
@@ -61,6 +65,4 @@ class DirectiveCompilerTest extends TestCase
         $this->assertTrue($c->hasDirectiveCompiler('if'));
         $this->assertFalse($c->hasDirectiveCompiler('foo'));
     }
-
-    
 }

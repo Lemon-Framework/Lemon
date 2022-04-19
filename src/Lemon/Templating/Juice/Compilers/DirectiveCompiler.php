@@ -44,12 +44,12 @@ final class DirectiveCompiler
     public function addDirectiveCompiler(string $directive, string $class): self
     {
         if ($this->hasDirectiveCompiler($directive)) {
-            throw  new CompilerException('Directive '.$directive.' already exist.');
+            throw new CompilerException('Directive '.$directive.' already exist.');
         }
 
         if (!Arr::has(class_implements($class), Directive::class)) {
             throw new CompilerException('Directive class '.$class.' does not implement '.Directive::class.' Interface');
-        } 
+        }
 
         $this->compilers->add($class);
         $this->compilers->alias($directive, $class);

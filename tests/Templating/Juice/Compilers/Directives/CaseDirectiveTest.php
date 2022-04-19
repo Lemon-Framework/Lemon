@@ -19,18 +19,18 @@ class CaseDirectiveTest extends TestCase
         $c = new DirectiveCompiler();
         $this->assertSame('<?php case 10: ?>', $c->compileOpenning('case', '10', ['if', 'switch']));
 
-        $this->assertThrowable(function(DirectiveCompiler $c) {
+        $this->assertThrowable(function (DirectiveCompiler $c) {
             $c->compileOpenning('case', '', ['switch']);
         }, CompilerException::class, $c);
 
-        $this->assertThrowable(function(DirectiveCompiler $c) {
+        $this->assertThrowable(function (DirectiveCompiler $c) {
             $c->compileOpenning('case', '10', []);
         }, CompilerException::class, $c);
 
-        $this->assertThrowable(function(DirectiveCompiler $c) {
+        $this->assertThrowable(function (DirectiveCompiler $c) {
             $c->compileOpenning('case', '10', ['switch', 'if']);
         }, CompilerException::class, $c);
-    } 
+    }
 
     public function testClosability()
     {

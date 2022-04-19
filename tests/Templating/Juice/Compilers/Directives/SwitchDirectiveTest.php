@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
-use Lemon\Templating\Juice\Compilers\Directives\SwitchDirective;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 use Lemon\Tests\TestCase;
 
@@ -21,10 +20,10 @@ class SwitchDirectiveTest extends TestCase
         $this->assertSame('<?php switch ($foo): ?>', $c->compileOpenning('switch', '$foo', []));
         $this->assertSame('<?php switch ($foo): ?>', $c->compileOpenning('switch', '$foo', ['if']));
 
-        $this->assertThrowable(function(DirectiveCompiler $c) {
+        $this->assertThrowable(function (DirectiveCompiler $c) {
             $c->compileOpenning('switch', '', []);
         }, CompilerException::class, $c);
-    } 
+    }
 
     public function testClosability()
     {
