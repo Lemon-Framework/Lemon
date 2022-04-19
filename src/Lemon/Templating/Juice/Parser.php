@@ -40,6 +40,7 @@ final class Parser
     {
         $result = '';
         foreach ($this->tokens as $token) {
+            $content = $token->content;
             switch ($token->kind) {
                 case Token::TAG:
                     if ($this->directives->isClosable($token->content[0])) {
@@ -69,7 +70,7 @@ final class Parser
                     break;
 
                 case Token::TEXT:
-                    $this->context = $this->resolveContext($token->content, $this->context);
+                    $this->context = self::resolveContext($token->content, $this->context);
                     $result .= $token->content;
 
                     break;

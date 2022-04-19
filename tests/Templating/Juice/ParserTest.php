@@ -19,4 +19,9 @@ class ParserTest extends TestCase
     {
         return new Parser($tokens, new OutputCompiler(), new DirectiveCompiler());
     }
+
+    public function testParsingEcho()
+    {
+
+    }
 }

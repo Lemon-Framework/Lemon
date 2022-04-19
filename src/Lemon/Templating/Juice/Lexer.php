@@ -36,8 +36,10 @@ final class Lexer
                     case 2:
                         if (preg_match("/^{$this->syntax->end}$/", $matches[1], $matches)) {
                             $kind = Token::TAG_END;
+                            $content = $matches[1];
+                            break;
                         }
-                        $content = $matches[1];
+                        $content = [$matches[1], ''];
 
                         break;
 
