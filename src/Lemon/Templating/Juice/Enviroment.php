@@ -8,7 +8,7 @@ use Lemon\Support\Types\Str;
 
 final class Enviroment
 {
-    public function escape(string $content): string
+    public function escapeHtml(string $content): string
     {
         return htmlspecialchars($content);
     }
