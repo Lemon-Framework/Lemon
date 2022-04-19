@@ -21,9 +21,4 @@ final class ElseDirective implements Directive
 
         return 'else:';
     }
-
-    public function hasClosing(): bool
-    {
-        return false;
-    }
 }

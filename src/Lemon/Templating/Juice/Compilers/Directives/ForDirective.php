@@ -18,8 +18,8 @@ final class ForDirective implements Directive
         return 'for ('.$content.'):';
     }
 
-    public function hasClosing(): bool
+    public function compileClosing(): string
     {
-        return true;
+        return 'endfor';
     }
 }

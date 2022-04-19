@@ -21,9 +21,4 @@ final class ElseIfDirective implements Directive
 
         return 'elseif ('.$content.'):';
     }
-
-    public function hasClosing(): bool
-    {
-        return false;
-    }
 }

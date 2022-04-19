@@ -17,8 +17,8 @@ final class SwitchDirective implements Directive
         return 'switch ('.$content.'):';
     }
 
-    public function hasClosing(): bool
+    public function compileClosing(): string
     {
-        return true;
+        return 'endswitch';
     }
 }

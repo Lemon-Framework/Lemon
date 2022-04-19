@@ -13,7 +13,17 @@ use Lemon\Templating\Juice\Exceptions\CompilerException;
 final class DirectiveCompiler
 {
     public const DEFAULTS = [
+        'case' => Directives\CaseDirective::class,
+        'else' => Directives\ElseDirective::class,
+        'elseif' => Directives\ElseIfDirective::class,
+        'for' => Directives\ForDirective::class,
+        'foreach' => Directives\ForeachDirective::class,
+        'if' => Directives\IfDirective::class,
+        'switch' => Directives\SwitchDirective::class,
+        'unless' => Directives\UnlessDirective::class,
+        'while' => Directives\WhileDirective::class,
     ];
+
     private Container $compilers;
 
     public function __construct()
@@ -50,13 +60,12 @@ final class DirectiveCompiler
 
     public function isClosable(string $directive): bool
     {
-        return $this->getDirectiveCompiler($directive)->hasClosing();
+        return method_exists($this->getDirectiveCompiler($directive), 'compileClosing');
     }
 
     public function compileOpenning(string $directive, string $context, array $stack): string
     {
         $class = $this->getDirectiveCompiler($directive);
-        $class->setStack($stack);
 
         return '<?php '.trim($class->compileOpenning($context, $stack)).' ?>';
     }

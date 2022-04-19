@@ -18,8 +18,9 @@ final class WhileDirective implements Directive
         return 'while ('.$content.'):';
     }
 
-    public function hasClosing(): bool
+
+    public function compileClosing(): string
     {
-        return true;
+        return 'endwhile';
     }
 }

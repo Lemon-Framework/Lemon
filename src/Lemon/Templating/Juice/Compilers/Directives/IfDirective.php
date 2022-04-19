@@ -17,8 +17,8 @@ final class IfDirective implements Directive
         return 'if ('.$content.'):';
     }
 
-    public function hasClosing(): bool
+    public function compileClosing(): string
     {
-        return true;
+        return 'endif';
     }
 }

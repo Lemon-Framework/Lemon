@@ -21,9 +21,4 @@ final class CaseDirective implements Directive
 
         return 'case '.$content.':';
     }
-
-    public function hasClosing(): bool
-    {
-        return false;
-    }
 }

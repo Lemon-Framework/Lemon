@@ -12,9 +12,4 @@ interface Directive
      * @throws \Lemon\Templating\Juice\Exceptions\CompilerException
      */
     public function compileOpenning(string $content, array $stack): string;
-
-    /**
-     * Returns whenever directive can be closed.
-     */
-    public function hasClosing(): bool;
 }

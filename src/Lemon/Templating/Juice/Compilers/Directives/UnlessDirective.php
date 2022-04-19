@@ -6,20 +6,19 @@ namespace Lemon\Templating\Juice\Compilers\Directives;
 
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 
-final class ForeachDirective implements Directive
+final class UnlessDirective implements Directive
 {
     public function compileOpenning(string $content, array $stack): string
     {
-        // TODO $iterator, syntax check
         if ('' === $content) {
-            throw new CompilerException('Directive foreach expects arguments'); // TODO
+            throw new CompilerException('Directive unless expects arguments'); // TODO
         }
 
-        return 'foreach ('.$content.'):';
+        return 'if (! '.$content.'):';
     }
-
+    
     public function compileClosing(): string
     {
-        return 'endforeach';
+        return 'endif';
     }
 }
