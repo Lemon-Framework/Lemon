@@ -14,7 +14,7 @@ final class UnlessDirective implements Directive
             throw new CompilerException('Directive unless expects arguments'); // TODO
         }
 
-        return 'if (! '.$content.'):';
+        return 'if (!('.$content.')):';
     }
 
     public function compileClosing(): string

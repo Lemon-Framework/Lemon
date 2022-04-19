@@ -14,7 +14,7 @@ class TemplateFactory
     ) {
     }
 
-    public function make(string $file, array $data): Template
+    public function make(string $file, array $data = []): Template
     {
         return new Template(); // TODO
     }

@@ -28,6 +28,15 @@ class OutputCompilerTest extends TestCase
         $o = new OutputCompiler();
         $this->assertSame('<?= $foo ?>', $o->compileUnescaped('$foo'));
     }
+
+    public function testPipes()
+    {
+        $o = new OutputCompiler();
+        $this->assertSame('<?= $_env->escapeHtml($_env->capitalize($_env->lower($foo))) ?>', $o->compileEcho('$foo|>lower|>capitalize', Parser::CONTEXT_HTML));
+        $this->assertSame('<?= $_env->escapeHtml($_env->capitalize($_env->lower($foo))) ?>', $o->compileEcho('   $foo   |>  lower|>    capitalize   ', Parser::CONTEXT_HTML));
+
+        $this->assertSame('<?= $_env->capitalize($_env->lower($foo)) ?>', $o->compileUnescaped('   $foo   |>  lower|>    capitalize   '));
+    }
 }
 
 /*
@@ -46,3 +55,6 @@ class OutputCompilerTest extends TestCase
 ⠀⠀⠀⡟⡾⣿⢿⢿⢵⣽⣾⣼⣘⢸⢸⣞⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
  */
+
+
+

@@ -8,6 +8,8 @@ use Exception;
 use Lemon\Http\Request;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Array_;
+use Lemon\Support\Types\Str;
+use Lemon\Templating\TemplateFactory;
 
 /**
  * The Lemon Router.
@@ -34,7 +36,9 @@ class Router
 
     public Array_ $routes;
 
-    public function __construct()
+    public function __construct(
+//        private TemplateFactory $templates
+    )
     {
         $this->routes = new Array_();
     }
@@ -71,7 +75,8 @@ class Router
 
     public function view(string $path, ?string $view = null)
     {
-        // TODO
+// TODO        $view = $view ?? Str::replace($view, '/', '.');
+//        return $this->crate($path, ['get'], fn() => $this->templates->make($view));
     }
 
     /*

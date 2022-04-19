@@ -43,9 +43,13 @@ final class DirectiveCompiler
 
     public function addDirectiveCompiler(string $directive, string $class): self
     {
+        if ($this->hasDirectiveCompiler($directive)) {
+            throw  new CompilerException('Directive '.$directive.' already exist.');
+        }
+
         if (!Arr::has(class_implements($class), Directive::class)) {
             throw new CompilerException('Directive class '.$class.' does not implement '.Directive::class.' Interface');
-        }
+        } 
 
         $this->compilers->add($class);
         $this->compilers->alias($directive, $class);
@@ -55,7 +59,7 @@ final class DirectiveCompiler
 
     public function hasDirectiveCompiler(string $directive): bool
     {
-        return $this->compilers->has($directive);
+        return $this->compilers->hasAlias($directive);
     }
 
     public function isClosable(string $directive): bool
@@ -72,7 +76,9 @@ final class DirectiveCompiler
 
     public function compileClosing(string $directive): string
     {
-        return '<?php end'.$directive.' ?>';
+        $class = $this->getDirectiveCompiler($directive);
+
+        return '<?php '.trim($class->compileClosing()).' ?>';
     }
 
     private function loadDefaults(): void

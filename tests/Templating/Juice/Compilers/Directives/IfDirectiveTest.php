@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
+use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\Directives\IfDirective;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 use Lemon\Tests\TestCase;
@@ -14,14 +15,26 @@ use Lemon\Tests\TestCase;
  */
 class IfDirectiveTest extends TestCase
 {
-    public function testCompilation()
+    public function testOpen()
     {
-        $d = new IfDirective();
-        $this->assertSame('if ($foo == 10):', $d->compileOpenning('$foo == 10', []));
-        $this->assertSame('if ($foo == 10):', $d->compileOpenning('$foo == 10', ['if']));
+        $c = new DirectiveCompiler();
+        $this->assertSame('<?php if (1 == $foo): ?>', $c->compileOpenning('if', '1 == $foo', []));
+        $this->assertSame('<?php if (1 == $foo): ?>', $c->compileOpenning('if', '1 == $foo', ['switch']));
 
-        $this->assertThrowable(function (IfDirective $d) {
-            $d->compileOpenning('', []);
-        }, CompilerException::class, $d);
+        $this->assertThrowable(function(DirectiveCompiler $c) {
+            $c->compileOpenning('if', '', []);
+        }, CompilerException::class, $c);
+    } 
+
+    public function testClosability()
+    {
+        $c = new DirectiveCompiler();
+        $this->assertTrue($c->isClosable('if'));
+    }
+
+    public function testClose()
+    {
+        $c = new DirectiveCompiler();
+        $this->assertSame('<?php endif ?>', $c->compileClosing('if'));
     }
 }

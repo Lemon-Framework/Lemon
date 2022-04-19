@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
+use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\Directives\ElseIfDirective;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 use Lemon\Tests\TestCase;
@@ -14,21 +15,27 @@ use Lemon\Tests\TestCase;
  */
 class ElseIfDirectiveTest extends TestCase
 {
-    public function testCompilation()
+    public function testOpen()
     {
-        $d = new ElseIfDirective();
-        $this->assertSame('elseif ($foo == 10):', $d->compileOpenning('$foo == 10', ['if']));
+        $c = new DirectiveCompiler();
+        $this->assertSame('<?php elseif (10 == $foo): ?>', $c->compileOpenning('elseif', '10 == $foo', ['switch', 'if']));
 
-        $this->assertThrowable(function (ElseIfDirective $d) {
-            $d->compileOpenning('', ['if']);
-        }, CompilerException::class, $d);
+        $this->assertThrowable(function(DirectiveCompiler $c) {
+            $c->compileOpenning('elseif', '', ['if']);
+        }, CompilerException::class, $c);
 
-        $this->assertThrowable(function (ElseIfDirective $d) {
-            $d->compileOpenning('$foo', []);
-        }, CompilerException::class, $d);
+        $this->assertThrowable(function(DirectiveCompiler $c) {
+            $c->compileOpenning('elseif', '10 == $foo', []);
+        }, CompilerException::class, $c);
 
-        $this->assertThrowable(function (ElseIfDirective $d) {
-            $d->compileOpenning('$foo', ['switch']);
-        }, CompilerException::class, $d);
+        $this->assertThrowable(function(DirectiveCompiler $c) {
+            $c->compileOpenning('elseif', '10 == $foo', ['if', 'switch']);
+        }, CompilerException::class, $c);
+    } 
+
+    public function testClosability()
+    {
+        $c = new DirectiveCompiler();
+        $this->assertFalse($c->isClosable('elseif'));
     }
 }

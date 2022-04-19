@@ -21,12 +21,10 @@ Custom syntax are very risky so be aware.
 - [x] lexer
 - [x] each tag compiler is separate class that takes token and returns php code
 - [x] context-based rendering like in Latte https://stackoverflow.com/questions/2725156/complete-list-of-html-tag-attributes-which-have-a-url-value, `on.+='|"`, `src|href|...=`
-- [ ] improve syntax?
 - [ ] syntax bundle of blade and twig
-- [ ] vim syntax highlighting
-- [ ] emacs sytnax highlighting?
+- [ ] syntax highlight generator for vim (emacs?)
 - [ ] tests tests tests tests
 - [x] ability of custom tags
 - [x] metaframework
-- [ ] elixir-like piping?
+- [x] elixir-like piping?
 - [ ] directive syntax check

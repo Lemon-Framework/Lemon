@@ -98,6 +98,14 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Returns whenever service exist.
+     */
+    public function hasAlias(string $id): bool
+    {
+        return Arr::hasKey($this->aliases, $id);
+    }
+
+    /**
      * Creates service instance of given class.
      */
     private function make(string $service): mixed

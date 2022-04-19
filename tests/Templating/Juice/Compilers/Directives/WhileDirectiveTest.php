@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
+use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\Directives\WhileDirective;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 use Lemon\Tests\TestCase;
@@ -14,14 +15,26 @@ use Lemon\Tests\TestCase;
  */
 class WhileDirectiveTest extends TestCase
 {
-    public function testCompilation()
+    public function testOpen()
     {
-        $d = new WhileDirective();
-        $this->assertSame('while ($foo):', $d->compileOpenning('$foo', []));
-        $this->assertSame('while ($foo):', $d->compileOpenning('$foo', ['if']));
+        $c = new DirectiveCompiler();
+        $this->assertSame('<?php while ($foo): ?>', $c->compileOpenning('while', '$foo', []));
+        $this->assertSame('<?php while ($foo): ?>', $c->compileOpenning('while', '$foo', ['switch']));
 
-        $this->assertThrowable(function (WhileDirective $d) {
-            $d->compileOpenning('', []);
-        }, CompilerException::class, $d);
+        $this->assertThrowable(function(DirectiveCompiler $c) {
+            $c->compileOpenning('while', '', []);
+        }, CompilerException::class, $c);
+    } 
+
+    public function testClosability()
+    {
+        $c = new DirectiveCompiler();
+        $this->assertTrue($c->isClosable('while'));
+    }
+
+    public function testClose()
+    {
+        $c = new DirectiveCompiler();
+        $this->assertSame('<?php endwhile ?>', $c->compileClosing('while'));
     }
 }
