@@ -10,7 +10,6 @@ use Lemon\Templating\Juice\Compilers\OutputCompiler;
 
 class Compiler implements CompilerInterface
 {
-
     private Lexer $lexer;
 
     private OutputCompiler $output;
@@ -28,12 +27,14 @@ class Compiler implements CompilerInterface
     {
         $lex = $this->lexer->lex($template);
         $parser = new Parser($lex, $this->output, $this->directives);
-        return $parser->parse();        
+
+        return $parser->parse();
     }
 
     public function addDirectiveCompiler(string $directive, string $class): static
     {
         $this->directives->addDirectiveCompiler($directive, $class);
+
         return $this;
     }
 }

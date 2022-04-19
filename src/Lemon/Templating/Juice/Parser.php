@@ -6,8 +6,8 @@ namespace Lemon\Templating\Juice;
 
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Array_;
-use Lemon\Templating\Juice\Compilers\OutputCompiler;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
+use Lemon\Templating\Juice\Compilers\OutputCompiler;
 use Lemon\Templating\Juice\Exceptions\ParserException;
 
 final class Parser
@@ -31,7 +31,7 @@ final class Parser
     public function __construct(
         array $tokens,
         private OutputCompiler $output,
-        private DirectiveCompiler $directives 
+        private DirectiveCompiler $directives
     ) {
         $this->tokens = new Array_($tokens);
     }

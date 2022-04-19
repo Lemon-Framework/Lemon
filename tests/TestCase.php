@@ -7,11 +7,16 @@ namespace Lemon\Tests;
 use PHPUnit\Framework\TestCase as FrameworkTestCase;
 use Throwable;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class TestCase extends FrameworkTestCase
 {
     protected function assertThrowable(callable $action, string $expected, mixed ...$args)
     {
         $thrown = false;
+
         try {
             $action(...$args);
         } catch (Throwable $actual) {

@@ -7,7 +7,7 @@ namespace Lemon\Templating;
 interface Compiler
 {
     /**
-     * Compiles template into php code
+     * Compiles template into php code.
      */
     public function compile(string $template): string;
 }

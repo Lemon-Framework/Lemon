@@ -8,6 +8,10 @@ use Lemon\Templating\Juice\Compilers\Directives\ForDirective;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ForDirectiveTest extends TestCase
 {
     public function testCompilation()
@@ -16,7 +20,7 @@ class ForDirectiveTest extends TestCase
         $this->assertSame('for ($i = 0; $i < 10; $i++):', $d->compileOpenning('$i = 0; $i < 10; $i++', []));
         $this->assertSame('for ($i = 0; $i < 10; $i++):', $d->compileOpenning('$i = 0; $i < 10; $i++', ['if']));
 
-        $this->assertThrowable(function(ForDirective $d) {
+        $this->assertThrowable(function (ForDirective $d) {
             $d->compileOpenning('', []);
         }, CompilerException::class, $d);
     }

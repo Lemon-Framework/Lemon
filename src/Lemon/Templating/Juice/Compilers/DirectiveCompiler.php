@@ -43,7 +43,7 @@ final class DirectiveCompiler
 
     public function addDirectiveCompiler(string $directive, string $class): self
     {
-        if (! Arr::has(class_implements($class), Directive::class)) {
+        if (!Arr::has(class_implements($class), Directive::class)) {
             throw new CompilerException('Directive class '.$class.' does not implement '.Directive::class.' Interface');
         }
 

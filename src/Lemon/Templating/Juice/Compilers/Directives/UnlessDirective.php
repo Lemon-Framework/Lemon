@@ -16,7 +16,7 @@ final class UnlessDirective implements Directive
 
         return 'if (! '.$content.'):';
     }
-    
+
     public function compileClosing(): string
     {
         return 'endif';

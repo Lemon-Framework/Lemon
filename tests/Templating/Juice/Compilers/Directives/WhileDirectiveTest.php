@@ -8,6 +8,10 @@ use Lemon\Templating\Juice\Compilers\Directives\WhileDirective;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class WhileDirectiveTest extends TestCase
 {
     public function testCompilation()
@@ -16,7 +20,7 @@ class WhileDirectiveTest extends TestCase
         $this->assertSame('while ($foo):', $d->compileOpenning('$foo', []));
         $this->assertSame('while ($foo):', $d->compileOpenning('$foo', ['if']));
 
-        $this->assertThrowable(function(WhileDirective $d) {
+        $this->assertThrowable(function (WhileDirective $d) {
             $d->compileOpenning('', []);
         }, CompilerException::class, $d);
     }

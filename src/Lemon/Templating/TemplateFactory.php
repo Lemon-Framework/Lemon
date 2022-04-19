@@ -11,11 +11,8 @@ class TemplateFactory
     public function __construct(
         private Compiler $compiler,
         private Lifecycle $lifecycle
-    )
-    {
-        
+    ) {
     }
-
 
     public function make(string $file, array $data): Template
     {

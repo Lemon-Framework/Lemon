@@ -8,6 +8,10 @@ use Lemon\Templating\Juice\Compilers\Directives\IfDirective;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class IfDirectiveTest extends TestCase
 {
     public function testCompilation()
@@ -16,7 +20,7 @@ class IfDirectiveTest extends TestCase
         $this->assertSame('if ($foo == 10):', $d->compileOpenning('$foo == 10', []));
         $this->assertSame('if ($foo == 10):', $d->compileOpenning('$foo == 10', ['if']));
 
-        $this->assertThrowable(function(IfDirective $d) {
+        $this->assertThrowable(function (IfDirective $d) {
             $d->compileOpenning('', []);
         }, CompilerException::class, $d);
     }

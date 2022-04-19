@@ -8,6 +8,10 @@ use Lemon\Templating\Juice\Compilers\Directives\ForeachDirective;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ForeachDirectiveTest extends TestCase
 {
     public function testCompilation()
@@ -16,7 +20,7 @@ class ForeachDirectiveTest extends TestCase
         $this->assertSame('foreach ($foo as $bar):', $d->compileOpenning('$foo as $bar', []));
         $this->assertSame('foreach ($foo as $bar):', $d->compileOpenning('$foo as $bar', ['if']));
 
-        $this->assertThrowable(function(ForeachDirective $d) {
+        $this->assertThrowable(function (ForeachDirective $d) {
             $d->compileOpenning('', []);
         }, CompilerException::class, $d);
     }

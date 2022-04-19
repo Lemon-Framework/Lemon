@@ -6,5 +6,4 @@ namespace Lemon\Templating;
 
 class Template
 {
-
 }

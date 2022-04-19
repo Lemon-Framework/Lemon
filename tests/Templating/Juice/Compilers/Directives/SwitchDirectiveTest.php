@@ -8,6 +8,10 @@ use Lemon\Templating\Juice\Compilers\Directives\SwitchDirective;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class SwitchDirectiveTest extends TestCase
 {
     public function testCompilation()
@@ -16,7 +20,7 @@ class SwitchDirectiveTest extends TestCase
         $this->assertSame('switch ($foo):', $d->compileOpenning('$foo', []));
         $this->assertSame('switch ($foo):', $d->compileOpenning('$foo', ['if']));
 
-        $this->assertThrowable(function(SwitchDirective $d) {
+        $this->assertThrowable(function (SwitchDirective $d) {
             $d->compileOpenning('', []);
         }, CompilerException::class, $d);
     }
