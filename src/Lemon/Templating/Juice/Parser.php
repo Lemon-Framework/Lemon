@@ -41,6 +41,7 @@ final class Parser
         $result = '';
         foreach ($this->tokens as $token) {
             $content = $token->content;
+
             switch ($token->kind) {
                 case Token::TAG:
                     if ($this->directives->isClosable($token->content[0])) {
@@ -86,7 +87,7 @@ final class Parser
         preg_match_all('/(<script.*?>)|(<\/script>)/', $target, $matches);
 
         $matches = $matches[0];
-    
+
         if (Arr::size($matches) > 0) {
             if (preg_match('/<script.*?>/', Arr::last($matches))) {
                 return self::CONTEXT_JS;

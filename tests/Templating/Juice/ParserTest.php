@@ -16,11 +16,6 @@ use Lemon\Tests\TestCase;
  */
 class ParserTest extends TestCase
 {
-    private function getParser(array $tokens)
-    {
-        return new Parser($tokens, new OutputCompiler(), new DirectiveCompiler());
-    }
-
     public function testParsingTags()
     {
         $p = $this->getParser([
@@ -28,5 +23,10 @@ class ParserTest extends TestCase
             new Token(Token::TAG_END, 'foreach'),
         ]);
         $this->assertSame('<?php foreach ($foo as $bar): ?><?php endforeach ?>', $p->parse());
+    }
+
+    private function getParser(array $tokens)
+    {
+        return new Parser($tokens, new OutputCompiler(), new DirectiveCompiler());
     }
 }

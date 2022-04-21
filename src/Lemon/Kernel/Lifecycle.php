@@ -11,7 +11,6 @@ use Lemon\Debug\Handling\Handler;
 use Lemon\Http\Request;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Str;
-use Lemon\Templating\TemplatePlantation;
 use Lemon\Zest;
 
 /**

@@ -21,9 +21,9 @@ class Template
         compact($this->data);
 
         try {
-            require $this->file;
+            require $this->compiled;
         } catch (Throwable $e) {
             throw new TemplateException($e, $this->source);
         }
-    } 
+    }
 }

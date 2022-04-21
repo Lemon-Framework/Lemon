@@ -87,6 +87,5 @@ class ContextTest extends TestCase
             HTML, Parser::CONTEXT_HTML));
 
         $this->assertSame(Parser::CONTEXT_HTML, Parser::resolveContext(')"', Parser::CONTEXT_JS_ATTRIBUTE));
-
     }
 }

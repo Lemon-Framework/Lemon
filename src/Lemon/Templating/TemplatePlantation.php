@@ -30,7 +30,19 @@ class TemplatePlantation
     public function make(string $template, array $data = []): Template
     {
         $source = $this->findSource($template);
+
         return new Template($source, $this->load($source, $template), $data); // TODO
+    }
+
+    public function compile(string $path): string
+    {
+        try {
+            $content = file_get_contents($path);
+
+            return $this->compiler->compile($content);
+        } catch (Throwable $e) {
+            throw new TemplateException($e, $path);
+        }
     }
 
     private function findSource(string $template): string
@@ -40,30 +52,17 @@ class TemplatePlantation
 
     private function load(string $path, string $template): string
     {
-        if (! FS::isDir($this->cached)) {
+        if (!FS::isDir($this->cached)) {
             FS::makeDir($this->cached);
         }
         $time = filemtime($path);
         $name = Str::replace($template, '.', '_');
         $file = FS::join($this->cached, "lemon_template_{$name}_{$time}.php");
 
-        if (! FS::isFile($file)) {
+        if (!FS::isFile($file)) {
             FS::write($file, $this->compile($path));
-        } 
+        }
 
         return $file;
     }
-
-    public function compile(string $path): string
-    {
-        try {
-            $content = file_get_contents($path);
-            return $this->compiler->compile($content);
-        } catch (Throwable $e) {
-            throw new TemplateException($e, $path);
-        }
-
-    }
-
-
 }
