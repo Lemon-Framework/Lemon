@@ -11,6 +11,7 @@ use Lemon\Debug\Handling\Handler;
 use Lemon\Http\Request;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Str;
+use Lemon\Templating\TemplatePlantation;
 use Lemon\Zest;
 
 /**
@@ -32,7 +33,7 @@ final class Lifecycle extends Container
         \Lemon\Config\Config::class => ['config'],
         \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class],
         \Lemon\Templating\Juice\Compiler::class => ['juice', \Lemon\Templating\Compiler::class],
-        \Lemon\Templating\TemplateFactory::class => ['templating'],
+        \Lemon\Templating\TemplatePlantation::class => ['templating'],
     ];
 
     /**

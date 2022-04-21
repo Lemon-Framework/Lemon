@@ -52,7 +52,7 @@ final class Parser
 
                 case Token::TAG_END:
                     $top = Arr::pop($this->stack);
-                    if ($top !== $token->content[0]) {
+                    if ($top !== $token->content) {
                         throw new ParserException(''); // TODO line counting
                     }
                     $result .= $this->directives->compileClosing($token->content);
@@ -70,6 +70,7 @@ final class Parser
                     break;
 
                 case Token::TEXT:
+                    // TODO <?php :nastvana_liska:
                     $this->context = self::resolveContext($token->content, $this->context);
                     $result .= $token->content;
 

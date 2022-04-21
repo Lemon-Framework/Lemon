@@ -8,8 +8,7 @@ use Exception;
 use Lemon\Http\Request;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Array_;
-use Lemon\Support\Types\Str;
-use Lemon\Templating\TemplateFactory;
+//use Lemon\Templating\TemplatePlantation;
 
 /**
  * The Lemon Router.

@@ -10,4 +10,6 @@ interface Compiler
      * Compiles template into php code.
      */
     public function compile(string $template): string;
+
+    public function getExtension(): string;
 }

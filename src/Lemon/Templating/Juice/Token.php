@@ -11,7 +11,7 @@ use Lemon\Support\Properties\Read;
  * Represents template Token.
  *
  * @property int                  $kind
- * @property array<string>|string $context
+ * @property array<string>|string $content
  */
 class Token
 {

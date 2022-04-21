@@ -31,6 +31,11 @@ class Compiler implements CompilerInterface
         return $parser->parse();
     }
 
+    public function getExtension(): string
+    {
+        return 'juice';
+    }
+
     public function addDirectiveCompiler(string $directive, string $class): static
     {
         $this->directives->addDirectiveCompiler($directive, $class);
