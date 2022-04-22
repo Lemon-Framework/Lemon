@@ -7,6 +7,9 @@ namespace Lemon\Templating\Juice;
 use Lemon\Support\Types\Arr;
 use Lemon\Templating\Juice\Exceptions\LexerException;
 
+/**
+ * Juice lexer providing template to tokens conversion.
+ */
 final class Lexer
 {
     public function __construct(
@@ -14,6 +17,9 @@ final class Lexer
     ) {
     }
 
+    /**
+     * Converts template into array of tokens.
+     */
     public function lex(string $template): array
     {
         $lex = preg_split($this->syntax->regex, $template, -1, PREG_SPLIT_DELIM_CAPTURE);

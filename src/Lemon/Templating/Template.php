@@ -7,6 +7,9 @@ namespace Lemon\Templating;
 use Lemon\Templating\Exceptions\TemplateException;
 use Throwable;
 
+/**
+ * Represents compiled template.
+ */
 class Template
 {
     public function __construct(
@@ -16,6 +19,9 @@ class Template
     ) {
     }
 
+    /**
+     * Renders template.
+     */
     public function render(): void
     {
         compact($this->data);

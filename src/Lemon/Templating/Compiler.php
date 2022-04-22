@@ -11,5 +11,8 @@ interface Compiler
      */
     public function compile(string $template): string;
 
+    /**
+     * Returns compilers file extension.
+     */
     public function getExtension(): string;
 }

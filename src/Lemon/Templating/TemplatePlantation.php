@@ -11,10 +11,19 @@ use Lemon\Support\Types\Str;
 use Lemon\Templating\Exceptions\TemplateException;
 use Throwable;
 
+/**
+ * Manages and generates templates.
+ */
 class TemplatePlantation
 {
+    /**
+     * Directory containing templates.
+     */
     private string $templates;
 
+    /**
+     * Directory containing cached templates.
+     */
     private string $cached;
 
     public function __construct(
@@ -27,6 +36,9 @@ class TemplatePlantation
         $this->cached = $config->get('cached');
     }
 
+    /**
+     * Creates new template.
+     */
     public function make(string $template, array $data = []): Template
     {
         $source = $this->findSource($template);
@@ -34,6 +46,9 @@ class TemplatePlantation
         return new Template($source, $this->load($source, $template), $data); // TODO
     }
 
+    /**
+     * Compiles template into raw php.
+     */
     public function compile(string $path): string
     {
         try {

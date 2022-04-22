@@ -8,8 +8,14 @@ use Lemon\Support\Types\Str;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Parser;
 
+/**
+ * Provides output compilation.
+ */
 class OutputCompiler
 {
+    /**
+     * Compiles output tag.
+     */
     public function compileEcho(string $content, int $context): string
     {
         $method = '$_env->'.match ($context) {
@@ -22,13 +28,20 @@ class OutputCompiler
         return '<?= '.$method.'('.$this->resolvePipes($content).') ?>';
     }
 
+    /**
+     * Compiles unescaped output tag.
+     */
     public function compileUnescaped(string $content): string
     {
         return '<?= '.$this->resolvePipes($content).' ?>';
     }
 
+    /**
+     * Resolves elixir-like pipes.
+     */
     private function resolvePipes(string $content): string
     {
+        // TODO tokenizer?
         $parts = Str::split($content, '|>');
         if ($parts->lenght() < 2) {
             return $content;

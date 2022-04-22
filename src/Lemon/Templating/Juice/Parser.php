@@ -10,6 +10,9 @@ use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
 use Lemon\Templating\Juice\Exceptions\ParserException;
 
+/**
+ * Provides token parsing of Juice.
+ */
 final class Parser
 {
     public const CONTEXT_HTML = 0;
@@ -19,6 +22,11 @@ final class Parser
 
     private int $context = self::CONTEXT_HTML;
 
+    /**
+     * Array of curently unclosed directives.
+     *
+     * @var array<string> = []
+     */
     private array $stack = [];
 
     /**
@@ -36,6 +44,9 @@ final class Parser
         $this->tokens = new Array_($tokens);
     }
 
+    /**
+     * Parses tokens into raw php.
+     */
     public function parse(): string
     {
         $result = '';
@@ -87,6 +98,9 @@ final class Parser
         return $result;
     }
 
+    /**
+     * Resolves template output context.
+     */
     public static function resolveContext(string $target, int $context): int
     {
         preg_match_all('/(<script.*?>)|(<\/script>)/', $target, $matches);

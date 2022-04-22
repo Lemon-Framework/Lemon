@@ -39,6 +39,9 @@ final class Syntax
         $this->buildRegex();
     }
 
+    /**
+     * Returns syntax bundle of blade-like syntax.
+     */
     public static function blade(): self
     {
         // TODO tests
@@ -51,6 +54,9 @@ final class Syntax
         );
     }
 
+    /**
+     * Returns syntax bundle of twig-like syntax.
+     */
     public static function twig(): self
     {
         // TODO tests
