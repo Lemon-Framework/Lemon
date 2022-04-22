@@ -28,25 +28,15 @@ final class Syntax
         #[Read]
         private string $tag = '\{\s*([^\{!#].*?)(?:\s+?([^\s].+?[^!\}#]))?\s*\}',
         #[Read]
-        private string $end = 'end(.+)',
+        private string $end = '(?:end|\/)(.+)',
         #[Read]
         private string $echo = '\{\{\s*(.+?)\s*\}\}',
         #[Read]
         private string $unescaped = '\{!\s*(.+?)\s*!\}',
         #[Read]
-        private string $comment = '\{#.+#\}',
+        private string $comment = '\{#.+?#\}',
     ) {
         $this->buildRegex();
-    }
-
-    /**
-     * Prepares regex to be usable in lexer.
-     */
-    private function prepare(string $target)
-    {
-        // This regex removes every () except the ones taht already have \
-        // so if we are compiling, we won't have bad matches
-        return preg_replace('/(?<!\\\\)(\(|\))/', '', $target);
     }
 
     /**
@@ -56,4 +46,25 @@ final class Syntax
     {
         $this->regex = "/({$this->tag})|({$this->echo})|({$this->unescaped})/";
     }
+
+    public static function blade(): self
+    {
+        // TODO tests
+        return new self(
+            '@([^\(]+)(?(?=\()\((.+?)\))',
+            'end(.+)',
+            '\{\{[^-]\s*(.+?)\s*[^-]\}\}',
+            '{!!\s*(.+?)\s*!!}',
+            '{{--.+?--}}'
+        );
+    }
+
+    public static function twig(): self
+    {
+        // TODO tests
+        return new self(
+            '\{%\s*(.*?)(?:\s+?([^\s].+?))?\s*%\}' 
+        );
+    }
+
 }

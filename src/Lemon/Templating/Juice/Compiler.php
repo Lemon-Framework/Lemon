@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
+use Lemon\Config\Config;
 use Lemon\Templating\Compiler as CompilerInterface;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
@@ -16,9 +17,9 @@ class Compiler implements CompilerInterface
 
     private DirectiveCompiler $directives;
 
-    public function __construct()
+    public function __construct(Config $config)
     {
-        $this->lexer = new Lexer(new Syntax()); // TODO custom syntax
+        $this->lexer = new Lexer($config->part('templating')->get('juice')['syntax']); // TODO custom syntax
         $this->output = new OutputCompiler();
         $this->directives = new DirectiveCompiler();
     }
