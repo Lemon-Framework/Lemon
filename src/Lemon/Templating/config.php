@@ -6,6 +6,6 @@ use Lemon\Templating\Juice\Syntax;
 
 return [
     'juice' => [
-        'syntax' => new Syntax()
-    ]
+        'syntax' => new Syntax(),
+    ],
 ];

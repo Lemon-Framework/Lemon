@@ -39,14 +39,6 @@ final class Syntax
         $this->buildRegex();
     }
 
-    /**
-     * Builds regular expression used for lexing.
-     */
-    private function buildRegex()
-    {
-        $this->regex = "/({$this->tag})|({$this->echo})|({$this->unescaped})/";
-    }
-
     public static function blade(): self
     {
         // TODO tests
@@ -63,8 +55,15 @@ final class Syntax
     {
         // TODO tests
         return new self(
-            '\{%\s*(.*?)(?:\s+?([^\s].+?))?\s*%\}' 
+            '\{%\s*(.*?)(?:\s+?([^\s].+?))?\s*%\}'
         );
     }
 
+    /**
+     * Builds regular expression used for lexing.
+     */
+    private function buildRegex()
+    {
+        $this->regex = "/({$this->tag})|({$this->echo})|({$this->unescaped})/";
+    }
 }
