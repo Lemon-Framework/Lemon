@@ -56,10 +56,21 @@ class ContextTest extends TestCase
 
         $this->assertSame(Parser::CONTEXT_JS_ATTRIBUTE, Parser::resolveContext(<<<'HTML'
                 <script></script>
-                <div onclick="alert(\"
+                <div class="foo" onclick="alert(\"
             HTML, Parser::CONTEXT_HTML));
 
-        $this->assertSame(Parser::CONTEXT_HTML, Parser::resolveContext(<<<'HTML'
+        $this->assertSame(Parser::CONTEXT_JS_ATTRIBUTE, Parser::resolveContext(<<<'HTML'
+                <script></script>
+                <div class="foo" onclick="alert('
+            HTML, Parser::CONTEXT_HTML));
+
+        $this->assertSame(Parser::CONTEXT_JS_ATTRIBUTE, Parser::resolveContext(<<<'HTML'
+                <script></script>
+                <div class="foo" onclick="alert(
+            HTML, Parser::CONTEXT_HTML));
+
+
+        $this->assertSame(Parser::CONTEXT_JS_ATTRIBUTE, Parser::resolveContext(<<<'HTML'
                 onclick="alert(\"
             HTML, Parser::CONTEXT_HTML));
 

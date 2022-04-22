@@ -17,7 +17,7 @@ final class Parser
     public const CONTEXT_ATTRIBUTE = 2;
     public const CONTEXT_JS_ATTRIBUTE = 3;
 
-    private int $context;
+    private int $context = self::CONTEXT_HTML;
 
     private array $stack = [];
 
@@ -44,39 +44,44 @@ final class Parser
 
             switch ($token->kind) {
                 case Token::TAG:
-                    if ($this->directives->isClosable($token->content[0])) {
-                        $this->stack[] = $token->content[0];
+                    if ($this->directives->isClosable($content[0])) {
+                        $this->stack[] = $content[0];
                     }
-                    $result .= $this->directives->compileOpenning($token->content[0], $token->content[1], $this->stack);
+                    $result .= $this->directives->compileOpenning($content[0], $content[1], $this->stack);
 
                     break;
 
                 case Token::TAG_END:
-                    $top = Arr::pop($this->stack);
-                    if ($top !== $token->content) {
+                    $top = array_pop($this->stack);
+                    if ($top !== $content) {
                         throw new ParserException(''); // TODO line counting
                     }
-                    $result .= $this->directives->compileClosing($token->content);
+                    $result .= $this->directives->compileClosing($content);
 
                     break;
 
                 case Token::OUTPUT:
-                    $result .= $this->output->compileEcho($token->content, $this->context);
+                    $result .= $this->output->compileEcho($content, $this->context);
 
                     break;
 
                 case Token::UNESCAPED:
-                    $result .= $this->output->compileUnescaped($token->content);
+                    $result .= $this->output->compileUnescaped($content);
 
                     break;
 
                 case Token::TEXT:
                     // TODO <?php :nastvana_liska:
-                    $this->context = self::resolveContext($token->content, $this->context);
-                    $result .= $token->content;
+                    $this->context = self::resolveContext($content, $this->context);
+                    $result .= $content;
 
                     break;
             }
+        }
+
+        $top = Arr::last($this->stack);
+        if ($top) {
+            throw new ParserException('Unclosed '.$top);
         }
 
         return $result;
@@ -87,33 +92,34 @@ final class Parser
         preg_match_all('/(<script.*?>)|(<\/script>)/', $target, $matches);
 
         $matches = $matches[0];
+        $result = $context;
 
         if (Arr::size($matches) > 0) {
             if (preg_match('/<script.*?>/', Arr::last($matches))) {
-                return self::CONTEXT_JS;
+                $result = self::CONTEXT_JS;
             }
 
             if ('</script>' === $matches[0]
                 && self::CONTEXT_JS === $context) {
-                return self::CONTEXT_HTML;
+                $result = self::CONTEXT_HTML;
             }
         }
 
         $target = preg_replace('/\\\(\'|")/', '', $target);
 
-        if (preg_match('/<[^>]+?on\w+?=(\'[^\']*|"[^\"]*)$/', $target)) {
-            return self::CONTEXT_JS_ATTRIBUTE;
+        if (preg_match('/.+?on\w+?=(\'[^\']*|"[^\"]*)$/', $target)) {
+            $result = self::CONTEXT_JS_ATTRIBUTE;
         }
 
         if (preg_match('/([^\']*?\'|[^\"]*?\")/', $target)
             && Arr::has([self::CONTEXT_ATTRIBUTE, self::CONTEXT_JS_ATTRIBUTE], $context)) {
-            return self::CONTEXT_HTML;
+            $result = self::CONTEXT_HTML;
         }
 
-        if (preg_match('/<[^>]+?(src|href|codebase|cite|action|longdesc|profile|usemap|cite|classid|data|usemap|icon|manifest|formaction|poster|srcset|archive|content)=(\'[^\']*|"[^\"]*)$/', $target)) {
-            return self::CONTEXT_ATTRIBUTE;
+        if (preg_match('/.+?(src|href|codebase|cite|action|longdesc|profile|usemap|cite|classid|data|usemap|icon|manifest|formaction|poster|srcset|archive|content)=(\'[^\']*|"[^\"]*)$/', $target)) {
+            $result = self::CONTEXT_ATTRIBUTE;
         }
 
-        return $context;
+        return $result;
     }
 }

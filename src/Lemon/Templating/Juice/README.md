@@ -28,3 +28,5 @@ Custom syntax are very risky so be aware.
 - [x] metaframework
 - [x] elixir-like piping?
 - [ ] directive syntax check
+- [ ] includes, extends,...
+- [ ] line counting
