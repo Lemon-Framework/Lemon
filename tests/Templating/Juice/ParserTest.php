@@ -38,7 +38,7 @@ class ParserTest extends TestCase
             new T(T::TAG_END, 'foreach'),
         ]);
 
-        $this->assertThrowable(function(Parser $p) {
+        $this->assertThrowable(function (Parser $p) {
             $p->parse();
         }, ParserException::class, $p);
 
@@ -46,7 +46,7 @@ class ParserTest extends TestCase
             new T(T::TAG, ['foreach', '$foo as $bar']),
         ]);
 
-        $this->assertThrowable(function(Parser $p) {
+        $this->assertThrowable(function (Parser $p) {
             $p->parse();
         }, ParserException::class, $p);
 
@@ -56,7 +56,7 @@ class ParserTest extends TestCase
             new T(T::TAG_END, 'foreach'),
         ]);
 
-        $this->assertThrowable(function(Parser $p) {
+        $this->assertThrowable(function (Parser $p) {
             $p->parse();
         }, ParserException::class, $p);
 
@@ -65,10 +65,9 @@ class ParserTest extends TestCase
             new T(T::TAG_END, 'if'),
         ]);
 
-        $this->assertThrowable(function(Parser $p) {
+        $this->assertThrowable(function (Parser $p) {
             $p->parse();
         }, ParserException::class, $p);
-
     }
 
     public function testParsingEcho()
