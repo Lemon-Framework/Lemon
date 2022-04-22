@@ -20,4 +20,9 @@ class Validator
     {
         return filter_var($target, FILTER_VALIDATE_URL) === $target;
     }
+
+    public function isColor(string $target)
+    {
+        return preg_match('/#([a-f0-9]{2}){3}/', $target);
+    }
 }
