@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Lemon\Support\Types;
 
 use ArrayAccess;
+use Countable;
 use Exception;
 use Iterator;
 
-class Array_ implements Iterator, ArrayAccess
+class Array_ implements Iterator, ArrayAccess, Countable
 {
     /**
      * Array content.
@@ -97,6 +98,11 @@ class Array_ implements Iterator, ArrayAccess
     public function offsetUnset(mixed $offset): void
     {
         unset($this->content[$offset]);
+    }
+
+    public function count(): int
+    {
+        return $this->size();
     }
 
     /**
