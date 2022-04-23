@@ -15,20 +15,23 @@ class Container implements ContainerInterface
     /**
      * Container services.
      *
-     * @var array<string, mixed>
+     * @var array<string, object>
      */
-    private array $services = [
-        static::class => $this,
-    ];
+    private array $services = [];
 
     /**
      * Service aliases.
      *
      * @var array<string, string>
      */
-    private array $aliases = [
-        \Psr\Container\ContainerInterface::class => static::class,
-    ];
+    private array $aliases = [];
+
+    public function __construct()
+    {
+        $class = static::class;
+        $this->services[$class] = $this;
+        $this->aliases[\Psr\Container\ContainerInterface::class] = $class;
+    }
 
     /**
      * Returns service of given class/alias.
