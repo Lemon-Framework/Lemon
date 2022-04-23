@@ -17,14 +17,18 @@ class Container implements ContainerInterface
      *
      * @var array<string, mixed>
      */
-    private array $services = [];
+    private array $services = [
+        static::class => $this,
+    ];
 
     /**
      * Service aliases.
      *
      * @var array<string, string>
      */
-    private array $aliases = [];
+    private array $aliases = [
+        \Psr\Container\ContainerInterface::class => static::class,
+    ];
 
     /**
      * Returns service of given class/alias.

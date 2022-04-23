@@ -33,6 +33,7 @@ final class Lifecycle extends Container
         \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class],
         \Lemon\Templating\Juice\Compiler::class => ['juice', \Lemon\Templating\Compiler::class],
         \Lemon\Templating\TemplatePlantation::class => ['templating'],
+        \Lemon\Support\Env::class => ['env'],
     ];
 
     /**
@@ -70,6 +71,7 @@ final class Lifecycle extends Container
                 $this->alias($alias, $unit);
             }
         }
+        $this->alias('lifecycle', self::class);
     }
 
     /**

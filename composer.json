@@ -42,7 +42,8 @@
         "phpunit/phpunit": "^9",
         "vimeo/psalm": "^4.20",
         "friendsofphp/php-cs-fixer": "^3.6",
-        "phpstan/phpstan": "^1.4"
+        "phpstan/phpstan": "^1.4",
+        "bmitch/churn-php": "^1.6"
     },
     "config": {
         "allow-plugins": {

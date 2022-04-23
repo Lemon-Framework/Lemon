@@ -7,6 +7,7 @@ namespace Lemon\Templating;
 use Lemon\Config\Config;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Filesystem as FS;
+use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 use Lemon\Templating\Exceptions\TemplateException;
 use Throwable;
@@ -75,6 +76,7 @@ class TemplatePlantation
         $file = FS::join($this->cached, "lemon_template_{$name}_{$time}.php");
 
         if (!FS::isFile($file)) {
+            Arr::map(glob("lemon_template_{$name}*.php"), 'unlink'); // TODO filesystem function
             FS::write($file, $this->compile($path));
         }
 
