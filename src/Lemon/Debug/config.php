@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Lemon\Debug\Style;
+
 return [
-    'colorscheme' => 'gruvbox',
+    'dump' => [
+        'style' => new Style(),
+    ],
 ];

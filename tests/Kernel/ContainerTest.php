@@ -24,9 +24,9 @@ class ContainerTests extends TestCase
         $container = new Container();
 
         $container->add(Foo::class);
-        $this->assertSame([Container::class, Foo::class], $container->services());
+        $this->assertSame([Foo::class], $container->services());
         $container->add(Bar::class);
-        $this->assertSame([Container::class, Foo::class, Bar::class], $container->services());
+        $this->assertSame([Foo::class, Bar::class], $container->services());
 
         $this->expectException(ContainerException::class);
         $container->add(Foo::class);

@@ -28,9 +28,6 @@ class Container implements ContainerInterface
 
     public function __construct()
     {
-        $class = static::class;
-        $this->services[$class] = $this;
-        $this->aliases[\Psr\Container\ContainerInterface::class] = $class;
     }
 
     /**

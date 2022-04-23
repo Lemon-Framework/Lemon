@@ -4,19 +4,76 @@ declare(strict_types=1);
 
 namespace Lemon\Debug;
 
+use Lemon\Config\Config;
 use Lemon\Exceptions\DebugerException;
 
 class Dumper
 {
+    private Style $style;
+
+    private bool $is_style_rendered = false;
+
+    public function __construct(Config $config)
+    {
+        $this->style = $config->part('debug')->get('dump')['style'];
+    }
+
+    /**
+     * Resolves parsing method depending on datatype.
+     */
+    public function resolve(mixed $data): string
+    {
+        if (is_iterable($data)) {
+            return $this->parseIterator($data);
+        }
+
+        if (is_object($data)) {
+            return $this->parseObject($data);
+        }
+
+        if (is_string($data)) {
+            return $this->parseString($data);
+        }
+
+        if (is_numeric($data)) {
+            return $this->parseNumber($data);
+        }
+
+        if (is_bool($data)) {
+            return $this->parseBool($data);
+        }
+
+        if (is_null($data)) {
+            return $this->parseNull();
+        }
+        $type = gettype($data);
+
+        throw new DebugerException("Type {$type} cant be dumped.");
+    }
+
+    /**
+     * Dumps given value.
+     */
+    public function dump(mixed $data): string
+    {
+        $style = '';
+        if (!$this->is_style_rendered) {
+            $this->is_style_rendered = true;
+            $style = $this->style->generate();
+        }
+
+        return $style.'<div class="ldg">'.$this->resolve($data).'</div>';
+    }
+
     /**
      * Parses countable object as visualization.
      */
-    public function parseIterator(mixed $iterator): string
+    private function parseIterator(mixed $iterator): string
     {
         $class = is_object($iterator) ? $iterator::class : gettype($iterator);
         $result = '<details><summary>'.$class.' [</summary>';
         foreach ($iterator as $key => $value) {
-            $result .= '<span class="ldg-array-item"><span class="ldg-array-key">['.$key.']</span> => '.$this->resolve($value).'</span>';
+            $result .= '<span class="ldg-array-item"><span class="ldg-array-key">['.$this->resolve($key).']</span> => '.$this->resolve($value).'</span>';
         }
 
         return $result.'</details>]';
@@ -25,12 +82,12 @@ class Dumper
     /**
      * Parses object as visualization.
      */
-    public function parseObject(object $object): string
+    private function parseObject(object $object): string
     {
         $class = $object::class;
         $result = '<details><summary>'.$class.' [</summary>';
         foreach (array_keys(get_class_vars($class)) as $property) {
-            $result .= '<span class="ldg-property"><span class="ldg-property-name">'.$property.'</span> => '.$object->{$property}.'</span>';
+            $result .= '<span class="ldg-property"><span class="ldg-property-name">'.$property.'</span> => '.$this->resolve($object->{$property} ?? null).'</span>';
         }
 
         return $result.'</details>]';
@@ -39,7 +96,7 @@ class Dumper
     /**
      * Parses string as visualization.
      */
-    public function parseString(string $string): string
+    private function parseString(string $string): string
     {
         return '<span class="ldg-string">"'.$string.'"</span>';
     }
@@ -47,7 +104,7 @@ class Dumper
     /**
      * Parses numeric value as visualization.
      */
-    public function parseNumber(mixed $numeric): string
+    private function parseNumber(mixed $numeric): string
     {
         return '<span class="ldg-number">'.$numeric.'</span>';
     }
@@ -55,7 +112,7 @@ class Dumper
     /**
      * Parses boolean as visualization.
      */
-    public function parseBool(bool $bool): string
+    private function parseBool(bool $bool): string
     {
         $value = $bool ? 'true' : 'false';
 
@@ -65,56 +122,8 @@ class Dumper
     /**
      * Parses null as visualization.
      */
-    public function parseNull(): string
+    private function parseNull(): string
     {
         return '<span class="ldg-null">null</span>';
-    }
-
-    /**
-     * Resolves parsing method depending on datatype.
-     */
-    public function resolveType(mixed $data): string
-    {
-        if (is_iterable($data)) {
-            return 'parseIterator';
-        }
-
-        if (is_object($data)) {
-            return 'parseObject';
-        }
-
-        if (is_string($data)) {
-            return 'parseString';
-        }
-
-        if (is_numeric($data)) {
-            return 'parseNumber';
-        }
-
-        if (is_bool($data)) {
-            return 'parseBool';
-        }
-
-        if (is_null($data)) {
-            return 'parseNull';
-        }
-        $type = gettype($data);
-
-        throw new DebugerException("Type {$type} cant be dumped.");
-    }
-
-    public function resolve($data): string
-    {
-        $method = $this->resolveType($data);
-
-        return $this->{$method}($data);
-    }
-
-    /**
-     * Dumps given value.
-     */
-    public function dump(mixed $data): string
-    {
-        return '<div class="ldg-bg">'.$this->resolve($data).'</div>';
     }
 }

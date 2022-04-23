@@ -27,7 +27,7 @@ final class Lifecycle extends Container
      * Default units with aliases.
      */
     private const DEFAULTS = [
-        \Lemon\Http\Routing\Router::class => ['router'],
+        \Lemon\Http\Routing\Router::class => ['routing'],
         \Lemon\Terminal\Terminal::class => ['terminal'],
         \Lemon\Config\Config::class => ['config'],
         \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class],
@@ -71,7 +71,6 @@ final class Lifecycle extends Container
                 $this->alias($alias, $unit);
             }
         }
-        $this->alias('lifecycle', self::class);
     }
 
     /**

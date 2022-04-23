@@ -1,0 +1,35 @@
+<style>
+    .ldg {
+        background-color: #{{background}};
+        color: #{{text}};
+    }
+
+    .ldg-array-item .ldg-property {
+        margin-left: 1%;
+    }
+
+    .ldg-array-key {
+        color: #{{array_key}}
+    }
+
+    .ldg-property-name {
+        color: #{{property}}
+    }
+
+    .ldg-string {
+        color: #{{string}}
+    }
+
+    .ldg-number {
+        color: #{{number}}
+    }
+
+    .ldg-bool {
+        color: #{{bool}}
+    }
+
+    .ldg-null {
+        color: #{{null}}
+    }
+
+</style>
