@@ -1,15 +1,32 @@
 <style>
+ 	@import url('{{font_url}}');
     .ldg {
+        font-family: '{{font_name}}', {{font_type}};
         background-color: #{{background}};
         color: #{{text}};
+        padding: 1%;
     }
 
-    .ldg-array-item .ldg-property {
+    .ldg-array-item, .ldg-property {
         margin-left: 1%;
+        display: flex;
     }
 
+    .ldg-array-value > details > .ldg-array-item {
+        margin-left: 15%;
+    }
+
+	details > summary {
+    	list-style-type: none;
+	}
+   
     .ldg-array-key {
-        color: #{{array_key}}
+        color: #{{array_key}};
+        margin-right: 0.5%;
+    }
+
+    .ldg-array-value {
+        margin-left: 0.5%;
     }
 
     .ldg-property-name {

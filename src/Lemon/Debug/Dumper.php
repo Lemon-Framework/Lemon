@@ -23,7 +23,7 @@ class Dumper
      */
     public function resolve(mixed $data): string
     {
-        if (is_iterable($data)) {
+        if (is_iterable($data) && is_countable($data)) {
             return $this->parseIterator($data);
         }
 
@@ -71,12 +71,12 @@ class Dumper
     private function parseIterator(mixed $iterator): string
     {
         $class = is_object($iterator) ? $iterator::class : gettype($iterator);
-        $result = '<details><summary>'.$class.' [</summary>';
+        $result = '<details open><summary>'.$class.' ['.count($iterator).'] </summary>';
         foreach ($iterator as $key => $value) {
-            $result .= '<span class="ldg-array-item"><span class="ldg-array-key">['.$this->resolve($key).']</span> => '.$this->resolve($value).'</span>';
+            $result .= '<span class="ldg-array-item"><span class="ldg-array-key">['.$this->resolve($key).']</span> => <div class="ldg-array-value">'.$this->resolve($value).'</div></span>';
         }
 
-        return $result.'</details>]';
+        return $result.'</details>';
     }
 
     /**
@@ -85,12 +85,12 @@ class Dumper
     private function parseObject(object $object): string
     {
         $class = $object::class;
-        $result = '<details><summary>'.$class.' [</summary>';
+        $result = '<div class="ldg-object"><details open><summary>'.$class.' [</summary>';
         foreach (array_keys(get_class_vars($class)) as $property) {
             $result .= '<span class="ldg-property"><span class="ldg-property-name">'.$property.'</span> => '.$this->resolve($object->{$property} ?? null).'</span>';
         }
 
-        return $result.'</details>]';
+        return $result.'</details>]</div>';
     }
 
     /**

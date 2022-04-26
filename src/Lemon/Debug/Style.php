@@ -7,21 +7,24 @@ namespace Lemon\Debug;
 final class Style
 {
     public function __construct(
-        private int $background = 0x282828,
-        private int $text = 0xEBDBB2,
-        private int $array_key = 0xD79921,
-        private int $property = 0x458588,
-        private int $string = 0x98971A,
-        private int $number = 0xB16286,
-        private int $bool = 0xB16286,
-        private int $null = 0xD79921
+        private string $background = '282828',
+        private string $text = 'EBDBB2',
+        private string $font_url = 'https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap',
+        private string $font_name = 'Source Code Pro',
+        private string $font_type = 'monospace',
+        private string $array_key = 'D79921',
+        private string $property = '458588',
+        private string $string = '98971A',
+        private string $number = 'B16286',
+        private string $bool = 'B16286',
+        private string $null = 'D79921'
     ) {
     }
 
     public function generate(): string
     {
         return preg_replace_callback('/\{{(.+?)\}}/', function ($matches) {
-            return dechex($this->{$matches[1]});
+            return $this->{$matches[1]};
         }, file_get_contents(__DIR__.'/stubs/style.html.stub')); // TODO stub generator, caching?
     }
 }
