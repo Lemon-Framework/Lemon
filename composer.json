@@ -9,12 +9,6 @@
             "email": "tenmajkl@liskyjidlokod.fun"
         }
     ],
-    "scripts": {
-        "test": "./vendor/bin/phpunit"
-    },
-    "scripts-descriptions": {
-        "test": "Starts unit test"
-    },
     "autoload": {
         "psr-4": {
             "Lemon\\": "src/Lemon"
@@ -40,7 +34,6 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9",
-        "vimeo/psalm": "^4.20",
         "friendsofphp/php-cs-fixer": "^3.6",
         "phpstan/phpstan": "^1.4",
         "bmitch/churn-php": "^1.6"

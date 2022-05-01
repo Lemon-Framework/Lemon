@@ -6,6 +6,7 @@ namespace Lemon\Templating\Juice;
 
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Array_;
+use Lemon\Support\Types\Str;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
 use Lemon\Templating\Juice\Exceptions\ParserException;
@@ -82,9 +83,8 @@ final class Parser
                     break;
 
                 case Token::TEXT:
-                    // TODO <?php :nastvana_liska:
                     $this->context = self::resolveContext($content, $this->context);
-                    $result .= $content;
+                    $result .= Str::replace($content, '<?php', '&ltphp');  // :trollak:
 
                     break;
             }

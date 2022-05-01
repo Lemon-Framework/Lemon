@@ -25,7 +25,7 @@ class OutputCompiler
             default => throw new CompilerException('Unknown context')
         };
 
-        return '<?= '.$method.'('.$this->resolvePipes($content).') ?>';
+        return '<?php echo '.$method.'('.$this->resolvePipes($content).') ?>';
     }
 
     /**
@@ -33,7 +33,7 @@ class OutputCompiler
      */
     public function compileUnescaped(string $content): string
     {
-        return '<?= '.$this->resolvePipes($content).' ?>';
+        return '<?php echo '.$this->resolvePipes($content).' ?>';
     }
 
     /**

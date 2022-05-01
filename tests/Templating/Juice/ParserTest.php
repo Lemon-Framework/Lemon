@@ -85,10 +85,10 @@ class ParserTest extends TestCase
         ]);
 
         $this->assertSame(<<<'HTML'
-            <?= $_env->escapeHtml($foo) ?>
+            <?php echo $_env->escapeHtml($foo) ?>
             <script src="foo"></script>
-            <script>alert(<?= $_env->escapeScript($foo) ?>);</script>
-            <div class="foo" onclick="alert(<?= $_env->escapeScript($foo) ?>)" href='<?= $_env->escapeAttribute($foo) ?>'></div>
+            <script>alert(<?php echo $_env->escapeScript($foo) ?>);</script>
+            <div class="foo" onclick="alert(<?php echo $_env->escapeScript($foo) ?>)" href='<?php echo $_env->escapeAttribute($foo) ?>'></div>
             HTML, $p->parse());
     }
 

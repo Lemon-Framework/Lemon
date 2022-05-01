@@ -46,6 +46,7 @@ TODO:
 - [ ] auth?
 - [ ] rewrite exceptiont esting
 - [ ] rething config
+- [ ] single-regex routing
 
 Directories with D means deprecated so they will have to be completely rewritten
 
@@ -60,7 +61,6 @@ Fork repo, create new branch, add stuff and:
 ```php
 $ ./vendor/bin/phpunit # test
 $ ./vendor/bin/phpstan # first static analysis
-$ ./vendor/bin/psalm # second static analysis
 $ ./vendor/bin/php-cs-fixer # fixes style
 ```
 
