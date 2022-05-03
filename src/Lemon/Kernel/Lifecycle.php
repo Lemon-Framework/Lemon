@@ -32,7 +32,7 @@ final class Lifecycle extends Container
         \Lemon\Config\Config::class => ['config'],
         \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class],
         \Lemon\Templating\Juice\Compiler::class => ['juice', \Lemon\Templating\Compiler::class],
-        \Lemon\Templating\TemplatePlantation::class => ['templating'],
+        \Lemon\Templating\Factory::class => ['templating'],
         \Lemon\Support\Env::class => ['env'],
     ];
 

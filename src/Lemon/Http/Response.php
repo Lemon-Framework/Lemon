@@ -98,6 +98,7 @@ class Response
 
     /**
      * Sets status code handler.
+     * TODO ne pls
      */
     public static function handle(int $code, Closure|string $action): void
     {
@@ -175,8 +176,8 @@ class Response
             $body->terminate();
         }
 
-        // if ($body::class === 'Lemon\\Views\\View') {
-       //     echo $body->resolved_template;
-       // }
+        if ($body instanceof \Lemon\Templating\Template) {
+            $body->render();
+        }
     }
 }

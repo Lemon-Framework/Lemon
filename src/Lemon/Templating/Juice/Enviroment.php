@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
+use Lemon\Support\Macros\Macros;
 use Lemon\Support\Types\Str;
 
 /**
  * Runtime string manipulaton utility.
+ * TODO filters
  */
 final class Enviroment
 {
+    use Macros;
+
     /**
      * Escapes html entities.
      */
@@ -33,5 +37,5 @@ final class Enviroment
     public function escapeAttribute(string $content): string
     {
         return Str::startsWith($content, 'javascript:') ? '' : $content;
-    }
+    } 
 }

@@ -15,7 +15,7 @@ use Throwable;
 /**
  * Manages and generates templates.
  */
-class TemplatePlantation
+class Factory
 {
     /**
      * Directory containing templates.
