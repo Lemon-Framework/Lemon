@@ -4,6 +4,7 @@ namespace Lemon\Tests\Debug;
 
 use Lemon\Config\Config;
 use Lemon\Debug\Dumper;
+use Lemon\Kernel\Lifecycle;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,7 +15,7 @@ class DumperTest extends TestCase
 {
     public function getDumper()
     {
-        return new Dumper(new Config());
+        return new Dumper(new Config(new Lifecycle(__DIR__)));
     }
 
     public function testNumericParsing()

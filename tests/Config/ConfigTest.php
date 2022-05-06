@@ -6,6 +6,7 @@ namespace Lemon\Tests\Config;
 
 use Lemon\Config\Config;
 use Lemon\Config\Exceptions\ConfigException;
+use Lemon\Kernel\Lifecycle;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,7 +17,7 @@ class ConfigTest extends TestCase
 {
     public function testLoad()
     {
-        $config = new Config();
+        $config = new Config(new Lifecycle(__DIR__));
         $s = DIRECTORY_SEPARATOR;
         $config->load(__DIR__.$s.'config');
         $this->assertSame([
@@ -31,22 +32,22 @@ class ConfigTest extends TestCase
 
     public function testPart()
     {
-        $config = new Config();
+        $config = new Config(new Lifecycle(__DIR__));
         $this->assertSame([
             'mode' => 'web',
             'debug' => false,
-        ], $config->part('kernel')->content);
+        ], $config->part('kernel')->data());
         $kernel = $config->part('kernel');
-        $kernel['mode'] = 'terminal';
+        $kernel->set('mode', 'terminal');
         $this->assertSame([
             'mode' => 'terminal',
             'debug' => false,
-        ], $config->part('kernel')->content);
+        ], $config->part('kernel')->data());
 
         $config->load(__DIR__.DIRECTORY_SEPARATOR.'config');
         $this->assertSame([
             'something' => 'cool',
-        ], $config->part('foo.bar')->content);
+        ], $config->part('foo.bar')->data());
 
         $this->expectException(ConfigException::class);
         $config->part('RIZKOPAREK');

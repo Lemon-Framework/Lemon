@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Lemon\Config;
 
 use Lemon\Config\Exceptions\ConfigException;
+use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Properties\Properties;
 use Lemon\Support\Properties\Read;
-use Lemon\Support\Types\Array_;
 use Lemon\Support\Types\Str;
 
 /**
@@ -21,28 +21,18 @@ class Config
 {
     use Properties;
 
-    /**
-     * public function get(string $key): string
-     * {.
-     *
-     * }
-     *
-     * public function set(string $key): static
-     * {
-     *
-     * }
-     *
-     * public function load(string $file): static
-     * {
-     *
-     * }*/
     #[Read]
     private array $data = [];
 
     #[Read]
     private array $parts = [];
 
-    public function part(string $name): Array_
+    public function __construct(
+        private Lifecycle $lifecycle
+    ) {
+    }
+
+    public function part(string $name): Part
     {
         $name = Str::toLower($name)->value;
         if (!isset($this->data[$name])) {
@@ -55,7 +45,7 @@ class Config
             if (!is_array($data)) {
                 throw new ConfigException('Config file for part '.$name.' does not return array');
             }
-            $this->data[$name] = new Array_($data);
+            $this->data[$name] = new Part($this->lifecycle, $data, $name);
         }
 
         return $this->data[$name];

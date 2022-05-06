@@ -24,7 +24,7 @@ class Template
      */
     public function render(): void
     {
-        compact($this->data);
+        extract($this->data);
 
         try {
             require $this->compiled_path;

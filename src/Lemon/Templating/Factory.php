@@ -30,8 +30,8 @@ class Factory
         private Lifecycle $lifecycle
     ) {
         $config = $config->part('templating');
-        $this->templates = $config->get('location'); // TODO rwritee config
-        $this->cached = $config->get('cached');
+        $this->templates = $config->file('location');
+        $this->cached = $config->file('cached');
     }
 
     /**
@@ -67,13 +67,17 @@ class Factory
      */
     public function compile(string $raw_path, string $compiled_path): void
     {
+        if (!FS::isDir($this->cached)) {
+            FS::makeDir($this->cached);
+        }
         if (FS::isFile($compiled_path)) {
-            if (filemtime($compiled_path) == filemtime($raw_path)) {
+            if (filemtime($compiled_path) === filemtime($raw_path)) {
                 return;
             }
             FS::delete($compiled_path);
         }
         touch($compiled_path, filemtime($raw_path));
-        FS::write($compiled_path, $this->compiler->compile($raw_path));
+
+        FS::write($compiled_path, $this->compiler->compile(file_get_contents($raw_path)));
     }
 }

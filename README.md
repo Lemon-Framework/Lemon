@@ -45,7 +45,7 @@ TODO:
 - [ ] mailer?
 - [ ] auth?
 - [ ] rewrite exceptiont esting
-- [ ] rething config
+- [x] rething config
 - [ ] single-regex routing
 
 Directories with D means deprecated so they will have to be completely rewritten
