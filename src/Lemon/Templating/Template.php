@@ -13,8 +13,8 @@ use Throwable;
 class Template
 {
     public function __construct(
-        private string $source,
-        private string $compiled,
+        private string $raw_path,
+        private string $compiled_path,
         private array $data
     ) {
     }
@@ -27,9 +27,9 @@ class Template
         compact($this->data);
 
         try {
-            require $this->compiled;
+            require $this->compiled_path;
         } catch (Throwable $e) {
-            throw new TemplateException($e, $this->source);
+            throw new TemplateException($e, $this->raw_path);
         }
     }
 }

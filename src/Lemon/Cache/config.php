@@ -3,5 +3,5 @@
 declare(strict_types=1);
 
 return [
-    'storage' => 'cache',
+    'storage' => 'storage'.DIRECTORY_SEPARATOR.'cache',
 ];

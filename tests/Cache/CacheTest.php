@@ -206,7 +206,7 @@ class CacheTest extends TestCase
     public function testLoad()
     {
         $s = DIRECTORY_SEPARATOR;
-        $dir = __DIR__.$s.'cache';
+        $dir = __DIR__.$s.'storage'.$s.'cache';
         $this->assertDirectoryExists($dir);
         $gitignore = $dir.$s.'.gitignore';
         $this->assertFileExists($gitignore);
@@ -227,9 +227,9 @@ class CacheTest extends TestCase
 
         $s = DIRECTORY_SEPARATOR;
         $this->assertJsonStringEqualsJsonFile(
-            __DIR__.$s.'cache'.$s.'data.json',
+            __DIR__.$s.'storage'.$s.'cache'.$s.'data.json',
             '{"klobna":{"value":"neco","expires_at":'.(time() + 10).'},"hej":{"value": "ja fakt nevim", "expires_at":'.(time() + 10).'}}'
         );
-        Filesystem::delete(__DIR__.$s.'cache');
+        Filesystem::delete(__DIR__.$s.'storage');
     }
 }

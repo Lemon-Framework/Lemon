@@ -9,7 +9,7 @@ use Lemon\Support\Types\Str;
 
 /**
  * Runtime string manipulaton utility.
- * TODO filters
+ * TODO filters.
  */
 final class Enviroment
 {
@@ -37,5 +37,5 @@ final class Enviroment
     public function escapeAttribute(string $content): string
     {
         return Str::startsWith($content, 'javascript:') ? '' : $content;
-    } 
+    }
 }

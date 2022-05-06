@@ -98,7 +98,7 @@ class Response
 
     /**
      * Sets status code handler.
-     * TODO ne pls
+     * TODO ne pls.
      */
     public static function handle(int $code, Closure|string $action): void
     {

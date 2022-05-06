@@ -15,12 +15,6 @@ trait Macros
      */
     private array $macros = [];
 
-    public function macro(string $name, callable $action)
-    {
-        $this->macros[$name] = $action;
-    
-    }
-
     public function __call($name, $arguments)
     {
         if (!method_exists($this, $name)) {
@@ -28,5 +22,10 @@ trait Macros
         }
 
         return $this->macros[$name](...$arguments);
+    }
+
+    public function macro(string $name, callable $action)
+    {
+        $this->macros[$name] = $action;
     }
 }

@@ -21,6 +21,21 @@ class Config
 {
     use Properties;
 
+    /**
+     * public function get(string $key): string
+     * {.
+     *
+     * }
+     *
+     * public function set(string $key): static
+     * {
+     *
+     * }
+     *
+     * public function load(string $file): static
+     * {
+     *
+     * }*/
     #[Read]
     private array $data = [];
 

@@ -7,10 +7,7 @@ namespace Lemon\Templating;
 use Lemon\Config\Config;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Filesystem as FS;
-use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
-use Lemon\Templating\Exceptions\TemplateException;
-use Throwable;
 
 /**
  * Manages and generates templates.
@@ -28,58 +25,55 @@ class Factory
     private string $cached;
 
     public function __construct(
+        Config $config,
         private Compiler $compiler,
-        private Config $config,
         private Lifecycle $lifecycle
     ) {
-        $config = $this->config->part('templating');
-        $this->templates = $config->get('location');
+        $config = $config->part('templating');
+        $this->templates = $config->get('location'); // TODO rwritee config
         $this->cached = $config->get('cached');
     }
 
     /**
      * Creates new template.
      */
-    public function make(string $template, array $data = []): Template
+    public function make(string $name, array $data = []): Template
     {
-        $source = $this->findSource($template);
+        $path = $this->getRawPath($name);
+        $compiled_path = $this->getCompiledPath($name);
+        $this->compile($path, $compiled_path);
 
-        return new Template($source, $this->load($source, $template), $data); // TODO
+        return new Template($path, $compiled_path, $data);
     }
 
     /**
-     * Compiles template into raw php.
+     * Returns path of raw template.
      */
-    public function compile(string $path): string
+    public function getRawPath(string $name): string
     {
-        try {
-            $content = file_get_contents($path);
-
-            return $this->compiler->compile($content);
-        } catch (Throwable $e) {
-            throw new TemplateException($e, $path);
-        }
+        return $this->templates.DIRECTORY_SEPARATOR.Str::replace($name, '.', DIRECTORY_SEPARATOR)->value.'.'.$this->compiler->getExtension();
     }
 
-    private function findSource(string $template): string
+    /**
+     * Returns path of compiled template.
+     */
+    public function getCompiledPath(string $name): string
     {
-        return $this->lifecycle->file($this->templates.'.'.$template, $this->compiler->getExtension());
+        return $this->cached.DIRECTORY_SEPARATOR.Str::replace($name, '.', '_').'.php';
     }
 
-    private function load(string $path, string $template): string
+    /**
+     * Compiles template and caches it.
+     */
+    public function compile(string $raw_path, string $compiled_path): void
     {
-        if (!FS::isDir($this->cached)) {
-            FS::makeDir($this->cached);
+        if (FS::isFile($compiled_path)) {
+            if (filemtime($compiled_path) == filemtime($raw_path)) {
+                return;
+            }
+            FS::delete($compiled_path);
         }
-        $time = filemtime($path);
-        $name = Str::replace($template, '.', '_');
-        $file = FS::join($this->cached, "lemon_template_{$name}_{$time}.php");
-
-        if (!FS::isFile($file)) {
-            Arr::map(glob("lemon_template_{$name}*.php"), 'unlink'); // TODO filesystem function
-            FS::write($file, $this->compile($path));
-        }
-
-        return $file;
+        touch($compiled_path, filemtime($raw_path));
+        FS::write($compiled_path, $this->compiler->compile($raw_path));
     }
 }

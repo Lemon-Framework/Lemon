@@ -8,4 +8,6 @@ return [
     'juice' => [
         'syntax' => new Syntax(),
     ],
+    'cache' => 'storage'.DIRECTORY_SEPARATOR.'templates',
+    'location' => 'templates',
 ];
