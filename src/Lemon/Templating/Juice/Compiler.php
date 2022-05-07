@@ -22,7 +22,7 @@ class Compiler implements CompilerInterface
 
     public function __construct(Config $config)
     {
-        $this->lexer = new Lexer($config->part('templating')->get('juice')['syntax']); // TODO custom syntax
+        $this->lexer = new Lexer($config->part('templating')->get('juice.syntax'));
         $this->output = new OutputCompiler();
         $this->directives = new DirectiveCompiler();
     }
@@ -49,9 +49,9 @@ class Compiler implements CompilerInterface
     /**
      * Adds directive compiler class.
      */
-    public function addDirectiveCompiler(string $directive, string $class): static
+    public function addDirectiveCompiler(string $name, string $class): static
     {
-        $this->directives->addDirectiveCompiler($directive, $class);
+        $this->directives->addDirectiveCompiler($name, $class);
 
         return $this;
     }

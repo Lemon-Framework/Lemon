@@ -6,8 +6,9 @@ namespace Lemon\Tests\Config;
 
 use Lemon\Config\Config;
 use Lemon\Config\Exceptions\ConfigException;
+use Lemon\Config\Part;
 use Lemon\Kernel\Lifecycle;
-use PHPUnit\Framework\TestCase;
+use Lemon\Tests\TestCase;
 
 /**
  * @internal
@@ -37,19 +38,28 @@ class ConfigTest extends TestCase
             'mode' => 'web',
             'debug' => false,
         ], $config->part('kernel')->data());
-        $kernel = $config->part('kernel');
-        $kernel->set('mode', 'terminal');
-        $this->assertSame([
-            'mode' => 'terminal',
-            'debug' => false,
-        ], $config->part('kernel')->data());
+        $config->part('kernel')->set('debug', true);
+        $this->assertSame(true, $config->part('kernel')->get('debug'));
 
         $config->load(__DIR__.DIRECTORY_SEPARATOR.'config');
         $this->assertSame([
             'something' => 'cool',
         ], $config->part('foo.bar')->data());
 
-        $this->expectException(ConfigException::class);
-        $config->part('RIZKOPAREK');
+        $this->assertSame(__DIR__.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'something.txt', $config->part('schnitzels')->file('storage', 'txt'));
+
+        $this->assertSame(['baz', 'nevim'], $config->part('schnitzels')->get('foo.bar'));
+
+        $this->assertThrowable(function(Part $part) {
+            $part->get('foo.baz');
+        }, ConfigException::class, $config->part('schnitzels'));
+
+        $this->assertThrowable(function(Part $part) {
+            $part->get('baz');
+        }, ConfigException::class, $config->part('schnitzels'));
+
+        $this->assertThrowable(function(Config $config) {
+            $config->part('klobna');
+        }, ConfigException::class, $config);
     }
 }

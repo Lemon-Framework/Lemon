@@ -30,12 +30,15 @@ class Part
 
     public function get(string $key)
     {
-        if (!$this->has($key)) {
+        $keys = Str::split($key, '.');
+        if (!$this->has($keys[0])) {
             throw new ConfigException('Key '.$key.' of part '.$this->name.' does not exist');
         }
-        $keys = Str::split($key, '.');
         $result = $this->data[$keys[0]];
         foreach ($keys['1..'] as $key) {
+            if (! Arr::hasKey($result, $key)) {
+                throw new ConfigException('Key '.$key.' of part '.$this->name.' does not exist');
+            }
             $result = $result[$key];
         }
 
@@ -53,9 +56,9 @@ class Part
         return $this;
     }
 
-    public function file(string $key): string
+    public function file(string $key, string $extension = null): string
     {
-        return $this->lifecycle->file($this->get($key));
+        return $this->lifecycle->file($this->get($key), $extension);
     }
 
     public function data(): array

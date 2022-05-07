@@ -56,8 +56,8 @@ class Config
         if (!Filesystem::isDir($directory)) {
             throw new ConfigException('Directory '.$directory.' does not exist');
         }
+        static $s = DIRECTORY_SEPARATOR;
         foreach (Filesystem::listDir($directory) as $path) {
-            static $s = DIRECTORY_SEPARATOR;
             if (preg_match('/^'.Str::replace($directory, $s, '\\'.$s)->value.'\\'.$s.'(.+?)\.php$/', $path, $matches)) {
                 $key = Str::replace($matches[1], $s, '.')->value;
                 $this->parts[$key] = $path;
