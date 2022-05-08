@@ -25,7 +25,7 @@ class ElseIfDirectiveTest extends TestCase
         }, CompilerException::class, $c);
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-        $c->compileOpenning(new T(T::TAG, ['elseif', '10 == $foo'], 1), []);
+            $c->compileOpenning(new T(T::TAG, ['elseif', '10 == $foo'], 1), []);
         }, CompilerException::class, $c);
 
         $this->assertThrowable(function (DirectiveCompiler $c) {

@@ -22,7 +22,7 @@ class IfDirectiveTest extends TestCase
         $this->assertSame('<?php if (1 == $foo): ?>', $c->compileOpenning(new T(T::TAG, ['if', '1 == $foo'], 1), ['switch']));
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning(new T(T::TAG, ['if', ''], 1), []);   
+            $c->compileOpenning(new T(T::TAG, ['if', ''], 1), []);
         }, CompilerException::class, $c);
     }
 

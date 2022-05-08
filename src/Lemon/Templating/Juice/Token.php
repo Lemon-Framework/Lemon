@@ -10,9 +10,9 @@ use Lemon\Support\Properties\Read;
 /**
  * Represents template Token.
  *
- * @property-read int                  $kind
- * @property-read array<string>|string $content
- * @property-read int                  $line
+ * @property int                  $kind
+ * @property array<string>|string $content
+ * @property int                  $line
  */
 class Token
 {

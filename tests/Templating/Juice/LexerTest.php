@@ -37,7 +37,7 @@ class LexerTest extends TestCase
             new Token(Token::TAG_END, 'foreach', 1),
         ]));
 
-        $tokens = $lexer->lex('{   foreach     something as something   }{           /foreach      }');        
+        $tokens = $lexer->lex('{   foreach     something as something   }{           /foreach      }');
         $this->assertThat($tokens, $this->equalTo([
             new Token(Token::TAG, ['foreach', 'something as something'], 1),
             new Token(Token::TAG_END, 'foreach', 1),

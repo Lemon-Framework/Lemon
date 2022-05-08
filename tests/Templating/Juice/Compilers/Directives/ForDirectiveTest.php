@@ -22,7 +22,7 @@ class ForDirectiveTest extends TestCase
         $this->assertSame('<?php for ($foo = 0; $foo < 10; $foo++): ?>', $c->compileOpenning(new T(T::TAG, ['for', '$foo = 0; $foo < 10; $foo++'], 1), ['if']));
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning(new T(T::TAG, ['for', ''], 1), []);                     
+            $c->compileOpenning(new T(T::TAG, ['for', ''], 1), []);
         }, CompilerException::class, $c);
     }
 

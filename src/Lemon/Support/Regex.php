@@ -7,7 +7,7 @@ namespace Lemon\Support;
 final class Regex
 {
     /**
-     * Returns position from regex offset
+     * Returns position from regex offset.
      */
     public static function getLine(string $subject, int $offset): int
     {
@@ -17,13 +17,13 @@ final class Regex
 
         $line = 1;
         foreach (str_split($subject) as $char) {
-            if ($char == "\n") {
-                $line++;
+            if ("\n" == $char) {
+                ++$line;
             }
-            if ($offset == 0) {
+            if (0 == $offset) {
                 break;
             }
-            $offset--;
+            --$offset;
         }
 
         return $line;

@@ -7,7 +7,7 @@ return [
     'foo' => [
         'bar' => [
             'baz',
-            'nevim'
-        ]
-    ]
+            'nevim',
+        ],
+    ],
 ];

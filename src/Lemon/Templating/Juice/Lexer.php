@@ -22,7 +22,7 @@ final class Lexer
      */
     public function lex(string $template): array
     {
-        $lex = preg_split($this->syntax->regex, $template, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_OFFSET_CAPTURE);
+        $lex = preg_split($this->syntax->regex, $template, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE);
 
         return $this->tokenize($template, $lex);
     }

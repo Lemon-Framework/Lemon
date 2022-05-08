@@ -9,6 +9,10 @@ use Lemon\Kernel\Lifecycle;
 use Lemon\Templating\Juice\Compiler;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class CompilerTest extends TestCase
 {
     public function testCompilation()
@@ -27,6 +31,6 @@ class CompilerTest extends TestCase
                     <li>{{ $baz}}</li>
                 {/foreach}
             </ul>
-        HTML));               
+        HTML));
     }
 }

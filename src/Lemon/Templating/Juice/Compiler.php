@@ -33,7 +33,7 @@ class Compiler implements CompilerInterface
     public function compile(string $template): string
     {
         $lex = $this->lexer->lex(
-            str_replace("\r\n", "\n", $template) 
+            str_replace("\r\n", "\n", $template)
         );
         $parser = new Parser($lex, $this->output, $this->directives);
 

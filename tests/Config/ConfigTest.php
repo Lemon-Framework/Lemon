@@ -50,15 +50,15 @@ class ConfigTest extends TestCase
 
         $this->assertSame(['baz', 'nevim'], $config->part('schnitzels')->get('foo.bar'));
 
-        $this->assertThrowable(function(Part $part) {
+        $this->assertThrowable(function (Part $part) {
             $part->get('foo.baz');
         }, ConfigException::class, $config->part('schnitzels'));
 
-        $this->assertThrowable(function(Part $part) {
+        $this->assertThrowable(function (Part $part) {
             $part->get('baz');
         }, ConfigException::class, $config->part('schnitzels'));
 
-        $this->assertThrowable(function(Config $config) {
+        $this->assertThrowable(function (Config $config) {
             $config->part('klobna');
         }, ConfigException::class, $config);
     }

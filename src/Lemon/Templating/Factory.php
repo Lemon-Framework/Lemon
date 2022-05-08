@@ -8,6 +8,8 @@ use Lemon\Config\Config;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Filesystem as FS;
 use Lemon\Support\Types\Str;
+use Lemon\Templating\Exceptions\TemplateException;
+use Throwable;
 
 /**
  * Manages and generates templates.
@@ -78,6 +80,12 @@ class Factory
         }
         touch($compiled_path, filemtime($raw_path));
 
-        FS::write($compiled_path, $this->compiler->compile(file_get_contents($raw_path)));
+        try {
+            $compiled = $this->compiler->compile(file_get_contents($raw_path));
+        } catch (Throwable $throwable) {
+            throw new TemplateException($throwable, $raw_path);
+        }
+
+        FS::write($compiled_path, $compiled);
     }
 }

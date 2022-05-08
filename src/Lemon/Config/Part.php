@@ -36,7 +36,7 @@ class Part
         }
         $result = $this->data[$keys[0]];
         foreach ($keys['1..'] as $key) {
-            if (! Arr::hasKey($result, $key)) {
+            if (!Arr::hasKey($result, $key)) {
                 throw new ConfigException('Key '.$key.' of part '.$this->name.' does not exist');
             }
             $result = $result[$key];

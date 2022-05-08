@@ -7,6 +7,10 @@ namespace Lemon\Tests\Support;
 use Lemon\Support\Regex;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class RegexTest extends TestCase
 {
     public function testPosition()

@@ -22,7 +22,7 @@ class ForeachDirectiveTest extends TestCase
         $this->assertSame('<?php foreach ($foo as $bar): ?>', $c->compileOpenning(new T(T::TAG, ['foreach', '$foo as $bar'], 1), ['if']));
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning(new T(T::TAG, ['foreach', ''], 1), []);      
+            $c->compileOpenning(new T(T::TAG, ['foreach', ''], 1), []);
         }, CompilerException::class, $c);
     }
 

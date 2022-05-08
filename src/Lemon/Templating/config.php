@@ -8,6 +8,6 @@ return [
     'cached' => 'storage.templates',
     'location' => 'templates',
     'juice' => [
-        'syntax' => new Syntax() 
+        'syntax' => new Syntax(),
     ],
 ];
