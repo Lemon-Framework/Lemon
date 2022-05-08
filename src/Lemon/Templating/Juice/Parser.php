@@ -9,7 +9,7 @@ use Lemon\Support\Types\Array_;
 use Lemon\Support\Types\Str;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
-use Lemon\Templating\Juice\Exceptions\ParserException;
+use Lemon\Templating\Juice\Exceptions\CompilerException;
 
 /**
  * Provides token parsing of Juice.
@@ -59,14 +59,14 @@ final class Parser
                     if ($this->directives->isClosable($content[0])) {
                         $this->stack[] = $content[0];
                     }
-                    $result .= $this->directives->compileOpenning($content[0], $content[1], $this->stack);
+                    $result .= $this->directives->compileOpenning($token, $this->stack);
 
                     break;
 
                 case Token::TAG_END:
                     $top = array_pop($this->stack);
                     if ($top !== $content) {
-                        throw new ParserException(''); // TODO line counting
+                        throw new CompilerException('Unexpected end of directive '.$content, $token->line);
                     }
                     $result .= $this->directives->compileClosing($content);
 
@@ -92,7 +92,7 @@ final class Parser
 
         $top = Arr::last($this->stack);
         if ($top) {
-            throw new ParserException('Unclosed '.$top);
+            throw new CompilerException('Unclosed '.$top, -1);
         }
 
         return $result;

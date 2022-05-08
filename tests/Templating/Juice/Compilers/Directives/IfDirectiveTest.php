@@ -6,6 +6,7 @@ namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Token as T;
 use Lemon\Tests\TestCase;
 
 /**
@@ -17,11 +18,11 @@ class IfDirectiveTest extends TestCase
     public function testOpen()
     {
         $c = new DirectiveCompiler();
-        $this->assertSame('<?php if (1 == $foo): ?>', $c->compileOpenning('if', '1 == $foo', []));
-        $this->assertSame('<?php if (1 == $foo): ?>', $c->compileOpenning('if', '1 == $foo', ['switch']));
+        $this->assertSame('<?php if (1 == $foo): ?>', $c->compileOpenning(new T(T::TAG, ['if', '1 == $foo'], 1), []));
+        $this->assertSame('<?php if (1 == $foo): ?>', $c->compileOpenning(new T(T::TAG, ['if', '1 == $foo'], 1), ['switch']));
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning('if', '', []);
+            $c->compileOpenning(new T(T::TAG, ['if', ''], 1), []);   
         }, CompilerException::class, $c);
     }
 

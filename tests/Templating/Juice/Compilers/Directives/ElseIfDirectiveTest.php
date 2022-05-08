@@ -6,6 +6,7 @@ namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Token as T;
 use Lemon\Tests\TestCase;
 
 /**
@@ -17,18 +18,18 @@ class ElseIfDirectiveTest extends TestCase
     public function testOpen()
     {
         $c = new DirectiveCompiler();
-        $this->assertSame('<?php elseif (10 == $foo): ?>', $c->compileOpenning('elseif', '10 == $foo', ['switch', 'if']));
+        $this->assertSame('<?php elseif (10 == $foo): ?>', $c->compileOpenning(new T(T::TAG, ['elseif', '10 == $foo'], 1), ['switch', 'if']));
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning('elseif', '', ['if']);
+            $c->compileOpenning(new T(T::TAG, ['elseif', ''], 1), ['if']);
         }, CompilerException::class, $c);
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning('elseif', '10 == $foo', []);
+        $c->compileOpenning(new T(T::TAG, ['elseif', '10 == $foo'], 1), []);
         }, CompilerException::class, $c);
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning('elseif', '10 == $foo', ['if', 'switch']);
+            $c->compileOpenning(new T(T::TAG, ['elseif', '10 == $foo'], 1), ['if', 'switch']);
         }, CompilerException::class, $c);
     }
 

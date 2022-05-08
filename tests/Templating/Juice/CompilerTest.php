@@ -13,7 +13,20 @@ class CompilerTest extends TestCase
 {
     public function testCompilation()
     {
+        // Basic compilation testing that both parts can work with each other, theya re both tested separatly
         $compiler = new Compiler(new Config(new Lifecycle(__DIR__)));
-               
+        $this->assertSame(<<<'HTML'
+            <ul>
+                <?php foreach ($foo as $baz): ?>
+                    <li><?php echo $_env->escapeHtml($baz) ?></li>
+                <?php endforeach ?>
+            </ul>
+        HTML, $compiler->compile(<<<'HTML'
+            <ul>
+                {foreach $foo as $baz }
+                    <li>{{ $baz}}</li>
+                {/foreach}
+            </ul>
+        HTML));               
     }
 }

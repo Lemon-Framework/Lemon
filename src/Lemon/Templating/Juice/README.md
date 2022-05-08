@@ -6,6 +6,7 @@ Default syntax are:
 - `{{ $variable }}` - variable $variable will be safely echoed
 - `{! $variable !}` - variable $variable will be unsafely echoed
 - `{ tag args }` - this will replace into one of juices supported tag
+- `{# anything#}` - this wont be included in render - comment
 
 You can modify those syntax in config:
 
@@ -30,3 +31,4 @@ Custom syntax are very risky so be aware.
 - [ ] directive syntax check
 - [ ] includes, extends,...
 - [ ] line counting
+

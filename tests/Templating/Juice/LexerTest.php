@@ -27,20 +27,20 @@ class LexerTest extends TestCase
         $lexer = $this->getLexer();
         $tokens = $lexer->lex('{foreach something as [$foo => $bar]}{endforeach}');
         $this->assertThat($tokens, $this->equalTo([
-            new Token(Token::TAG, ['foreach', 'something as [$foo => $bar]']),
-            new Token(Token::TAG_END, 'foreach'),
+            new Token(Token::TAG, ['foreach', 'something as [$foo => $bar]'], 1),
+            new Token(Token::TAG_END, 'foreach', 1),
         ]));
 
         $tokens = $lexer->lex('{   foreach     something as something   }{           endforeach      }');
         $this->assertThat($tokens, $this->equalTo([
-            new Token(Token::TAG, ['foreach', 'something as something']),
-            new Token(Token::TAG_END, 'foreach'),
+            new Token(Token::TAG, ['foreach', 'something as something'], 1),
+            new Token(Token::TAG_END, 'foreach', 1),
         ]));
 
-        $tokens = $lexer->lex('{   foreach     something as something   }{           /foreach      }');
+        $tokens = $lexer->lex('{   foreach     something as something   }{           /foreach      }');        
         $this->assertThat($tokens, $this->equalTo([
-            new Token(Token::TAG, ['foreach', 'something as something']),
-            new Token(Token::TAG_END, 'foreach'),
+            new Token(Token::TAG, ['foreach', 'something as something'], 1),
+            new Token(Token::TAG_END, 'foreach', 1),
         ]));
     }
 
@@ -49,10 +49,10 @@ class LexerTest extends TestCase
         $lexer = $this->getLexer();
         $tokens = $lexer->lex('{foreach something as [$foo => $bar]}{if $foo == $bar}{endif}{endforeach}');
         $this->assertThat($tokens, $this->equalTo([
-            new Token(Token::TAG, ['foreach', 'something as [$foo => $bar]']),
-            new Token(Token::TAG, ['if', '$foo == $bar']),
-            new Token(Token::TAG_END, 'if'),
-            new Token(Token::TAG_END, 'foreach'),
+            new Token(Token::TAG, ['foreach', 'something as [$foo => $bar]'], 1),
+            new Token(Token::TAG, ['if', '$foo == $bar'], 1),
+            new Token(Token::TAG_END, 'if', 1),
+            new Token(Token::TAG_END, 'foreach', 1),
         ]));
     }
 
@@ -61,13 +61,13 @@ class LexerTest extends TestCase
         $lexer = $this->getLexer();
         $tokens = $lexer->lex('{{$foo}}');
         $this->assertThat($tokens, $this->equalTo([
-            new Token(Token::OUTPUT, '$foo'),
+            new Token(Token::OUTPUT, '$foo', 1),
         ]));
 
         $tokens = $lexer->lex('{{    $foo                }}{{ klobna("sth")}}');
         $this->assertThat($tokens, $this->equalTo([
-            new Token(Token::OUTPUT, '$foo'),
-            new Token(Token::OUTPUT, 'klobna("sth")'),
+            new Token(Token::OUTPUT, '$foo', 1),
+            new Token(Token::OUTPUT, 'klobna("sth")', 1),
         ]));
     }
 
@@ -76,14 +76,14 @@ class LexerTest extends TestCase
         $lexer = $this->getLexer();
         $tokens = $lexer->lex('{!$foo!}');
         $this->assertThat($tokens, $this->equalTo([
-            new Token(Token::UNESCAPED, '$foo'),
+            new Token(Token::UNESCAPED, '$foo', 1),
         ]));
 
         $tokens = $lexer->lex('{! $foo    !}{!SOMETHINGUNSAFE($foo) !}{! ok!}');
         $this->assertThat($tokens, $this->equalTo([
-            new Token(Token::UNESCAPED, '$foo'),
-            new Token(Token::UNESCAPED, 'SOMETHINGUNSAFE($foo)'),
-            new Token(Token::UNESCAPED, 'ok'),
+            new Token(Token::UNESCAPED, '$foo', 1),
+            new Token(Token::UNESCAPED, 'SOMETHINGUNSAFE($foo)', 1),
+            new Token(Token::UNESCAPED, 'ok', 1),
         ]));
     }
 
@@ -100,7 +100,7 @@ class LexerTest extends TestCase
                 <h1>foo</h1>
                 <script>alert('hello')</script>
                 <p>ok</p>
-            HTML),
+            HTML, 1),
         ]));
     }
 
@@ -122,16 +122,16 @@ class LexerTest extends TestCase
             {endforeach }
         HTML);
         $this->assertThat($tokens, $this->equalTo([
-            new Token(Token::TEXT, '    <h1>'),
-            new Token(Token::OUTPUT, '$foo'),
-            new Token(Token::TEXT, '</h1>'.PHP_EOL.'    '),
-            new Token(Token::TAG, ['foreach', '$users as $user']),
-            new Token(Token::TEXT, PHP_EOL.'       <h2>'),
-            new Token(Token::OUTPUT, '$user'),
-            new Token(Token::TEXT, ' </h2>'.PHP_EOL.'        '),
-            new Token(Token::UNESCAPED, 'md($user->description)'),
-            new Token(Token::TEXT, PHP_EOL.'    '),
-            new Token(Token::TAG_END, 'foreach'),
+            new Token(Token::TEXT, '    <h1>', 1),
+            new Token(Token::OUTPUT, '$foo', 1),
+            new Token(Token::TEXT, '</h1>'.PHP_EOL.'    ', 1),
+            new Token(Token::TAG, ['foreach', '$users as $user'], 2),
+            new Token(Token::TEXT, PHP_EOL.'       <h2>', 3),
+            new Token(Token::OUTPUT, '$user', 3),
+            new Token(Token::TEXT, ' </h2>'.PHP_EOL.'        ', 3),
+            new Token(Token::UNESCAPED, 'md($user->description)', 4),
+            new Token(Token::TEXT, PHP_EOL.'    ', 5),
+            new Token(Token::TAG_END, 'foreach', 5),
         ]));
     }
 }

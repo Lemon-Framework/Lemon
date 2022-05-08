@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice\Compilers\Directives;
 
+use Lemon\Templating\Juice\Token;
+
 interface Directive
 {
     /**
@@ -11,5 +13,5 @@ interface Directive
      *
      * @throws \Lemon\Templating\Juice\Exceptions\CompilerException
      */
-    public function compileOpenning(string $content, array $stack): string;
+    public function compileOpenning(Token $token, array $stack): string;
 }

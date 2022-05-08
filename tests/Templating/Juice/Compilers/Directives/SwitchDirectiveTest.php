@@ -6,6 +6,7 @@ namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Token as T;
 use Lemon\Tests\TestCase;
 
 /**
@@ -17,11 +18,11 @@ class SwitchDirectiveTest extends TestCase
     public function testOpen()
     {
         $c = new DirectiveCompiler();
-        $this->assertSame('<?php switch ($foo): ?>', $c->compileOpenning('switch', '$foo', []));
-        $this->assertSame('<?php switch ($foo): ?>', $c->compileOpenning('switch', '$foo', ['if']));
+        $this->assertSame('<?php switch ($foo): ?>', $c->compileOpenning(new T(T::TAG, ['switch', '$foo'], 1), []));
+        $this->assertSame('<?php switch ($foo): ?>', $c->compileOpenning(new T(T::TAG, ['switch', '$foo'], 1), ['if']));
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning('switch', '', []);
+            $c->compileOpenning(new T(T::TAG, ['switch', ''], 1), []);
         }, CompilerException::class, $c);
     }
 

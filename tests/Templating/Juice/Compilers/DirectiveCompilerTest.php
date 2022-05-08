@@ -8,21 +8,22 @@ use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Compilers\Directives\IfDirective;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Token;
 use Lemon\Tests\TestCase;
 
 class FooDirective implements Directive
 {
-    public function compileOpenning(string $content, array $stack): string
+    public function compileOpenning(Token $token, array $stack): string
     {
-        return 'foo '.$content;
+        return 'foo '.$token->content;
     }
 }
 
 class BarDirective
 {
-    public function compileOpenning(string $content, array $stack): string
+    public function compileOpenning(Token $token, array $stack): string
     {
-        return 'bar '.$content;
+        return 'bar '.$token->content;
     }
 }
 

@@ -6,6 +6,7 @@ namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Token as T;
 use Lemon\Tests\TestCase;
 
 /**
@@ -17,18 +18,18 @@ class ElseDirectiveTest extends TestCase
     public function testOpen()
     {
         $c = new DirectiveCompiler();
-        $this->assertSame('<?php else: ?>', $c->compileOpenning('else', '', ['switch', 'if']));
+        $this->assertSame('<?php else: ?>', $c->compileOpenning(new T(T::TAG, ['else', ''], 1), ['switch', 'if']));
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning('else', '$foo', ['if']);
+            $c->compileOpenning(new T(T::TAG, ['else', '$foo'], 1), ['if']);
         }, CompilerException::class, $c);
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning('else', '', []);
+            $c->compileOpenning(new T(T::TAG, ['else', ''], 1), []);
         }, CompilerException::class, $c);
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning('else', '', ['if', 'switch']);
+            $c->compileOpenning(new T(T::TAG, ['else', ''], 1), ['if', 'switch']);
         }, CompilerException::class, $c);
     }
 

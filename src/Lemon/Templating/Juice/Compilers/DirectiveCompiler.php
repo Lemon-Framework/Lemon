@@ -8,6 +8,7 @@ use Lemon\Kernel\Container;
 use Lemon\Support\Types\Arr;
 use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Token;
 
 /**
  * Provides directive compilation.
@@ -87,11 +88,11 @@ final class DirectiveCompiler
     /**
      * Compiles openning part of directive.
      */
-    public function compileOpenning(string $directive, string $context, array $stack): string
+    public function compileOpenning(Token $token, array $stack): string
     {
-        $class = $this->getDirectiveCompiler($directive);
+        $class = $this->getDirectiveCompiler($token->content[0]);
 
-        return '<?php '.trim($class->compileOpenning($context, $stack)).' ?>';
+        return '<?php '.trim($class->compileOpenning($token, $stack)).' ?>';
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Token as T;
 use Lemon\Tests\TestCase;
 
 /**
@@ -17,11 +18,11 @@ class ForDirectiveTest extends TestCase
     public function testOpen()
     {
         $c = new DirectiveCompiler();
-        $this->assertSame('<?php for ($foo = 0; $foo < 10; $foo++): ?>', $c->compileOpenning('for', '$foo = 0; $foo < 10; $foo++', []));
-        $this->assertSame('<?php for ($foo = 0; $foo < 10; $foo++): ?>', $c->compileOpenning('for', '$foo = 0; $foo < 10; $foo++', ['if']));
+        $this->assertSame('<?php for ($foo = 0; $foo < 10; $foo++): ?>', $c->compileOpenning(new T(T::TAG, ['for', '$foo = 0; $foo < 10; $foo++'], 1), []));
+        $this->assertSame('<?php for ($foo = 0; $foo < 10; $foo++): ?>', $c->compileOpenning(new T(T::TAG, ['for', '$foo = 0; $foo < 10; $foo++'], 1), ['if']));
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning('for', '', []);
+            $c->compileOpenning(new T(T::TAG, ['for', ''], 1), []);                     
         }, CompilerException::class, $c);
     }
 

@@ -6,6 +6,7 @@ namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Token as T;
 use Lemon\Tests\TestCase;
 
 /**
@@ -17,11 +18,11 @@ class ForeachDirectiveTest extends TestCase
     public function testOpen()
     {
         $c = new DirectiveCompiler();
-        $this->assertSame('<?php foreach ($foo as $bar): ?>', $c->compileOpenning('foreach', '$foo as $bar', []));
-        $this->assertSame('<?php foreach ($foo as $bar): ?>', $c->compileOpenning('foreach', '$foo as $bar', ['if']));
+        $this->assertSame('<?php foreach ($foo as $bar): ?>', $c->compileOpenning(new T(T::TAG, ['foreach', '$foo as $bar'], 1), []));
+        $this->assertSame('<?php foreach ($foo as $bar): ?>', $c->compileOpenning(new T(T::TAG, ['foreach', '$foo as $bar'], 1), ['if']));
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning('foreach', '', []);
+            $c->compileOpenning(new T(T::TAG, ['foreach', ''], 1), []);      
         }, CompilerException::class, $c);
     }
 

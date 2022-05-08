@@ -6,19 +6,20 @@ namespace Lemon\Templating\Juice\Compilers\Directives;
 
 use Lemon\Support\Types\Arr;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Token;
 
 final class CaseDirective implements Directive
 {
-    public function compileOpenning(string $content, array $stack): string
+    public function compileOpenning(Token $token, array $stack): string
     {
         if ('switch' !== Arr::last($stack)) {
-            throw new CompilerException('Unexpected case'); // TODO
+            throw new CompilerException('Unexpected case', $token->line);
         }
 
-        if ('' === $content) {
-            throw new CompilerException('Directive case expects arguments'); // TODO
+        if ('' === $token->content[1]) {
+            throw new CompilerException('Directive case expects arguments', $token->line); // TODO
         }
 
-        return 'case '.$content.':';
+        return 'case '.$token->content[1].':';
     }
 }

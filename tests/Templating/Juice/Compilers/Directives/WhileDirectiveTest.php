@@ -6,6 +6,7 @@ namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Token as T;
 use Lemon\Tests\TestCase;
 
 /**
@@ -17,11 +18,11 @@ class WhileDirectiveTest extends TestCase
     public function testOpen()
     {
         $c = new DirectiveCompiler();
-        $this->assertSame('<?php while ($foo): ?>', $c->compileOpenning('while', '$foo', []));
-        $this->assertSame('<?php while ($foo): ?>', $c->compileOpenning('while', '$foo', ['switch']));
+        $this->assertSame('<?php while ($foo): ?>', $c->compileOpenning(new T(T::TAG, ['while', '$foo'], 1), []));
+        $this->assertSame('<?php while ($foo): ?>', $c->compileOpenning(new T(T::TAG, ['while', '$foo'], 1), ['switch']));
 
         $this->assertThrowable(function (DirectiveCompiler $c) {
-            $c->compileOpenning('while', '', []);
+            $c->compileOpenning(new T(T::TAG, ['while', ''], 1), []);
         }, CompilerException::class, $c);
     }
 
