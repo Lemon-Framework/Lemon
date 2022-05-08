@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Exceptions;
 
-use Exception;
+use ErrorException;
 use Throwable;
 
-class TemplateException extends Exception
+class TemplateException extends ErrorException
 {
-    public function __construct(Throwable $original, string $source)
+    public static function from(Throwable $original, string $source): self
     {
-        parent::__construct($original->getMessage(), $original->getCode(), $original->getPrevious());
-        $this->file = $source;
+        return new self($original->getMessage(), $original->getCode(), 1, $source, $original->getLine());
     }
 }

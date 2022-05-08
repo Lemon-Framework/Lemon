@@ -107,8 +107,11 @@ class LexerTest extends TestCase
     public function testLexingComments()
     {
         $lexer = $this->getLexer();
-        $tokens = $lexer->lex('{# klobna #}');
-        $this->assertEmpty($tokens);
+        $tokens = $lexer->lex('foo{# klobna #}bar');
+        $this->assertThat($tokens, $this->equalTo([
+            new Token(Token::TEXT, 'foo', 1),
+            new Token(Token::TEXT, 'bar', 1),
+        ]));
     }
 
     public function testLexing()

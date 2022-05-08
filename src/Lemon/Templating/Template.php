@@ -29,7 +29,7 @@ class Template
         try {
             require $this->compiled_path;
         } catch (Throwable $e) {
-            throw new TemplateException($e, $this->raw_path);
+            throw TemplateException::from($e, $this->raw_path);
         }
     }
 }

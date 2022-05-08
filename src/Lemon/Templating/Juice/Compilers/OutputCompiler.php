@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Templating\Juice\Compilers;
 
 use Lemon\Support\Types\Str;
-use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Parser;
 
 /**

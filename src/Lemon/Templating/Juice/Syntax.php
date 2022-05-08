@@ -70,6 +70,6 @@ final class Syntax
      */
     private function buildRegex()
     {
-        $this->regex = "/({$this->tag})|({$this->echo})|({$this->unescaped})/";
+        $this->regex = "/({$this->tag})|({$this->echo})|({$this->unescaped})|({$this->comment})/";
     }
 }

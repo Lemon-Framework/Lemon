@@ -6,7 +6,7 @@ namespace Lemon\Tests\Templating\Juice;
 
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
-use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Parser;
 use Lemon\Templating\Juice\Token as T;
 use Lemon\Tests\TestCase;

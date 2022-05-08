@@ -31,6 +31,9 @@ class Factory
         private Compiler $compiler,
         private Lifecycle $lifecycle
     ) {
+        $lifecycle->add(Enviroment::class);
+        $lifecycle->alias('templating.env', Enviroment::class);
+
         $config = $config->part('templating');
         $this->templates = $config->file('location');
         $this->cached = $config->file('cached');
@@ -44,6 +47,8 @@ class Factory
         $path = $this->getRawPath($name);
         $compiled_path = $this->getCompiledPath($name);
         $this->compile($path, $compiled_path);
+    
+        $data['_env'] = $this->lifecycle->get('templating.env');
 
         return new Template($path, $compiled_path, $data);
     }
@@ -53,7 +58,13 @@ class Factory
      */
     public function getRawPath(string $name): string
     {
-        return $this->templates.DIRECTORY_SEPARATOR.Str::replace($name, '.', DIRECTORY_SEPARATOR)->value.'.'.$this->compiler->getExtension();
+        $path = $this->templates.DIRECTORY_SEPARATOR.Str::replace($name, '.', DIRECTORY_SEPARATOR)->value.'.'.$this->compiler->getExtension();
+
+        if (!FS::isFile($path)) {
+            throw new TemplateException('Template '.$name.' does not exist');
+        }
+
+        return $path;
     }
 
     /**
@@ -71,19 +82,19 @@ class Factory
     {
         if (!FS::isDir($this->cached)) {
             FS::makeDir($this->cached);
+            FS::write($this->cached.DIRECTORY_SEPARATOR.'.gitignore', "*\n!.gitignore");
         }
         if (FS::isFile($compiled_path)) {
-            if (filemtime($compiled_path) === filemtime($raw_path)) {
+            if (filemtime($compiled_path) >= filemtime($raw_path)) { // This mechanism was taken from laravel.
                 return;
             }
             FS::delete($compiled_path);
         }
-        touch($compiled_path, filemtime($raw_path));
 
         try {
             $compiled = $this->compiler->compile(file_get_contents($raw_path));
         } catch (Throwable $throwable) {
-            throw new TemplateException($throwable, $raw_path);
+            throw TemplateException::from($throwable, $raw_path);
         }
 
         FS::write($compiled_path, $compiled);

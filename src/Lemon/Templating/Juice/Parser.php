@@ -9,7 +9,7 @@ use Lemon\Support\Types\Array_;
 use Lemon\Support\Types\Str;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
-use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Exceptions\CompilerException;
 
 /**
  * Provides token parsing of Juice.

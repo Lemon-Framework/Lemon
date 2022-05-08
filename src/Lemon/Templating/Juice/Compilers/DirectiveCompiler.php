@@ -7,7 +7,7 @@ namespace Lemon\Templating\Juice\Compilers;
 use Lemon\Kernel\Container;
 use Lemon\Support\Types\Arr;
 use Lemon\Templating\Juice\Compilers\Directives\Directive;
-use Lemon\Templating\Juice\Exceptions\CompilerException;
+use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Token;
 
 /**
