@@ -7,9 +7,9 @@ namespace Lemon\Templating\Juice;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Array_;
 use Lemon\Support\Types\Str;
+use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
-use Lemon\Templating\Exceptions\CompilerException;
 
 /**
  * Provides token parsing of Juice.

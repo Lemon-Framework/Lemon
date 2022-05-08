@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Templating\Juice\Compilers;
 
+use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Compilers\Directives\IfDirective;
-use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Token;
 use Lemon\Tests\TestCase;
 

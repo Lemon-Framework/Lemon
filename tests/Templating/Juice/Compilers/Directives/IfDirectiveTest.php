@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
-use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Token as T;
 use Lemon\Tests\TestCase;
 

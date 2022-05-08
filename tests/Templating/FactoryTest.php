@@ -6,15 +6,15 @@ namespace Lemon\Tests\Templating;
 
 use Lemon\Config\Config;
 use Lemon\Kernel\Lifecycle;
-use Lemon\Templating\Compiler;
-use Lemon\Templating\Factory;
-use Lemon\Tests\TestCase;
 use Lemon\Support\Filesystem as FS;
 use Lemon\Support\Types\Str;
+use Lemon\Templating\Compiler;
 use Lemon\Templating\Enviroment;
-use Lemon\Templating\Exceptions\TemplateException;
 use Lemon\Templating\Exceptions\CompilerException;
+use Lemon\Templating\Exceptions\TemplateException;
+use Lemon\Templating\Factory;
 use Lemon\Templating\Template;
+use Lemon\Tests\TestCase;
 
 /**
  * @internal
@@ -22,18 +22,12 @@ use Lemon\Templating\Template;
  */
 class FactoryTest extends TestCase
 {
-
     public function tearDown(): void
     {
         $s = DIRECTORY_SEPARATOR;
         FS::delete(__DIR__.$s.'storage'.$s.'templates');
     }
 
-    private function getFactory(): Factory
-    {
-        $lc = new Lifecycle(__DIR__);
-        return new Factory(new Config($lc), new FooCompiler, $lc);
-    }
     public function testGetRawPath()
     {
         $factory = $this->getFactory();
@@ -83,7 +77,7 @@ class FactoryTest extends TestCase
         $this->assertStringEqualsFile($compiled, '2');
         $this->assertThrowable(function (Factory $factory, string $raw, string $compiled) {
             $factory->compile(
-                $raw.DIRECTORY_SEPARATOR.'foo'.DIRECTORY_SEPARATOR.'baz.foo', 
+                $raw.DIRECTORY_SEPARATOR.'foo'.DIRECTORY_SEPARATOR.'baz.foo',
                 $compiled.DIRECTORY_SEPARATOR.'foo_baz.php'
             );
         }, TemplateException::class, $factory, $raw_dir, $compiled_dir);
@@ -104,6 +98,13 @@ class FactoryTest extends TestCase
             ['foo' => 'bar', '_env' => new Enviroment()]
         ), $this->equalTo($factory->make('foo.bar', ['foo' => 'bar'])));
     }
+
+    private function getFactory(): Factory
+    {
+        $lc = new Lifecycle(__DIR__);
+
+        return new Factory(new Config($lc), new FooCompiler(), $lc);
+    }
 }
 
 class FooCompiler implements Compiler
@@ -115,8 +116,9 @@ class FooCompiler implements Compiler
         if (Str::startsWith($template, 'baz')) {
             throw new CompilerException('', 1);
         }
-        $this->counter++;
-        return (string)$this->counter.$template;
+        ++$this->counter;
+
+        return (string) $this->counter.$template;
     }
 
     public function getExtension(): string

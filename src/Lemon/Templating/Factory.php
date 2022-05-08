@@ -47,7 +47,7 @@ class Factory
         $path = $this->getRawPath($name);
         $compiled_path = $this->getCompiledPath($name);
         $this->compile($path, $compiled_path);
-    
+
         $data['_env'] = $this->lifecycle->get('templating.env');
 
         return new Template($path, $compiled_path, $data);

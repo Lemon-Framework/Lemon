@@ -7,6 +7,10 @@ namespace Lemon\Tests\Templating;
 use Lemon\Templating\Template;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class TemplateTest extends TestCase
 {
     public function testRendering()
