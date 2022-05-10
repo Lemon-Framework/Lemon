@@ -21,7 +21,7 @@ trait Macros
             throw new Exception('Call to undefined function '.$name);
         }
 
-        return $this->macros[$name](...$arguments);
+        return $this->macros[$name]($this, ...$arguments);
     }
 
     public function macro(string $name, callable $action)

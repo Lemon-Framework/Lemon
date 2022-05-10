@@ -4,25 +4,60 @@ declare(strict_types=1);
 
 namespace Lemon\Validation;
 
+use Lemon\Kernel\Lifecycle;
+use Lemon\Support\Properties\Properties;
+use Lemon\Support\Properties\Read;
+use Lemon\Support\Types\Arr;
+use Lemon\Support\Types\Str;
+
 class Validator
 {
-    public function isNumeric($value)
+    private Rules $rules;
+
+    public function __construct()
     {
-        return is_numeric($value);
+        $this->rules = new Rules();
     }
 
-    public function isEmail(string $target)
+    public function rules(): Rules
     {
-        return filter_var($target, FILTER_VALIDATE_EMAIL) === $target;
+        return $this->rules;
     }
+    
+    public function validate(array $data, array $ruleset): bool
+    {
+        foreach ($ruleset as $key => $rules) {
+            $rules = $this->resolveRules($rules);
+            if (!Arr::hasKey($data, $key)) {
+                if (Arr::has($rules, ['optional'])) {
+                    continue;
+                }
+                return false;
+            }
+            foreach ($rules as $rule) {
+                if ($rule[0] == 'optional') {
+                    continue;
+                }
 
-    public function isUrl(string $target)
-    {
-        return filter_var($target, FILTER_VALIDATE_URL) === $target;
+                if (!$this->rules->call($key, $rule)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
+    private function resolveRules(string|array $rules): array
+    {
+        // TODO better parser
+        if (is_array($rules)) {
+            return $rules;
+        }
 
-    public function isColor(string $target)
-    {
-        return preg_match('/#([a-f0-9]{2}){3}/', $target);
-    }
+        return array_map(
+            fn($item) => explode(':', $item), 
+            explode('|', $rules));
+
+     }
+
+
 }
