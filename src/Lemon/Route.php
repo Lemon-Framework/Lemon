@@ -16,7 +16,7 @@ namespace Lemon;
  * @method static \Lemon\Http\Routing\Route path(string $path, $action)    Creates route with method path
  * @method static \Lemon\Http\Routing\Route options(string $path, $action) Creates route with method options
  *
- * @see \Lemon\Http\Routing\Router
+ * @see \Lemon\Routing\Router
  */
 class Route extends Zest
 {

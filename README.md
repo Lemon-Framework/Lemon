@@ -16,13 +16,13 @@ TODO:
 - [ ] split routing from http
 - [x] array slicing ["1..2"]
 - [x] tests for array
-- [ ] array->hasSimilar
 - [ ] other cool array methods propably BUT not that much ok do it while writing pls
 - [x] tests for string
 - [x] tests for arr and str
 - [ ] remove string_, arr utils should return array
 - [ ] Strng::trim
 - [x] Better array map
+- [ ] rethink types
 - [ ] new session
 - [ ] new csrf (middleware?)
 - [ ] cors
@@ -31,7 +31,6 @@ TODO:
 - [ ] tests for kernel
 - [x] new kernel
 - [x] split container
-- [ ] think of using contracts
 - [ ] database
 - [ ] new lemonade kernel
 - [ ] dump die
@@ -41,7 +40,6 @@ TODO:
 - [x] fake tests for caching
 - [x] tests for caching
 - [ ] juice template engine
-- [ ] Datetime manipulation witch config propably
 - [ ] mailer?
 - [ ] auth?
 - [ ] rewrite exceptiont esting

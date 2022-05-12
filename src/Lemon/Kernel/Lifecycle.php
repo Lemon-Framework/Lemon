@@ -27,7 +27,7 @@ final class Lifecycle extends Container
      * Default units with aliases.
      */
     private const DEFAULTS = [
-        \Lemon\Http\Routing\Router::class => ['routing'],
+        \Lemon\Routing\Router::class => ['routing'],
         \Lemon\Terminal\Terminal::class => ['terminal'],
         \Lemon\Config\Config::class => ['config'],
         \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class],

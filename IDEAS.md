@@ -21,3 +21,6 @@ THE FORMULA preg_split("/(\[\[.+?\]\])|(\[.+?\])/", "klobna[[parek]]     rizek  
 ## utils
 
 https://www.php.net/manual/en/class.arrayaccess.php
+array->hasSimilar
+array->while
+

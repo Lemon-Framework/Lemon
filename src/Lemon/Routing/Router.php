@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Lemon\Http\Routing;
+namespace Lemon\Routing;
 
 use Exception;
 use Lemon\Http\Request;
 use Lemon\Support\Types\Arr;
-use Lemon\Support\Types\Array_;
-
-// use Lemon\Templating\TemplatePlantation;
+use Lemon\Support\Types\Str;
+use Lemon\Templating\Factory as TemplateFactory;
 
 /**
  * The Lemon Router.
@@ -34,34 +33,20 @@ class Router
         'options',
     ];
 
-    public Array_ $routes;
+    private Collection $routes;
 
     public function __construct(
-//        private TemplateFactory $templates
+        private TemplateFactory $templates
     ) {
-        $this->routes = new Array_();
     }
 
     public function __call($name, $arguments)
     {
         if (!Arr::contains(self::REQUEST_METHODS, $name)) {
-            throw new Exception('Call to undefined method Router::'.$name.'()');
+            throw new Exception('Call to undefined method '.static::class.'::'.$name.'()');
         }
 
-        return $this->crate($arguments[0], [$name], $arguments[1]);
-    }
-
-    /**
-     * Creates new route.
-     *
-     * @param array<string> $methods
-     */
-    public function crate(string $path, array $methods, callable $action): Route
-    {
-        $route = new Route($path, $methods, $action);
-        $this->routes->push($route);
-
-        return $route;
+        return $this->routes->add($arguments[0], $name, $arguments[1]);
     }
 
     /**
@@ -69,37 +54,41 @@ class Router
      */
     public function any(string $path, callable $action): Route
     {
-        return $this->crate($path, self::REQUEST_METHODS, $action);
+        // TODO performance
+        foreach (self::REQUEST_METHODS as $method) {
+            $this->routes->add($path, $method, $action);
+        }
+
+        return $this->routes->find($path);
     }
 
     public function view(string $path, ?string $view = null)
     {
-        // TODO        $view = $view ?? Str::replace($view, '/', '.');
-//        return $this->crate($path, ['get'], fn() => $this->templates->make($view));
+        $view = $view ?? Str::replace($view, '/', '.'); // @CoolFido
+
+        return $this->routes->add($path, 'get', fn () => $this->templates->make($view));
     }
 
-    /*
-    public function group($routes)
+    public function collection(callable $routes): Collection
     {
-        $saved = $this->routes;
-        $this->routes = [];
+        $original = $this->routes;
+        $this->routes = new Collection();
         $routes();
-        $group = new RouteGroup($this->routes);
-        $this->routes = $saved;
-        $this->routes->push($group);
-        return $group;
-        // TODO
-    }
+        $collection = $this->routes;
+        $this->routes = $original;
+        $this->routes->collection($collection);
 
-     */
+        return $collection;
+    }
 
     /**
      * Finds route depending on given request.
      */
-    public function dispatch(Request $request): \Lemon\Http\Response
+    public function dispatch(Request $request)
     {
-        $dispatcher = new Dispatcher($this->routes->content, $request);
-
-        return $dispatcher->dispatch();
+        $this->routes->dispatch($request);
+        // When result is null -> 404
+        // When result[0] for request method does not exist -> 400
+        // otherwise make the response from action NEW HTTP COMPONENT
     }
 }

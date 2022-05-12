@@ -8,7 +8,6 @@ use Lemon\Support\Types\Arr;
 
 class Rules
 {
-
     private array $rules = [];
 
     public function numeric(string $target)
@@ -16,7 +15,7 @@ class Rules
         return is_numeric($target);
     }
 
-    public function notNumeric(string $target) 
+    public function notNumeric(string $target)
     {
         return !$this->numeric($target);
     }
@@ -53,19 +52,25 @@ class Rules
 
     public function notRegex(string $target, string $patern): bool
     {
-        return !$this->regex($target, $patern); 
+        return !$this->regex($target, $patern);
     }
 
-    public function rule(string $name, callable $action): static 
+    public function file()
+    {
+        // todo
+    }
+
+    public function rule(string $name, callable $action): static
     {
         $this->rules[$name] = $action;
+
         return $this;
     }
 
     public function call(string $key, array $rule): bool
     {
         $args = [];
-        if (count($rule) === 1) {
+        if (1 === count($rule)) {
             $args = $rule[1];
         }
 
