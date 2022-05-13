@@ -12,17 +12,16 @@ use Lemon\Support\Types\Str;
 
 final class Env
 {
-    private array $data;
+    private array $data = [];
 
     private string $path;
 
     private bool $changed = false;
 
     public function __construct(
-        private Config $config,
         private Lifecycle $lifecycle
     ) {
-        $this->path = $config->part('kernel')->get('env_path');
+        $this->path = $lifecycle->directory.DIRECTORY_SEPARATOR.'.env';
         $this->load();
     }
 
@@ -33,23 +32,23 @@ final class Env
 
     public function load(): void
     {
-        $content = Filesystem::read($this->path);
-        foreach (Str::split($content, PHP_EOL) as $line) {
+        $content = str_replace("\r\n", "\n", Filesystem::read($this->path)); // @windows dekujeme za nazor, posilame klicenku
+        foreach (Str::split($content, "\n") as $line) {
+            if (!$line) {
+                continue;
+            }
             $data = Str::split($line, '=');
             if (2 != count($data)) {
                 throw new Exception('Env file does not contain valid data');
             }
-            $this->data[$data[0]] = $data[1];
+            $this->data[$data[0]] = $data[1] ?: null;
         }
     }
 
-    public function get(string $key): string
+    public function get(string $key, mixed $default = null): mixed
     {
-        if (!$this->changed) {
-            $this->changed = true;
-        }
         if (!$this->has($key)) {
-            throw new Exception('Env key '.$key.' does not exist');
+            return $default;
         }
 
         return $this->data[$key];
@@ -57,11 +56,14 @@ final class Env
 
     public function has(string $key): bool
     {
-        return Arr::hasKey($this->data, $key);
+        return isset($this->data[$key]);
     }
 
     public function set(string $key, string $value): void
     {
+        if (!$this->changed) {
+            $this->changed = true;
+        }
         $this->data[$key] = $value;
     }
 
@@ -78,5 +80,10 @@ final class Env
         }
 
         Filesystem::write($this->path, $result);
+    }
+
+    public function data(): array
+    {
+        return $this->data;
     }
 }

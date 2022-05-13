@@ -129,8 +129,5 @@ class Route
      */
     public static function execute(): void
     {
-        $request = Request::make();
-        $dispatcher = new Dispatcher(self::$routes, $request);
-        $dispatcher->dispatch()->terminate();
     }
 }

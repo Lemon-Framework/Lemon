@@ -26,7 +26,7 @@ TODO:
 - [ ] new session
 - [ ] new csrf (middleware?)
 - [ ] cors
-- [ ] env
+- [x] env
 - [x] basic filesystem
 - [ ] tests for kernel
 - [x] new kernel
