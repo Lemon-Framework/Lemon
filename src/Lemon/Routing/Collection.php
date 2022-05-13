@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Routing;
 
-use Lemon\Http\Request;
 use Lemon\Routing\Exceptions\RouteException;
 use Lemon\Support\Types\Arr;
 

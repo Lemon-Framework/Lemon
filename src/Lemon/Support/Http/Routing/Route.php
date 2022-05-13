@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Support\Http\Routing;
 
 use Lemon\Http\Request;
-use Lemon\Http\Routing\Dispatcher;
 use Lemon\Http\Routing\Route as RouteCore;
 use Lemon\Http\Routing\RouteGroup;
 

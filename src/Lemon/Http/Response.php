@@ -6,12 +6,10 @@ declare(strict_types=1);
     myslenka:
 
         tohle ma opravdu to co je v responsu a muze se to pustit. vsechno vytvari tovarna
- 
+
  */
 
 namespace Lemon\Http;
-
-use Closure;
 
 /**
  * Class representing HTTP Response.

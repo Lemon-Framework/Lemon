@@ -3,7 +3,6 @@
 namespace Lemon\Tests\Support;
 
 use Exception;
-use Lemon\Config\Config;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Env;
 use Lemon\Tests\TestCase;
@@ -14,25 +13,25 @@ use Lemon\Tests\TestCase;
  */
 class EnvTest extends TestCase
 {
-
-    public function getEnv(string $data): Env
-    {
-        file_put_contents(__DIR__.DIRECTORY_SEPARATOR.'.env', $data);
-        $lc = new Lifecycle(__DIR__);
-        return new Env($lc);
-    }
-
     public function tearDown(): void
     {
         unlink(__DIR__.DIRECTORY_SEPARATOR.'.env');
     }
 
+    public function getEnv(string $data): Env
+    {
+        file_put_contents(__DIR__.DIRECTORY_SEPARATOR.'.env', $data);
+        $lc = new Lifecycle(__DIR__);
+
+        return new Env($lc);
+    }
+
     public function testLoading()
     {
-        $env = $this->getEnv("FOO=bar\n\n\n\r\nBAR=baz"); 
+        $env = $this->getEnv("FOO=bar\n\n\n\r\nBAR=baz");
         $this->assertSame(['FOO' => 'bar', 'BAR' => 'baz'], $env->data());
 
-        $this->assertThrowable(function() {
+        $this->assertThrowable(function () {
             $env = $this->getEnv("FOO=bar\r\nparek");
         }, Exception::class);
 
@@ -42,7 +41,7 @@ class EnvTest extends TestCase
 
         $env = $this->getEnv('');
         $this->assertSame([], $env->data());
-    }    
+    }
 
     public function testHas()
     {
@@ -72,8 +71,8 @@ class EnvTest extends TestCase
     public function testCommit()
     {
         $env = $this->getEnv('FOO=baz');
-        $env->set('FOO', 'bar');      
-        $env->set('BAZ', 'foo');       
+        $env->set('FOO', 'bar');
+        $env->set('BAZ', 'foo');
 
         unset($env);
         $this->assertStringEqualsFile(__DIR__.DIRECTORY_SEPARATOR.'.env', "FOO=bar\nBAZ=foo\n");

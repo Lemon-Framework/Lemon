@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Support;
 
 use Exception;
-use Lemon\Config\Config;
 use Lemon\Kernel\Lifecycle;
-use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 
 final class Env

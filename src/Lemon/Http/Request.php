@@ -9,7 +9,7 @@
     path
     headers
     body -> by content type ig and everything
- 
+
  */
 
 declare(strict_types=1);
@@ -24,7 +24,6 @@ class Request
         public readonly array $headers,
         public readonly string $body
     ) {
-        
     }
 
     public static function capture(): self
