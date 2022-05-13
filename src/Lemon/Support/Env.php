@@ -16,6 +16,8 @@ final class Env
 
     private string $path;
 
+    private bool $changed = false;
+
     public function __construct(
         private Config $config,
         private Lifecycle $lifecycle
@@ -43,6 +45,9 @@ final class Env
 
     public function get(string $key): string
     {
+        if (!$this->changed) {
+            $this->changed = true;
+        }
         if (!$this->has($key)) {
             throw new Exception('Env key '.$key.' does not exist');
         }
@@ -62,6 +67,10 @@ final class Env
 
     public function commit(): void
     {
+        if (!$this->changed) {
+            return;
+        }
+
         $result = '';
 
         foreach ($this->data as $key => $value) {

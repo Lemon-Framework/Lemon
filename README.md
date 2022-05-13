@@ -33,7 +33,7 @@ TODO:
 - [x] split container
 - [ ] database
 - [ ] new lemonade kernel
-- [ ] dump die
+- [x] dump die
 - [ ] reporter
 - [ ] consultant
 - [x] caching core, psr
@@ -44,7 +44,7 @@ TODO:
 - [ ] auth?
 - [ ] rewrite exceptiont esting
 - [x] rething config
-- [ ] single-regex routing
+- [ ] faker
 
 Directories with D means deprecated so they will have to be completely rewritten
 

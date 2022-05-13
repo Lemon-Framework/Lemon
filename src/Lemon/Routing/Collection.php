@@ -61,17 +61,17 @@ class Collection
         return $this;
     }
 
-    public function dispatch(Request $request): ?array
+    public function dispatch(string $path): ?array
     {
         foreach ($this->routes as $route) {
             if ($route instanceof Collection) {
-                if ($found = $route->dispatch($request)) {
+                if ($found = $route->dispatch($path)) {
                     return $found;
                 }
             }
 
             if ($route instanceof Route) {
-                if ($found = $route->matches($request)) {
+                if ($found = $route->matches($path)) {
                     return [$route, $found];
                 }
             }

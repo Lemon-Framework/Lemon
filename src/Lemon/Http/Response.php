@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/*
+    myslenka:
+
+        tohle ma opravdu to co je v responsu a muze se to pustit. vsechno vytvari tovarna
+ 
+ */
+
 namespace Lemon\Http;
 
 use Closure;
@@ -94,15 +101,6 @@ class Response
         $this->handleLocation();
         $this->handleHeaders();
         $this->handleBody();
-    }
-
-    /**
-     * Sets status code handler.
-     * TODO ne pls.
-     */
-    public static function handle(int $code, Closure|string $action): void
-    {
-        self::$handlers[$code] = $action;
     }
 
     /**

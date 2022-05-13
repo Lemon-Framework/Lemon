@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Routing;
 
-use Lemon\Http\Request;
-
 class Route
 {
     private string $path;
@@ -33,15 +31,15 @@ class Route
         return $this;
     }
 
-    public function matches(Request $request): ?array
+    public function matches(string $path): ?array
     {
         $patern = $this->buildRegex();
 
         if ($patern == $this->path) {
-            return $request->uri == $this->path ? [] : null;
+            return $path == $this->path ? [] : null;
         }
 
-        return preg_match('/^'.$patern.'$/', $request->uri, $matches) ? $matches : null;
+        return preg_match('/^'.$patern.'$/', $path, $matches) ? $matches : null;
     }
 
     private function buildRegex(): string

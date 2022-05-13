@@ -86,7 +86,7 @@ class Router
      */
     public function dispatch(Request $request)
     {
-        $this->routes->dispatch($request);
+        $this->routes->dispatch($request->path);
         // When result is null -> 404
         // When result[0] for request method does not exist -> 400
         // otherwise make the response from action NEW HTTP COMPONENT

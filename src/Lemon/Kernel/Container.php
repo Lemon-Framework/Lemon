@@ -26,10 +26,6 @@ class Container implements ContainerInterface
      */
     private array $aliases = [];
 
-    public function __construct()
-    {
-    }
-
     /**
      * Returns service of given class/alias.
      *
@@ -57,15 +53,17 @@ class Container implements ContainerInterface
      * @throws \Lemon\Kernel\Exceptions\ContainerException
      * @throws \Lemon\Kernel\Exceptions\NotFoundException
      */
-    public function add(string $service): static
+    public function add(string $service, object $instance = null): static
     {
         if (!class_exists($service)) {
             throw new NotFoundException('Class '.$service.' does not exist');
         }
+
         if (Arr::has($this->services, $service)) {
             throw new ContainerException('Service '.$service.' is already registered');
         }
-        $this->services[$service] = null;
+
+        $this->services[$service] = $instance;
 
         return $this;
     }

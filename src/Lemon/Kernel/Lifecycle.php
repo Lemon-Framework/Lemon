@@ -42,17 +42,11 @@ final class Lifecycle extends Container
     public readonly string $directory;
 
     /**
-     * Dependency injection container for curent lifecycle.
-     */
-    private Container $container;
-
-    /**
      * Creates new lifecycle instance.
      */
     public function __construct(string $directory)
     {
         $this->directory = $directory;
-        $this->container = new Container();
     }
 
     public function __get(string $name): mixed
@@ -149,8 +143,7 @@ final class Lifecycle extends Container
         }
 
         try {
-            $request = Request::make();
-            $this->get('routing')->dispatch($request)->terminate();
+            $this->get('routing')->dispatch($this->get(Request::class))->terminate();
         } catch (Exception|Error $e) {
             $this->handle($e);
         }
@@ -183,6 +176,11 @@ final class Lifecycle extends Container
 
         // --- Loading Error/Exception handlers ---
         $lifecycle->loadHandler();
+
+        // --- Obtaining request ---
+        $lifecycle->add(Request::class, Request::capture());
+
+        $lifecycle->alias('request', Request::class);
 
         /* --- The end ---
          * This function automaticaly boots our app at the end of file
