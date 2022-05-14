@@ -6,6 +6,10 @@ namespace Lemon\Tests\Templating\Juice\Compilers\Directives\Layout;
 
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class LayoutTest extends TestCase
 {
     public function render(string $file)

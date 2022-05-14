@@ -34,7 +34,8 @@ final class DirectiveCompiler
 
     private Container $compilers;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->compilers = new Container();
         $this->loadDefaults();
     }
@@ -45,7 +46,7 @@ final class DirectiveCompiler
     public function injectFactory(Factory $factory)
     {
         // Thanks to this we can obtain factory inside all the fancy includes
-        $this->compilers->add(Factory::class, $factory); 
+        $this->compilers->add(Factory::class, $factory);
     }
 
     /**

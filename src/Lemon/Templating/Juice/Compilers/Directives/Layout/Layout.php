@@ -9,11 +9,17 @@ use Lemon\Support\Types\Arr;
 class Layout
 {
     private array $blocks;
-    
+
     public function __construct(
         private string $file,
     ) {
-        
+    }
+
+    public function __destruct()
+    {
+        $_layout = $this;
+
+        include $this->file;
     }
 
     public function block(string $name)
@@ -30,11 +36,5 @@ class Layout
     public function yield(string $name)
     {
         echo trim($this->blocks[$name]);
-    }
-
-    public function __destruct()
-    {
-        $_layout = $this;
-        include $this->file;
     }
 }

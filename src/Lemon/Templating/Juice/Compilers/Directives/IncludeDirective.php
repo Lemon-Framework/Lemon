@@ -12,17 +12,16 @@ class IncludeDirective implements Directive
 {
     public function __construct(
         private Factory $factory
-    ){
-        
+    ) {
     }
 
     public function compileOpenning(Token $token, array $stack): string
     {
         $tokens = token_get_all('<?php '.$token->content[1]); // TODO better manipulation
-        if (count($tokens) != 2) {
+        if (2 != count($tokens)) {
             throw new CompilerException('Directive include takes exactly 1 argument', $token->line);
         }
-        if ($tokens[1][0] != T_CONSTANT_ENCAPSED_STRING) {
+        if (T_CONSTANT_ENCAPSED_STRING != $tokens[1][0]) {
             throw new CompilerException('Argument 1 of directive include has to be string', $token->line);
         }
 

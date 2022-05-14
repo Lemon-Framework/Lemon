@@ -13,6 +13,10 @@ use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Token;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class IncludeDirectiveTest extends TestCase
 {
     public function testCompilation()
@@ -26,19 +30,19 @@ class IncludeDirectiveTest extends TestCase
 
         $this->assertSame('<?php include \''.__DIR__.DIRECTORY_SEPARATOR.'storage/templates/foo_bar.php\' ?>', $compiler->directives->compileOpenning(new Token(Token::TAG, ['include', '\'foo.bar\''], 1), []));
 
-        $this->assertThrowable(function(DirectiveCompiler $d) {
+        $this->assertThrowable(function (DirectiveCompiler $d) {
             $d->compileOpenning(new Token(Token::TAG, ['include', ''], 1), []);
         }, CompilerException::class, $compiler->directives);
 
-        $this->assertThrowable(function(DirectiveCompiler $d) {
+        $this->assertThrowable(function (DirectiveCompiler $d) {
             $d->compileOpenning(new Token(Token::TAG, ['include', 'echo'], 1), []);
         }, CompilerException::class, $compiler->directives);
 
-        $this->assertThrowable(function(DirectiveCompiler $d) {
+        $this->assertThrowable(function (DirectiveCompiler $d) {
             $d->compileOpenning(new Token(Token::TAG, ['include', '\'foo'], 1), []);
         }, CompilerException::class, $compiler->directives);
 
-        $this->assertThrowable(function(DirectiveCompiler $d) {
+        $this->assertThrowable(function (DirectiveCompiler $d) {
             $d->compileOpenning(new Token(Token::TAG, ['include', '\'foo\'"bar"'], 1), []);
         }, CompilerException::class, $compiler->directives);
     }
