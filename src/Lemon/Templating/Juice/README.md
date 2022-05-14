@@ -23,12 +23,12 @@ Custom syntax are very risky so be aware.
 - [x] each tag compiler is separate class that takes token and returns php code
 - [x] context-based rendering like in Latte https://stackoverflow.com/questions/2725156/complete-list-of-html-tag-attributes-which-have-a-url-value, `on.+='|"`, `src|href|...=`
 - [x] syntax bundle of blade and twig (For blade `@([^\(]+)(?(?=\()\((.+?)\))` this is what my mind made in 23:15 CET i will regret this tommorow cause i have no idea how it works but it works lets goooooo)
-- [ ] syntax highlight generator for vim (emacs?)
+- [x] syntax highlight for vim (emacs?)
 - [ ] tests tests tests tests
 - [x] ability of custom tags
 - [x] metaframework
 - [x] elixir-like piping?
 - [ ] directive syntax check
 - [ ] includes, extends,...
+- [ ] safer extends
 - [x] line counting
-
