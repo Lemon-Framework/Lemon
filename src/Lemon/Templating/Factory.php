@@ -37,6 +37,10 @@ class Factory
         $config = $config->part('templating');
         $this->templates = $config->file('location');
         $this->cached = $config->file('cached');
+
+        if ($compiler instanceof Juice\Compiler) {
+            $compiler->directives->injectFactory($this);
+        }
     }
 
     /**

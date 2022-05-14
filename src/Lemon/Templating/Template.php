@@ -13,8 +13,8 @@ use Throwable;
 class Template
 {
     public function __construct(
-        private string $raw_path,
-        private string $compiled_path,
+        public readonly string $raw_path,
+        public readonly string $compiled_path,
         private array $data
     ) {
     }

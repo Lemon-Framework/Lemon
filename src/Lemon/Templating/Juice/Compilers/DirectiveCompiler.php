@@ -7,6 +7,7 @@ namespace Lemon\Templating\Juice\Compilers;
 use Lemon\Kernel\Container;
 use Lemon\Support\Types\Arr;
 use Lemon\Templating\Exceptions\CompilerException;
+use Lemon\Templating\Factory;
 use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Token;
 
@@ -28,14 +29,23 @@ final class DirectiveCompiler
         'switch' => Directives\SwitchDirective::class,
         'unless' => Directives\UnlessDirective::class,
         'while' => Directives\WhileDirective::class,
+        'include' => Directives\IncludeDirective::class,
     ];
 
     private Container $compilers;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->compilers = new Container();
         $this->loadDefaults();
+    }
+
+    /**
+     * Injects template factory class into directive compiler.
+     */
+    public function injectFactory(Factory $factory)
+    {
+        // Thanks to this we can obtain factory inside all the fancy includes
+        $this->compilers->add(Factory::class, $factory); 
     }
 
     /**

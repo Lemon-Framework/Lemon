@@ -14,11 +14,12 @@ use Lemon\Templating\Juice\Compilers\OutputCompiler;
  */
 class Compiler implements CompilerInterface
 {
+
     private Lexer $lexer;
 
     private OutputCompiler $output;
 
-    private DirectiveCompiler $directives;
+    public readonly DirectiveCompiler $directives;
 
     public function __construct(Config $config)
     {
