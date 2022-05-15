@@ -6,7 +6,7 @@ namespace Lemon\Routing;
 
 class Route
 {
-    private string $path;
+    public readonly string $path;
 
     private string $patern = 'a-zA-Z_-0-9';
 
@@ -17,8 +17,11 @@ class Route
         $this->path = trim($path, '/');
     }
 
-    public function action(string $method, callable $action): static
+    public function action(string $method, callable $action = null): static|null|callable
     {
+        if (!$action) {
+            return $this->actions[$method] ?? null;
+        }
         $this->actions[$method] = $action;
 
         return $this;

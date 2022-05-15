@@ -18,11 +18,13 @@ abstract class Response
     ) {
     }
 
-    public function send()
+    public function send(): static
     {
         $this->handleHeaders();
         $this->handleStatusCode();
         $this->handleBody();
+
+        return $this;
     }
 
     public function header(string $key, string $value = null): ?string
@@ -34,6 +36,24 @@ abstract class Response
         $this->headers[$key] = $value;
 
         return null;
+    }
+
+    public function location(string $location): static
+    {
+        $this->header('Location', $location);
+
+        return $this;
+    }
+
+    public function code(int $code = null): static|int
+    {
+        if (!$code) {
+            return $this->status_code;
+        }
+
+        $this->status_code = $code;
+
+        return $this;
     }
 
     abstract protected function handleBody(): void;

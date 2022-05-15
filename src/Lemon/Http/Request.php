@@ -3,14 +3,7 @@
 // TODO ADD:
 // getting via decorators
 // LITERALY THE WHOLE THIN
-/*
-
-    method
-    path
-    headers
-    body -> by content type ig and everything
-
- */
+// body -> by content type ig and everything
 
 declare(strict_types=1);
 

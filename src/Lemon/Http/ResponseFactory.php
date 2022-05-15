@@ -57,7 +57,7 @@ class ResponseFactory
     /**
      * Returns response of 400-500 http status codes.
      */
-    public function makeError(int $code): Response
+    public function error(int $code): Response
     {
         if (isset($this->handlers[$code])) {
             return $this->make($this->handlers[$code]);

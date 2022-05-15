@@ -6,6 +6,8 @@ namespace Lemon\Routing;
 
 use Exception;
 use Lemon\Http\Request;
+use Lemon\Http\Response;
+use Lemon\Http\ResponseFactory;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 use Lemon\Templating\Factory as TemplateFactory;
@@ -36,7 +38,8 @@ class Router
     private Collection $routes;
 
     public function __construct(
-        private TemplateFactory $templates
+        private TemplateFactory $templates,
+        private ResponseFactory $response
     ) {
     }
 
@@ -84,11 +87,20 @@ class Router
     /**
      * Finds route depending on given request.
      */
-    public function dispatch(Request $request)
+    public function dispatch(Request $request): Response
     {
-        $this->routes->dispatch($request->path);
-        // When result is null -> 404
-        // When result[0] for request method does not exist -> 400
-        // otherwise make the response from action NEW HTTP COMPONENT
+        $result = $this->routes->dispatch($request->path);
+
+        if (!$result) {
+            return $this->response->error(404);
+        }
+
+        $action = $request[0]->action($request->method);
+
+        if (!$action) {
+            return $this->response->error(400);
+        }
+
+        return $this->response->make($action, $request[1]);
     }
 }

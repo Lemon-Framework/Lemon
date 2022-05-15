@@ -34,6 +34,7 @@ final class Lifecycle extends Container
         \Lemon\Templating\Juice\Compiler::class => ['juice', \Lemon\Templating\Compiler::class],
         \Lemon\Templating\Factory::class => ['templating'],
         \Lemon\Support\Env::class => ['env'],
+        \Lemon\Http\ResponseFactory::class => ['response'],
     ];
 
     /**
