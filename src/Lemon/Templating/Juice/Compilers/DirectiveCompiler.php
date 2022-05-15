@@ -115,6 +115,7 @@ final class DirectiveCompiler
     public function compileClosing(string $directive): string
     {
         $class = $this->getDirectiveCompiler($directive);
+
         return '<?php '.trim($class->compileClosing()).' ?>';
     }
 

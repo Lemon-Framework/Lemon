@@ -26,13 +26,13 @@ class ExtendsDirectiveTest extends TestCase
         $compiler = new Compiler($config);
         new Factory($config, $compiler, $lifecycle);
 
-        $this->assertSame('<?php $_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout\Layout(\''.__DIR__.DIRECTORY_SEPARATOR.'storage/templates/foo_bar.php\') ?>', $compiler->directives->compileOpenning(new Token(Token::TAG, ['extends', '"foo.bar"'], 1), [])); 
+        $this->assertSame('<?php $_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout\Layout(\''.__DIR__.DIRECTORY_SEPARATOR.'storage/templates/foo_bar.php\') ?>', $compiler->directives->compileOpenning(new Token(Token::TAG, ['extends', '"foo.bar"'], 1), []));
 
-        $this->assertSame('<?php $_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout\Layout(\''.__DIR__.DIRECTORY_SEPARATOR.'storage/templates/foo_bar.php\') ?>', $compiler->directives->compileOpenning(new Token(Token::TAG, ['extends', '\'foo.bar\''], 1), [])); 
+        $this->assertSame('<?php $_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout\Layout(\''.__DIR__.DIRECTORY_SEPARATOR.'storage/templates/foo_bar.php\') ?>', $compiler->directives->compileOpenning(new Token(Token::TAG, ['extends', '\'foo.bar\''], 1), []));
 
-        $this->assertThrowable(function (DirectiveCompiler $d) {   
-            $d->compileOpenning(new Token(Token::TAG, ['extends', ''], 1), []);  
-        }, CompilerException::class, $compiler->directives); 
+        $this->assertThrowable(function (DirectiveCompiler $d) {
+            $d->compileOpenning(new Token(Token::TAG, ['extends', ''], 1), []);
+        }, CompilerException::class, $compiler->directives);
 
         $this->assertThrowable(function (DirectiveCompiler $d) {
             $d->compileOpenning(new Token(Token::TAG, ['extends', 'echo'], 1), []);

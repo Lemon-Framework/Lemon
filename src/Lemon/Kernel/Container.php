@@ -9,6 +9,7 @@ use Lemon\Kernel\Exceptions\NotFoundException;
 use Lemon\Support\Types\Arr;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
+use ReflectionFunction;
 
 class Container implements ContainerInterface
 {
@@ -130,5 +131,24 @@ class Container implements ContainerInterface
         return new $service(...$params);
     }
 
-    // public funciton call(callable $callback): mixed
+    public function call(callable $callback, array $params): mixed
+    {
+        $fn = new ReflectionFunction($callback);
+        $injected = [];
+        foreach ($fn->getParameters() as $param) {
+            if ($class = (string) $param->getType()) {
+                if ($this->has($class)) {
+                    $injected[] = $this->get($class);
+                } else {
+                    throw new ContainerException('Parameter of type '.$class.' could not be injected, because its not present in container');
+                }
+            } else if (isset($params[$param->getName()])) {
+                $injected[] = $params[$param->getName()];
+            } else if (!$param->isOptional()) {
+                return new ContainerException('Parameter '.$param->getName().' is missing');
+            }
+        }
+
+        return $callback(...$injected);
+    }
 }
