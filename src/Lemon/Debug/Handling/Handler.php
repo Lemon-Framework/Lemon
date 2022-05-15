@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Debug\Handling;
 
-use Lemon\Http\Response;
 use Lemon\Kernel\Lifecycle;
 
 class Handler
@@ -27,8 +26,7 @@ class Handler
         if ($this->lifecycle->config('kernel', 'debug')) {
             echo $this->problem;
         } // TODO REPORTER
-        else {
-            (new Response('', 500))->terminate();
-        }
+
+            // TODO 500
     }
 }

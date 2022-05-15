@@ -8,17 +8,14 @@ namespace Lemon\Http;
  * Represents Http Response.
  *
  * TODO fancy methods for manipulation
- *
  */
 abstract class Response
 {
-
     public function __construct(
         protected mixed $body = '',
         protected int $status_code = 200,
         protected array $headers = []
     ) {
-        
     }
 
     public function send()
@@ -28,15 +25,18 @@ abstract class Response
         $this->handleBody();
     }
 
-    public function header(string $key, string $value=null): ?string
+    public function header(string $key, string $value = null): ?string
     {
         if (!$value) {
             return $this->headers[$key] ?? null;
         }
 
         $this->headers[$key] = $value;
+
         return null;
-    } 
+    }
+
+    abstract protected function handleBody(): void;
 
     private function handleStatusCode()
     {
@@ -49,7 +49,4 @@ abstract class Response
             header($header.':'.$value);
         }
     }
-
-    abstract protected function handleBody(): void;
-
 }
