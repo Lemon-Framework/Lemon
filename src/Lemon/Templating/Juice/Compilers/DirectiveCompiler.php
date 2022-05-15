@@ -30,6 +30,9 @@ final class DirectiveCompiler
         'unless' => Directives\UnlessDirective::class,
         'while' => Directives\WhileDirective::class,
         'include' => Directives\IncludeDirective::class,
+        'extends' => Directives\Layout\ExtendsDirective::class,
+        'block' => Directives\Layout\BlockDirective::class,
+        'yield' => Directives\Layout\YieldDirective::class,
     ];
 
     private Container $compilers;
@@ -112,7 +115,6 @@ final class DirectiveCompiler
     public function compileClosing(string $directive): string
     {
         $class = $this->getDirectiveCompiler($directive);
-
         return '<?php '.trim($class->compileClosing()).' ?>';
     }
 

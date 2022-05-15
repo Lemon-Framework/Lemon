@@ -28,7 +28,7 @@ Custom syntax are very risky so be aware.
 - [x] ability of custom tags
 - [x] metaframework
 - [x] elixir-like piping?
-- [ ] directive syntax check
-- [ ] includes, extends,...
-- [ ] safer extends
+- [ ] sager syntax check
+- [ ] syntax for actual {}
+- [x] includes, extends,...
 - [x] line counting

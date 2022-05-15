@@ -28,6 +28,6 @@ class ExtendsDirective implements Directive
 
         $template = $this->factory->make(substr($tokens[1][1], 1, -1));
 
-        return '$_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout(\''.$template->compiled_path.'\')';
+        return '$_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout\Layout(\''.$template->compiled_path.'\')';
     }
 }
