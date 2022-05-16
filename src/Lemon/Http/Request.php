@@ -9,8 +9,16 @@ declare(strict_types=1);
 
 namespace Lemon\Http;
 
+use Exception;
+use Lemon\Kernel\Lifecycle;
+use Lemon\Validation\Validator;
+
 class Request
 {
+    private array $data = null;
+
+    private Lifecycle $lifecycle = null;
+
     public function __construct(
         public readonly string $path,
         public readonly string $query,
@@ -18,6 +26,12 @@ class Request
         public readonly array $headers,
         public readonly string $body
     ) {
+    }
+
+    public function injectLifecycle(Lifecycle $lifecycle): static
+    {
+        $this->lifecycle = $lifecycle;
+        return $this;
     }
 
     public static function capture(): self
@@ -64,12 +78,50 @@ class Request
         return $result;
     }
 
-    public function header(string $name): string
+    public function header(string $name): ?string
     {
-        return $this->headers[$name];
+        return $this->headers[$name] ?? null;
     }
 
     public function parseBody()
     {
+        $this->data = [];
+        if (!$content_type = $this->header('Content-Type')) {
+            return;
+        }
+
+        switch ($content_type) {
+            case 'application/x-www-form-urlencoded': 
+                parse_str($this->body, $result);
+                $this->data = $result;
+                return;
+            case 'application/json':
+                $this->data = json_decode($this->body);
+                return;
+        }
+
+    }
+
+    public function data()
+    {
+        if (is_null($this->data)) {
+            $this->parseBody();
+        }
+        return $this->data;
+    }
+
+    public function get(string $key): ?string
+    {
+        return $this->data()[$key] ?? null;
+    }
+
+    public function validate(array $rules): bool
+    {
+        if (!$this->lifecycle) {
+            throw new Exception('Lifecycle is required for validation. Try injecting using ::injectLifecycle'); // TODO exception
+        }
+        
+        return $this->lifecycle->get(Validator::class)
+                        ->validate($this->data, $rules);
     }
 }
