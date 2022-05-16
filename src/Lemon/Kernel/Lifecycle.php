@@ -7,11 +7,11 @@ namespace Lemon\Kernel;
 use Error;
 use ErrorException;
 use Exception;
-use Lemon\Debug\Handling\Handler;
 use Lemon\Http\Request;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Str;
 use Lemon\Zest;
+use Throwable;
 
 /**
  * The Lemon Lifecycle.
@@ -35,6 +35,7 @@ final class Lifecycle extends Container
         \Lemon\Templating\Factory::class => ['templating'],
         \Lemon\Support\Env::class => ['env'],
         \Lemon\Http\ResponseFactory::class => ['response'],
+        \Lemon\Debug\Handling\Handler::class => ['handler'],
     ];
 
     /**
@@ -86,7 +87,7 @@ final class Lifecycle extends Container
         set_exception_handler([$this, 'handle']);
     }
 
-    public function handleError($level, $message, $file = '', $line = 0, $context = []): void
+    public function handleError($level, $message, $file = '', $line = 0): void
     {
         throw new ErrorException($message, 0, $level, $file, $line);
     }
@@ -94,11 +95,9 @@ final class Lifecycle extends Container
     /**
      * Executes error handler.
      */
-    public function handle(mixed $problem): void
+    public function handle(Throwable $problem): void
     {
-        $handler = new Handler($problem, $this);
-        $handler->terminate();
-
+        $this->get('handler')->handle($problem);
         exit;
     }
 
