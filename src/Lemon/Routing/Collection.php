@@ -21,11 +21,11 @@ class Collection
 
         private MiddlewareCollection $middlewares;
 
-        private string $prefix;
-
         and functions for it okacko
 
      */
+
+    private string $prefix = '';
 
     public function add(string $path, string $method, callable $action): Route
     {
@@ -60,8 +60,25 @@ class Collection
         return $this;
     }
 
+    public function prefix(string $prefix = null): string|static
+    {
+        if (!$prefix) {
+            return $this->prefix;
+        }
+
+        $this->prefix = $prefix;
+        return $this;
+    }
+
     public function dispatch(string $path): ?array
     {
+        if ($this->prefix) {
+            if (preg_match("^({$this->prefix})(.+)$/", $path, $matches)) {
+                $path = $matches[2];
+            } else {
+                return null;
+            }
+        }
         foreach ($this->routes as $route) {
             if ($route instanceof Collection) {
                 if ($found = $route->dispatch($path)) {
