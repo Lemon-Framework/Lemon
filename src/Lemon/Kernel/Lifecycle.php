@@ -28,7 +28,6 @@ final class Lifecycle extends Container
      */
     private const DEFAULTS = [
         \Lemon\Routing\Router::class => ['routing'],
-        \Lemon\Terminal\Terminal::class => ['terminal'],
         \Lemon\Config\Config::class => ['config'],
         \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class],
         \Lemon\Templating\Juice\Compiler::class => ['juice', \Lemon\Templating\Compiler::class],

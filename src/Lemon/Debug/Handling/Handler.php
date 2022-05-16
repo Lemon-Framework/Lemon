@@ -19,7 +19,7 @@ class Handler
     /**
      * Executes handler depending on debug settings.
      */
-    public function handler(Throwable $problem): void
+    public function handle(Throwable $problem): void
     {
         if ($this->config->part('kernel')->get('debug')) {
             echo $problem; // TODO Reporter

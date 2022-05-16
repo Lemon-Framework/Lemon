@@ -19,6 +19,8 @@ class Request
 
     private ?Lifecycle $lifecycle = null;
 
+    private array $parsers = [];
+
     public function __construct(
         public readonly string $path,
         public readonly string $query,
@@ -102,7 +104,18 @@ class Request
                 $this->data = json_decode($this->body);
 
                 return;
+
+            default:
+                if (isset($this->parsers[$content_type])) {
+                    $this->data = $this->parsers[$content_type]();
+                }
         }
+    }
+
+    public function addParser(string $content_type, callable $parser): static
+    {
+        $this->parsers[$content_type] = $parser;
+        return $this;
     }
 
     public function data()
@@ -128,5 +141,14 @@ class Request
         return $this->lifecycle->get(Validator::class)
             ->validate($this->data, $rules)
         ;
+    }
+
+    public function __get($name)
+    {
+        if ($result = $this->get($name)) {
+            return $result;
+        }
+
+        throw new Exception('Property '.$name.' does not exist');
     }
 }

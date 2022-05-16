@@ -59,24 +59,36 @@ class ResponseFactory
      */
     public function error(int $code): Response
     {
+        if (!isset(Response::ERROR_STATUS_CODES[$code])) {
+            throw new  Exception('Status code '.$code.' is not any error status code');
+        }
+
         if (isset($this->handlers[$code])) {
             return $this->make($this->handlers[$code]);
         }
 
-        if (is_file($this->templating->getRawPath("errors.{$code}"))) {
-            return new TemplateResponse($this->templating->make("errors.{$code}"), $code);
-        }
+//        if (is_file($this->templating->getRawPath("errors.{$code}"))) {
+//            return new TemplateResponse($this->templating->make("errors.{$code}"), $code);
+//        }
 
         static $s = DIRECTORY_SEPARATOR;
+        $path = __DIR__.$s.'templates'.$s.'error.phtml';
 
         return new TemplateResponse(new Template(
-            __DIR__.$s.'templates'.$s.'error.phtml',
-            __DIR__.$s.'templates'.$s.'error.phtml',
-            compact($code)
+            $path,
+            $path,
+            ['code' => $code, 'message' => Response::ERROR_STATUS_CODES[$code]]
         ), $code);
     }
 
-    public function handle(int $code, callable $action)
+    public function raise(int $code): Response
     {
+        return $this->error($code);
+    }
+
+    public function handle(int $code, callable $action): static
+    {
+        $this->handlers[$code] = $action;
+        return $this;
     }
 }
