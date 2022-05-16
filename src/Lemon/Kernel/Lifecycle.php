@@ -179,7 +179,7 @@ final class Lifecycle extends Container
         $lifecycle->loadHandler();
 
         // --- Obtaining request ---
-        $lifecycle->add(Request::class, Request::capture()->injectLifecycle($lifecycle)));
+        $lifecycle->add(Request::class, Request::capture()->injectLifecycle($lifecycle));
 
         $lifecycle->alias('request', Request::class);
 

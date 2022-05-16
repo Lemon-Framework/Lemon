@@ -15,9 +15,9 @@ use Lemon\Validation\Validator;
 
 class Request
 {
-    private array $data = null;
+    private ?array $data = null;
 
-    private Lifecycle $lifecycle = null;
+    private ?Lifecycle $lifecycle = null;
 
     public function __construct(
         public readonly string $path,
@@ -31,6 +31,7 @@ class Request
     public function injectLifecycle(Lifecycle $lifecycle): static
     {
         $this->lifecycle = $lifecycle;
+
         return $this;
     }
 
@@ -91,15 +92,17 @@ class Request
         }
 
         switch ($content_type) {
-            case 'application/x-www-form-urlencoded': 
+            case 'application/x-www-form-urlencoded':
                 parse_str($this->body, $result);
                 $this->data = $result;
+
                 return;
+
             case 'application/json':
                 $this->data = json_decode($this->body);
+
                 return;
         }
-
     }
 
     public function data()
@@ -107,6 +110,7 @@ class Request
         if (is_null($this->data)) {
             $this->parseBody();
         }
+
         return $this->data;
     }
 
@@ -120,8 +124,9 @@ class Request
         if (!$this->lifecycle) {
             throw new Exception('Lifecycle is required for validation. Try injecting using ::injectLifecycle'); // TODO exception
         }
-        
+
         return $this->lifecycle->get(Validator::class)
-                        ->validate($this->data, $rules);
+            ->validate($this->data, $rules)
+        ;
     }
 }

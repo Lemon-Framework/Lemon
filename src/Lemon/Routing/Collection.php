@@ -67,6 +67,7 @@ class Collection
         }
 
         $this->prefix = $prefix;
+
         return $this;
     }
 
