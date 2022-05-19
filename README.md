@@ -45,6 +45,7 @@ TODO:
 - [ ] rewrite exceptiont esting
 - [x] rething config
 - [ ] faker
+- [ ] rewrite exceptions
 
 Directories with D means deprecated so they will have to be completely rewritten
 

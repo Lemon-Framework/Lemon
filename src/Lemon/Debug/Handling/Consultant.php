@@ -12,8 +12,6 @@ class Consultant
         'Call to undefined function (\w+?)\(\)' => 'function',
         'Call to undefined method (\w+?)::(\w+?)\(\)' => 'method',
         'Undefined property: (\w+?)::\$(\w+?)' => 'property',
-        'Unexpected <\?(php|=) at line [0-9]+' => 'viewPHPTags',
-        'View (.*?) does not exist or is not readable' => 'wrongViewName',
     ];
     private string $message;
 

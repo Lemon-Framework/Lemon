@@ -41,6 +41,7 @@ class Router
         private TemplateFactory $templates,
         private ResponseFactory $response
     ) {
+        $this->routes = new Collection();
     }
 
     public function __call($name, $arguments)

@@ -22,14 +22,6 @@ class ConsultantTest extends TestCase
         $consultant = new Consultant('Undefined property: Foo::$bar');
         $this->assertSame('property', $consultant->findHandler());
 
-        $consultant = new Consultant('Unexpected <?php at line 37');
-        $this->assertSame('viewPHPTags', $consultant->findHandler());
-
-        $consultant = new Consultant('Unexpected <?= at line 37');
-        $this->assertSame('viewPHPTags', $consultant->findHandler());
-
-        $consultant = new Consultant('View bramboraky.foo does not exist or is not readable');
-        $this->assertSame('wrongViewName', $consultant->findHandler());
     }
 
     public function testFindBestMatch()
