@@ -60,7 +60,7 @@ class ResponseFactory
     public function error(int $code): Response
     {
         if (!isset(Response::ERROR_STATUS_CODES[$code])) {
-            throw new  Exception('Status code '.$code.' is not any error status code');
+            throw new Exception('Status code '.$code.' is not any error status code');
         }
 
         if (isset($this->handlers[$code])) {
@@ -89,6 +89,7 @@ class ResponseFactory
     public function handle(int $code, callable $action): static
     {
         $this->handlers[$code] = $action;
+
         return $this;
     }
 }

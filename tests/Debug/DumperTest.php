@@ -109,9 +109,9 @@ class DumperTest extends TestCase
 
             </style>
             <div class="ldg"><span class="ldg-string">"foo"</span></div>
-            HTML, $dumper->dump('foo'));
+            HTML, $dumper->build('foo'));
 
-        $this->assertSame('<div class="ldg"><span class="ldg-string">"foo"</span></div>', $dumper->dump('foo'));
+        $this->assertSame('<div class="ldg"><span class="ldg-string">"foo"</span></div>', $dumper->build('foo'));
     }
 }
 

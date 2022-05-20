@@ -30,6 +30,15 @@ class Request
     ) {
     }
 
+    public function __get($name)
+    {
+        if ($result = $this->get($name)) {
+            return $result;
+        }
+
+        throw new Exception('Property '.$name.' does not exist');
+    }
+
     public function injectLifecycle(Lifecycle $lifecycle): static
     {
         $this->lifecycle = $lifecycle;
@@ -115,6 +124,7 @@ class Request
     public function addParser(string $content_type, callable $parser): static
     {
         $this->parsers[$content_type] = $parser;
+
         return $this;
     }
 
@@ -143,12 +153,8 @@ class Request
         ;
     }
 
-    public function __get($name)
+    public function toArray(): array
     {
-        if ($result = $this->get($name)) {
-            return $result;
-        }
-
-        throw new Exception('Property '.$name.' does not exist');
+        return []; // TODO
     }
 }

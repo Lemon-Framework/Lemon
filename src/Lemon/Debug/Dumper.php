@@ -13,8 +13,9 @@ class Dumper
 
     private bool $is_style_rendered = false;
 
-    public function __construct(Config $config)
-    {
+    public function __construct(
+        private Config $config
+    ) {
         $this->style = $config->part('debug')->get('dump')['style'];
     }
 
@@ -52,9 +53,9 @@ class Dumper
     }
 
     /**
-     * Dumps given value.
+     * Builds html for dumper.
      */
-    public function dump(mixed $data): string
+    public function build(mixed $data): string
     {
         $style = '';
         if (!$this->is_style_rendered) {
@@ -63,6 +64,16 @@ class Dumper
         }
 
         return $style.'<div class="ldg">'.$this->resolve($data).'</div>';
+    }
+
+    /**
+     * Dumps given data.
+     */
+    public function dump(mixed $data): void
+    {
+        if ($this->config->part('kernel')->get('debug')) {
+            echo $this->build($data);
+        }
     }
 
     /**

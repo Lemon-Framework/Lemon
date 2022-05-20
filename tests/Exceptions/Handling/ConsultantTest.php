@@ -21,7 +21,6 @@ class ConsultantTest extends TestCase
 
         $consultant = new Consultant('Undefined property: Foo::$bar');
         $this->assertSame('property', $consultant->findHandler());
-
     }
 
     public function testFindBestMatch()

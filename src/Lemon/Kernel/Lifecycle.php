@@ -97,6 +97,7 @@ final class Lifecycle extends Container
     public function handle(Throwable $problem): void
     {
         $this->get('handler')->handle($problem);
+
         exit;
     }
 

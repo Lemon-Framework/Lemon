@@ -47,7 +47,7 @@ abstract class Response
         506 => 'Variant Also Negotiates',
         507 => 'Insufficient Storage',
         509 => 'Bandwidth Limit Exceeded',
-        510 => 'Not Extended'
+        510 => 'Not Extended',
     ];
 
     public function __construct(
