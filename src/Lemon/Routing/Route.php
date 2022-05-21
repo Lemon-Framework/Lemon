@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon\Routing;
 
+use Lemon\Kernel\Container;
+
 class Route
 {
     public readonly string $path;
@@ -12,7 +14,8 @@ class Route
 
     public function __construct(
         string $path,
-        private array $actions
+        private array $actions,
+        public readonly MiddlewareCollection $middlewares
     ) {
         $this->path = trim($path, '/');
     }
@@ -24,6 +27,12 @@ class Route
         }
         $this->actions[$method] = $action;
 
+        return $this;
+    }
+
+    public function middleware(string|array ...$middleware): static
+    {
+        
         return $this;
     }
 

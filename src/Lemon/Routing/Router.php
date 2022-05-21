@@ -8,6 +8,8 @@ use Exception;
 use Lemon\Http\Request;
 use Lemon\Http\Response;
 use Lemon\Http\ResponseFactory;
+use Lemon\Http\Responses\EmptyResponse;
+use Lemon\Kernel\Container;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 use Lemon\Templating\Factory as TemplateFactory;
@@ -37,11 +39,14 @@ class Router
 
     private Collection $routes;
 
+    private Container $middlewares;
+
     public function __construct(
         private TemplateFactory $templates,
         private ResponseFactory $response
     ) {
-        $this->routes = new Collection();
+        $this->middlewares = new Container();
+        $this->routes = new Collection($this->middlewares);
     }
 
     public function __call($name, $arguments)
@@ -76,7 +81,7 @@ class Router
     public function collection(callable $routes): Collection
     {
         $original = $this->routes;
-        $this->routes = new Collection();
+        $this->routes = new Collection($this->middlewares);
         $routes();
         $collection = $this->routes;
         $this->routes = $original;
@@ -96,10 +101,21 @@ class Router
             return $this->response->error(404);
         }
 
-        $action = $request[0]->action($request->method);
+        $route = $request[0];
+        $action = $route->action($request->method);
 
         if (!$action) {
             return $this->response->error(400);
+        }
+
+        // Middlewares
+        foreach ($route->middlewares as $middleware) {
+            $response = $this->response->make($middleware);
+            if ($response instanceof EmptyResponse) {
+                continue;
+            }
+        
+            return $response;
         }
 
         return $this->response->make($action, $request[1]);

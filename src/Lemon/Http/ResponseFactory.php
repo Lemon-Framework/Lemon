@@ -7,6 +7,7 @@ namespace Lemon\Http;
 use Exception;
 use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Http\Responses\JsonResponse;
+use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Http\Responses\TemplateResponse;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Templating\Factory as Templating;
@@ -31,7 +32,11 @@ class ResponseFactory
 
     public function resolve(mixed $data): Response
     {
-        if (is_scalar($data) || is_null($data)) {
+        if (is_null($data)) {
+            return new EmptyResponse();
+        }
+
+        if (is_scalar($data)) {
             return new HtmlResponse($data);
         }
 

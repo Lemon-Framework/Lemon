@@ -51,9 +51,9 @@ abstract class Response
     ];
 
     public function __construct(
-        protected mixed $body = '',
-        protected int $status_code = 200,
-        protected array $headers = []
+        public readonly mixed $body = '',
+        public readonly int $status_code = 200,
+        public readonly array $headers = []
     ) {
     }
 
