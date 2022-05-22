@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon;
 
+use Exception;
+
 /**
  * Lemon Router Zest
  * Provides static layer over the Lemon Router.
@@ -23,5 +25,11 @@ class Route extends Zest
     public static function unit(): string
     {
         return 'routing';
+    }
+
+    public static function dispatch()
+    {
+        // This basically prevents calling method dispatch in zest
+        throw new Exception('Call to undefined method Route::dispatch'); 
     }
 }

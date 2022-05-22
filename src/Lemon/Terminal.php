@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon;
 
+use Exception;
+
 /**
  * Lemon Terminal Zest
  * Provides static layer over the Lemon Terminal.
@@ -16,4 +18,9 @@ class Terminal extends Zest
     {
         return 'terminal';
     }
+
+    public static function run(): void
+    {
+        throw new Exception('Call to undefined method Terminal::run()');
+    } 
 }

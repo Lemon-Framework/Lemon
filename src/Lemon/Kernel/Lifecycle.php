@@ -35,6 +35,7 @@ final class Lifecycle extends Container
         \Lemon\Support\Env::class => ['env'],
         \Lemon\Http\ResponseFactory::class => ['response'],
         \Lemon\Debug\Handling\Handler::class => ['handler'],
+        \Lemon\Terminal\Terminal::class => ['terminal'],
     ];
 
     /**
@@ -154,17 +155,6 @@ final class Lifecycle extends Container
      */
     public static function init(string $directory): self
     {
-        /*--- Terminal ---
-         * While using ::init the app contains minimal amount of files and Lemonade
-         * is not included. If you run your index.php it will automaticaly run your development
-         * server and end. Using superglobal $_SERVER we can whenever its ran in terminal
-         */
-        if (!isset($_SERVER['REQUEST_URI'])) {
-            exec('php -S localhost:8000 -t '.$directory);
-
-            exit;
-        }
-
         // --- Creating Lifecycle instance ---
         $lifecycle = new self(Filesystem::parent($directory));
 
@@ -176,6 +166,15 @@ final class Lifecycle extends Container
 
         // --- Loading Error/Exception handlers ---
         $lifecycle->loadHandler();
+
+        /* --- Terminal ---
+         * Once we run index.php from terminal via php index.php it will automaticaly start terminal
+         * mode which will work instead of lemonade
+         */
+        if (!isset($_SERVER['REQUEST_URI'])) {
+            $lifecycle->get('terminal')->run(array_slice($GLOBALS['argv'], 1));
+            exit;
+        }
 
         // --- Obtaining request ---
         $lifecycle->add(Request::class, Request::capture()->injectLifecycle($lifecycle));
