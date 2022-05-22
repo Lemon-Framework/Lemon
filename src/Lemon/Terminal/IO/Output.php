@@ -22,6 +22,7 @@ class Output
         if ($content instanceof Template) {
             ob_start();
             $content->render();
+
             return $this->out(ob_get_clean());
         }
 
@@ -30,12 +31,13 @@ class Output
                 return $this->html->compile($content);
             }
         }
-        
+
         if (is_scalar($content)) {
             return (string) $content;
         }
 
         $type = gettype($content);
-        throw new IOException('Value of type '.($type == 'object' ? get_class($content) : $type).' could not be outputed');
+
+        throw new IOException('Value of type '.('object' == $type ? get_class($content) : $type).' could not be outputed');
     }
 }

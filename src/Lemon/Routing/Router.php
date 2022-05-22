@@ -114,7 +114,7 @@ class Router
             if ($response instanceof EmptyResponse) {
                 continue;
             }
-        
+
             return $response;
         }
 

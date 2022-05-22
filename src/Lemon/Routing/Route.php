@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Routing;
 
-use Lemon\Kernel\Container;
-
 class Route
 {
     public readonly string $path;
@@ -30,9 +28,12 @@ class Route
         return $this;
     }
 
-    public function middleware(string|array ...$middleware): static
+    public function middleware(string|array ...$middlewares): static
     {
-        
+        foreach ($middlewares as $middleware) {
+            $this->middlewares->add($middleware);
+        }
+
         return $this;
     }
 

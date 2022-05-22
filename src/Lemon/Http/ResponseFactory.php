@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Lemon\Http;
 
 use Exception;
+use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Http\Responses\JsonResponse;
-use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Http\Responses\TemplateResponse;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Templating\Factory as Templating;

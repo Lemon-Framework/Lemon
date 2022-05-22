@@ -173,6 +173,7 @@ final class Lifecycle extends Container
          */
         if (!isset($_SERVER['REQUEST_URI'])) {
             $lifecycle->get('terminal')->run(array_slice($GLOBALS['argv'], 1));
+
             exit;
         }
 

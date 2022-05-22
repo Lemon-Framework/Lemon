@@ -31,7 +31,6 @@ class Collection
     public function __construct(
         private Container $middlewares
     ) {
-        
     }
 
     public function add(string $path, string $method, callable $action): Route

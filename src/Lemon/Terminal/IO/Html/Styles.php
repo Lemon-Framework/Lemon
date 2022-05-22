@@ -6,5 +6,4 @@ namespace Lemon\Terminal\IO\Html;
 
 class Styles
 {
-    
 }

@@ -10,7 +10,6 @@ use DOMXPath;
 
 class HtmlOutput
 {
-
     private Components $components;
 
     public function __construct()
@@ -28,7 +27,7 @@ class HtmlOutput
         $dom = new DOMDocument();
         $dom->loadHTML($content);
         $xpath = new DOMXPath($dom);
-        
+
         return $xpath->document->getElementsByTagName('body')[0];
     }
 }

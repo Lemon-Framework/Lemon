@@ -20,17 +20,17 @@ class Components
         return $result;
     }
 
-    public function parseElement(DOMNode $element): string 
+    public function parseElement(DOMNode $element): string
     {
         if ($element instanceof DOMText) {
-            return $element->textContent; 
+            return $element->textContent;
         }
 
         $name = $element->nodeName;
         $method = 'parse'.ucfirst($name);
 
         if (method_exists($this, $method)) {
-            return $this->$method($element);
+            return $this->{$method}($element);
         }
 
         throw new HtmlException('Html tag '.$name.' is not supported');
@@ -45,6 +45,7 @@ class Components
     {
         $content = $this->parse($element);
         $line = '+'.str_repeat('-', strlen($content) + 2).'+';
+
         return $line.PHP_EOL.'| '.$content.' |'.PHP_EOL.$line;
     }
 

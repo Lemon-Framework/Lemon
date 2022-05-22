@@ -12,6 +12,7 @@ class Dispatcher
     public function add(Command $command): static
     {
         $this->commands[$command->name] = $command;
+
         return $this;
     }
 
@@ -32,7 +33,7 @@ class Dispatcher
         foreach ($command->arguments as $argument) {
             if (isset($arguments[$argument[1]])) {
                 $result[$argument] = $arguments[$argument];
-            } elseif ($argument[0] != 'optional') {
+            } elseif ('optional' != $argument[0]) {
                 return 'Argument '.$argument[1].' is missing.';
             }
         }
@@ -47,6 +48,7 @@ class Dispatcher
             [$name, $value] = explode('=', $argument);
             $result[$name] = $value;
         }
+
         return $result;
     }
 }

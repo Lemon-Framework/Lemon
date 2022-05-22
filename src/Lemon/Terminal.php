@@ -22,5 +22,5 @@ class Terminal extends Zest
     public static function run(): void
     {
         throw new Exception('Call to undefined method Terminal::run()');
-    } 
+    }
 }

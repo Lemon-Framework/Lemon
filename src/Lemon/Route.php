@@ -30,6 +30,6 @@ class Route extends Zest
     public static function dispatch()
     {
         // This basically prevents calling method dispatch in zest
-        throw new Exception('Call to undefined method Route::dispatch'); 
+        throw new Exception('Call to undefined method Route::dispatch');
     }
 }

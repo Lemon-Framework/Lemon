@@ -13,10 +13,10 @@ class Terminal
 {
     private Dispatcher $commands;
 
-    private Output $output; 
+    private Output $output;
 
     public function __construct(
-        private Lifecycle $lifecycle  
+        private Lifecycle $lifecycle
     ) {
         $this->commands = new Dispatcher();
         $this->output = new Output();
@@ -26,10 +26,11 @@ class Terminal
     {
         $command = new Command($signature, $action, $description);
         $this->commands->add($command);
+
         return $command;
     }
 
-    public function out(mixed $content): void 
+    public function out(mixed $content): void
     {
         echo $this->output->out($content);
     }
@@ -45,6 +46,7 @@ class Terminal
 
         if (is_string($result)) {
             echo $result;
+
             return;
         }
 
