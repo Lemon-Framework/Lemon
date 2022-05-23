@@ -32,7 +32,12 @@ class Terminal
 
     public function out(mixed $content): void
     {
-        echo $this->output->out($content);
+        $out = $this->output->out($content);
+        if ($this->lifecycle->runsInTerminal()) {
+            echo $out;
+        } else {
+            file_put_contents('php://stdout', $out); // If you write to php://stdout even in server it will actualy write to standart inut which means php console pog
+        }
     }
 
     public function ask(mixed $prompt): string

@@ -34,6 +34,7 @@ final class Lifecycle extends Container
         \Lemon\Templating\Factory::class => ['templating'],
         \Lemon\Support\Env::class => ['env'],
         \Lemon\Http\ResponseFactory::class => ['response'],
+        \Lemon\Http\PhpSession::class => ['session', \Lemon\Http\Session::class],
         \Lemon\Debug\Handling\Handler::class => ['handler'],
         \Lemon\Terminal\Terminal::class => ['terminal'],
     ];
@@ -143,6 +144,11 @@ final class Lifecycle extends Container
         return $dir;
     }
 
+    public function runsInTerminal(): bool
+    {
+        return isset($_SERVER['REQUEST_URI']);
+    }
+
     /**
      * Executes whole lifecycle.
      */
@@ -189,7 +195,7 @@ final class Lifecycle extends Container
              * Once we run index.php from terminal via php index.php it will automaticaly start terminal
              * mode which will work instead of lemonade
              */
-            if (!isset($_SERVER['REQUEST_URI'])) {
+            if ($lifecycle->runsInTerminal()) {
                 $lifecycle->get('terminal')->run(array_slice($GLOBALS['argv'], 1));
                 return;
             }

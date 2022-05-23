@@ -38,6 +38,7 @@ class PhpSession implements Session
         session_start([
             'name' => $this->config->part('http')->get('session.name'),
             'cookie_lifetime' => 3600,
+            'httponly' => true,
         ]);
     }
 
