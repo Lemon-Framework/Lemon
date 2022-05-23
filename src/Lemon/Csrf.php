@@ -8,7 +8,7 @@ namespace Lemon;
  * Lemon Csrf Zest
  * Provides static layer over the Lemon Csrf.
  *
- * @see 
+ * @see
  */
 class Csrf extends Zest
 {

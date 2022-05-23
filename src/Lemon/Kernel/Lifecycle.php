@@ -106,7 +106,7 @@ final class Lifecycle extends Container
     }
 
     /**
-     * Loads fundamental commands
+     * Loads fundamental commands.
      */
     public function loadCommands(): void
     {
@@ -178,7 +178,6 @@ final class Lifecycle extends Container
         // --- Loading default Lemon services ---
         $lifecycle->loadServices();
 
-
         // --- Loading Zests for services ---
         $lifecycle->loadZests();
 
@@ -192,13 +191,13 @@ final class Lifecycle extends Container
          * This function automaticaly boots our app at the end of file
          */
         register_shutdown_function(function () use ($lifecycle) {
-
             /* --- Terminal ---
              * Once we run index.php from terminal via php index.php it will automaticaly start terminal
              * mode which will work instead of lemonade
              */
             if ($lifecycle->runsInTerminal()) {
                 $lifecycle->get('terminal')->run(array_slice($GLOBALS['argv'], 1));
+
                 return;
             }
 

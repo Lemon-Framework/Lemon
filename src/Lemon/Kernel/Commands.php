@@ -7,12 +7,12 @@ namespace Lemon\Kernel;
 use Lemon\Terminal\Terminal;
 
 /**
- * Class providing fundamental commands
+ * Class providing fundamental commands.
  */
 class Commands
 {
     private const COMMANDS = [
-        ['serve {port?} {url?}', 'serve', 'Starts development server']
+        ['serve {port?} {url?}', 'serve', 'Starts development server'],
     ];
 
     public function __construct(
@@ -27,7 +27,7 @@ class Commands
         }
     }
 
-    public function serve($port=8000, $url='localhost'): void
+    public function serve($port = 8000, $url = 'localhost'): void
     {
         exec('php -S '.$url.':'.$port);
     }

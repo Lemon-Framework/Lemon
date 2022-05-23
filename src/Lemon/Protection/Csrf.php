@@ -12,7 +12,6 @@ class Csrf
     public function __construct(
         private Cookies $cookies
     ) {
-        
     }
 
     public function getToken(): string
@@ -22,7 +21,7 @@ class Csrf
         }
 
         return $this->cookies->get('CSRF_TOKEN');
-    } 
+    }
 
     public function reset(): void
     {

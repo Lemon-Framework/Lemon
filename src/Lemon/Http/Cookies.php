@@ -10,12 +10,13 @@ class Cookies
 {
     public function set(string $name, string $value, int $expires): static
     {
-        setcookie(                
+        setcookie(
             $name,
             $value,
             $expires, // Todo datetime manipulation
             httponly: true
         );
+
         return $this;
     }
 
@@ -29,12 +30,14 @@ class Cookies
         if (!$this->has($name)) {
             throw new CookieException('Cookie '.$name.' does not exist');
         }
+
         return $_COOKIE[$name];
     }
 
     public function remove(string $name): static
     {
         unset($_COOKIE[$name]);
+
         return $this;
     }
 }
