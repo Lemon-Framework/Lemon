@@ -16,14 +16,14 @@ class Command
 
     public function __construct(
         public readonly string $signature,
-        public readonly Closure|array $action, // Maybe bad idea?
+        public readonly Closure|array|string $action, // Maybe bad idea?
         public readonly string $description = ''
     ) {
         // maybe bad idea
         // TODO
         // @phpstan-ignore-next-line
         [$this->name, $this->arguments] = $this->resolveSignature();
-        if (is_callable($action)) {
+        if (!is_callable($action)) {
             throw new CommandException('Action of command '.$this->name.' is not callable');
         }
     }

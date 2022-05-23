@@ -10,7 +10,9 @@ use Lemon\Support\Types\Arr;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionFunction;
+use ReflectionMethod;
 
+// TODO add lifecycle
 class Container implements ContainerInterface
 {
     /**
@@ -110,7 +112,7 @@ class Container implements ContainerInterface
 
     public function call(callable $callback, array $params): mixed
     {
-        $fn = new ReflectionFunction($callback);
+        $fn = is_array($callback) ? new ReflectionMethod(...$callback) : new ReflectionFunction($callback);
         $injected = [];
         foreach ($fn->getParameters() as $param) {
             if ($class = (string) $param->getType()) {

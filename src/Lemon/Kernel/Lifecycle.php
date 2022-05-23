@@ -103,6 +103,15 @@ final class Lifecycle extends Container
     }
 
     /**
+     * Loads fundamental commands
+     */
+    public function loadCommands(): void
+    {
+        $commands = new Commands($this->get('terminal'));
+        $commands->load();
+    }
+
+    /**
      * Returns config part or item from config part.
      */
     public function config(string $part, ?string $key = null): mixed
@@ -161,34 +170,39 @@ final class Lifecycle extends Container
         // --- Loading default Lemon services ---
         $lifecycle->loadServices();
 
+
         // --- Loading Zests for services ---
         $lifecycle->loadZests();
 
         // --- Loading Error/Exception handlers ---
         $lifecycle->loadHandler();
 
-        /* --- Terminal ---
-         * Once we run index.php from terminal via php index.php it will automaticaly start terminal
-         * mode which will work instead of lemonade
-         */
-        if (!isset($_SERVER['REQUEST_URI'])) {
-            $lifecycle->get('terminal')->run(array_slice($GLOBALS['argv'], 1));
-
-            exit;
-        }
-
-        // --- Obtaining request ---
-        $lifecycle->add(Request::class, Request::capture()->injectLifecycle($lifecycle));
-
-        $lifecycle->alias('request', Request::class);
+        // --- Loading commands ---
+        $lifecycle->loadCommands();
 
         /* --- The end ---
          * This function automaticaly boots our app at the end of file
          */
         register_shutdown_function(function () use ($lifecycle) {
+
+            /* --- Terminal ---
+             * Once we run index.php from terminal via php index.php it will automaticaly start terminal
+             * mode which will work instead of lemonade
+             */
+            if (!isset($_SERVER['REQUEST_URI'])) {
+                $lifecycle->get('terminal')->run(array_slice($GLOBALS['argv'], 1));
+                return;
+            }
+
             if (http_response_code() >= 500) {
                 return;
             }
+
+            // --- Obtaining request ---
+            $lifecycle->add(Request::class, Request::capture()->injectLifecycle($lifecycle));
+
+            $lifecycle->alias('request', Request::class);
+
             $lifecycle->boot();
         });
 

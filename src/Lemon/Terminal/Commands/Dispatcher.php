@@ -30,6 +30,7 @@ class Dispatcher
         $arguments = $this->parseArguments($arguments);
 
         $result = [];
+        // Todo types
         foreach ($command->arguments as $argument) {
             if (isset($arguments[$argument[1]])) {
                 $result[$argument] = $arguments[$argument];
