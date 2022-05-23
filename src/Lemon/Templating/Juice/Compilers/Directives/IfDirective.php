@@ -15,11 +15,11 @@ final class IfDirective implements Directive
             throw new CompilerException('Directive if expects arguments', $token->line);
         }
 
-        return 'if ('.$token->content[1].'):';
+        return '<?php if ('.$token->content[1].'): ?>';
     }
 
     public function compileClosing(): string
     {
-        return 'endif';
+        return '<?php endif ?>';
     }
 }

@@ -20,6 +20,6 @@ final class CaseDirective implements Directive
             throw new CompilerException('Directive case expects arguments', $token->line); // TODO
         }
 
-        return 'case '.$token->content[1].':';
+        return '<?php case '.$token->content[1].': ?>';
     }
 }

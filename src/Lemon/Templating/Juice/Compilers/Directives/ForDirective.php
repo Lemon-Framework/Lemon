@@ -16,11 +16,11 @@ final class ForDirective implements Directive
             throw new CompilerException('Directive for expects arguments', $token->line);
         }
 
-        return 'for ('.$token->content[1].'):';
+        return '<?php for ('.$token->content[1].'): ?>';
     }
 
     public function compileClosing(): string
     {
-        return 'endfor';
+        return '<?php endfor ?>';
     }
 }

@@ -16,11 +16,11 @@ final class WhileDirective implements Directive
             throw new CompilerException('Directive while expects arguments', $token->line);
         }
 
-        return 'while ('.$token->content[1].'):';
+        return '<?php while ('.$token->content[1].'): ?>';
     }
 
     public function compileClosing(): string
     {
-        return 'endwhile';
+        return '<?php endwhile ?>';
     }
 }

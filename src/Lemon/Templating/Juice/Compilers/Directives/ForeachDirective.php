@@ -16,11 +16,11 @@ final class ForeachDirective implements Directive
             throw new CompilerException('Directive foreach expects arguments', $token->line);
         }
 
-        return 'foreach ('.$token->content[1].'):';
+        return '<?php foreach ('.$token->content[1].'): ?>';
     }
 
     public function compileClosing(): string
     {
-        return 'endforeach';
+        return '<?php endforeach ?>';
     }
 }

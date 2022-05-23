@@ -33,6 +33,7 @@ final class DirectiveCompiler
         'extends' => Directives\Layout\ExtendsDirective::class,
         'block' => Directives\Layout\BlockDirective::class,
         'yield' => Directives\Layout\YieldDirective::class,
+        'csrf' => Directives\CsrfDirective::class,
     ];
 
     private Container $compilers;
@@ -106,7 +107,7 @@ final class DirectiveCompiler
     {
         $class = $this->getDirectiveCompiler($token->content[0]);
 
-        return '<?php '.trim($class->compileOpenning($token, $stack)).' ?>';
+        return trim($class->compileOpenning($token, $stack));
     }
 
     /**
@@ -116,7 +117,7 @@ final class DirectiveCompiler
     {
         $class = $this->getDirectiveCompiler($directive);
 
-        return '<?php '.trim($class->compileClosing()).' ?>';
+        return trim($class->compileClosing());
     }
 
     /**

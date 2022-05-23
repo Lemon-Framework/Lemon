@@ -15,11 +15,11 @@ final class SwitchDirective implements Directive
             throw new CompilerException('Directive switch expects arguments', $token->line);
         }
 
-        return 'switch ('.$token->content[1].'):';
+        return '<?php switch ('.$token->content[1].'): ?>';
     }
 
     public function compileClosing(): string
     {
-        return 'endswitch';
+        return '<?php endswitch ?>';
     }
 }

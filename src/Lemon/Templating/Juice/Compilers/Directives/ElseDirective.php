@@ -20,6 +20,6 @@ final class ElseDirective implements Directive
             throw new CompilerException('Directive else takes 0 arguments', $token->line);
         }
 
-        return 'else:';
+        return '<?php else: ?>';
     }
 }

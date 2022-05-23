@@ -27,6 +27,6 @@ class IncludeDirective implements Directive
 
         $template = $this->factory->make(substr($tokens[1][1], 1, -1));
 
-        return 'include \''.$template->compiled_path.'\'';
+        return '<?php include \''.$template->compiled_path.'\' ?>';
     }
 }

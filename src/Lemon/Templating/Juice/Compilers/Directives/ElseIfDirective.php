@@ -20,6 +20,6 @@ final class ElseIfDirective implements Directive
             throw new CompilerException('Directive elseif takes arguments', $token->line);
         }
 
-        return 'elseif ('.$token->content[1].'):';
+        return '<?php elseif ('.$token->content[1].'): ?>';
     }
 }
