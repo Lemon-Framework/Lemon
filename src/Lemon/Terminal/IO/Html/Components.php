@@ -10,14 +10,22 @@ use Lemon\Terminal\Exceptions\HtmlException;
 
 class Components
 {
+    public readonly Styles $styles;
+
+    public function __construct() 
+    {
+        $this->styles = new Styles();    
+    }
+
     public function parse(DOMNode $element): string
     {
         $result = '';
         foreach ($element->childNodes as $child) {
-            $result .= $this->parseElement($child);
+            [$inherit, $open, $close] = $this->styles->getStyle($element);
+            $result .= $inherit.$open.$this->parseElement($child).$close.$inherit;
         }
 
-        return $result;
+        return $result."\033[0m";
     }
 
     public function parseElement(DOMNode $element): string

@@ -39,6 +39,7 @@ final class Lifecycle extends Container
         \Lemon\Protection\Csrf::class => ['csrf'],
         \Lemon\Debug\Handling\Handler::class => ['handler'],
         \Lemon\Terminal\Terminal::class => ['terminal'],
+        \Lemon\Debug\Dumper::class => ['dumper'],
     ];
 
     /**
@@ -148,7 +149,7 @@ final class Lifecycle extends Container
 
     public function runsInTerminal(): bool
     {
-        return isset($_SERVER['REQUEST_URI']);
+        return !isset($_SERVER['REQUEST_URI']);
     }
 
     /**
@@ -170,7 +171,7 @@ final class Lifecycle extends Container
     /**
      * Initializes whole application for you.
      */
-    public static function init(string $directory): self
+    public static function init(string $directory, bool $terminal = true): self
     {
         // --- Creating Lifecycle instance ---
         $lifecycle = new self(Filesystem::parent($directory));
@@ -190,13 +191,15 @@ final class Lifecycle extends Container
         /* --- The end ---
          * This function automaticaly boots our app at the end of file
          */
-        register_shutdown_function(function () use ($lifecycle) {
+        register_shutdown_function(function () use ($lifecycle, $terminal) {
             /* --- Terminal ---
              * Once we run index.php from terminal via php index.php it will automaticaly start terminal
              * mode which will work instead of lemonade
              */
             if ($lifecycle->runsInTerminal()) {
-                $lifecycle->get('terminal')->run(array_slice($GLOBALS['argv'], 1));
+                if ($terminal) {
+                    $lifecycle->get('terminal')->run(array_slice($GLOBALS['argv'], 1));
+                }
 
                 return;
             }
