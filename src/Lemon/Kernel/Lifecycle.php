@@ -40,6 +40,7 @@ final class Lifecycle extends Container
         \Lemon\Debug\Handling\Handler::class => ['handler'],
         \Lemon\Terminal\Terminal::class => ['terminal'],
         \Lemon\Debug\Dumper::class => ['dumper'],
+        \Lemon\Events\Dispatcher::class => ['events'],
     ];
 
     /**
