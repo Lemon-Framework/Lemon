@@ -118,6 +118,7 @@ final class Lifecycle extends Container
 
     /**
      * Returns config part or item from config part.
+     * TODO.
      */
     public function config(string $part, ?string $key = null): mixed
     {

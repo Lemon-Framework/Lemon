@@ -8,7 +8,7 @@ namespace Lemon;
  * Lemon Debug Zest
  * Provides static layer over the Lemon Debugging.
  *
- * @see 
+ * @see
  */
 class Debug extends Zest
 {

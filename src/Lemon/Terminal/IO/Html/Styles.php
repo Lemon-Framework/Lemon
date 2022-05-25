@@ -45,10 +45,9 @@ class Styles
 
             foreach ($style as $index => $part) {
                 $result[$index] .= $part;
-            } 
+            }
         }
 
         return $result;
     }
-
 }

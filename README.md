@@ -1,12 +1,8 @@
 # 🍋 Lemon 3 
 
-> Lemon is not revolution, Lemon is not for everyone. Its not 🚀 Web 3 🚀Fast 🚀Framework 🚀For 🚀 Today 🚀. I mean its php framework written in neovim. But its tool that was made for fun and can introduce to you to the world of php frameworks. Welcome to Lemon 3 development repo
-
-Pracujem na jednom phpcku ten sa bude volat Lemon... 3. Bude tam nieco zo symfony nieco z laravelu nieco z nette nieco z termwindu chcem to akokeby spojit do jedneho. 
-
 ![Blueprint](https://raw.githubusercontent.com/Lemon-Framework/static/master/images/lemon_bp.png)
 
-WIP Lemon 3
+Pracujem na jednom phpcku ten sa bude volat Lemon... 3. Bude tam nieco zo symfony nieco z laravelu nieco z nette nieco z termwindu chcem to akokeby spojit do jedneho. 
 
 ❗NOT READY FOR PRODUCTION EVERYTHING COULD (AND PROPABLY WILL) CHANGE❗
 
@@ -74,4 +70,5 @@ Make sure all of them pass before sending pull request, if they wont pr wont be 
 - David Grudl - Made Nette, which was aslo great inspiration
 - Nuno Maduro - Created Termwind which was used as inspiration in Terminal Component
 - Azeem Hassni - Tutorial for creating simple router
+- Marek_P - First user who made actual app in Lemon, his code was used as inspiration for new features
 - Starganzers - ❤

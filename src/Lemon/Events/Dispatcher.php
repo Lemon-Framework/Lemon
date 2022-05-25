@@ -8,17 +8,17 @@ use Lemon\Kernel\Lifecycle;
 
 class Dispatcher
 {
+    private array $events = [];
+
     public function __construct(
         private Lifecycle $lifecycle,
     ) {
-        
     }
-
-    private array $events = [];
 
     public function on(string $name, callable $action): static
     {
         $this->events[$name][] = $action;
+
         return $this;
     }
 
@@ -27,6 +27,7 @@ class Dispatcher
         foreach ($this->events[$name] as $event) {
             $this->lifecycle->call($event, $args);
         }
+
         return $this;
     }
 }

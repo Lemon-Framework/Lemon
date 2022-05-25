@@ -12,9 +12,9 @@ class Components
 {
     public readonly Styles $styles;
 
-    public function __construct() 
+    public function __construct()
     {
-        $this->styles = new Styles();    
+        $this->styles = new Styles();
     }
 
     public function parse(DOMNode $element): string

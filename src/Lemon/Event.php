@@ -8,7 +8,7 @@ namespace Lemon;
  * Lemon Event Zest
  * Provides static layer over the Lemon Event Dispatcher.
  *
- * @see 
+ * @see
  */
 class Event extends Zest
 {
