@@ -32,3 +32,4 @@ Custom syntax are very risky so be aware.
 - [ ] syntax for actual {}
 - [x] includes, extends,...
 - [x] line counting
+- [ ] rewrite lexer

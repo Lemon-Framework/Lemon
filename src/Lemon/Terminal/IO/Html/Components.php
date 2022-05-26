@@ -61,4 +61,19 @@ class Components
     {
         return str_repeat('-', 0); // TODO get size
     }
+
+    public function parseB(DOMNode $node): string
+    {
+        return "\033[1m".$this->parse($node)."\033[0m";
+    }
+
+    public function parseI(DOMNode $node): string
+    {
+        return "\033[3m".$this->parse($node)."\033[0m";
+    }
+
+    public function parseU(DOMNode $node): string
+    {
+        return "\033[4m".$this->parse($node)."\033[0m";
+    }
 }
