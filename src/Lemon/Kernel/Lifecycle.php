@@ -151,7 +151,7 @@ final class Lifecycle extends Container
 
     public function runsInTerminal(): bool
     {
-        return PHP_SAPI == 'cli'; 
+        return PHP_SAPI == 'cli';
     }
 
     /**

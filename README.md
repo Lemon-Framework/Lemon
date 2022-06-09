@@ -56,7 +56,7 @@ Fork repo, create new branch, add stuff and:
 ```php
 $ ./vendor/bin/phpunit # test
 $ ./vendor/bin/phpstan # first static analysis
-$ ./vendor/bin/php-cs-fixer # fixes style
+$ ./vendor/bin/php-cs-fixer fix # fixes style
 ```
 
 Make sure all of them pass before sending pull request, if they wont pr wont be ignored, but its better to use it.

@@ -19,6 +19,14 @@ class Template
     ) {
     }
 
+    public function __toString(): string
+    {
+        ob_start();
+        $this->render();
+
+        return ob_get_clean();
+    }
+
     /**
      * Renders template.
      */
@@ -31,12 +39,5 @@ class Template
         } catch (Throwable $e) {
             throw TemplateException::from($e, $this->raw_path);
         }
-    }
-
-    public function __toString(): string
-    {
-        ob_start();
-        $this->render();
-        return ob_get_clean();
     }
 }

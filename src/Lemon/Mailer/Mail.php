@@ -20,24 +20,28 @@ class Mail
     public function to(string $to): static
     {
         $this->to = $to;
+
         return $this;
     }
 
     public function subject(string $subject): static
     {
         $this->subject = $subject;
+
         return $this;
     }
 
     public function content(string $content): static
     {
         $this->content = $content;
+
         return $this;
     }
 
     public function attach(Template $template): static
     {
         $this->attachment = $template;
+
         return $this;
     }
 
@@ -56,5 +60,4 @@ class Mail
 
         mail($this->to, $this->subject, $message, $headers);
     }
-
 }

@@ -14,8 +14,12 @@ class Connection
     {
     }
 
-    public function query()
+    /**
+     * Sends query to database.
+     *
+     * @phpstan-param literal-string $query
+     */
+    public function query(string $query)
     {
-
     }
 }

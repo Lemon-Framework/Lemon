@@ -14,20 +14,12 @@ use Stringable;
 class Logger extends AbstractLogger
 {
     private int $type = 0;
-    private string $destination = null;
+    private ?string $destination;
 
     public function __construct(
         private Config $config
     ) {
-        $this->resolveContext();    
-    }
-
-    private function resolveContext()
-    {
-        if ($this->config->part('kernel')->get('mode') == 'debug') {
-            $this->type = 3;
-            $this->destination = $this->config->part('logging')->file('file', 'log');
-        }
+        $this->resolveContext();
     }
 
     public function log($level, string|Stringable $message, array $context = []): void
@@ -41,11 +33,20 @@ class Logger extends AbstractLogger
         error_log("{$level}: {$message}", $this->type, $this->destination);
     }
 
-    public function interpolate(string $message, array $context)
+    public function interpolate(string $message, array $context): string
     {
         foreach ($context as $key => $value) {
             $message = str_replace('{'.$key.'}', $value, $message);
         }
+
         return $message;
+    }
+
+    private function resolveContext()
+    {
+        if ('debug' == $this->config->part('kernel')->get('mode')) {
+            $this->type = 3;
+            $this->destination = $this->config->part('logging')->file('file', 'log');
+        }
     }
 }
