@@ -10,6 +10,7 @@ use Lemon\Http\Response;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Kernel\Container;
+use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 use Lemon\Templating\Factory as TemplateFactory;
@@ -42,6 +43,7 @@ class Router
     private Container $middlewares;
 
     public function __construct(
+        private Lifecycle $lifecycle,
         private TemplateFactory $templates,
         private ResponseFactory $response
     ) {
@@ -88,6 +90,13 @@ class Router
         $this->routes->collection($collection);
 
         return $collection;
+    }
+
+    public function file(string $file): Collection
+    {
+        return $this->collection(function() use ($file){
+            require $this->lifecycle->file($file, 'php');
+        });
     }
 
     /**
