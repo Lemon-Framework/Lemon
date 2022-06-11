@@ -21,7 +21,6 @@ class Command
     ) {
         // maybe bad idea
         // TODO
-        // @phpstan-ignore-next-line
         [$this->name, $this->arguments] = $this->resolveSignature();
         if (!is_callable($action)) {
             throw new CommandException('Action of command '.$this->name.' is not callable');

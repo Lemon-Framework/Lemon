@@ -16,7 +16,7 @@ class Pipe
 
     public static function send(mixed $value): static
     {
-        return new static($value);
+        return new self($value);
     }
 
     public function with(mixed $value): static

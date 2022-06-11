@@ -33,3 +33,4 @@ Custom syntax are very risky so be aware.
 - [x] includes, extends,...
 - [x] line counting
 - [ ] rewrite lexer
+- [ ] migrate to stack
