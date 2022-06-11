@@ -7,6 +7,10 @@ namespace Lemon\Tests\Support\Types;
 use Lemon\Support\Types\Type;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class TypeTest extends TestCase
 {
     public function testIs()

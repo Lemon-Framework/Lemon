@@ -13,7 +13,6 @@ class Stack
     public function __construct(
         private string $type = 'mixed'
     ) {
-        
     }
 
     public static function withType(string $type): self
@@ -30,6 +29,7 @@ class Stack
             throw new InvalidArgumentException('Argument 1 of function '.static::class.'::push() must be type '.$this->type.' '.gettype($value).' given');
         }
         $this->storage[] = $value;
+
         return $this;
     }
 

@@ -8,15 +8,19 @@ use Lemon\Events\Dispatcher;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class DispatcherTest extends TestCase
 {
     public function testRegistration()
     {
         $events = new Dispatcher(new Lifecycle(__DIR__));
-        $events->on('foo', function() {});
-        $events->on('foo', function() {});
-        $events->on('bar', function() {});
-        $events->on('baz', function() {});
+        $events->on('foo', function () {});
+        $events->on('foo', function () {});
+        $events->on('bar', function () {});
+        $events->on('baz', function () {});
         $this->assertSame(['foo', 'bar', 'baz'], array_keys($events->all()));
     }
 
@@ -25,10 +29,10 @@ class DispatcherTest extends TestCase
         $lc = new Lifecycle(__DIR__);
         $lc->add(Logger::class);
         $events = new Dispatcher($lc);
-        $events->on('foo', function(Logger $logger) {
+        $events->on('foo', function (Logger $logger) {
             $logger->log('foo');
         });
-        $events->on('foo', function(Logger $logger) {
+        $events->on('foo', function (Logger $logger) {
             $logger->log('foo 2');
         });
 
@@ -47,6 +51,7 @@ class Logger
     public function log(string $message): static
     {
         $this->logs[] = $message;
+
         return $this;
     }
 

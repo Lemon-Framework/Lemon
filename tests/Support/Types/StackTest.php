@@ -8,6 +8,10 @@ use InvalidArgumentException;
 use Lemon\Support\Types\Stack;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class StackTest extends TestCase
 {
     public function testPush()

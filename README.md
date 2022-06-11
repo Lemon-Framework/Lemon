@@ -42,6 +42,7 @@ TODO:
 - [x] rething config
 - [ ] faker
 - [ ] rewrite exceptions
+- [x] events
 
 Directories with D means deprecated so they will have to be completely rewritten
 

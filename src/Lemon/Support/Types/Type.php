@@ -9,7 +9,7 @@ class Type
     public static function is(string $type, mixed $value): bool
     {
         return
-            $type === 'mixed'
+            'mixed' === $type
             || gettype($value) === $type
             || $value instanceof $type
         ;

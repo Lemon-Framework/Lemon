@@ -7,12 +7,17 @@ namespace Lemon\Tests\Support;
 use Lemon\Support\Macros;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class MacrosTest extends TestCase
 {
     public function testMacros()
     {
         $foo = new Foo(2);
-        $foo->macro('add', function() {
+        $foo->macro('add', function () {
+            // @phpstan-ignore-next-line
             return $this->getNumber() + 1;
         });
 
@@ -27,7 +32,6 @@ class Foo
     public function __construct(
         private int $number
     ) {
-
     }
 
     public function getNumber(): int

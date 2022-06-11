@@ -24,7 +24,7 @@ trait Macros
 
         $macro = $this->macros[$name];
         if ($macro instanceof Closure) {
-            $macro = $macro->bindTo($this); 
+            $macro = $macro->bindTo($this);
         }
 
         return $macro(...$arguments);

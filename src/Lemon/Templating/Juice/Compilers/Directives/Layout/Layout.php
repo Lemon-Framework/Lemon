@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Templating\Juice\Compilers\Directives\Layout;
 
 use Closure;
-use Lemon\Support\Types\Arr;
 
 class Layout
 {

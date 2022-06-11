@@ -79,7 +79,7 @@ class ContainerTest extends TestCase
     {
         $container = new Container();
         $container->add(Foo::class);
-        $this->assertSame(3, $container->call(function($bar, Foo $foo, $baz = 1) { 
+        $this->assertSame(3, $container->call(function ($bar, Foo $foo, $baz = 1) {
             return $bar + $baz;
         }, ['bar' => 2]));
     }

@@ -11,7 +11,6 @@ class Pipe
     public function __construct(
         private mixed $value
     ) {
-        
     }
 
     public static function send(mixed $value): static
@@ -22,17 +21,19 @@ class Pipe
     public function with(mixed $value): static
     {
         $this->args[] = $value;
+
         return $this;
     }
 
     /**
-     * Calls function with curent value
+     * Calls function with curent value.
      *
      * @see https://www.youtube.com/watch?v=oqwzuiSy9y0
      */
     public function then(callable $action): static
     {
         $this->value = $action($this->value, ...$this->args);
+
         return $this;
     }
 
