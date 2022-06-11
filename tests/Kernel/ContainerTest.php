@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class ContainerTests extends TestCase
+class ContainerTest extends TestCase
 {
     public function testAddService()
     {
@@ -73,5 +73,14 @@ class ContainerTests extends TestCase
         $this->expectException(NotFoundException::class);
         $container->get('parek');
         $container->alias('rizek', Bar::class);
+    }
+
+    public function testCall()
+    {
+        $container = new Container();
+        $container->add(Foo::class);
+        $this->assertSame(3, $container->call(function($bar, Foo $foo, $baz = 1) { 
+            return $bar + $baz;
+        }, ['bar' => 2]));
     }
 }

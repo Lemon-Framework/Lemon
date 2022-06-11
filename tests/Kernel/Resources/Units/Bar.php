@@ -8,7 +8,7 @@ class Bar
 {
     private array $array = [];
 
-    public function __construct(Foo $foo, Container $c)
+    public function __construct(Foo $foo)
     {
         unset($foo, $c);
     }

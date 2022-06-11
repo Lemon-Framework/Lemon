@@ -148,7 +148,7 @@ class Container implements ContainerInterface
 
         foreach ($class_params as $param) {
             $type = (string) $param->getType();
-            $params[] = $type === static::class ? $this : $this->get($type);
+            $params[] = $this->get($type);
         }
 
         return new $service(...$params);

@@ -54,6 +54,7 @@ final class Lifecycle extends Container
     public function __construct(string $directory)
     {
         $this->directory = $directory;
+        $this->add(self::class, $this);
     }
 
     public function __get(string $name): mixed

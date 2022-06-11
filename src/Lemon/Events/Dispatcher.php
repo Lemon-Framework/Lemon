@@ -30,4 +30,9 @@ class Dispatcher
 
         return $this;
     }
+
+    public function all(): array
+    {
+        return $this->events;
+    }
 }
