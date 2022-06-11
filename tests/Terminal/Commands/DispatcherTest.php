@@ -8,12 +8,16 @@ use Lemon\Terminal\Commands\Command;
 use Lemon\Terminal\Commands\Dispatcher;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class DispatcherTest extends TestCase
 {
     public function testDispatching()
     {
         $d = new Dispatcher();
-        $fn = function($bar) {
+        $fn = function ($bar) {
             echo $bar;
         };
         $d->add(new Command('foo {bar}', $fn));

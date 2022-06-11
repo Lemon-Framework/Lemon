@@ -21,6 +21,7 @@ class Command
     ) {
         // maybe bad idea
         // TODO
+        // @phpstan-ignore-next-line
         [$this->name, $this->parameters] = $this->resolveSignature($signature);
     }
 
