@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Lemon\Support\Macros;
+namespace Lemon\Support;
 
+use Closure;
 use Exception;
 
 trait Macros
@@ -17,11 +18,16 @@ trait Macros
 
     public function __call($name, $arguments)
     {
-        if (!method_exists($this, $name)) {
+        if (!isset($this->macros[$name])) {
             throw new Exception('Call to undefined function '.$name);
         }
 
-        return $this->macros[$name](...$arguments);
+        $macro = $this->macros[$name];
+        if ($macro instanceof Closure) {
+            $macro = $macro->bindTo($this); 
+        }
+
+        return $macro(...$arguments);
     }
 
     public function macro(string $name, callable $action)

@@ -16,6 +16,14 @@ class Stack
         
     }
 
+    public static function withType(string $type): self
+    {
+        return new self($type);
+    }
+
+    /**
+     * @param T $value
+     */
     public function push(mixed $value): static
     {
         if (!Type::is($this->type, $value)) {
@@ -38,5 +46,10 @@ class Stack
     public function size(): int
     {
         return count($this->storage);
+    }
+
+    public function storage(): array
+    {
+        return $this->storage;
     }
 }
