@@ -18,9 +18,9 @@ class BlockTest extends TestCase
     public function testCompileOpenning()
     {
         $d = new DirectiveCompiler();
-        $this->assertSame('<?php $_layout->block(\'foo\') ?>', $d->compileOpenning(new Token(Token::TAG, ['block', '"foo"'], 1), []));
+        $this->assertSame('<?php $_layout->block(\'foo\', function() { ?>', $d->compileOpenning(new Token(Token::TAG, ['block', '"foo"'], 1), []));
 
-        $this->assertSame('<?php $_layout->block(\'foo\') ?>', $d->compileOpenning(new Token(Token::TAG, ['block', '\'foo\''], 1), []));
+        $this->assertSame('<?php $_layout->block(\'foo\', function() { ?>', $d->compileOpenning(new Token(Token::TAG, ['block', '\'foo\''], 1), []));
 
         $this->assertThrowable(function (DirectiveCompiler $d) {
             $d->compileOpenning(new Token(Token::TAG, ['block', ''], 1), []);
@@ -38,6 +38,6 @@ class BlockTest extends TestCase
     public function testCompileClosing()
     {
         $d = new DirectiveCompiler();
-        $this->assertSame('<?php $_layout->endBlock() ?>', $d->compileClosing('block'));
+        $this->assertSame('<?php }) ?>', $d->compileClosing('block'));
     }
 }

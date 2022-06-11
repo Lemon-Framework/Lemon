@@ -25,6 +25,11 @@ class Pipe
         return $this;
     }
 
+    /**
+     * Calls function with curent value
+     *
+     * @see https://www.youtube.com/watch?v=oqwzuiSy9y0
+     */
     public function then(callable $action): static
     {
         $this->value = $action($this->value, ...$this->args);

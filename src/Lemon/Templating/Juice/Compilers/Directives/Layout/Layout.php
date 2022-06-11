@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice\Compilers\Directives\Layout;
 
+use Closure;
 use Lemon\Support\Types\Arr;
 
 class Layout
@@ -22,19 +23,15 @@ class Layout
         include $this->file;
     }
 
-    public function block(string $name)
+    public function block(string $name, Closure $action)
     {
-        $this->blocks[$name] = '';
-        ob_start();
-    }
-
-    public function endBlock()
-    {
-        $this->blocks[Arr::lastKey($this->blocks)] = ob_get_clean();
+        $this->blocks[$name] = $action;
     }
 
     public function yield(string $name)
     {
-        echo trim($this->blocks[$name]);
+        ob_start();
+        $this->blocks[$name]();
+        echo trim(ob_get_clean());
     }
 }
