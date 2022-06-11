@@ -13,6 +13,10 @@ use Lemon\Tests\TestCase;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class LoggerTest extends TestCase
 {
     public function tearDown(): void

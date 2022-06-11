@@ -32,13 +32,13 @@ class Logger extends AbstractLogger
         $message = $this->interpolate((string) $message, $context);
 
         $now = (new DateTime())->format('D M d h:i:s Y');
-        file_put_contents($this->destination, sprintf("[%s] %s: %s\n", $now, $level, $message),  FILE_APPEND);    
+        file_put_contents($this->destination, sprintf("[%s] %s: %s\n", $now, $level, $message), FILE_APPEND);
     }
 
     public function interpolate(string $message, array $context): string
     {
         foreach ($context as $key => $value) {
-            $message = str_replace('{'.$key.'}', (string)$value, $message);
+            $message = str_replace('{'.$key.'}', (string) $value, $message);
         }
 
         return $message;

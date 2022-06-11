@@ -8,7 +8,7 @@ namespace Lemon;
  * Lemon Logger Zest
  * Provides static layer over the Lemon log.
  *
- * @see \Lemon\Logging\Logger 
+ * @see \Lemon\Logging\Logger
  */
 class Log extends Zest
 {
