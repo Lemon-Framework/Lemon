@@ -28,7 +28,7 @@ TODO:
 - [x] new kernel
 - [x] split container
 - [ ] database
-- [ ] new lemonade kernel
+- [x] new lemonade kernel
 - [x] dump die
 - [ ] reporter
 - [ ] consultant
@@ -37,12 +37,13 @@ TODO:
 - [x] tests for caching
 - [ ] juice template engine
 - [ ] mailer?
-- [ ] auth?
 - [ ] rewrite exceptiont esting
 - [x] rething config
 - [ ] faker
 - [ ] rewrite exceptions
 - [x] events
+- [x] logging
+- [ ] validation
 
 Directories with D means deprecated so they will have to be completely rewritten
 
