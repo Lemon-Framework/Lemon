@@ -10,26 +10,23 @@ use Lemon\Terminal\Exceptions\CommandException;
 
 class Command
 {
-    public readonly array $arguments;
+    public readonly array $parameters;
 
     public readonly string $name;
 
     public function __construct(
-        public readonly string $signature,
-        public readonly Closure|array|string $action, // Maybe bad idea?
+        public string $signature,
+        public readonly Closure $action, // Maybe bad idea?
         public readonly string $description = ''
     ) {
         // maybe bad idea
         // TODO
-        [$this->name, $this->arguments] = $this->resolveSignature();
-        if (!is_callable($action)) {
-            throw new CommandException('Action of command '.$this->name.' is not callable');
-        }
+        [$this->name, $this->parameters] = $this->resolveSignature($signature);
     }
 
-    private function resolveSignature(): array
+    private function resolveSignature(string $signature): array
     {
-        $signature = Str::split($this->signature, ' ');
+        $signature = Str::split($signature, ' ');
         $name = $signature[0];
         $result = [];
         foreach ($signature['1..'] as $argument) {

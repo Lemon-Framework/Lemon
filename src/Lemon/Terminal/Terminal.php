@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Terminal;
 
+use Closure;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Terminal\Commands\Command;
 use Lemon\Terminal\Commands\Dispatcher;
@@ -22,7 +23,7 @@ class Terminal
         $this->output = new Output();
     }
 
-    public function command(string $signature, callable $action, string $description = ''): Command
+    public function command(string $signature, Closure $action, string $description = ''): Command
     {
         $command = new Command($signature, $action, $description);
         $this->commands->add($command);
@@ -50,11 +51,10 @@ class Terminal
         $result = $this->commands->dispatch($arguments);
 
         if (is_string($result)) {
-            echo $result;
+            $this->out("<div class=\"text-red\">ERROR: {$result}</div>");
 
             return;
         }
-
         $this->lifecycle->call($result[0], $result[1]);
     }
 }

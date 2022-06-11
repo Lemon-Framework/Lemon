@@ -30,12 +30,11 @@ class Dispatcher
         $arguments = $this->parseArguments($arguments);
 
         $result = [];
-        // Todo types
-        foreach ($command->arguments as $argument) {
-            if (isset($arguments[$argument[1]])) {
-                $result[$argument] = $arguments[$argument];
-            } elseif ('optional' != $argument[0]) {
-                return 'Argument '.$argument[1].' is missing.';
+        foreach ($command->parameters as $parameter) {
+            if (isset($arguments[$parameter[1]])) {
+                $result[$parameter[1]] = $arguments[$parameter[1]];
+            } elseif ('optional' != $parameter[0]) {
+                return 'Argument '.$parameter[1].' is missing.';
             }
         }
 

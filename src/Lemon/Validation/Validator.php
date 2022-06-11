@@ -47,11 +47,11 @@ class Validator
 
     private function resolveRules(string|array $rules): array
     {
-        // TODO better parser
         if (is_array($rules)) {
             return $rules;
         }
 
+        // TODO regex or parser
         return array_map(
             fn ($item) => explode(':', $item),
             explode('|', $rules)
