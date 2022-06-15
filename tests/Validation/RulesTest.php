@@ -83,7 +83,9 @@ class RulesTest extends TestCase
     public function testCalling()
     {
         $r = new Rules();
-        $this->assertTrue($r->call('parek', ['min', 1]));
+        $this->assertTrue($r->call('parek', ['min', '1']));
         $this->assertTrue($r->call('p@a.rek', ['email']));
+        $r->rule('name', fn($name) => ucfirst($name) === $name);
+        $this->assertTrue($r->call('Parek', ['name']));
     }
 }

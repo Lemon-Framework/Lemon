@@ -35,12 +35,12 @@ class Rules
         return preg_match('/^#([a-fA-F0-9]{3}){1,2}$/', $target) === 1;
     }
 
-    public function max(string $target, int $max)
+    public function max(string $target, mixed $max)
     {
         return strlen($target) <= $max;
     }
 
-    public function min(string $target, int $min)
+    public function min(string $target, mixed $min)
     {
         return strlen($target) >= $min;
     }
@@ -72,7 +72,7 @@ class Rules
         return $this;
     }
 
-    public function call(string $key, array $rule): bool
+    public function call(string $target, array $rule): bool
     {
         $args = [];
         if (count($rule) > 1) {
@@ -80,11 +80,11 @@ class Rules
         }
 
         if (method_exists($this, $rule[0])) {
-            return $this->{$rule[0]}($key, ...$args);
+            return $this->{$rule[0]}($target, ...$args);
         }
 
         if (Arr::hasKey($this->rules, $rule[0])) {
-            return $this->rules[$rule[0]]($key, ...$args);
+            return $this->rules[$rule[0]]($target, ...$args);
         }
 
         throw new ValidatorException('Validator rule '.$rule[0].' does not exist');

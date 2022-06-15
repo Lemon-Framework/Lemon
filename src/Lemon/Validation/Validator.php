@@ -36,7 +36,7 @@ class Validator
                     continue;
                 }
 
-                if (!$this->rules->call($key, $rule)) {
+                if (!$this->rules->call($data[$key], $rule)) {
                     return false;
                 }
             }
@@ -45,7 +45,7 @@ class Validator
         return true;
     }
 
-    private function resolveRules(string|array $rules): array
+    public function resolveRules(string|array $rules): array
     {
         if (is_array($rules)) {
             return $rules;
