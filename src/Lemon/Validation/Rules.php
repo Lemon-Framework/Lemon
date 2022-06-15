@@ -32,7 +32,7 @@ class Rules
 
     public function color(string $target)
     {
-        return preg_match('/#([a-f0-9]{2}){3}/', $target);
+        return preg_match('/^#([a-fA-F0-9]{3}){1,2}$/', $target) === 1;
     }
 
     public function max(string $target, int $max)
@@ -47,17 +47,22 @@ class Rules
 
     public function regex(string $target, string $patern): bool
     {
-        return preg_match($patern, $target) > 0;
+        return preg_match("/^$patern$/", $target) === 1;
     }
 
     public function notRegex(string $target, string $patern): bool
     {
         return !$this->regex($target, $patern);
     }
-
-    public function file()
+ 
+    public function contains(string $target, string $patern): bool
     {
-        // todo
+        return preg_match("/{$patern}/", $target) === 1;
+    }
+
+    public function doesntContain(string $target, string $patern): bool
+    {
+        return !$this->contains($target, $patern);
     }
 
     public function rule(string $name, callable $action): static
@@ -70,8 +75,8 @@ class Rules
     public function call(string $key, array $rule): bool
     {
         $args = [];
-        if (1 === count($rule)) {
-            $args = $rule[1];
+        if (count($rule) > 1) {
+            $args = array_slice($rule, 1);
         }
 
         if (method_exists($this, $rule[0])) {
