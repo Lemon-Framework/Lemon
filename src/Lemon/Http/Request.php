@@ -64,8 +64,10 @@ class Request
      */
     public static function trimQuery(string $path)
     {
-        if (preg_match('/^(.+?)\?(.+)$/', $path, $matches)) {
-            return [$matches[1], $matches[2]];
+        $url = parse_url($path);
+
+        if (isset($url['query'])) {
+            return [$url['path'], $url['query']];
         }
 
         return [$path, ''];

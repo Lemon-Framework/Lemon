@@ -8,7 +8,7 @@ use Lemon\Http\Response;
 
 class EmptyResponse extends Response
 {
-    protected function handleBody(): void
+    public function handleBody(): void
     {
     }
 }

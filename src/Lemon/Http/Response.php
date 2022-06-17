@@ -51,9 +51,9 @@ abstract class Response
     ];
 
     public function __construct(
-        public readonly mixed $body = '',
-        public readonly int $status_code = 200,
-        public readonly array $headers = []
+        public mixed $body = '',
+        public int $status_code = 200,
+        private array $headers = []
     ) {
     }
 
@@ -66,7 +66,7 @@ abstract class Response
         return $this;
     }
 
-    public function header(string $key, string $value = null): ?string
+    public function header(string $key, string $value = null): string|static
     {
         if (!$value) {
             return $this->headers[$key] ?? null;
@@ -74,7 +74,7 @@ abstract class Response
 
         $this->headers[$key] = $value;
 
-        return null;
+        return $this;
     }
 
     public function location(string $location): static
@@ -82,6 +82,11 @@ abstract class Response
         $this->header('Location', $location);
 
         return $this;
+    }
+
+    public function redirect(string $to): static
+    {
+        return $this->location($to);
     }
 
     public function code(int $code = null): static|int
@@ -95,17 +100,28 @@ abstract class Response
         return $this;
     }
 
-    abstract protected function handleBody(): void;
+    public function body(string $body): static
+    {
+        $this->body = $body;
+        return $this;
+    }
 
-    private function handleStatusCode()
+    abstract public function handleBody(): void;
+
+    public function handleStatusCode()
     {
         http_response_code($this->status_code);
     }
 
-    private function handleHeaders()
+    public function handleHeaders()
     {
         foreach ($this->headers as $header => $value) {
-            header($header.':'.$value);
+            header($header.': '.$value);
         }
+    }
+
+    public function headers(): array
+    {
+        return $this->headers;
     }
 }

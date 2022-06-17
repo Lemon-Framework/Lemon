@@ -8,7 +8,7 @@ use Lemon\Http\Response;
 
 class JsonResponse extends Response
 {
-    protected function handleBody(): void
+    public function handleBody(): void
     {
         header('Content-Type: application/json');
         echo json_decode($this->body);

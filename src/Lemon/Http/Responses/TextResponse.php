@@ -8,7 +8,7 @@ use Lemon\Http\Response;
 
 class TextResponse extends Response
 {
-    protected function handleBody(): void
+    public function handleBody(): void
     {
         header('Content-Type: text/plain');
         echo $this->body;
