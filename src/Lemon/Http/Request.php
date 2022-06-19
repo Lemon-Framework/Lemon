@@ -1,10 +1,5 @@
 <?php
 
-// TODO ADD:
-// getting via decorators
-// LITERALY THE WHOLE THIN
-// body -> by content type ig and everything
-
 declare(strict_types=1);
 
 namespace Lemon\Http;
@@ -15,7 +10,9 @@ use Lemon\Validation\Validator;
 
 class Request
 {
-    private ?array $data = null;
+    private ?array $post_data = null;
+
+    private ?array $get_data = null;
 
     private ?Lifecycle $lifecycle = null;
 
@@ -62,7 +59,7 @@ class Request
     /**
      * Splits path into path and query.
      */
-    public static function trimQuery(string $path)
+    public static function trimQuery(string $path): array
     {
         $url = parse_url($path);
 
@@ -97,9 +94,24 @@ class Request
         return $this->headers[$name] ?? null;
     }
 
-    public function parseBody()
+    public function hasHeader(string $header): bool
     {
-        $this->data = [];
+        return isset($this->headers[$header]);
+    }
+
+    public function headers(): array
+    {
+        return $this->headers;
+    }
+
+    public function is(string $content_type): bool
+    {
+        return $this->header('Content-Type') === $content_type;
+    }
+
+    private function parseBody()
+    {
+        $this->post_data = [];
         if (!$content_type = $this->header('Content-Type')) {
             return;
         }
@@ -107,18 +119,18 @@ class Request
         switch ($content_type) {
             case 'application/x-www-form-urlencoded':
                 parse_str($this->body, $result);
-                $this->data = $result;
+                $this->post_data = $result;
 
                 return;
 
             case 'application/json':
-                $this->data = json_decode($this->body);
+                $this->post_data = json_decode($this->body);
 
                 return;
 
             default:
                 if (isset($this->parsers[$content_type])) {
-                    $this->data = $this->parsers[$content_type]();
+                    $this->post_data = $this->parsers[$content_type]();
                 }
         }
     }
@@ -132,16 +144,29 @@ class Request
 
     public function data()
     {
-        if (is_null($this->data)) {
+        if (is_null($this->post_data)) {
             $this->parseBody();
         }
 
-        return $this->data;
+        return $this->post_data;
     }
 
     public function get(string $key): ?string
     {
         return $this->data()[$key] ?? null;
+    }
+
+    public function query(?string $key): ?string
+    {
+        if (!$key) {
+            return $this->query;
+        }
+        
+        if (is_null($this->get_data)) {
+            parse_str($this->query, $this->get_data);
+        }
+
+        return $this->query[$key] ?? null;
     }
 
     public function validate(array $rules): bool

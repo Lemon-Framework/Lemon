@@ -10,6 +10,7 @@ use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Http\Responses\JsonResponse;
 use Lemon\Http\Responses\TemplateResponse;
 use Lemon\Kernel\Lifecycle;
+use Lemon\Templating\Exceptions\TemplateException;
 use Lemon\Templating\Factory as Templating;
 use Lemon\Templating\Template;
 
@@ -65,16 +66,18 @@ class ResponseFactory
     public function error(int $code): Response
     {
         if (!isset(Response::ERROR_STATUS_CODES[$code])) {
-            throw new Exception('Status code '.$code.' is not any error status code');
+            throw new Exception('Status code '.$code.' is not error status code');
         }
 
         if (isset($this->handlers[$code])) {
             return $this->make($this->handlers[$code]);
         }
 
-//        if (is_file($this->templating->getRawPath("errors.{$code}"))) {
-//            return new TemplateResponse($this->templating->make("errors.{$code}"), $code);
-//        }
+        try {
+            return new TemplateResponse($this->templating->make("errors.{$code}"), $code);
+        } catch (TemplateException $_) {
+            // File does not exist, use default
+        }
 
         static $s = DIRECTORY_SEPARATOR;
         $path = __DIR__.$s.'templates'.$s.'error.phtml';
