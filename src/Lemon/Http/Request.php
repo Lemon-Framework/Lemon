@@ -109,32 +109,6 @@ class Request
         return $this->header('Content-Type') === $content_type;
     }
 
-    private function parseBody()
-    {
-        $this->post_data = [];
-        if (!$content_type = $this->header('Content-Type')) {
-            return;
-        }
-
-        switch ($content_type) {
-            case 'application/x-www-form-urlencoded':
-                parse_str($this->body, $result);
-                $this->post_data = $result;
-
-                return;
-
-            case 'application/json':
-                $this->post_data = json_decode($this->body);
-
-                return;
-
-            default:
-                if (isset($this->parsers[$content_type])) {
-                    $this->post_data = $this->parsers[$content_type]();
-                }
-        }
-    }
-
     public function addParser(string $content_type, callable $parser): static
     {
         $this->parsers[$content_type] = $parser;
@@ -161,7 +135,7 @@ class Request
         if (!$key) {
             return $this->query;
         }
-        
+
         if (is_null($this->get_data)) {
             parse_str($this->query, $this->get_data);
         }
@@ -183,5 +157,31 @@ class Request
     public function toArray(): array
     {
         return []; // TODO
+    }
+
+    private function parseBody()
+    {
+        $this->post_data = [];
+        if (!$content_type = $this->header('Content-Type')) {
+            return;
+        }
+
+        switch ($content_type) {
+            case 'application/x-www-form-urlencoded':
+                parse_str($this->body, $result);
+                $this->post_data = $result;
+
+                return;
+
+            case 'application/json':
+                $this->post_data = json_decode($this->body);
+
+                return;
+
+            default:
+                if (isset($this->parsers[$content_type])) {
+                    $this->post_data = $this->parsers[$content_type]();
+                }
+        }
     }
 }

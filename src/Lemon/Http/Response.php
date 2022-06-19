@@ -103,6 +103,7 @@ abstract class Response
     public function body(string $body): static
     {
         $this->body = $body;
+
         return $this;
     }
 

@@ -32,7 +32,7 @@ class Rules
 
     public function color(string $target)
     {
-        return preg_match('/^#([a-fA-F0-9]{3}){1,2}$/', $target) === 1;
+        return 1 === preg_match('/^#([a-fA-F0-9]{3}){1,2}$/', $target);
     }
 
     public function max(string $target, mixed $max)
@@ -47,17 +47,17 @@ class Rules
 
     public function regex(string $target, string $patern): bool
     {
-        return preg_match("/^$patern$/", $target) === 1;
+        return 1 === preg_match("/^{$patern}$/", $target);
     }
 
     public function notRegex(string $target, string $patern): bool
     {
         return !$this->regex($target, $patern);
     }
- 
+
     public function contains(string $target, string $patern): bool
     {
-        return preg_match("/{$patern}/", $target) === 1;
+        return 1 === preg_match("/{$patern}/", $target);
     }
 
     public function doesntContain(string $target, string $patern): bool

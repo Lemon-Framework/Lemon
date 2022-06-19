@@ -10,7 +10,8 @@ use Lemon\Http\Request;
 
 /**
  * Cors handling middleware
- * TODO less boilerplate
+ * TODO less boilerplate.
+ *
  * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#access-control-allow-methods
  */
 class Cors
@@ -18,7 +19,7 @@ class Cors
     public function handle(Config $config, Request $request)
     {
         $config = $config->part('http')->get('cors');
-        
+
         $this->handleAllowedOrigins($request, $config['allowed-origins'] ?? null);
         $this->handleExposeHeaders($config['expose-headers'] ?? null);
         $this->handleMaxAge($config['max-age'] ?? null);
@@ -35,7 +36,7 @@ class Cors
 
         if (is_string($origins)) {
             $origin = $origins;
-        } else if (is_array($origins)) {
+        } elseif (is_array($origins)) {
             if (!in_array($request->path, $origins)) {
                 return;
             }
@@ -49,15 +50,15 @@ class Cors
     }
 
     private function handleExposeHeaders(mixed $headers)
-    { 
-        if (!$headers) { 
-            return; 
+    {
+        if (!$headers) {
+            return;
         }
-        
+
         if (is_array($headers)) {
-            $headers = implode(', ', $headers); 
-        } 
-        
+            $headers = implode(', ', $headers);
+        }
+
         if (!is_string($headers)) {
             throw new ConfigException('Cors expose-headers must be array or string');
         }
@@ -96,11 +97,11 @@ class Cors
         if (!$methods) {
             return;
         }
-        
+
         if (is_array($methods)) {
-            $methods = implode(', ', $methods); 
-        } 
-        
+            $methods = implode(', ', $methods);
+        }
+
         if (!is_string($methods)) {
             throw new ConfigException('Cors methods must be array or string');
         }
@@ -110,19 +111,18 @@ class Cors
 
     private function handleAllowedHeaders(mixed $headers)
     {
-        if (!$headers) { 
-            return; 
+        if (!$headers) {
+            return;
         }
-        
+
         if (is_array($headers)) {
-            $headers = implode(', ', $headers); 
-        } 
-        
+            $headers = implode(', ', $headers);
+        }
+
         if (!is_string($headers)) {
             throw new ConfigException('Cors allowed-headers must be array or string');
         }
 
         header('Access-Control-Allowed-Headers: '.$headers);
-
     }
 }

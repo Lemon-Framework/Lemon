@@ -7,6 +7,10 @@ namespace Lemon\Tests\Validation;
 use Lemon\Tests\TestCase;
 use Lemon\Validation\Validator;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ValidationTest extends TestCase
 {
     public function testRuleParsing()
@@ -20,8 +24,8 @@ class ValidationTest extends TestCase
     {
         $validator = new Validator();
         $this->assertTrue($validator->validate(
-            ['foo' => '10',],
-            ['foo' => 'numeric',]
+            ['foo' => '10'],
+            ['foo' => 'numeric']
         ));
 
         $this->assertTrue($validator->validate([], [
@@ -29,18 +33,18 @@ class ValidationTest extends TestCase
         ]));
 
         $this->assertTrue($validator->validate(
-            ['foo' => '10'], 
-            ['foo' => 'optional|numeric',]
+            ['foo' => '10'],
+            ['foo' => 'optional|numeric']
         ));
 
         $this->assertFalse($validator->validate(
             [],
-            ['foo' => 'numeric',]
+            ['foo' => 'numeric']
         ));
 
         $this->assertFalse($validator->validate(
-            ['foo' => 'parek',],
-            ['foo' => 'max:1',]
+            ['foo' => 'parek'],
+            ['foo' => 'max:1']
         ));
     }
 }

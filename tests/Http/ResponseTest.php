@@ -7,10 +7,15 @@ namespace Lemon\Tests\Http;
 use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ResponseTest extends TestCase
 {
     /**
      * @runInSeparateProcess
+     *
      * @see https://github.com/sebastianbergmann/phpunit/issues/720#issuecomment-10421092
      */
     public function testHeaders()

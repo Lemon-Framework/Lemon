@@ -7,6 +7,10 @@ namespace Lemon\Tests\Validation;
 use Lemon\Tests\TestCase;
 use Lemon\Validation\Rules;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class RulesTest extends TestCase
 {
     public function testNumeric()
@@ -51,14 +55,14 @@ class RulesTest extends TestCase
         $this->assertFalse($r->min('f', 2));
     }
 
-    public function testMax() 
+    public function testMax()
     {
         $r = new Rules();
         $this->assertTrue($r->max('foo', 4));
         $this->assertTrue($r->max('foo', 3));
         $this->assertFalse($r->max('fooo', 2));
     }
-    
+
     public function testRe()
     {
         $r = new Rules();
@@ -67,7 +71,6 @@ class RulesTest extends TestCase
 
         $this->assertFalse($r->notRegex('foo', 'f(oo)?'));
         $this->assertTrue($r->notRegex('fo', 'f(oo)?'));
-
     }
 
     public function testContains()
@@ -85,7 +88,7 @@ class RulesTest extends TestCase
         $r = new Rules();
         $this->assertTrue($r->call('parek', ['min', '1']));
         $this->assertTrue($r->call('p@a.rek', ['email']));
-        $r->rule('name', fn($name) => ucfirst($name) === $name);
+        $r->rule('name', fn ($name) => ucfirst($name) === $name);
         $this->assertTrue($r->call('Parek', ['name']));
     }
 }
