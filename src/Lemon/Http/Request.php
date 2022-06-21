@@ -156,7 +156,12 @@ class Request
 
     public function toArray(): array
     {
-        return []; // TODO
+        return [
+            'path' => $this->path,
+            'query' => $this->query,
+            'method' => $this->method,
+            'body' => $this->body,
+        ];
     }
 
     private function parseBody()
