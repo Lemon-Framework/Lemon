@@ -107,8 +107,6 @@ class Array_ implements Iterator, ArrayAccess, Countable
 
     /**
      * Returns value for given key.
-     *
-     * @param mixed
      */
     public function get(mixed $key): mixed
     {
@@ -352,8 +350,6 @@ class Array_ implements Iterator, ArrayAccess, Countable
 
     /**
      * Extract a slice of the array.
-     *
-     * @param mixed int $lenght
      */
     public function slice(int $start, ?int $lenght = null): self
     {

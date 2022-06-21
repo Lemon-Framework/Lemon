@@ -20,9 +20,6 @@ class Stack
         return new self($type);
     }
 
-    /**
-     * @param T $value
-     */
     public function push(mixed $value): static
     {
         if (!Type::is($this->type, $value)) {

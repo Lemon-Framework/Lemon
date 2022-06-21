@@ -12,7 +12,7 @@ final class Regex
     public static function getLine(string $subject, int $offset): int
     {
         if ($offset < 0) {
-            return [$offset, $offset];
+            return $offset;
         }
 
         $line = 1;

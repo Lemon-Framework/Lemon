@@ -43,7 +43,7 @@ class Container implements ContainerInterface
             $id = $this->aliases[$id];
         }
 
-        if (!$this->services[$id]) {
+        if (is_null($this->services[$id])) {
             $this->services[$id] = $this->make($id);
         }
 

@@ -15,7 +15,7 @@ class Mail
 
     public string $content = '';
 
-    public Template $attachment;
+    public ?Template $attachment = null;
 
     public function to(string $to): static
     {

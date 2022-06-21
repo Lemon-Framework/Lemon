@@ -85,8 +85,8 @@ class Cors
             return;
         }
 
-        if (!is_int($credentials)) {
-            throw new ConfigException('Cors credentials must be int');
+        if (!is_bool($credentials)) {
+            throw new ConfigException('Cors credentials must be bool');
         }
 
         header('Access-Control-Max-Age: '.($credentials ? 'true' : 'false'));

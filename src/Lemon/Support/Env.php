@@ -16,9 +16,8 @@ final class Env
 
     private bool $changed = false;
 
-    public function __construct(
-        private Lifecycle $lifecycle
-    ) {
+    public function __construct(Lifecycle $lifecycle) 
+    {
         $this->path = $lifecycle->directory.DIRECTORY_SEPARATOR.'.env';
         $this->load();
     }

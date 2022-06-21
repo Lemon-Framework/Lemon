@@ -59,8 +59,6 @@ final class Lexer
                         $lex->next();
 
                         break;
-
-                    default:
                 }
                 $result[] = new Token($kind, $content, $line);
             } elseif (preg_match("/^{$this->syntax->echo}$/", $word, $matches)) {

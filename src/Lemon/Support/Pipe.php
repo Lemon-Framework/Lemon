@@ -13,7 +13,7 @@ class Pipe
     ) {
     }
 
-    public static function send(mixed $value): static
+    public static function send(mixed $value): self
     {
         return new self($value);
     }

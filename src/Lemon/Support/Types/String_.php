@@ -42,6 +42,8 @@ class String_ implements Stringable
 
     /**
      * Splits string to array by separator.
+     *
+     * @phpstan-param non-empty-string $separator
      */
     public function split(string $separator): Array_
     {
@@ -52,8 +54,6 @@ class String_ implements Stringable
 
     /**
      * Joins given Array items with string.
-     *
-     * @param array|Array_ $array
      */
     public function join(array $array): self
     {
@@ -104,8 +104,6 @@ class String_ implements Stringable
 
     /**
      * Returns whenever string contains given substring.
-     *
-     * @param string|String_ $substring
      */
     public function contains(string $substring): bool
     {
@@ -135,11 +133,6 @@ class String_ implements Stringable
 
     /**
      * Replaces all occurences of given search string with replace string.
-     *
-     * @param string|String_ $search
-     * @param string|String_ $replace
-     *
-     * @return String_
      */
     public function replace(string $search, string $replace): self
     {
@@ -150,8 +143,6 @@ class String_ implements Stringable
 
     /**
      * Randomly shuffles string.
-     *
-     * @return String_
      */
     public function shuffle(): self
     {
@@ -162,8 +153,6 @@ class String_ implements Stringable
 
     /**
      * Reverses string.
-     *
-     * @return String_
      */
     public function reverse(): self
     {
@@ -174,8 +163,6 @@ class String_ implements Stringable
 
     /**
      * Creates new String_ instance.
-     *
-     * @return
      */
     public static function from(string $subject): self
     {

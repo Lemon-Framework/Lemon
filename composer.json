@@ -12,11 +12,7 @@
     "autoload": {
         "psr-4": {
             "Lemon\\": "src/Lemon"
-        },
-        "files": [
-            "src/Lemon/Support/loader.php",
-            "src/Lemon/Support/Types/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
