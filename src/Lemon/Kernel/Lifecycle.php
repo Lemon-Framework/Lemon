@@ -42,6 +42,7 @@ final class Lifecycle extends Container
         \Lemon\Debug\Dumper::class => ['dumper'],
         \Lemon\Events\Dispatcher::class => ['events'],
         \Lemon\Logging\Logger::class => ['log', \Psr\Log\LoggerInterface::class],
+        \Lemon\Database\Database::class => ['database', \Lemon\Database\Database::class],
     ];
 
     /**
