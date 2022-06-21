@@ -20,6 +20,7 @@ class Postre extends Driver
 
             $result .= $key.'='.$value.';';
         }
+
         return [$result];
     }
 }

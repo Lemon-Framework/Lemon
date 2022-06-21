@@ -22,14 +22,15 @@ class Mysql extends Driver
         }
 
         return [
-            implode(';', 
+            implode(
+                ';',
                 array_map(
-                    fn($item) => $item[0].'='.$item[1],
+                    fn ($item) => $item[0].'='.$item[1],
                     array_slice($result, -2)
                 )
             ),
             $result[5],
-            $result[6]
+            $result[6],
         ];
     }
 }

@@ -14,6 +14,7 @@ class Sqlite extends Driver
         if (!$file) {
             throw new ConfigException('Config value database.file is missing while using sqlite driver');
         }
+
         return ['sqlite:'.$file];
     }
 }

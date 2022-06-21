@@ -12,14 +12,15 @@ class Database
 {
     private ?Driver $connection = null;
 
-    /** @var array<string, \Lemon\Database\Drivers\Driver> */
     private array $drivers = [
+        'sqlite' => \Lemon\Database\Drivers\Sqlite::class,
+        'postgre' => \Lemon\Database\Drivers\Postre::class,
+        'mysql' => \Lemon\Database\Drivers\Mysql::class,
     ];
 
     public function __construct(
         public readonly Config $config
     ) {
-        
     }
 
     public function getConnection(): Driver
@@ -27,6 +28,7 @@ class Database
         if (!$this->connection) {
             $this->connect();
         }
+
         return $this->connection;
     }
 
@@ -48,7 +50,8 @@ class Database
     public function query(string $query, ...$params)
     {
         $statement = $this->getConnection()->prepare($query);
-        $statement->execute($params);        
+        $statement->execute($params);
+
         return $statement;
     }
 }

@@ -15,6 +15,5 @@ abstract class Driver extends PDO
         parent::__construct(...$this->getConnection());
     }
 
-
     abstract protected function getConnection(): array;
 }
