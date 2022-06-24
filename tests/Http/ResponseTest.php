@@ -27,6 +27,7 @@ class ResponseTest extends TestCase
         $r->handleHeaders();
         if (!function_exists('xdebug_get_headers')) {
             $this->markTestSkipped();
+
             return;
         }
         $this->assertSame(['Location: /', 'foo: bar'], xdebug_get_headers());

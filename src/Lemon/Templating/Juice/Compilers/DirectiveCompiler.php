@@ -7,7 +7,6 @@ namespace Lemon\Templating\Juice\Compilers;
 use Lemon\Kernel\Container;
 use Lemon\Support\Types\Arr;
 use Lemon\Templating\Exceptions\CompilerException;
-use Lemon\Templating\Factory;
 use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Token;
 
@@ -111,7 +110,7 @@ final class DirectiveCompiler
         if (!method_exists($class, 'compileClosing')) {
             throw new CompilerException('Unable to close directive'.$directive);
         }
-        /** @phpstan-ignore-next-line */
+        // @phpstan-ignore-next-line
         return trim($class->compileClosing());
     }
 

@@ -10,9 +10,9 @@ use Lemon\Validation\Validator;
 
 class Request
 {
-    private ?array $post_data = null;
+    private ?array $body_data = null;
 
-    private ?array $get_data = null;
+    private ?array $query_data = null;
 
     private ?Lifecycle $lifecycle = null;
 
@@ -82,7 +82,7 @@ class Request
         $result = [];
 
         foreach ($headers as $header) {
-            [$key, $value] = explode(' ', $header);
+            [$key, $value] = explode(': ', $header);
             $result[$key] = $value;
         }
 
@@ -130,17 +130,18 @@ class Request
         return $this->data()[$key] ?? null;
     }
 
-    public function query(?string $key): ?string
-    {
+    public function query(?string $key = null): string|array|null
+    { 
+
+        if (!is_null($this->query)) {
+            parse_str($this->query, $this->query_data);
+        }
+
         if (!$key) {
-            return $this->query;
+            return $this->query_data;
         }
 
-        if (is_null($this->get_data)) {
-            parse_str($this->query, $this->get_data);
-        }
-
-        return $this->query[$key] ?? null;
+        return $this->query_data[$key] ?? null;
     }
 
     public function validate(array $rules): bool
@@ -150,7 +151,7 @@ class Request
         }
 
         return $this->lifecycle->get(Validator::class)
-            ->validate($this->post_data, $rules)
+            ->validate($this->body_data, $rules)
         ;
     }
 
@@ -166,7 +167,7 @@ class Request
 
     private function parseBody()
     {
-        $this->post_data = [];
+        $this->body_data = [];
         if (!$content_type = $this->header('Content-Type')) {
             return;
         }
@@ -174,18 +175,18 @@ class Request
         switch ($content_type) {
             case 'application/x-www-form-urlencoded':
                 parse_str($this->body, $result);
-                $this->post_data = $result;
+                $this->body_data = $result;
 
                 return;
 
             case 'application/json':
-                $this->post_data = json_decode($this->body);
+                $this->body_data = json_decode($this->body, true);
 
                 return;
 
             default:
                 if (isset($this->parsers[$content_type])) {
-                    $this->post_data = $this->parsers[$content_type]();
+                    $this->body_data = $this->parsers[$content_type]($this->body);
                 }
         }
     }
