@@ -129,4 +129,9 @@ class Router
 
         return $this->response->make($action, $request[1]);
     }
+
+    public function cache()
+    {
+        // TODO
+    }
 }

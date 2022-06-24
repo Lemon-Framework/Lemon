@@ -118,11 +118,11 @@ class Request
 
     public function data()
     {
-        if (is_null($this->post_data)) {
+        if (is_null($this->body_data)) {
             $this->parseBody();
         }
 
-        return $this->post_data;
+        return $this->body_data;
     }
 
     public function get(string $key): ?string
@@ -131,8 +131,7 @@ class Request
     }
 
     public function query(?string $key = null): string|array|null
-    { 
-
+    {
         if (!is_null($this->query)) {
             parse_str($this->query, $this->query_data);
         }

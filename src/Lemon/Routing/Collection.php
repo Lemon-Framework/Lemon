@@ -13,18 +13,9 @@ class Collection
     /**
      * List of collected routes.
      *
-     * @var array<string, Route|static>
+     * @var array<string, \Lemon\Routing\Route|static>
      */
     private array $routes;
-
-    /*
-        TODO STUFF
-
-        private MiddlewareCollection $middlewares;
-
-        and functions for it okacko
-
-     */
 
     private string $prefix = '';
 
@@ -62,6 +53,15 @@ class Collection
     public function collection(self $collection): static
     {
         $this->routes[] = $collection;
+
+        return $this;
+    }
+
+    public function middleware(string|array ...$middlewares): static
+    {
+        foreach ($this->routes as $route) {
+            $route->middleware($middlewares);
+        }
 
         return $this;
     }
