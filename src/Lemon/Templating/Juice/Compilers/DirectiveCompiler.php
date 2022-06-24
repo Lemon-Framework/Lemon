@@ -45,15 +45,6 @@ final class DirectiveCompiler
     }
 
     /**
-     * Injects template factory class into directive compiler.
-     */
-    public function injectFactory(Factory $factory)
-    {
-        // Thanks to this we can obtain factory inside all the fancy includes
-        $this->compilers->add(Factory::class, $factory);
-    }
-
-    /**
      * Returns compiler of given directive.
      */
     public function getDirectiveCompiler(string $directive): Directive

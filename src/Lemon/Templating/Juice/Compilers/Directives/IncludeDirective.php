@@ -10,11 +10,6 @@ use Lemon\Templating\Juice\Token;
 
 class IncludeDirective implements Directive
 {
-    public function __construct(
-        private Factory $factory
-    ) {
-    }
-
     public function compileOpenning(Token $token, array $stack): string
     {
         $tokens = token_get_all('<?php '.$token->content[1]); // TODO better manipulation
@@ -25,8 +20,6 @@ class IncludeDirective implements Directive
             throw new CompilerException('Argument 1 of directive include has to be string', $token->line);
         }
 
-        $template = $this->factory->make(substr($tokens[1][1], 1, -1));
-
-        return '<?php include \''.$template->compiled_path.'\' ?>';
+        return '<?php include $_factory->make('.$tokens[1][1].')->raw_path ?>';
     }
 }

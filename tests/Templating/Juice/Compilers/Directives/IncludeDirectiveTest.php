@@ -26,9 +26,9 @@ class IncludeDirectiveTest extends TestCase
         $compiler = new Compiler($config);
         new Factory($config, $compiler, $lifecycle);
 
-        $this->assertSame('<?php include \''.__DIR__.DIRECTORY_SEPARATOR.'storage/templates/foo_bar.php\' ?>', $compiler->directives->compileOpenning(new Token(Token::TAG, ['include', '"foo.bar"'], 1), []));
+        $this->assertSame('<?php include $_factory->make("foo.bar")->raw_path ?>', $compiler->directives->compileOpenning(new Token(Token::TAG, ['include', '"foo.bar"'], 1), []));
 
-        $this->assertSame('<?php include \''.__DIR__.DIRECTORY_SEPARATOR.'storage/templates/foo_bar.php\' ?>', $compiler->directives->compileOpenning(new Token(Token::TAG, ['include', '\'foo.bar\''], 1), []));
+        $this->assertSame('<?php include $_factory->make(\'foo.bar\')->raw_path ?>', $compiler->directives->compileOpenning(new Token(Token::TAG, ['include', '\'foo.bar\''], 1), []));
 
         $this->assertThrowable(function (DirectiveCompiler $d) {
             $d->compileOpenning(new Token(Token::TAG, ['include', ''], 1), []);

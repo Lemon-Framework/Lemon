@@ -37,10 +37,6 @@ class Factory
         $config = $config->part('templating');
         $this->templates = $config->file('location');
         $this->cached = $config->file('cached');
-
-        if ($compiler instanceof Juice\Compiler) {
-            $compiler->directives->injectFactory($this);
-        }
     }
 
     /**
@@ -53,6 +49,7 @@ class Factory
         $this->compile($path, $compiled_path);
 
         $data['_env'] = $this->lifecycle->get('templating.env');
+        $data['_factory'] = $this;
 
         return new Template($path, $compiled_path, $data);
     }

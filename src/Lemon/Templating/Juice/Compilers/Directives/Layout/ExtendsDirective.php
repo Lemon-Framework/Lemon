@@ -10,12 +10,7 @@ use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Token;
 
 class ExtendsDirective implements Directive
-{
-    public function __construct(
-        private Factory $factory
-    ) {
-    }
-
+{ 
     public function compileOpenning(Token $token, array $stack): string
     {
         $tokens = token_get_all('<?php '.$token->content[1]); // TODO better manipulation
@@ -26,8 +21,7 @@ class ExtendsDirective implements Directive
             throw new CompilerException('Argument 1 of directive extends has to be string', $token->line);
         }
 
-        $template = $this->factory->make(substr($tokens[1][1], 1, -1));
-
-        return '<?php $_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout\Layout(\''.$template->compiled_path.'\') ?>';
+        $class = Layout::class;
+        return '<?php $_layout = new \\'.$class.'($_factory->make('.$tokens[1][1].')->raw_path ?>';
     }
 }
