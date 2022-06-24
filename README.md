@@ -1,18 +1,17 @@
 # 🍋 Lemon 3 
 
-![Blueprint](https://raw.githubusercontent.com/Lemon-Framework/static/master/images/lemon_bp.png)
-
 Pracujem na jednom phpcku ten sa bude volat Lemon... 3. Bude tam nieco zo symfony nieco z laravelu nieco z nette nieco z termwindu chcem to akokeby spojit do jedneho. 
+
+Moral: dont be lazy, read the docs.
 
 ❗NOT READY FOR PRODUCTION EVERYTHING COULD (AND PROPABLY WILL) CHANGE❗
 
 TODO:
 
 - [x] setup unit testing
-- [ ] split routing from http
+- [x] split routing from http
 - [x] array slicing ["1..2"]
 - [x] tests for array
-- [ ] other cool array methods propably BUT not that much ok do it while writing pls
 - [x] tests for string
 - [x] tests for arr and str
 - [ ] remove string_, arr utils should return array
@@ -27,7 +26,7 @@ TODO:
 - [ ] tests for kernel
 - [x] new kernel
 - [x] split container
-- [ ] database
+- [ ] database (base)
 - [x] new lemonade kernel
 - [x] dump die
 - [ ] reporter
@@ -35,15 +34,13 @@ TODO:
 - [x] caching core, psr
 - [x] fake tests for caching
 - [x] tests for caching
-- [ ] juice template engine
-- [ ] mailer?
+- [x] juice template engine (base)
 - [ ] rewrite exceptiont esting
 - [x] rething config
-- [ ] faker
 - [ ] rewrite exceptions
 - [x] events
 - [x] logging
-- [ ] validation
+- [x] validation
 
 Directories with D means deprecated so they will have to be completely rewritten
 
