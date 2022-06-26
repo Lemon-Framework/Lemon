@@ -107,11 +107,12 @@ final class DirectiveCompiler
     {
         $class = $this->getDirectiveCompiler($directive);
 
-        if (!method_exists($class, 'compileClosing')) {
-            throw new CompilerException('Unable to close directive'.$directive);
+        if (method_exists($class, 'compileClosing')) {
+            // TODO rethink to avoid this
+            return trim($class->compileClosing());
         }
-        // @phpstan-ignore-next-line
-        return trim($class->compileClosing());
+
+        throw new CompilerException('Unable to close directive'.$directive);
     }
 
     /**

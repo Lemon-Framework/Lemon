@@ -11,7 +11,7 @@ interface Directive
     /**
      * Compiles openning directive.
      *
-     * @throws \Lemon\Templating\Juice\Exceptions\CompilerException
+     * @throws \Lemon\Templating\Exceptions\CompilerException
      */
     public function compileOpenning(Token $token, array $stack): string;
 }

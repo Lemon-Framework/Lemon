@@ -12,7 +12,7 @@ trait Macros
     /**
      * Contains all macros.
      *
-     * @param array<string, callable>
+     * @var array<string, callable>
      */
     private array $macros = [];
 

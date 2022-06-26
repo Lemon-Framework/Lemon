@@ -90,7 +90,6 @@ class ResponseFactoryTest extends TestCase
             return '500';
         });
 
-
         $this->assertSame('500', $factory->error(500)->parseBody());
         $this->assertSame(['500'], $lc->get(SimpleLogger::class)->all());
     }

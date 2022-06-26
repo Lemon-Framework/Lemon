@@ -121,7 +121,7 @@ abstract class Response
             header($header.': '.$value);
         }
     }
-    
+
     public function handleBody(string $body): void
     {
         echo $body;
@@ -130,5 +130,5 @@ abstract class Response
     public function headers(): array
     {
         return $this->headers;
-    } 
+    }
 }

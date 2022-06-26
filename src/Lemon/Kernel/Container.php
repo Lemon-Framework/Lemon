@@ -18,7 +18,7 @@ class Container implements ContainerInterface
     /**
      * Container services.
      *
-     * @var array<string, object>
+     * @var array<string, ?object>
      */
     private array $services = [];
 

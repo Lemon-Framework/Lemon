@@ -27,6 +27,9 @@ final class Env
         $this->commit();
     }
 
+    /**
+     * Loads env file.
+     */
     public function load(): void
     {
         $content = str_replace("\r\n", "\n", Filesystem::read($this->path)); // @windows dekujeme za nazor, posilame klicenku
@@ -42,6 +45,9 @@ final class Env
         }
     }
 
+    /**
+     * Returns env value of given key or default if not present.
+     */
     public function get(string $key, mixed $default = null): mixed
     {
         if (!$this->has($key)) {
@@ -51,11 +57,17 @@ final class Env
         return $this->data[$key];
     }
 
+    /**
+     * Returns whenever env key exist.
+     */
     public function has(string $key): bool
     {
         return isset($this->data[$key]);
     }
 
+    /**
+     * Sets env key with given value.
+     */
     public function set(string $key, string $value): void
     {
         if (!$this->changed) {
@@ -64,6 +76,17 @@ final class Env
         $this->data[$key] = $value;
     }
 
+    /**
+     * Returns env data.
+     */
+    public function data(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * Saves data back to env file.
+     */
     public function commit(): void
     {
         if (!$this->changed) {
@@ -77,10 +100,5 @@ final class Env
         }
 
         Filesystem::write($this->path, $result);
-    }
-
-    public function data(): array
-    {
-        return $this->data;
     }
 }

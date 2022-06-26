@@ -11,6 +11,7 @@ class JsonResponse extends Response
     public function parseBody(): string
     {
         $this->header('Content-Type', 'application/json');
+
         return json_decode($this->body);
     }
 }

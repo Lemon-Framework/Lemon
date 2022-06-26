@@ -95,7 +95,7 @@ final class Lifecycle extends Container
         set_exception_handler([$this, 'handle']);
     }
 
-    public function handleError($level, $message, $file = '', $line = 0): void
+    public function handleError(int $level, string $message, string $file = '', int $line = 0): bool
     {
         throw new ErrorException($message, 0, $level, $file, $line);
     }

@@ -9,10 +9,8 @@ use Lemon\Routing\Exceptions\RouteException;
 
 class MiddlewareCollection
 {
-    private array $middlewares;
-
     public function __construct(
-        private Container $registered_middlewares,
+        private Container $middlewares,
     ) {
     }
 
@@ -38,6 +36,6 @@ class MiddlewareCollection
 
     public function middlewares(): array
     {
-        return $this->middlewares;
+        return $this->middlewares->services();
     }
 }

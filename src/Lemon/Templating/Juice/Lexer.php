@@ -6,6 +6,7 @@ namespace Lemon\Templating\Juice;
 
 use Lemon\Support\Regex;
 use Lemon\Support\Types\Arr;
+use Lemon\Templating\Exceptions\SyntaxException;
 
 /**
  * Juice lexer providing template to tokens conversion.
@@ -58,7 +59,9 @@ final class Lexer
                         $content = [$matches[1], $matches[2]];
                         $lex->next();
 
-                        break;
+                        // no break
+                    default:
+                        throw new SyntaxException('Regex for tag must have 2 or 3 matches, '.$size.' found');
                 }
                 $result[] = new Token($kind, $content, $line);
             } elseif (preg_match("/^{$this->syntax->echo}$/", $word, $matches)) {

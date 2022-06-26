@@ -44,6 +44,7 @@ class Reporter
             'message' => $problem->getMessage(),
             'hint' => '', // TODO consultant
             'trace' => $this->getTrace(),
+            'request' => $this->request->toArray(),
         ];
     }
 
@@ -51,6 +52,7 @@ class Reporter
     {
         $problem = $this->exception;
         $trace = array_map(
+            // @phpstan-ignore-next-line
             fn ($item) => $item ? [
                 'file' => $file = $item['file'],
                 'code' => file_get_contents($file),

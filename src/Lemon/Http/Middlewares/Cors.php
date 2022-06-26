@@ -81,7 +81,7 @@ class Cors
 
     private function handleAllowedCredentials(mixed $credentials)
     {
-        if (!$credentials) {
+        if (is_null($credentials)) {
             return;
         }
 

@@ -14,6 +14,7 @@ class TemplateResponse extends Response
 
         ob_start();
         $this->body->render();
+
         return ob_get_clean();
     }
 }

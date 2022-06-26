@@ -11,6 +11,7 @@ class TextResponse extends Response
     public function parseBody(): string
     {
         $this->header('Content-Type', 'text/plain');
+
         return $this->body;
     }
 }
