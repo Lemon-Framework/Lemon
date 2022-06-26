@@ -10,7 +10,6 @@ class HtmlResponse extends Response
 {
     public function handleBody(): void
     {
-        header('Content-Type: text/html');
         echo $this->body;
     }
 }

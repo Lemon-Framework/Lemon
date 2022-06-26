@@ -2,15 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title><?php echo $message ?></title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+        
+        * {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
 </head>
-<body>
-    <?php echo $code ?>
-    <hr>
-    <?php echo $message ?>
-<br>
-
-    <img src="https://http.cat/<?php echo $code ?>" alt="cat">
-    Image from <a href="https://http.cat">http.cat</a>
+<body style="min-height: 100vh; margin: 10%; align-items: center; display: flex">
+    <div style="display: block;">
+        <?php echo $code ?>
+        <hr>
+        <?php echo $message ?>
+    </div>
 </body>
 </html>

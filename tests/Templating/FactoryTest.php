@@ -34,8 +34,7 @@ class FactoryTest extends TestCase
         $s = DIRECTORY_SEPARATOR;
         $this->assertSame(__DIR__.$s.'templates'.$s.'foo'.$s.'bar.foo', $factory->getRawPath('foo.bar'));
 
-        $this->expectException(TemplateException::class);
-        $factory->getRawPath('klobna');
+        $this->assertFalse($factory->getRawPath('klobna'));
     }
 
     public function testGetCompiledPath()
@@ -97,6 +96,12 @@ class FactoryTest extends TestCase
             __DIR__.$s.'storage'.$s.'templates'.$s.'foo_bar.php',
             ['foo' => 'bar', '_env' => new Enviroment(), '_factory' => $factory]
         ), $this->equalTo($factory->make('foo.bar', ['foo' => 'bar'])));
+    }
+
+    public function testExist()
+    {
+        $this->assertTrue($this->getFactory()->exist('foo.bar'));
+        $this->assertFalse($this->getFactory()->exist('foo.ba'));
     }
 
     private function getFactory(): Factory

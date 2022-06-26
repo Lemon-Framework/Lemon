@@ -10,7 +10,6 @@ class TemplateResponse extends Response
 {
     public function handleBody(): void
     {
-        header('Content-Type: text/html');
         $this->body->render();
     }
 }

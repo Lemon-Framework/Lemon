@@ -9,5 +9,5 @@ interface Jsonable
     /**
      * Returns json from class data.
      */
-    public function toJson(): string;
+    public function toJson(): array;
 }

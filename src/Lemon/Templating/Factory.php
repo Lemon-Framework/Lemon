@@ -45,6 +45,9 @@ class Factory
     public function make(string $name, array $data = []): Template
     {
         $path = $this->getRawPath($name);
+        if (!$path) {
+            throw new TemplateException('Template '.$name.' does not exist');
+        }
         $compiled_path = $this->getCompiledPath($name);
         $this->compile($path, $compiled_path);
 
@@ -57,12 +60,12 @@ class Factory
     /**
      * Returns path of raw template.
      */
-    public function getRawPath(string $name): string
+    public function getRawPath(string $name): string|false
     {
         $path = $this->templates.DIRECTORY_SEPARATOR.Str::replace($name, '.', DIRECTORY_SEPARATOR)->value.'.'.$this->compiler->getExtension();
 
         if (!FS::isFile($path)) {
-            throw new TemplateException('Template '.$name.' does not exist');
+            return false;
         }
 
         return $path;
@@ -99,5 +102,10 @@ class Factory
         }
 
         FS::write($compiled_path, $compiled);
+    }
+
+    public function exist(string $template)
+    {
+        return $this->getRawPath($template) ? true : false;
     }
 }
