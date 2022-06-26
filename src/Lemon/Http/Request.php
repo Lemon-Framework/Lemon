@@ -132,7 +132,7 @@ class Request
 
     public function query(?string $key = null): string|array|null
     {
-        if (!$this->query) {
+        if (!empty($this->query)) {
             parse_str($this->query, $this->query_data);
         }
 
