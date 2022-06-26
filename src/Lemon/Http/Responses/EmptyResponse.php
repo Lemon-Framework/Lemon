@@ -8,7 +8,8 @@ use Lemon\Http\Response;
 
 class EmptyResponse extends Response
 {
-    public function handleBody(): void
+    public function parseBody(): string
     {
+        return '';
     }
 }

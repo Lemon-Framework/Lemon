@@ -8,9 +8,9 @@ use Lemon\Http\Response;
 
 class JsonResponse extends Response
 {
-    public function handleBody(): void
+    public function parseBody(): string
     {
-        header('Content-Type: application/json');
-        echo json_decode($this->body);
+        $this->header('Content-Type', 'application/json');
+        return json_decode($this->body);
     }
 }

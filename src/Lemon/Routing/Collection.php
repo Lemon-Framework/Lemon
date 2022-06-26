@@ -15,7 +15,7 @@ class Collection
      *
      * @var array<string, \Lemon\Routing\Route|static>
      */
-    private array $routes;
+    private array $routes = [];
 
     private string $prefix = '';
 

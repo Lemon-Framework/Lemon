@@ -48,8 +48,6 @@ class ResponseFactoryTest extends TestCase
     {
         $factory = $this->getFactory();
 
-        $factory->error(500)->send();
-
         $this->assertSame(<<<'HTML'
         <!DOCTYPE html>
         <html lang="en">
@@ -71,13 +69,9 @@ class ResponseFactoryTest extends TestCase
         </body>
         </html>
 
-        HTML, $this->getActualOutputForAssertion());
+        HTML, $factory->error(500)->parseBody());
 
-        ob_clean();
-
-        $factory->error(404)->send();
-
-        $this->assertSame("404 rip bozo\n", $this->getActualOutputForAssertion());
+        $this->assertSame("404 rip bozo\n", $factory->error(404)->parseBody());
 
         $this->expectException(InvalidArgumentException::class);
         $factory->error(515);
@@ -96,9 +90,8 @@ class ResponseFactoryTest extends TestCase
             return '500';
         });
 
-        $factory->error(500)->send();
 
-        $this->assertSame('500', $this->getActualOutputForAssertion());
+        $this->assertSame('500', $factory->error(500)->parseBody());
         $this->assertSame(['500'], $lc->get(SimpleLogger::class)->all());
     }
 }

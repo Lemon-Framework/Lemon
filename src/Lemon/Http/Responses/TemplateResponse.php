@@ -8,8 +8,12 @@ use Lemon\Http\Response;
 
 class TemplateResponse extends Response
 {
-    public function handleBody(): void
+    public function parseBody(): string
     {
+        $this->header('Content-Type', 'text/html');
+
+        ob_start();
         $this->body->render();
+        return ob_get_clean();
     }
 }

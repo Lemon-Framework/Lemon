@@ -59,9 +59,10 @@ abstract class Response
 
     public function send(): static
     {
+        $body = $this->parseBody();
         $this->handleHeaders();
         $this->handleStatusCode();
-        $this->handleBody();
+        $this->handleBody($body);
 
         return $this;
     }
@@ -107,7 +108,7 @@ abstract class Response
         return $this;
     }
 
-    abstract public function handleBody(): void;
+    abstract public function parseBody(): string;
 
     public function handleStatusCode()
     {
@@ -120,9 +121,14 @@ abstract class Response
             header($header.': '.$value);
         }
     }
+    
+    public function handleBody(string $body): void
+    {
+        echo $body;
+    }
 
     public function headers(): array
     {
         return $this->headers;
-    }
+    } 
 }
