@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Lemon\Debug\Style;
 
 return [
-    'dump' => [
+    'dumper' => [
         'style' => new Style(),
     ],
 ];

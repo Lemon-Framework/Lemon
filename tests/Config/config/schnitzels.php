@@ -5,9 +5,6 @@ return [
     'tasty' => true,
     'storage' => 'config.something',
     'foo' => [
-        'bar' => [
-            'baz',
-            'nevim',
-        ],
+        'bar' => 'neco',
     ],
 ];

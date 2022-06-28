@@ -46,7 +46,7 @@ class Logger extends AbstractLogger
 
     private function resolveDestination()
     {
-        $this->destination = $this->config->part('logging')->file('file', 'log');
+        $this->destination = $this->config->file('logging.file', 'log');
         if (!Filesystem::isFile($this->destination)) {
             $dir = Filesystem::parent($this->destination);
             Filesystem::makeDir($dir);

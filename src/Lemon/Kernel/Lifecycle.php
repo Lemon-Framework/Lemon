@@ -120,20 +120,6 @@ final class Lifecycle extends Container
     }
 
     /**
-     * Returns config part or item from config part.
-     * TODO.
-     */
-    public function config(string $part, ?string $key = null): mixed
-    {
-        $matched = $this->get('config')->part($part);
-        if ($key) {
-            return $matched->{$key};
-        }
-
-        return $matched;
-    }
-
-    /**
      * Returns path of specific file in current project.
      */
     public function file(string $path, string $extension = null): string
@@ -162,7 +148,7 @@ final class Lifecycle extends Container
      */
     public function boot(): void
     {
-        if ('web' !== $this->config('kernel', 'mode')) {
+        if ('web' !== $this->get('config')->get('kernel.mode')) {
             return;
         }
 

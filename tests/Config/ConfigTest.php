@@ -6,8 +6,8 @@ namespace Lemon\Tests\Config;
 
 use Lemon\Config\Config;
 use Lemon\Config\Exceptions\ConfigException;
-use Lemon\Config\Part;
 use Lemon\Kernel\Lifecycle;
+use Lemon\Support\Filesystem;
 use Lemon\Tests\TestCase;
 
 /**
@@ -16,50 +16,70 @@ use Lemon\Tests\TestCase;
  */
 class ConfigTest extends TestCase
 {
-    public function testLoad()
+    public function testLoading()
     {
         $config = new Config(new Lifecycle(__DIR__));
-        $s = DIRECTORY_SEPARATOR;
-        $config->load(__DIR__.$s.'config');
+        $config->loadPart('kernel');
+
         $this->assertSame([
-            'foo.bar' => __DIR__.$s.'config'.$s.'foo'.$s.'bar.php',
-            'kernel' => __DIR__.$s.'config'.$s.'kernel.php',
-            'schnitzels' => __DIR__.$s.'config'.$s.'schnitzels.php',
-        ], $config->parts);
+            'kernel' => [
+                'mode' => 'web',
+                'debug' => false,
+            ],
+        ], $config->data());
+
+        $config->load('config');
+
+        $config->loadPart('kernel');
+
+        $this->assertSame([
+            'kernel' => [
+                'mode' => 'web',
+                'debug' => false,
+            ],
+        ], $config->data());
+
+        $config->loadPart('kernel', true);
+
+        $this->assertSame([
+            'kernel' => [
+                'mode' => 'testing',
+                'debug' => true,
+            ],
+        ], $config->data());
 
         $this->expectException(ConfigException::class);
-        $config->load('config');
+        $config->loadPart('rizkochleboparek');
     }
 
-    public function testPart()
+    public function testGet()
     {
         $config = new Config(new Lifecycle(__DIR__));
-        $this->assertSame([
-            'mode' => 'web',
-            'debug' => false,
-        ], $config->part('kernel')->data());
-        $config->part('kernel')->set('debug', true);
-        $this->assertSame(true, $config->part('kernel')->get('debug'));
+        $config->load('config');
 
-        $config->load(__DIR__.DIRECTORY_SEPARATOR.'config');
-        $this->assertSame([
-            'something' => 'cool',
-        ], $config->part('foo.bar')->data());
+        $this->assertSame('neco', $config->get('schnitzels.foo.bar'));
+        $this->assertSame(['bar' => 'neco'], $config->get('schnitzels.foo'));
+        $this->expectException(ConfigException::class);
+        $config->get('schnitzels.parek');
+    }
 
-        $this->assertSame(__DIR__.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'something.txt', $config->part('schnitzels')->file('storage', 'txt'));
+    public function testFile()
+    {
+        $config = new Config(new Lifecycle(__DIR__));
+        $config->load('config');
 
-        $this->assertSame(['baz', 'nevim'], $config->part('schnitzels')->get('foo.bar'));
+        $this->assertSame(
+            Filesystem::join(__DIR__, 'config', 'something.txt'),
+            $config->file('schnitzels.storage', 'txt')
+        );
+    }
 
-        $this->assertThrowable(function (Part $part) {
-            $part->get('foo.baz');
-        }, ConfigException::class, $config->part('schnitzels'));
+    public function testSet()
+    {
+        $config = new Config(new Lifecycle(__DIR__));
+        $config->load('config');
 
-        $this->assertThrowable(function (Part $part) {
-            $part->get('baz');
-        }, ConfigException::class, $config->part('schnitzels'));
-
-        $this->assertThrowable(function (Config $config) {
-            $config->part('klobna');
-        }, ConfigException::class, $config);
+        $config->set('schnitzels.foo.bar', 'parek');
+        $this->assertSame('parek', $config->get('schnitzels.foo.bar'));
     }
 }

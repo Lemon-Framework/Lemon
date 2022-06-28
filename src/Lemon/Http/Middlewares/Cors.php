@@ -18,7 +18,7 @@ class Cors
 {
     public function handle(Config $config, Request $request)
     {
-        $config = $config->part('http')->get('cors');
+        $config = $config->get('http.cors');
 
         $this->handleAllowedOrigins($request, $config['allowed-origins'] ?? null);
         $this->handleExposeHeaders($config['expose-headers'] ?? null);

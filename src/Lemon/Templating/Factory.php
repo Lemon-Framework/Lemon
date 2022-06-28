@@ -34,9 +34,8 @@ class Factory
         $lifecycle->add(Enviroment::class);
         $lifecycle->alias('templating.env', Enviroment::class);
 
-        $config = $config->part('templating');
-        $this->templates = $config->file('location');
-        $this->cached = $config->file('cached');
+        $this->templates = $config->file('templating.location');
+        $this->cached = $config->file('templating.cached');
     }
 
     /**

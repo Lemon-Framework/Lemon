@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Database;
 
 use Lemon\Config\Config;
-use Lemon\Config\Exceptions\ConfigException;
 use Lemon\Database\Drivers\Driver;
 
 class Database
@@ -34,10 +33,7 @@ class Database
 
     public function connect(): void
     {
-        $driver = $this->drivers[$this->config->part('database')->get('driver')] ?? null;
-        if (!$driver) {
-            throw new ConfigException('Config value database.driver is either missing or not valid driver');
-        }
+        $driver = $this->drivers[$this->config->get('database.driver')];
 
         $this->connection = new $driver($this);
     }

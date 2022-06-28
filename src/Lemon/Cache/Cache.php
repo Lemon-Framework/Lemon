@@ -7,6 +7,7 @@ namespace Lemon\Cache;
 use DateInterval;
 use DateTime;
 use Lemon\Cache\Exceptions\InvalidArgumentException;
+use Lemon\Config\Config;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Filesystem as FS;
 use Lemon\Support\Types\Arr;
@@ -28,8 +29,10 @@ class Cache implements CacheInterface
      */
     private string $data_path;
 
-    public function __construct(private Lifecycle $lifecycle)
-    {
+    public function __construct(
+        private Lifecycle $lifecycle,
+        private Config $config
+    ) {
         $this->time = time();
         $this->load();
     }
@@ -47,7 +50,7 @@ class Cache implements CacheInterface
      */
     public function load(): void
     {
-        $directory = $this->lifecycle->config('cache', 'storage');
+        $directory = $this->config->get('cache.storage');
         $path = $this->lifecycle->file($directory);
         $this->data_path = FS::join($path, 'data.json');
         if (!FS::isDir($path)) {

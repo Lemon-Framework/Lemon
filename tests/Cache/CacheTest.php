@@ -198,10 +198,7 @@ class CacheTest extends TestCase
     public function setUp(): void
     {
         $lc = new Lifecycle(__DIR__);
-        $lc->add(Lifecycle::class, $lc);
-        $lc->add(Config::class);
-        $lc->alias('config', Config::class);
-        $this->cache = new LemonCache($lc);
+        $this->cache = new LemonCache($lc, new Config($lc));
     }
 
     public function testLoad()

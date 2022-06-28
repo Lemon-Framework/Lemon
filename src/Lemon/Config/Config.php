@@ -7,63 +7,96 @@ namespace Lemon\Config;
 use Lemon\Config\Exceptions\ConfigException;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Filesystem;
-use Lemon\Support\Properties\Properties;
-use Lemon\Support\Properties\Read;
+use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 
-/**
- * The Lemon Config Manager.
- *
- * @property array<string, mixed>  $data
- * @property array<string, string> $parts
- */
 class Config
 {
-    use Properties;
+    private array $files = [];
 
-    #[Read]
     private array $data = [];
-
-    #[Read]
-    private array $parts = [];
 
     public function __construct(
         private Lifecycle $lifecycle
     ) {
     }
 
-    public function part(string $name): Part
+    public function load(string $directory = 'config'): static
     {
-        $name = Str::toLower($name)->value;
-        if (!isset($this->data[$name])) {
-            $path = $this->parts[$name] ?? Filesystem::join(__DIR__, '..', Str::capitalize($name)->value, 'config.php');
-            if (!Filesystem::isFile($path)) {
-                throw new ConfigException('Config part '.$name.' does not exist');
-            }
-
-            $data = require $path;
-            if (!is_array($data)) {
-                throw new ConfigException('Config file for part '.$name.' does not return array');
-            }
-            $this->data[$name] = new Part($this->lifecycle, $data, $name);
-        }
-
-        return $this->data[$name];
-    }
-
-    public function load(string $directory): static
-    {
+        $directory = $this->lifecycle->file($directory);
         if (!Filesystem::isDir($directory)) {
             throw new ConfigException('Directory '.$directory.' does not exist');
         }
         static $s = DIRECTORY_SEPARATOR;
         foreach (Filesystem::listDir($directory) as $path) {
-            if (preg_match('/^'.Str::replace($directory, $s, '\\'.$s)->value.'\\'.$s.'(.+?)\.php$/', $path, $matches)) {
+            $re = '/^'.preg_quote($directory.$s, '/').'(.+?)\.php$/';
+            if (preg_match($re, $path, $matches)) {
                 $key = Str::replace($matches[1], $s, '.')->value;
-                $this->parts[$key] = $path;
+                $this->files[$key] = $path;
             }
         }
 
         return $this;
+    }
+
+    public function get(string $key): mixed
+    {
+        $keys = explode('.', $key);
+
+        $part = $keys[0];
+        $keys = array_slice($keys, 1);
+
+        $this->loadPart($part);
+        $last = $this->data[$part];
+        foreach ($keys as $key) {
+            if (!isset($last[$key])) {
+                throw new ConfigException('Config key '.$key.' does not exist');
+            }
+            $last = $last[$key];
+        }
+
+        return $last;
+    }
+
+    public function file(string $key, string $extension = null): string
+    {
+        return $this->lifecycle->file($this->get($key), $extension);
+    }
+
+    public function set(string $key, mixed $value): static
+    {
+        $keys = explode('.', $key);
+        $part = $keys[0];
+
+        $this->loadPart($part);
+        $last = &$this->data[$part];
+        foreach (array_slice($keys, 1, -1) as $key) {
+            $last = &$last[$key];
+        }
+        $last[Arr::last($keys)] = $value;
+
+        return $this;
+    }
+
+    public function loadPart(string $part, bool $force = false): void
+    {
+        if (isset($this->data[$part]) && !$force) {
+            return;
+        }
+
+        $path =
+            $this->files[$part]
+            ?? Filesystem::join(__DIR__, '..', Str::capitalize($part)->value, 'config.php');
+
+        if (!file_exists($path)) {
+            throw new ConfigException('Part '.$part.' does not exist');
+        }
+
+        $this->data[$part] = require $path;
+    }
+
+    public function data(): array
+    {
+        return $this->data;
     }
 }

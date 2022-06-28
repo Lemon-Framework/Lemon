@@ -23,7 +23,7 @@ class Handler
      */
     public function handle(Exception $problem): void
     {
-        if ($this->config->part('kernel')->get('debug')) {
+        if ($this->config->get('kernel.debug')) {
             (new Reporter($problem, $this->request))->report();
         } else {
             $this->response->error(500)->send();

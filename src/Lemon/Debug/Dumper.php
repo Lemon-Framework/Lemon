@@ -16,7 +16,7 @@ class Dumper
     public function __construct(
         private Config $config
     ) {
-        $this->style = $config->part('debug')->get('dump')['style'];
+        $this->style = $config->get('debug.dumper.style');
     }
 
     /**
@@ -71,7 +71,7 @@ class Dumper
      */
     public function dump(mixed $data): void
     {
-        if ($this->config->part('kernel')->get('debug')) {
+        if ($this->config->get('kernel.debug')) {
             echo $this->build($data);
         }
     }

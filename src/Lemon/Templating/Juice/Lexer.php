@@ -60,6 +60,7 @@ final class Lexer
                         $lex->next();
 
                         break;
+
                     default:
                         throw new SyntaxException('Regex for tag must have 2 or 3 matches, '.$size.' found');
                 }
