@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Lemon\Kernel;
 
 use Closure;
+use Lemon\Config\Config;
+use Lemon\Support\Filesystem;
 use Lemon\Terminal\Terminal;
 
 /**
@@ -14,10 +16,15 @@ class Commands
 {
     private const COMMANDS = [
         ['serve {port?} {url?}', 'serve', 'Starts development server'],
+        ['template:clear', 'clearTemplates', 'Clears cached views'],
+        ['cache:clear', 'clearCache', 'Clears cached data'],
+        ['log:clear', 'clearLogs', 'Clears log'],
+        ['clear', 'clear', 'Clears cached data, views and logs'],
     ];
 
     public function __construct(
-        private Terminal $terminal
+        private Terminal $terminal,
+        private Config $config
     ) {
     }
 
@@ -31,5 +38,27 @@ class Commands
     public function serve($port = 8000, $url = 'localhost'): void
     {
         exec('php -S '.$url.':'.$port);
+    }
+
+    public function clearTemplates(): void
+    {
+        Filesystem::delete($this->config->file('templating.cached'));
+    }
+
+    public function clearCache(): void
+    {
+        Filesystem::delete($this->config->file('cache.storage'));
+    }
+
+    public function clearLogs(): void
+    {
+        Filesystem::delete($this->config->file('logging.file'));
+    }
+
+    public function clear(): void
+    {
+        $this->clearTemplates();
+        $this->clearCache();
+        $this->clearLogs();
     }
 }

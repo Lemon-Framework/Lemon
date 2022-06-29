@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Lemon\Routing;
 
+use Lemon\Support\Types\Str;
+
 class Route
 {
     public readonly string $path;
 
-    private string $patern = 'a-zA-Z_-0-9';
+    private string $patern = 'a-zA-Z_\-0-9';
 
     public function __construct(
         string $path,
@@ -20,6 +22,7 @@ class Route
 
     public function action(string $method, callable $action = null): static|null|callable
     {
+        $method = (string) Str::toLower($method);
         if (!$action) {
             return $this->actions[$method] ?? null;
         }
@@ -52,11 +55,14 @@ class Route
             return $path == $this->path ? [] : null;
         }
 
-        return preg_match('/^'.$patern.'$/', $path, $matches) ? $matches : null;
+        return preg_match('~^'.$patern.'$~', $path, $matches) 
+            ? array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY) 
+            : null
+        ;
     }
 
-    private function buildRegex(): string
+    public function buildRegex(): string
     {
-        return preg_replace('/{([a-zA-Z_0-9]+)}/', '(?<$1>['.$this->patern.']+)', $this->path);
+        return preg_replace('/\{([a-zA-Z_0-9]+)\}/', '(?<$1>['.$this->patern.']+)', $this->path);
     }
 }
