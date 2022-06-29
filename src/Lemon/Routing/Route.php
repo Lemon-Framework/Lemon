@@ -8,16 +8,13 @@ use Lemon\Support\Types\Str;
 
 class Route
 {
-    public readonly string $path;
-
     private string $patern = 'a-zA-Z_\-0-9';
 
     public function __construct(
-        string $path,
+        private readonly string $path,
         private array $actions,
         public readonly MiddlewareCollection $middlewares
     ) {
-        $this->path = trim($path, '/');
     }
 
     public function action(string $method, callable $action = null): static|null|callable
@@ -52,10 +49,10 @@ class Route
         $patern = $this->buildRegex();
 
         if ($patern == $this->path) {
-            return $path == $this->path ? [] : null;
+            return trim($path, '/') == $this->path ? [] : null;
         }
 
-        return preg_match('~^'.$patern.'$~', $path, $matches)
+        return preg_match('~^[/]*'.$patern.'[/]*$~', $path, $matches)
             ? array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY)
             : null
         ;

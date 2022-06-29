@@ -26,6 +26,7 @@ class Collection
 
     public function add(string $path, string $method, callable $action): Route
     {
+        $path = trim($path, '/');
         if ($this->has($path)) {
             return $this->find($path)->action($method, $action);
         }
@@ -101,5 +102,10 @@ class Collection
         }
 
         return null;
+    }
+
+    public function routes(): array
+    {
+        return $this->routes;
     }
 }
