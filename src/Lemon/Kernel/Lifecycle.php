@@ -115,7 +115,7 @@ final class Lifecycle extends Container
      */
     public function loadCommands(): void
     {
-        $commands = new Commands($this->get('terminal'));
+        $commands = new Commands($this->get('terminal'), $this->get('config'));
         $commands->load();
     }
 

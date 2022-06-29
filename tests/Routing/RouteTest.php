@@ -10,11 +10,15 @@ use Lemon\Routing\MiddlewareCollection;
 use Lemon\Routing\Route;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class RouteTest extends TestCase
 {
     public function testAction()
     {
-        $closure = Closure::fromCallable(fn() => 'foo');
+        $closure = Closure::fromCallable(fn () => 'foo');
         $route = new Route('/', ['get' => $closure], new MiddlewareCollection(new Container()));
 
         $this->assertSame($closure, $route->action('get'));
@@ -23,7 +27,7 @@ class RouteTest extends TestCase
         $this->assertNull($route->action('post'));
 
         $route->action('POST', $closure);
-        $this->assertSame($closure, $route->action('post'));       
+        $this->assertSame($closure, $route->action('post'));
     }
 
     public function testBuildRegex()

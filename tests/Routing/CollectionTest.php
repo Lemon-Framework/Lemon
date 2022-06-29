@@ -12,5 +12,4 @@ use Lemon\Tests\TestCase;
  */
 class CollectionTest extends TestCase
 {
-
 }

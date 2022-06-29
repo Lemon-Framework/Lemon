@@ -55,8 +55,8 @@ class Route
             return $path == $this->path ? [] : null;
         }
 
-        return preg_match('~^'.$patern.'$~', $path, $matches) 
-            ? array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY) 
+        return preg_match('~^'.$patern.'$~', $path, $matches)
+            ? array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY)
             : null
         ;
     }
