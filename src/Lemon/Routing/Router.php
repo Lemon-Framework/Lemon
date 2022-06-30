@@ -95,6 +95,7 @@ class Router
     public function file(string $file): Collection
     {
         return $this->collection(function () use ($file) {
+            $router = $this;
             require $this->lifecycle->file($file, 'php');
         });
     }

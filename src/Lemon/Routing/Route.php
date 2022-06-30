@@ -48,10 +48,6 @@ class Route
     {
         $patern = $this->buildRegex();
 
-        if ($patern == $this->path) {
-            return trim($path, '/') == $this->path ? [] : null;
-        }
-
         return preg_match('~^[/]*'.$patern.'[/]*$~', $path, $matches)
             ? array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY)
             : null

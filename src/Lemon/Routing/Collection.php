@@ -73,7 +73,7 @@ class Collection
             return $this->prefix;
         }
 
-        $this->prefix = $prefix;
+        $this->prefix = trim($prefix, '/');
 
         return $this;
     }
@@ -81,7 +81,7 @@ class Collection
     public function dispatch(string $path): ?array
     {
         if ($this->prefix) {
-            if (preg_match("^({$this->prefix})(.+)$/", $path, $matches)) {
+            if (preg_match("/^({$this->prefix})(.+)$/", $path, $matches)) {
                 $path = $matches[2];
             } else {
                 return null;
@@ -95,7 +95,7 @@ class Collection
             }
 
             if ($route instanceof Route) {
-                if ($found = $route->matches($path)) {
+                if (!is_null($found = $route->matches($path))) {
                     return [$route, $found];
                 }
             }
