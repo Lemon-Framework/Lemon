@@ -18,12 +18,12 @@ class CollectionTest extends TestCase
     public function testAdding()
     {
         $collection = new Collection(new Container());
-        $route = $collection->add('/rizek/', 'get', fn() => 'foo');
+        $route = $collection->add('/rizek/', 'get', fn () => 'foo');
         $this->assertSame([
             'rizek' => $route,
         ], $collection->routes());
-        
-        $collection->add('/rizek', 'post', fn() => 'foo');
+
+        $collection->add('/rizek', 'post', fn () => 'foo');
         $this->assertSame([
             'rizek' => $route,
         ], $collection->routes());
@@ -32,7 +32,7 @@ class CollectionTest extends TestCase
     public function testFinding()
     {
         $collection = new Collection(new Container());
-        $route = $collection->add('/rizek', 'get', fn() => 'foo');
+        $route = $collection->add('/rizek', 'get', fn () => 'foo');
         $this->assertSame($route, $collection->find('rizek'));
         $this->expectException(RouteException::class);
         $collection->find('chleba');
@@ -41,7 +41,7 @@ class CollectionTest extends TestCase
     public function testHas()
     {
         $collection = new Collection(new Container());
-        $collection->add('/rizek', 'get', fn() => 'foo');
+        $collection->add('/rizek', 'get', fn () => 'foo');
         $this->assertTrue($collection->has('rizek'));
         $this->assertFalse($collection->has('nevim'));
     }
@@ -56,10 +56,10 @@ class CollectionTest extends TestCase
     public function testDispatching()
     {
         $collection = new Collection(new Container());
-        $collection->add('/', 'get', fn() => 'hello');
-        $route = $collection->add('/foo', 'get', fn() => 'hi');
-        
-        $dynamic = $collection->add('users/{user}', 'get', fn($user) => $user);
+        $collection->add('/', 'get', fn () => 'hello');
+        $route = $collection->add('/foo', 'get', fn () => 'hi');
+
+        $dynamic = $collection->add('users/{user}', 'get', fn ($user) => $user);
 
         $this->assertSame([$route, []], $collection->dispatch('foo'));
         $this->assertSame([$dynamic, ['user' => 'majkel']], $collection->dispatch('/users/majkel/'));
@@ -67,18 +67,18 @@ class CollectionTest extends TestCase
 
     public function testRecursiveDispatching()
     {
-        $collection = new Collection($c = new Container());       
-        $collection->add('/', 'get', fn() => 'hello');
-        $collection->add('/foo', 'get', fn() => 'hi');
-        
-        $collection->add('users/{user}', 'get', fn($user) => $user);
+        $collection = new Collection($c = new Container());
+        $collection->add('/', 'get', fn () => 'hello');
+        $collection->add('/foo', 'get', fn () => 'hi');
+
+        $collection->add('users/{user}', 'get', fn ($user) => $user);
         $collection->collection($inner = new Collection($c));
-        $route = $inner->add('/bar', 'get', fn() => 'bar');
+        $route = $inner->add('/bar', 'get', fn () => 'bar');
 
         $this->assertSame([$route, []], $collection->dispatch('bar'));
 
         $inner->collection($inner = new Collection($c));
-        $route = $inner->add('posts/{slug}', 'get', fn($post) => $post);
+        $route = $inner->add('posts/{slug}', 'get', fn ($post) => $post);
 
         $this->assertSame([$route, ['slug' => 'foo']], $collection->dispatch('posts/foo'));
     }
@@ -87,9 +87,8 @@ class CollectionTest extends TestCase
     {
         $collection = new Collection(new Container());
         $collection->prefix('api');
-        $route = $collection->add('foo', 'get', fn() => 'foo');
+        $route = $collection->add('foo', 'get', fn () => 'foo');
         $this->assertNull($collection->dispatch('foo'));
         $this->assertSame([$route, []], $collection->dispatch('api/foo'));
-
     }
 }
