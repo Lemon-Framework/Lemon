@@ -159,6 +159,16 @@ final class Lifecycle extends Container
         }
     }
 
+    public function down(): void
+    {
+        copy(Filesystem::join(__DIR__, 'templates', 'maintenance.php'), $this->file('maintenance', 'php'));    
+    }
+
+    public function up(): void
+    {
+        unlink($this->file('maintenance', 'php'));
+    }
+
     /**
      * Initializes whole application for you.
      */

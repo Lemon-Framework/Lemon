@@ -20,11 +20,14 @@ class Commands
         ['cache:clear', 'clearCache', 'Clears cached data'],
         ['log:clear', 'clearLogs', 'Clears log'],
         ['clear', 'clear', 'Clears cached data, views and logs'],
+        ['down', 'down', 'Puts app into maintenance mode'],
+        ['up', 'up', 'Puts app back from maintenance mode'],
     ];
 
     public function __construct(
         private Terminal $terminal,
-        private Config $config
+        private Config $config,
+        private Lifecycle $lifecycle
     ) {
     }
 
@@ -60,5 +63,15 @@ class Commands
         $this->clearTemplates();
         $this->clearCache();
         $this->clearLogs();
+    }
+
+    public function down(): void
+    {
+        $this->lifecycle->down();
+    }
+
+    public function up(): void
+    {
+        $this->lifecycle->up();
     }
 }
