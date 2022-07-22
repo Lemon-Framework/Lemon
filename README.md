@@ -41,6 +41,8 @@ TODO:
 - [x] events
 - [x] logging
 - [x] validation
+- [x] Router
+- [ ] Middlewares
 
 Directories with D means deprecated so they will have to be completely rewritten
 

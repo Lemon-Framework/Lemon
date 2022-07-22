@@ -103,7 +103,7 @@ final class Lifecycle extends Container
     /**
      * Executes error handler.
      */
-    public function handle(Throwable $problem): void
+    public function handle(Exception $problem): void
     {
         $this->get('handler')->handle($problem);
 
@@ -167,6 +167,11 @@ final class Lifecycle extends Container
         // --- Creating Lifecycle instance ---
         $lifecycle = new self(Filesystem::parent($directory));
 
+        // --- Obtaining request ---
+        $lifecycle->add(Request::class, Request::capture()->injectLifecycle($lifecycle));
+
+        $lifecycle->alias('request', Request::class);
+
         // --- Loading default Lemon services ---
         $lifecycle->loadServices();
 
@@ -198,11 +203,6 @@ final class Lifecycle extends Container
             if (http_response_code() >= 500) {
                 return;
             }
-
-            // --- Obtaining request ---
-            $lifecycle->add(Request::class, Request::capture()->injectLifecycle($lifecycle));
-
-            $lifecycle->alias('request', Request::class);
 
             $lifecycle->boot();
         });

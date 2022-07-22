@@ -11,12 +11,15 @@ use Lemon\Templating\Template;
 
 class Reporter
 {
-    public const TEMPLATE_PATH = __DIR__.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.'reporter.php';
+    public const TEMPLATE_PATH = __DIR__.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.'reporter.phtml';
+
+    private Consultant $consultant;
 
     public function __construct(
         private Exception $exception,
         private Request $request
     ) {
+        $this->consultant = new Consultant();
     }
 
     public function report(): void
@@ -42,7 +45,7 @@ class Reporter
             'file' => $problem->getFile(),
             'line' => $problem->getLine(),
             'message' => $problem->getMessage(),
-            'hint' => '', // TODO consultant
+            'hint' => $this->consultant->giveAdvice($problem->getMessage()),
             'trace' => $this->getTrace(),
             'request' => $this->request->toArray(),
         ];
@@ -67,8 +70,6 @@ class Reporter
             'line' => $problem->getLine(),
         ]);
 
-        return [
-            'trace' => $trace,
-        ];
+        return $trace;
     }
 }

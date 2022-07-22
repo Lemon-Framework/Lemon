@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Debug\Handling;
 
 use Lemon\Support\Types\Arr;
+use ReflectionClass;
 
 class Consultant
 {
@@ -13,40 +14,31 @@ class Consultant
         'Call to undefined method (\w+?)::(\w+?)\(\)' => 'method',
         'Undefined property: (\w+?)::\$(\w+?)' => 'property',
     ];
-    private string $message;
 
-    public function __construct(string $message)
+    public function giveAdvice(string $message): array
     {
-        $this->message = $message;
+        $handler = $this->findHandler($message);
+        if (empty($handler)) {
+            return $handler;
+        }
+        return $this->{$handler[0]}($handler[1]);
     }
 
-    public function giveAdvice(): void
-    {
-    }
-
-    public function findHandler()
+    public function findHandler(string $message): array
     {
         foreach ($this->signatures as $signature => $method) {
-            if (preg_match('/^'.$signature.'$/', $this->message)) {
-                return $method;
+            if (preg_match('/^'.$signature.'$/', $message, $matches)) {
+                return ['handle'.ucfirst($method), $matches];
             }
         }
+
+        return [];
     }
 
-    public function handleFunction($matches)
-    {
-        $functions = Arr::merge(get_defined_functions()['internal'], get_defined_functions()['user'])->content;
-        $match = $this->bestMatch($functions, $matches[1]);
-
-        return [
-            $match ? ('Did you mean '.$match.'?') : 'Function was propably not loaded.',
-        ];
-    }
-
-    public function bestMatch($haystack, $needle)
+    public function bestMatch(array $haystack, string $needle): ?string
     {
         $best = 0;
-        $best_value = '';
+        $best_value = null;
         foreach ($haystack as $item) {
             if (($distance = similar_text($item, $needle)) > $best) {
                 $best = $distance;
@@ -55,5 +47,35 @@ class Consultant
         }
 
         return $best_value;
+    }
+
+    public function handleFunction(array $matches): array
+    {
+        $functions = Arr::merge(get_defined_functions()['internal'], get_defined_functions()['user'])->content;
+        $match = $this->bestMatch($functions, $matches[1]);
+
+        return [
+            $match ? ('Did you mean '.$match.'?') : 'Function was propably not loaded. Try checking your loader',
+        ];
+    }
+
+    public function handleMethod(array $matches): array
+    {
+        $methods = get_class_methods($matches[1]);
+        $match = $this->bestMatch($methods, $matches[2]);
+
+        return [
+            $match ? ('Did you mean '.$match.'?') : '',
+        ];
+    }
+
+    public function handleProperty(array $matches): array
+    {
+        $properties = get_class_vars($matches[1]);
+        $match = $this->bestMatch($properties, $matches[2]);
+
+        return [
+            $match ? ('Did you mean '.$match.'?') : '',
+        ];
     }
 }

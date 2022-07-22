@@ -49,7 +49,9 @@ class Logger extends AbstractLogger
         $this->destination = $this->config->file('logging.file', 'log');
         if (!Filesystem::isFile($this->destination)) {
             $dir = Filesystem::parent($this->destination);
-            Filesystem::makeDir($dir);
+            if (!is_dir($dir)) {
+                Filesystem::makeDir($dir);
+            }
             Filesystem::write(Filesystem::join($dir, '.gitignore'), "*\n!.gitignore");
         }
     }
