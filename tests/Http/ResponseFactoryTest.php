@@ -53,7 +53,8 @@ class ResponseFactoryTest extends TestCase
         <html lang="en">
         <head>
             <meta charset="UTF-8">
-            <title>Internal Server Error</title>
+            <title>
+                Internal Server Error</title>
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
                 

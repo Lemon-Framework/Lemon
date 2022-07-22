@@ -83,7 +83,7 @@ class ResponseFactory
         return new TemplateResponse(new Template(
             $path,
             $path,
-            ['code' => $code, 'message' => Response::ERROR_STATUS_CODES[$code]]
+            ['code' => $code]
         ), $code);
     }
 

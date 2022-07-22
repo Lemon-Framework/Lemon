@@ -39,6 +39,7 @@ class Collection
 
     public function find(string $path): Route
     {
+        $path = trim($path, '/');
         if (!$this->has($path)) {
             throw new RouteException('Route '.$path.' does not exist');
         }
@@ -48,6 +49,7 @@ class Collection
 
     public function has(string $path): bool
     {
+        $path = trim($path, '/');
         return Arr::hasKey($this->routes, $path);
     }
 

@@ -1,8 +1,17 @@
+<?php
+declare(strict_types = 1);
+
+use Lemon\Http\Response;
+
+/** @var int $code */
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo $message ?></title>
+    <title>
+        <?php echo Response::ERROR_STATUS_CODES[$code] ?></title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
         
@@ -15,7 +24,7 @@
     <div style="display: block;">
         <?php echo $code ?>
         <hr>
-        <?php echo $message ?>
+        <?php echo Response::ERROR_STATUS_CODES[$code] ?>
     </div>
 </body>
 </html>

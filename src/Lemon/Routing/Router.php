@@ -44,7 +44,6 @@ class Router
 
     public function __construct(
         private Lifecycle $lifecycle,
-        private TemplateFactory $templates,
         private ResponseFactory $response
     ) {
         $this->middlewares = new Container();
@@ -53,7 +52,7 @@ class Router
 
     public function __call($name, $arguments)
     {
-        if (!Arr::contains(self::REQUEST_METHODS, $name)) {
+        if (!Arr::has(self::REQUEST_METHODS, $name)) {
             throw new Exception('Call to undefined method '.static::class.'::'.$name.'()');
         }
 
@@ -65,7 +64,6 @@ class Router
      */
     public function any(string $path, callable $action): Route
     {
-        // TODO performance
         foreach (self::REQUEST_METHODS as $method) {
             $this->routes->add($path, $method, $action);
         }
@@ -73,18 +71,21 @@ class Router
         return $this->routes->find($path);
     }
 
-    public function view(string $path, ?string $view = null)
+    /**
+     * @author CoolFido sort of
+     */
+    public function template(string $path, ?string $view = null)
     {
-        $view = $view ?? Str::replace($view, '/', '.'); // @CoolFido
+        $view = $view ?? Str::replace($path, '/', '.');
 
-        return $this->routes->add($path, 'get', fn () => $this->templates->make($view));
+        return $this->routes->add($path, 'get', fn (TemplateFactory $templates) => $templates->make($view));
     }
 
     public function collection(callable $routes): Collection
     {
         $original = $this->routes;
         $this->routes = new Collection($this->middlewares);
-        $routes();
+        $this->lifecycle->call($routes, []);
         $collection = $this->routes;
         $this->routes = $original;
         $this->routes->collection($collection);
@@ -112,7 +113,7 @@ class Router
             return $this->response->error(404);
         }
 
-        $route = $request[0];
+        $route = $result[0];
         $action = $route->action($request->method);
 
         if (!$action) {
@@ -123,12 +124,18 @@ class Router
         foreach ($route->middlewares as $middleware) {
             $response = $this->response->make($middleware);
             if ($response instanceof EmptyResponse) {
+                $response->send();
                 continue;
             }
 
             return $response;
         }
 
-        return $this->response->make($action, $request[1]);
+        return $this->response->make($action, $result[1]);
+    }
+
+    public function routes(): Collection
+    {
+        return $this->routes;
     }
 }
