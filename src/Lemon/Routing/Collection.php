@@ -50,6 +50,7 @@ class Collection
     public function has(string $path): bool
     {
         $path = trim($path, '/');
+
         return Arr::hasKey($this->routes, $path);
     }
 

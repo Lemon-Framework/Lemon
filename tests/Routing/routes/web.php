@@ -1,11 +1,12 @@
 <?php
 
-/** @var \Lemon\Routing\Router $router */
+declare(strict_types=1);
 
-$router->get('/', function() {
+/** @var \Lemon\Routing\Router $router */
+$router->get('/', function () {
     return 'hi';
 });
 
-$router->post('/foo', function() {
+$router->post('/foo', function () {
     return 'foo';
 });

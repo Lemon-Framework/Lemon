@@ -6,7 +6,9 @@ $finder = PhpCsFixer\Finder::create()
 
 $config = new PhpCsFixer\Config();
 return $config->setRules([
-        '@PhpCsFixer' => true,
+    '@PhpCsFixer' => true,
+    'declare_strict_types' => true
     ])
-    ->setFinder($finder)
+        ->setFinder($finder)
+        ->setRiskyAllowed(true)
 ;

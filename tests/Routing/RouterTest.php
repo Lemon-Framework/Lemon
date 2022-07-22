@@ -26,7 +26,6 @@ use ReflectionClass;
  */
 class RouterTest extends TestCase
 {
-
     public function getRouter(): Router
     {
         $l = new Lifecycle(__DIR__);
@@ -35,6 +34,7 @@ class RouterTest extends TestCase
         $r = new Router($l, new ResponseFactory($f, $l));
 
         $l->add(Router::class, $r);
+
         return $r;
     }
 
@@ -50,14 +50,14 @@ class RouterTest extends TestCase
         $c = new Collection(new Container());
 
         foreach (Router::REQUEST_METHODS as $method) {
-            $c->add('/', $method, fn() => 'idk');
-            $r->$method('/', fn() => 'idk');
+            $c->add('/', $method, fn () => 'idk');
+            $r->{$method}('/', fn () => 'idk');
         }
 
         $this->assertThat($c, $this->equalTo($r->routes()));
 
         $r = $this->getRouter();
-        $r->any('/', fn() => 'idk');
+        $r->any('/', fn () => 'idk');
         $this->assertThat($c, $this->equalTo($r->routes()));
     }
 
@@ -65,13 +65,13 @@ class RouterTest extends TestCase
     {
         $r = $this->getRouter();
 
-        $r->collection(function(Router $router) {
-            $router->get('/', fn() => 'hi');
+        $r->collection(function (Router $router) {
+            $router->get('/', fn () => 'hi');
         });
 
         $c = new Collection(new Container());
         $i = new Collection(new Container());
-        $i->add('/', 'get', fn() => 'hi');
+        $i->add('/', 'get', fn () => 'hi');
         $c->collection($i);
 
         $this->assertThat($r->routes(), $this->equalTo($c));
@@ -84,8 +84,8 @@ class RouterTest extends TestCase
         $r->file('routes.web');
 
         $c = new Collection(new Container());
-        $c->add('/', 'get', fn() => 'hi');
-        $c->add('/foo', 'post', fn() => 'foo');
+        $c->add('/', 'get', fn () => 'hi');
+        $c->add('/foo', 'post', fn () => 'foo');
         $this->assertThat($r->routes(), $this->equalTo((new Collection(new Container()))->collection($c)));
     }
 
@@ -93,11 +93,11 @@ class RouterTest extends TestCase
     {
         $r = $this->getRouter();
 
-        $r->get('/', fn() => 'foo');
+        $r->get('/', fn () => 'foo');
 
         $this->assertThat($r->dispatch($this->emulate('/', 'get')), $this->equalTo(new HtmlResponse('foo')));
 
-        $path = Filesystem::join(dirname((new ReflectionClass(ResponseFactory::class))->getFileName()), 'templates', 'error.phtml'); 
+        $path = Filesystem::join(dirname((new ReflectionClass(ResponseFactory::class))->getFileName()), 'templates', 'error.phtml');
         $this->assertThat($r->dispatch($this->emulate('foo', 'get')), $this->equalTo(new TemplateResponse(new Template($path, $path, ['code' => 404]), 404)));
         $this->assertThat($r->dispatch($this->emulate('/', 'post')), $this->equalTo(new TemplateResponse(new Template($path, $path, ['code' => 400]), 400)));
     }

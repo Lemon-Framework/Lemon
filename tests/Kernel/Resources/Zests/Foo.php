@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Tests\Kernel\Resources\Zests;
 
 use Lemon\Zest;

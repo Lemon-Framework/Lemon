@@ -11,7 +11,6 @@ use Lemon\Http\Request;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Str;
 use Lemon\Zest;
-use Throwable;
 
 /**
  * The Lemon Lifecycle.
@@ -161,7 +160,7 @@ final class Lifecycle extends Container
 
     public function down(): void
     {
-        copy(Filesystem::join(__DIR__, 'templates', 'maintenance.php'), $this->file('maintenance', 'php'));    
+        copy(Filesystem::join(__DIR__, 'templates', 'maintenance.php'), $this->file('maintenance', 'php'));
     }
 
     public function up(): void

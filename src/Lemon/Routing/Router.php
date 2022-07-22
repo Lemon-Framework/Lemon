@@ -125,6 +125,7 @@ class Router
             $response = $this->response->make($middleware);
             if ($response instanceof EmptyResponse) {
                 $response->send();
+
                 continue;
             }
 

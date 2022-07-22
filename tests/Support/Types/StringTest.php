@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lemon\Tests\Types;
 
 use Lemon\Support\Types\String_;

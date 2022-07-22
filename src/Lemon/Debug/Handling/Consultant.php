@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Debug\Handling;
 
 use Lemon\Support\Types\Arr;
-use ReflectionClass;
 
 class Consultant
 {
@@ -21,6 +20,7 @@ class Consultant
         if (empty($handler)) {
             return $handler;
         }
+
         return $this->{$handler[0]}($handler[1]);
     }
 
