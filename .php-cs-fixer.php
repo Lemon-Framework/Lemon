@@ -1,5 +1,7 @@
 <?php
 
+use Lemon\Fixers\FunctionExistsFixer;
+
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
 ;
@@ -11,4 +13,10 @@ return $config->setRules([
     ])
         ->setFinder($finder)
         ->setRiskyAllowed(true)
+        ->registerCustomFixers([
+            new FunctionExistsFixer(),
+        ])
+        ->setRules([
+            'Lemon/function_exists' => true,
+        ])
 ;

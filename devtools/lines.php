@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+if(!function_exists('countLines')){
+if(!function_exists('countLines')){
 function countLines($directory)
 {
     $lines = 0;
@@ -25,6 +27,8 @@ function countLines($directory)
     }
 
     return $lines;
-}
+
+
+}}}
 
 echo countLines($argv[1]);
