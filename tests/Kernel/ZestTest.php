@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lemon\Tests\Http;
+namespace Lemon\Tests\Kernel;
 
 use Lemon\Tests\TestCase;
 
@@ -10,6 +10,6 @@ use Lemon\Tests\TestCase;
  * @internal
  * @coversNothing
  */
-class SessionTest extends TestCase
+class ZestTest extends TestCase
 {
 }

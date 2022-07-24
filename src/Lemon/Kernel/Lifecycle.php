@@ -11,6 +11,7 @@ use Lemon\Http\Request;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Str;
 use Lemon\Zest;
+use Throwable;
 
 /**
  * The Lemon Lifecycle.
@@ -90,20 +91,17 @@ final class Lifecycle extends Container
     public function loadHandler(): void
     {
         error_reporting(-1);
-        set_error_handler([$this, 'handleError']);
         set_exception_handler([$this, 'handle']);
-    }
-
-    public function handleError(int $level, string $message, string $file = '', int $line = 0): bool
-    {
-        throw new ErrorException($message, 0, $level, $file, $line);
     }
 
     /**
      * Executes error handler.
      */
-    public function handle(Exception $problem): void
+    public function handle(Throwable $problem): void
     {
+        if ($problem instanceof Error) {
+            throw new ErrorException($problem->getMessage(), 0, $problem->getCode(), $problem->getFile(), $problem->getLine());
+        }
         $this->get('handler')->handle($problem);
 
         exit;
@@ -114,7 +112,7 @@ final class Lifecycle extends Container
      */
     public function loadCommands(): void
     {
-        $commands = new Commands($this->get('terminal'), $this->get('config'));
+        $commands = new Commands($this->get('terminal'), $this->get('config'), $this);
         $commands->load();
     }
 

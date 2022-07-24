@@ -12,11 +12,15 @@
     "autoload": {
         "psr-4": {
             "Lemon\\": "src/Lemon"
-        }
+        },
+        "files": [
+            "src/Lemon/Support/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Lemon\\Tests\\": "tests/"
+            "Lemon\\Tests\\": "tests/",
+            "Lemon\\Fixers\\": "fixers" 
         }   
     },
     "require": {
