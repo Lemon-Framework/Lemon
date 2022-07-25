@@ -110,7 +110,9 @@ class Collection
         foreach ($this->routes as $route) {
             if ($route instanceof Collection) {
                 if (!is_null($found = $route->dispatch($path))) {
-                    $found[0]->middleware($this->middlewares);
+                    if ($this->middlewares) {
+                        $found[0]->middleware($this->middlewares);
+                    }
 
                     return $found;
                 }
@@ -118,7 +120,9 @@ class Collection
 
             if ($route instanceof Route) {
                 if (!is_null($found = $route->matches($path))) {
-                    $route->middleware($this->middlewares);
+                    if ($this->middlewares) {
+                        $route->middleware($this->middlewares);
+                    }
 
                     return [$route, $found];
                 }

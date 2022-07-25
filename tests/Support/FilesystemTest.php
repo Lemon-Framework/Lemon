@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Tests\Support;
 
 use Exception;
-use Lemon\Exceptions\FilesystemException;
+use Lemon\Support\Exceptions\FilesystemException;
 use Lemon\Support\Filesystem;
 use PHPUnit\Framework\TestCase;
 

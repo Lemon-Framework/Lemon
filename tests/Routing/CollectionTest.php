@@ -55,7 +55,7 @@ class CollectionTest extends TestCase
 
     public function testDispatching()
     {
-        $collection = new Collection(new Container());
+        $collection = new Collection();
         $collection->add('/', 'get', fn () => 'hello');
         $route = $collection->add('/foo', 'get', fn () => 'hi');
 
@@ -67,17 +67,17 @@ class CollectionTest extends TestCase
 
     public function testRecursiveDispatching()
     {
-        $collection = new Collection($c = new Container());
+        $collection = new Collection();
         $collection->add('/', 'get', fn () => 'hello');
         $collection->add('/foo', 'get', fn () => 'hi');
 
         $collection->add('users/{user}', 'get', fn ($user) => $user);
-        $collection->collection($inner = new Collection($c));
+        $collection->collection($inner = new Collection());
         $route = $inner->add('/bar', 'get', fn () => 'bar');
 
         $this->assertSame([$route, []], $collection->dispatch('bar'));
 
-        $inner->collection($inner = new Collection($c));
+        $inner->collection($inner = new Collection());
         $route = $inner->add('posts/{slug}', 'get', fn ($post) => $post);
 
         $this->assertSame([$route, ['slug' => 'foo']], $collection->dispatch('posts/foo'));
@@ -85,7 +85,7 @@ class CollectionTest extends TestCase
 
     public function testPrefixDispatching()
     {
-        $collection = new Collection(new Container());
+        $collection = new Collection();
         $collection->prefix('api');
         $route = $collection->add('foo', 'get', fn () => 'foo');
         $this->assertNull($collection->dispatch('foo'));
