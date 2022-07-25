@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Routing;
 
-use Lemon\Kernel\Container;
 use Lemon\Routing\Exceptions\RouteException;
 use Lemon\Support\Types\Arr;
 
@@ -21,11 +20,6 @@ class Collection
 
     private array $middlewares = [];
 
-    public function __construct(
-        private Container $middleware_container
-    ) {
-    }
-
     /**
      * Adds route to collection.
      */
@@ -36,7 +30,7 @@ class Collection
             return $this->find($path)->action($method, $action);
         }
 
-        $route = new Route($path, [$method => $action], new MiddlewareCollection($this->middleware_container));
+        $route = new Route($path, [$method => $action]);
         $this->routes[$path] = $route;
 
         return $route;
@@ -102,7 +96,7 @@ class Collection
     /**
      * Finds route with mathing path.
      *
-     * @return ?array{0: Route, 1: array<string, string>}
+     * @return ?array{0: \Lemon\Routing\Route, 1: array<string, string>}
      */
     public function dispatch(string $path): ?array
     {

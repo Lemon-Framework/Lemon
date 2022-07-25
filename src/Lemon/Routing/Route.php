@@ -10,11 +10,13 @@ class Route
 {
     private string $patern = 'a-zA-Z_\-0-9';
 
+    public readonly MiddlewareCollection $middlewares;
+
     public function __construct(
         private readonly string $path,
         private array $actions,
-        public readonly MiddlewareCollection $middlewares
     ) {
+        $this->middlewares = new MiddlewareCollection();
     }
 
     /**

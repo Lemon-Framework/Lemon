@@ -9,7 +9,6 @@ use Lemon\Http\Request;
 use Lemon\Http\Response;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\EmptyResponse;
-use Lemon\Kernel\Container;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
@@ -40,14 +39,11 @@ class Router
 
     private Collection $routes;
 
-    private Container $middlewares;
-
     public function __construct(
         private Lifecycle $lifecycle,
         private ResponseFactory $response
     ) {
-        $this->middlewares = new Container();
-        $this->routes = new Collection($this->middlewares);
+        $this->routes = new Collection();
     }
 
     public function __call($name, $arguments)
@@ -89,7 +85,7 @@ class Router
     public function collection(callable $routes): Collection
     {
         $original = $this->routes;
-        $this->routes = new Collection($this->middlewares);
+        $this->routes = new Collection();
         $this->lifecycle->call($routes, []);
         $collection = $this->routes;
         $this->routes = $original;
@@ -128,9 +124,8 @@ class Router
             return $this->response->error(400);
         }
 
-        // Middlewares TODO
-        /*
-        foreach ($route->middlewares as $middleware) {
+        
+        foreach ($route->middlewares->middlewares() as $middleware) {
             $response = $this->response->make($middleware);
             if ($response instanceof EmptyResponse) {
                 $response->send();
@@ -140,7 +135,6 @@ class Router
 
             return $response;
         }
-         */
 
         return $this->response->make($action, $result[1]);
     }

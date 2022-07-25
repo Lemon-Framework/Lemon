@@ -18,8 +18,6 @@ use Exception;
  * @method static \Lemon\Http\Routing\Route path(string $path, $action)    Creates route with method path
  * @method static \Lemon\Http\Routing\Route options(string $path, $action) Creates route with method options
  * @method static Route any(string $path, callable $action)                The Lemon Router.
- * @method static Response dispatch(Request $request)                      @author CoolFido sort of
- * @method static Route any(string $path, callable $action)                The Lemon Router.
  * @method static Route template(string $path, ?string $view = null)       Creates GET route directly returning view
  * @method static Collection collection(callable $routes)                  Creates collection of routes created in given callback
  * @method static Collection file(string $file)                            Creates collection of routes created in given file

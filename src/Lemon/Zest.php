@@ -10,6 +10,11 @@ abstract class Zest
 {
     protected static Lifecycle $lifecycle;
 
+    private function __construct()
+    {
+        
+    }
+
     public static function __callStatic($name, $arguments)
     {
         $instance = self::getAccessor();

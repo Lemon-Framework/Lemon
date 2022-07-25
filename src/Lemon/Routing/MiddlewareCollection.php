@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace Lemon\Routing;
 
-use Lemon\Kernel\Container;
 use Lemon\Routing\Exceptions\RouteException;
 
 class MiddlewareCollection
 {
-    public function __construct(
-        private Container $middlewares,
-    ) {
-    }
+    private array $middlewares = [];
 
     /**
      * Resolves middleware name.
@@ -45,6 +41,6 @@ class MiddlewareCollection
      */
     public function middlewares(): array
     {
-        return $this->middlewares->services();
+        return $this->middlewares;
     }
 }
