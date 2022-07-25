@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Debug;
 
 use Lemon\Config\Config;
-use Lemon\Exceptions\DebugerException;
+use Lemon\Debug\Exceptions\DebugerException;
 
 class Dumper
 {
@@ -20,7 +20,9 @@ class Dumper
     }
 
     /**
-     * Resolves parsing method depending on datatype.
+     * Resolve parsing method depending on datatype.
+     *
+     * @throws \Lemon\Debug\Exceptions\DebugerException
      */
     public function resolve(mixed $data): string
     {

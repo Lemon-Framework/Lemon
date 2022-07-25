@@ -27,9 +27,17 @@ class Request
     ) {
     }
 
+    public function __get($name)
+    {
+        if ($result = $this->get($name)) {
+            return $result;
+        }
+
+        throw new Exception('Property '.$name.' does not exist');
+    }
 
     /**
-     * Creates new instance of actual sent request
+     * Creates new instance of actual sent request.
      */
     public static function capture(): self
     {
@@ -44,18 +52,8 @@ class Request
         );
     }
 
-
-    public function __get($name)
-    {
-        if ($result = $this->get($name)) {
-            return $result;
-        }
-
-        throw new Exception('Property '.$name.' does not exist');
-    }
-
     /**
-     * Injects lifecycle
+     * Injects lifecycle.
      */
     public function injectLifecycle(Lifecycle $lifecycle): static
     {
@@ -98,7 +96,7 @@ class Request
     }
 
     /**
-     * Returns header with given name, null if header dont exist
+     * Returns header with given name, null if header dont exist.
      */
     public function header(string $name): ?string
     {
@@ -106,7 +104,7 @@ class Request
     }
 
     /**
-     * Returns whenever header exists
+     * Returns whenever header exists.
      */
     public function hasHeader(string $header): bool
     {
@@ -114,7 +112,7 @@ class Request
     }
 
     /**
-     * Returns all headers
+     * Returns all headers.
      */
     public function headers(): array
     {
@@ -122,7 +120,7 @@ class Request
     }
 
     /**
-     * Returns whenever request has given content type
+     * Returns whenever request has given content type.
      */
     public function is(string $content_type): bool
     {
@@ -130,7 +128,7 @@ class Request
     }
 
     /**
-     * Adds request parsing function
+     * Adds request parsing function.
      */
     public function addParser(string $content_type, callable $parser): static
     {
@@ -140,7 +138,7 @@ class Request
     }
 
     /**
-     * Returns array of parsed request body
+     * Returns array of parsed request body.
      *
      * @return array<string, string>
      */
@@ -154,7 +152,7 @@ class Request
     }
 
     /**
-     * Returns request body value for given key
+     * Returns request body value for given key.
      */
     public function get(string $key): ?string
     {
@@ -178,7 +176,7 @@ class Request
     }
 
     /**
-     * Determins whenever request meets given rules
+     * Determins whenever request meets given rules.
      *
      * @throws Exception When lifecycle is not injected
      */
@@ -194,7 +192,7 @@ class Request
     }
 
     /**
-     * Returns array from request
+     * Returns array from request.
      */
     public function toArray(): array
     {

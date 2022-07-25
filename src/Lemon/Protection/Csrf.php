@@ -15,7 +15,7 @@ class Csrf
     }
 
     /**
-     * Returns csrf token and creates new if does not exist
+     * Returns csrf token and creates new if does not exist.
      */
     public function getToken(): string
     {
@@ -27,7 +27,7 @@ class Csrf
     }
 
     /**
-     * Removes token from cookies
+     * Removes token from cookies.
      */
     public function reset(): void
     {
@@ -35,7 +35,7 @@ class Csrf
     }
 
     /**
-     * Returns whenever given token equals token in cookies
+     * Returns whenever given token equals token in cookies.
      */
     public function validate(string $token): bool
     {

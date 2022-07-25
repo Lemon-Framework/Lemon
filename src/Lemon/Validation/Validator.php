@@ -16,7 +16,7 @@ class Validator
     }
 
     /**
-     * Returns all rules
+     * Returns all rules.
      */
     public function rules(): Rules
     {
@@ -24,7 +24,7 @@ class Validator
     }
 
     /**
-     * Determins whenever given data meets given rules
+     * Determins whenever given data meets given rules.
      */
     public function validate(array $data, array $ruleset): bool
     {
@@ -52,7 +52,7 @@ class Validator
     }
 
     /**
-     * Converts rules into same array
+     * Converts rules into same array.
      */
     public function resolveRules(string|array $rules): array
     {

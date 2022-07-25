@@ -16,7 +16,7 @@ class Stack
     }
 
     /**
-     * Creates new Stack with given type
+     * Creates new Stack with given type.
      */
     public static function withType(string $type): self
     {
@@ -24,7 +24,7 @@ class Stack
     }
 
     /**
-     * Pushes item to the stack
+     * Pushes item to the stack.
      */
     public function push(mixed $value): static
     {
@@ -37,7 +37,7 @@ class Stack
     }
 
     /**
-     * Pops item from the stack
+     * Pops item from the stack.
      */
     public function pop(): mixed
     {
@@ -45,7 +45,7 @@ class Stack
     }
 
     /**
-     * Returns top of the stack
+     * Returns top of the stack.
      */
     public function top(): mixed
     {
@@ -53,7 +53,7 @@ class Stack
     }
 
     /**
-     * Returns size of the stack
+     * Returns size of the stack.
      */
     public function size(): int
     {
@@ -61,7 +61,7 @@ class Stack
     }
 
     /**
-     * Returns stack as array
+     * Returns stack as array.
      */
     public function storage(): array
     {

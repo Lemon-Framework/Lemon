@@ -14,7 +14,7 @@ class Pipe
     }
 
     /**
-     * Creates new instance with given value
+     * Creates new instance with given value.
      */
     public static function send(mixed $value): self
     {
@@ -22,7 +22,7 @@ class Pipe
     }
 
     /**
-     * Sets argument which will be autimaticaly passed in every callback
+     * Sets argument which will be autimaticaly passed in every callback.
      */
     public function with(mixed $value): static
     {
@@ -44,7 +44,7 @@ class Pipe
     }
 
     /**
-     * Returns curent value
+     * Returns curent value.
      */
     public function return(): mixed
     {

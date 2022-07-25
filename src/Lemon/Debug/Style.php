@@ -22,7 +22,7 @@ final class Style
     }
 
     /**
-     * Generates css from style properties
+     * Generates css from style properties.
      */
     public function generate(): string
     {

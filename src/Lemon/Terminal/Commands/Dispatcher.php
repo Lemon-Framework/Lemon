@@ -10,7 +10,7 @@ class Dispatcher
     private array $commands = [];
 
     /**
-     * Adds command
+     * Adds command.
      */
     public function add(Command $command): static
     {
@@ -20,7 +20,7 @@ class Dispatcher
     }
 
     /**
-     * Returns command mathing given arguments or error
+     * Returns command mathing given arguments or error.
      */
     public function dispatch(array $arguments): array|string
     {

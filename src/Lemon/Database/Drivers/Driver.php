@@ -16,7 +16,7 @@ abstract class Driver extends PDO
     }
 
     /**
-     * Returns array of pdo construct arguments 
+     * Returns array of pdo construct arguments.
      */
     abstract protected function getConnection(): array;
 }

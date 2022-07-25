@@ -58,7 +58,7 @@ abstract class Response
     }
 
     /**
-     * Sends response data back to user
+     * Sends response data back to user.
      */
     public function send(): static
     {
@@ -71,7 +71,7 @@ abstract class Response
     }
 
     /**
-     * Gets/sets header
+     * Gets/sets header.
      */
     public function header(string $key, string $value = null): string|static
     {
@@ -85,7 +85,7 @@ abstract class Response
     }
 
     /**
-     * Sets location
+     * Sets location.
      */
     public function location(string $location): static
     {
@@ -95,7 +95,7 @@ abstract class Response
     }
 
     /**
-     * Redirects to given location
+     * Redirects to given location.
      */
     public function redirect(string $to): static
     {
@@ -103,7 +103,7 @@ abstract class Response
     }
 
     /**
-     * Sets status code
+     * Sets status code.
      */
     public function code(int $code = null): static|int
     {
@@ -117,7 +117,7 @@ abstract class Response
     }
 
     /**
-     * Sets body content
+     * Sets body content.
      */
     public function body(string $body): static
     {
@@ -127,12 +127,12 @@ abstract class Response
     }
 
     /**
-     * Parses body
+     * Parses body.
      */
     abstract public function parseBody(): string;
 
     /**
-     * Sends status code
+     * Sends status code.
      */
     public function handleStatusCode()
     {
@@ -140,7 +140,7 @@ abstract class Response
     }
 
     /**
-     * Sends headers
+     * Sends headers.
      */
     public function handleHeaders()
     {
@@ -150,7 +150,7 @@ abstract class Response
     }
 
     /**
-     * Sends body
+     * Sends body.
      */
     public function handleBody(string $body): void
     {
@@ -158,7 +158,7 @@ abstract class Response
     }
 
     /**
-     * Returns all headers
+     * Returns all headers.
      *
      * @return array<string, string>
      */

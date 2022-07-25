@@ -39,7 +39,7 @@ class Logger extends AbstractLogger
     }
 
     /**
-     * Compiles message with given context
+     * Compiles message with given context.
      */
     public function interpolate(string $message, array $context): string
     {
@@ -51,7 +51,7 @@ class Logger extends AbstractLogger
     }
 
     /**
-     * Resolves logging destination
+     * Resolves logging destination.
      */
     private function resolveDestination()
     {

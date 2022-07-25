@@ -7,7 +7,7 @@ namespace Lemon\Http\Responses;
 use Lemon\Http\Response;
 
 /**
- * Reponse with plain text body
+ * Reponse with plain text body.
  */
 class TextResponse extends Response
 {

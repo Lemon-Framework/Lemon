@@ -18,7 +18,7 @@ class Route
     }
 
     /**
-     * Adds/returns route action of given method
+     * Adds/returns route action of given method.
      */
     public function action(string $method, callable $action = null): static|null|callable
     {
@@ -32,7 +32,7 @@ class Route
     }
 
     /**
-     * Adds middleware(s)
+     * Adds middleware(s).
      */
     public function middleware(string|array ...$middlewares): static
     {
@@ -44,7 +44,7 @@ class Route
     }
 
     /**
-     * Sets matching patern
+     * Sets matching patern.
      */
     public function patern(string $patern): static
     {
@@ -54,7 +54,7 @@ class Route
     }
 
     /**
-     * Returns array of matched dynamic data, null if not matching
+     * Returns array of matched dynamic data, null if not matching.
      */
     public function matches(string $path): ?array
     {
@@ -67,7 +67,7 @@ class Route
     }
 
     /**
-     * Returns regex patern for route
+     * Returns regex patern for route.
      */
     public function buildRegex(): string
     {

@@ -27,7 +27,7 @@ class Collection
     }
 
     /**
-     * Adds route to collection
+     * Adds route to collection.
      */
     public function add(string $path, string $method, callable $action): Route
     {
@@ -43,7 +43,7 @@ class Collection
     }
 
     /**
-     * Returns route with given path
+     * Returns route with given path.
      */
     public function find(string $path): Route
     {
@@ -56,7 +56,7 @@ class Collection
     }
 
     /**
-     * Determins whenever route exists
+     * Determins whenever route exists.
      */
     public function has(string $path): bool
     {
@@ -66,7 +66,7 @@ class Collection
     }
 
     /**
-     * Adds new collection into collection
+     * Adds new collection into collection.
      */
     public function collection(self $collection): static
     {
@@ -76,7 +76,7 @@ class Collection
     }
 
     /**
-     * Adds collective middleware
+     * Adds collective middleware.
      */
     public function middleware(string|array ...$middlewares): static
     {
@@ -86,7 +86,7 @@ class Collection
     }
 
     /**
-     * Sets prefix
+     * Sets prefix.
      */
     public function prefix(string $prefix = null): string|static
     {
@@ -100,7 +100,7 @@ class Collection
     }
 
     /**
-     * Finds route with mathing path
+     * Finds route with mathing path.
      *
      * @return ?array{0: Route, 1: array<string, string>}
      */
@@ -117,6 +117,7 @@ class Collection
             if ($route instanceof Collection) {
                 if (!is_null($found = $route->dispatch($path))) {
                     $found[0]->middleware($this->middlewares);
+
                     return $found;
                 }
             }
@@ -124,6 +125,7 @@ class Collection
             if ($route instanceof Route) {
                 if (!is_null($found = $route->matches($path))) {
                     $route->middleware($this->middlewares);
+
                     return [$route, $found];
                 }
             }

@@ -72,7 +72,7 @@ class Router
     }
 
     /**
-     * Creates GET route directly returning view
+     * Creates GET route directly returning view.
      *
      * @author CoolFido sort of
      */
@@ -84,7 +84,7 @@ class Router
     }
 
     /**
-     * Creates collection of routes created in given callback
+     * Creates collection of routes created in given callback.
      */
     public function collection(callable $routes): Collection
     {
@@ -99,7 +99,7 @@ class Router
     }
 
     /**
-     * Creates collection of routes created in given file
+     * Creates collection of routes created in given file.
      */
     public function file(string $file): Collection
     {
@@ -128,7 +128,8 @@ class Router
             return $this->response->error(400);
         }
 
-        // Middlewares
+        // Middlewares TODO
+        /*
         foreach ($route->middlewares as $middleware) {
             $response = $this->response->make($middleware);
             if ($response instanceof EmptyResponse) {
@@ -139,12 +140,13 @@ class Router
 
             return $response;
         }
+         */
 
         return $this->response->make($action, $result[1]);
     }
 
     /**
-     * Returns all routes
+     * Returns all routes.
      */
     public function routes(): Collection
     {

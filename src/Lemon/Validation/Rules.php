@@ -73,7 +73,7 @@ class Rules
     }
 
     /**
-     * Determins whenever given target meets given rule
+     * Determins whenever given target meets given rule.
      *
      * @throws ValidatorException
      */

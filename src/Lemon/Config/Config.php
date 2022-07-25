@@ -13,7 +13,7 @@ use Lemon\Support\Types\Str;
 class Config
 {
     private array $files = [];
-    
+
     private array $data = [];
 
     public function __construct(
@@ -43,7 +43,7 @@ class Config
     }
 
     /**
-     * Returns value for given key in config
+     * Returns value for given key in config.
      */
     public function get(string $key): mixed
     {
@@ -111,7 +111,7 @@ class Config
     }
 
     /**
-     * Returns all config data
+     * Returns all config data.
      */
     public function data(): array
     {

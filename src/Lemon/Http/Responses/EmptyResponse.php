@@ -7,7 +7,7 @@ namespace Lemon\Http\Responses;
 use Lemon\Http\Response;
 
 /**
- * Response with no body
+ * Response with no body.
  */
 class EmptyResponse extends Response
 {

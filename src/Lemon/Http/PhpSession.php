@@ -28,7 +28,7 @@ class PhpSession implements Session
     }
 
     /**
-     * Starts session if not started
+     * Starts session if not started.
      */
     public function init(): void
     {
@@ -46,7 +46,7 @@ class PhpSession implements Session
     }
 
     /**
-     * Sets expiration
+     * Sets expiration.
      */
     public function expireAt(int $seconds): static
     {
@@ -58,7 +58,7 @@ class PhpSession implements Session
     }
 
     /**
-     * Removes expiration
+     * Removes expiration.
      */
     public function dontExpire(): static
     {
@@ -66,7 +66,7 @@ class PhpSession implements Session
     }
 
     /**
-     * Returns value of given key
+     * Returns value of given key.
      */
     public function get(string $key): string
     {
@@ -77,9 +77,9 @@ class PhpSession implements Session
 
         return $_SESSION[$key] ?? null;
     }
-    
+
     /**
-     * Sets value for given key
+     * Sets value for given key.
      */
     public function set(string $key, mixed $value): static
     {
@@ -90,7 +90,7 @@ class PhpSession implements Session
     }
 
     /**
-     * Determins whenever key exists
+     * Determins whenever key exists.
      */
     public function has(string $key): bool
     {
@@ -100,7 +100,7 @@ class PhpSession implements Session
     }
 
     /**
-     * Removes key
+     * Removes key.
      */
     public function remove(string $key): static
     {
@@ -111,7 +111,7 @@ class PhpSession implements Session
     }
 
     /**
-     * Clears session
+     * Clears session.
      */
     public function clear(): void
     {

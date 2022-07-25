@@ -31,7 +31,7 @@ trait Macros
     }
 
     /**
-     * Adds new macro
+     * Adds new macro.
      */
     public function macro(string $name, callable $action)
     {

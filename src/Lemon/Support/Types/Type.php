@@ -7,7 +7,7 @@ namespace Lemon\Support\Types;
 class Type
 {
     /**
-     * Returns whenever value has given type
+     * Returns whenever value has given type.
      */
     public static function is(string $type, mixed $value): bool
     {

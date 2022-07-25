@@ -9,8 +9,8 @@ namespace Lemon;
  * Provides static layer over the Lemon Debugging.
  *
  * @method static string resolve(mixed $data) Resolves parsing method depending on datatype.
- * @method static string build(mixed $data) Builds html for dumper.
- * @method static void dump(mixed $data) Dumps given data.
+ * @method static string build(mixed $data)   Builds html for dumper.
+ * @method static void dump(mixed $data)      Dumps given data.
  *
  * @see \Lemon\Debug\Dumper
  */

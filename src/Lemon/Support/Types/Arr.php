@@ -50,7 +50,7 @@ class Arr
     }
 
     /**
-     * Returns new Array_ from json string
+     * Returns new Array_ from json string.
      */
     public static function fromJson(string $subject): Array_
     {
@@ -58,7 +58,7 @@ class Arr
     }
 
     /**
-     * Returns new Array_ from array
+     * Returns new Array_ from array.
      */
     public static function from(array $array): Array_
     {
@@ -66,7 +66,7 @@ class Arr
     }
 
     /**
-     * Returns new array of each arguments
+     * Returns new array of each arguments.
      */
     public static function of(...$data): Array_
     {
@@ -74,7 +74,7 @@ class Arr
     }
 
     /**
-     * Returns new Array_ with given range
+     * Returns new Array_ with given range.
      */
     public static function range(int $from, int $to, int $increment = 1): Array_
     {
@@ -82,7 +82,7 @@ class Arr
     }
 
     /**
-     * Returns empty array
+     * Returns empty array.
      */
     public static function empty(): Array_
     {

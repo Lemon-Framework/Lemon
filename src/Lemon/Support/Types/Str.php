@@ -44,7 +44,7 @@ class Str
     }
 
     /**
-     * Returns random string
+     * Returns random string.
      */
     public static function random(int $size): string
     {

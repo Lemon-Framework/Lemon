@@ -7,7 +7,7 @@ namespace Lemon\Http\Responses;
 use Lemon\Http\Response;
 
 /**
- * Response with json body
+ * Response with json body.
  */
 class JsonResponse extends Response
 {

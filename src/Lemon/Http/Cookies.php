@@ -9,7 +9,7 @@ use Lemon\Http\Exceptions\CookieException;
 class Cookies
 {
     /**
-     * Sets cookie
+     * Sets cookie.
      */
     public function set(string $name, string $value, int $expires): static
     {
@@ -24,7 +24,7 @@ class Cookies
     }
 
     /**
-     * Determins whenever cookie exists
+     * Determins whenever cookie exists.
      */
     public function has(string $name): bool
     {
@@ -32,7 +32,7 @@ class Cookies
     }
 
     /**
-     * Returns cookie value
+     * Returns cookie value.
      */
     public function get(string $name): mixed
     {
@@ -44,7 +44,7 @@ class Cookies
     }
 
     /**
-     * Removes cookie
+     * Removes cookie.
      */
     public function remove(string $name): static
     {

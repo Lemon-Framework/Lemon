@@ -24,7 +24,7 @@ class Terminal
     }
 
     /**
-     * Creates new command
+     * Creates new command.
      */
     public function command(string $signature, Closure $action, string $description = ''): Command
     {
@@ -35,7 +35,7 @@ class Terminal
     }
 
     /**
-     * Outputs given content
+     * Outputs given content.
      */
     public function out(mixed $content): void
     {
@@ -48,7 +48,7 @@ class Terminal
     }
 
     /**
-     * Asks in terminal
+     * Asks in terminal.
      */
     public function ask(mixed $prompt): string
     {
@@ -56,7 +56,7 @@ class Terminal
     }
 
     /**
-     * Runs CLI
+     * Runs CLI.
      */
     public function run(array $arguments): void
     {

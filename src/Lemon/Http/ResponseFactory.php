@@ -25,7 +25,7 @@ class ResponseFactory
     }
 
     /**
-     * Creates new response out of given callable
+     * Creates new response out of given callable.
      */
     public function make(callable $action, array $params = []): Response
     {
@@ -35,7 +35,7 @@ class ResponseFactory
     }
 
     /**
-     * Returns response depending on given data
+     * Returns response depending on given data.
      */
     public function resolve(mixed $data): Response
     {
@@ -102,7 +102,7 @@ class ResponseFactory
     }
 
     /**
-     * Registers custom handler for given status code
+     * Registers custom handler for given status code.
      */
     public function handle(int $code, callable $action): static
     {

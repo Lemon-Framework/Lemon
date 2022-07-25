@@ -16,7 +16,7 @@ class Dispatcher
     }
 
     /**
-     * Registers event handling function
+     * Registers event handling function.
      */
     public function on(string $name, callable $action): static
     {
@@ -26,7 +26,7 @@ class Dispatcher
     }
 
     /**
-     * Calls all event handling functions with given arguments
+     * Calls all event handling functions with given arguments.
      */
     public function fire(string $name, mixed ...$args): static
     {
@@ -38,7 +38,7 @@ class Dispatcher
     }
 
     /**
-     * Returns all events
+     * Returns all events.
      */
     public function events(): array
     {

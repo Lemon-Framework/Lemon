@@ -13,10 +13,10 @@ return $config->setRules([
     ])
         ->setFinder($finder)
         ->setRiskyAllowed(true)
-        ->registerCustomFixers([
-            new FunctionExistsFixer(),
-        ])
-        ->setRules([
-            'Lemon/function_exists' => true,
-        ])
+//        ->registerCustomFixers([
+//            new FunctionExistsFixer(),
+//        ])
+//        ->setRules([
+//            'Lemon/function_exists' => false,
+//        ])
 ;

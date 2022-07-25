@@ -15,7 +15,7 @@ class MiddlewareCollection
     }
 
     /**
-     * Resolves middleware name
+     * Resolves middleware name.
      */
     public function resolve(string|array $name): array
     {
@@ -27,7 +27,7 @@ class MiddlewareCollection
     }
 
     /**
-     * Adds middleware
+     * Adds middleware.
      */
     public function add(string|array $name): static
     {
@@ -41,7 +41,7 @@ class MiddlewareCollection
     }
 
     /**
-     * Returns all middlewares
+     * Returns all middlewares.
      */
     public function middlewares(): array
     {

@@ -26,9 +26,8 @@ class FunctionExistsFixer extends AbstractFixer
     public function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         // TODO
-        /*
         $start = 0;
-        while($found = $tokens->findSequence([
+        while ($found = $tokens->findSequence([
             [T_FUNCTION],
             [T_STRING],
         ], $start)) {
@@ -41,7 +40,7 @@ class FunctionExistsFixer extends AbstractFixer
                 new Token('!'),
                 new Token('function_exists'),
                 new Token('('),
-                new Token([T_CONSTANT_ENCAPSED_STRING, "'$name'"]),
+                new Token([T_CONSTANT_ENCAPSED_STRING, "'{$name}'"]),
                 new Token(')'),
                 new Token(')'),
                 new Token('{'),
@@ -49,14 +48,13 @@ class FunctionExistsFixer extends AbstractFixer
             ];
             $pos = array_key_first($found);
             $end = array_key_last($found);
-            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, array_key_first($tokens->findSequence(['{'], $end))); 
+            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, array_key_first($tokens->findSequence(['{'], $end)));
             if (!$tokens->findSequence($sequence, $pos - 9, $end)) {
                 $tokens->insertAt($end, [new Token("\n"), new Token('}')]);
                 $tokens->insertAt($pos, $sequence);
             }
             $start = $end;
         }
-        */
     }
 
     public function getName(): string
