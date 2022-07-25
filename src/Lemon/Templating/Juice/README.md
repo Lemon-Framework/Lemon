@@ -2,6 +2,8 @@
 
 Juice is Lemons template engine that compiles to raw php code. It does that by lexing into tokens via regular expressions and then parsing.
 
+Its heavily influenced by [nette/latte](https://github.com/nette/latte)
+
 Default syntax are:
 - `{{ $variable }}` - variable $variable will be safely echoed
 - `{! $variable !}` - variable $variable will be unsafely echoed

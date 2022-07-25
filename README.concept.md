@@ -1,6 +1,23 @@
 # 🍋 Lemon
 
-Lemon is microframework for php designed to be simple for begginers.
+Lemon is microframework for php designed to be simple for begginers. <!-- TODO -->
+
+## Features
+
+- Simple to use router
+- Safe, hackable template engine Juice
+- Simplified database manipulation
+- Debugging tools
+- Html-based Terminal layer
+- Http abstraction
+- Caching
+- All bundled using DI container
+
+- Whole framework was heavilly inspired by:
+    - [laravel/framework](https://github.com/laravel/framework)
+    - [nette](https://github.com/nette) (mostly [latte](https://github.com/nette/latte))
+    - [nunomaduro/termwind](https://github.com/nunomaduro/termwind)
+    - [feast-framework/framework](https://github.com/feast-framework/framework)
 
 ## Thanks
 
