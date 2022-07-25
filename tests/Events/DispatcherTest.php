@@ -21,7 +21,7 @@ class DispatcherTest extends TestCase
         $events->on('foo', function () {});
         $events->on('bar', function () {});
         $events->on('baz', function () {});
-        $this->assertSame(['foo', 'bar', 'baz'], array_keys($events->all()));
+        $this->assertSame(['foo', 'bar', 'baz'], array_keys($events->events()));
     }
 
     public function testFiring()

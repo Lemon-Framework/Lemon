@@ -9,6 +9,9 @@ class Dispatcher
     /** @var array<Command> */
     private array $commands = [];
 
+    /**
+     * Adds command
+     */
     public function add(Command $command): static
     {
         $this->commands[$command->name] = $command;
@@ -16,6 +19,9 @@ class Dispatcher
         return $this;
     }
 
+    /**
+     * Returns command mathing given arguments or error
+     */
     public function dispatch(array $arguments): array|string
     {
         $name = $arguments[0];

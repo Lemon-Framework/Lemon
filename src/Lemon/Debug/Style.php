@@ -21,6 +21,9 @@ final class Style
     ) {
     }
 
+    /**
+     * Generates css from style properties
+     */
     public function generate(): string
     {
         return preg_replace_callback('/\{{(.+?)\}}/', function ($matches) {

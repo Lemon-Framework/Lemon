@@ -8,7 +8,7 @@ namespace Lemon;
  * Lemon Template Zest
  * Provides static layer over the Lemon Templating.
  *
- * @see
+ * @see \Lemon\Template\Template
  */
 class Template extends Zest
 {

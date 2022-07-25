@@ -23,6 +23,9 @@ class Terminal
         $this->output = new Output();
     }
 
+    /**
+     * Creates new command
+     */
     public function command(string $signature, Closure $action, string $description = ''): Command
     {
         $command = new Command($signature, $action, $description);
@@ -31,6 +34,9 @@ class Terminal
         return $command;
     }
 
+    /**
+     * Outputs given content
+     */
     public function out(mixed $content): void
     {
         $out = $this->output->out($content);
@@ -41,11 +47,17 @@ class Terminal
         }
     }
 
+    /**
+     * Asks in terminal
+     */
     public function ask(mixed $prompt): string
     {
         return readline($this->output->out($prompt));
     }
 
+    /**
+     * Runs CLI
+     */
     public function run(array $arguments): void
     {
         $result = $this->commands->dispatch($arguments);

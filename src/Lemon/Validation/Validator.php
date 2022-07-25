@@ -15,11 +15,17 @@ class Validator
         $this->rules = new Rules();
     }
 
+    /**
+     * Returns all rules
+     */
     public function rules(): Rules
     {
         return $this->rules;
     }
 
+    /**
+     * Determins whenever given data meets given rules
+     */
     public function validate(array $data, array $ruleset): bool
     {
         foreach ($ruleset as $key => $rules) {
@@ -45,6 +51,9 @@ class Validator
         return true;
     }
 
+    /**
+     * Converts rules into same array
+     */
     public function resolveRules(string|array $rules): array
     {
         if (is_array($rules)) {

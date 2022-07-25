@@ -19,11 +19,16 @@ class Collection
 
     private string $prefix = '';
 
+    private array $middlewares = [];
+
     public function __construct(
-        private Container $middlewares
+        private Container $middleware_container
     ) {
     }
 
+    /**
+     * Adds route to collection
+     */
     public function add(string $path, string $method, callable $action): Route
     {
         $path = trim($path, '/');
@@ -31,12 +36,15 @@ class Collection
             return $this->find($path)->action($method, $action);
         }
 
-        $route = new Route($path, [$method => $action], new MiddlewareCollection($this->middlewares));
+        $route = new Route($path, [$method => $action], new MiddlewareCollection($this->middleware_container));
         $this->routes[$path] = $route;
 
         return $route;
     }
 
+    /**
+     * Returns route with given path
+     */
     public function find(string $path): Route
     {
         $path = trim($path, '/');
@@ -47,6 +55,9 @@ class Collection
         return $this->routes[$path];
     }
 
+    /**
+     * Determins whenever route exists
+     */
     public function has(string $path): bool
     {
         $path = trim($path, '/');
@@ -54,6 +65,9 @@ class Collection
         return Arr::hasKey($this->routes, $path);
     }
 
+    /**
+     * Adds new collection into collection
+     */
     public function collection(self $collection): static
     {
         $this->routes[] = $collection;
@@ -61,15 +75,19 @@ class Collection
         return $this;
     }
 
+    /**
+     * Adds collective middleware
+     */
     public function middleware(string|array ...$middlewares): static
     {
-        foreach ($this->routes as $route) {
-            $route->middleware($middlewares);
-        }
+        $this->middlewares = [...$this->middlewares, ...$middlewares];
 
         return $this;
     }
 
+    /**
+     * Sets prefix
+     */
     public function prefix(string $prefix = null): string|static
     {
         if (!$prefix) {
@@ -81,6 +99,11 @@ class Collection
         return $this;
     }
 
+    /**
+     * Finds route with mathing path
+     *
+     * @return ?array{0: Route, 1: array<string, string>}
+     */
     public function dispatch(string $path): ?array
     {
         if ($this->prefix) {
@@ -92,13 +115,15 @@ class Collection
         }
         foreach ($this->routes as $route) {
             if ($route instanceof Collection) {
-                if ($found = $route->dispatch($path)) {
+                if (!is_null($found = $route->dispatch($path))) {
+                    $found[0]->middleware($this->middlewares);
                     return $found;
                 }
             }
 
             if ($route instanceof Route) {
                 if (!is_null($found = $route->matches($path))) {
+                    $route->middleware($this->middlewares);
                     return [$route, $found];
                 }
             }

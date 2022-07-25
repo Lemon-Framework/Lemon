@@ -27,6 +27,9 @@ class PhpSession implements Session
         session_commit();
     }
 
+    /**
+     * Starts session if not started
+     */
     public function init(): void
     {
         if ($this->started) {
@@ -42,6 +45,9 @@ class PhpSession implements Session
         ]);
     }
 
+    /**
+     * Sets expiration
+     */
     public function expireAt(int $seconds): static
     {
         $this->init();
@@ -51,11 +57,17 @@ class PhpSession implements Session
         return $this;
     }
 
+    /**
+     * Removes expiration
+     */
     public function dontExpire(): static
     {
         return $this->expireAt(0);
     }
 
+    /**
+     * Returns value of given key
+     */
     public function get(string $key): string
     {
         $this->init();
@@ -65,8 +77,11 @@ class PhpSession implements Session
 
         return $_SESSION[$key] ?? null;
     }
-
-    public function set(string $key, string $value): static
+    
+    /**
+     * Sets value for given key
+     */
+    public function set(string $key, mixed $value): static
     {
         $this->init();
         $_SESSION[$key] = $value;
@@ -74,6 +89,9 @@ class PhpSession implements Session
         return $this;
     }
 
+    /**
+     * Determins whenever key exists
+     */
     public function has(string $key): bool
     {
         $this->init();
@@ -81,6 +99,9 @@ class PhpSession implements Session
         return isset($_SESSION[$key]);
     }
 
+    /**
+     * Removes key
+     */
     public function remove(string $key): static
     {
         $this->init();
@@ -89,7 +110,10 @@ class PhpSession implements Session
         return $this;
     }
 
-    public function clear()
+    /**
+     * Clears session
+     */
+    public function clear(): void
     {
         $this->init();
         session_destroy();

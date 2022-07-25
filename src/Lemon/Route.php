@@ -18,6 +18,9 @@ use Exception;
  * @method static \Lemon\Http\Routing\Route path(string $path, $action)    Creates route with method path
  * @method static \Lemon\Http\Routing\Route options(string $path, $action) Creates route with method options
  *
+ * @method static Route any(string $path, callable $action) The Lemon Router.
+ * @method static Response dispatch(Request $request) @author CoolFido sort of
+ *
  * @see \Lemon\Routing\Router
  */
 class Route extends Zest

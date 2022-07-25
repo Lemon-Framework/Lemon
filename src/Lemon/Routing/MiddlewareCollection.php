@@ -14,6 +14,9 @@ class MiddlewareCollection
     ) {
     }
 
+    /**
+     * Resolves middleware name
+     */
     public function resolve(string|array $name): array
     {
         if (is_array($name)) {
@@ -23,6 +26,9 @@ class MiddlewareCollection
         return [$name, 'handle'];
     }
 
+    /**
+     * Adds middleware
+     */
     public function add(string|array $name): static
     {
         $action = $this->resolve($name);
@@ -34,6 +40,9 @@ class MiddlewareCollection
         return $this;
     }
 
+    /**
+     * Returns all middlewares
+     */
     public function middlewares(): array
     {
         return $this->middlewares->services();

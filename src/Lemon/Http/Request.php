@@ -27,22 +27,10 @@ class Request
     ) {
     }
 
-    public function __get($name)
-    {
-        if ($result = $this->get($name)) {
-            return $result;
-        }
 
-        throw new Exception('Property '.$name.' does not exist');
-    }
-
-    public function injectLifecycle(Lifecycle $lifecycle): static
-    {
-        $this->lifecycle = $lifecycle;
-
-        return $this;
-    }
-
+    /**
+     * Creates new instance of actual sent request
+     */
     public static function capture(): self
     {
         [$path, $query] = static::trimQuery($_SERVER['REQUEST_URI']);
@@ -54,6 +42,26 @@ class Request
             static::parseHeaders(headers_list()),
             file_get_contents('php://input')
         );
+    }
+
+
+    public function __get($name)
+    {
+        if ($result = $this->get($name)) {
+            return $result;
+        }
+
+        throw new Exception('Property '.$name.' does not exist');
+    }
+
+    /**
+     * Injects lifecycle
+     */
+    public function injectLifecycle(Lifecycle $lifecycle): static
+    {
+        $this->lifecycle = $lifecycle;
+
+        return $this;
     }
 
     /**
@@ -89,26 +97,41 @@ class Request
         return $result;
     }
 
+    /**
+     * Returns header with given name, null if header dont exist
+     */
     public function header(string $name): ?string
     {
         return $this->headers[$name] ?? null;
     }
 
+    /**
+     * Returns whenever header exists
+     */
     public function hasHeader(string $header): bool
     {
         return isset($this->headers[$header]);
     }
 
+    /**
+     * Returns all headers
+     */
     public function headers(): array
     {
         return $this->headers;
     }
 
+    /**
+     * Returns whenever request has given content type
+     */
     public function is(string $content_type): bool
     {
         return $this->header('Content-Type') === $content_type;
     }
 
+    /**
+     * Adds request parsing function
+     */
     public function addParser(string $content_type, callable $parser): static
     {
         $this->parsers[$content_type] = $parser;
@@ -116,7 +139,12 @@ class Request
         return $this;
     }
 
-    public function data()
+    /**
+     * Returns array of parsed request body
+     *
+     * @return array<string, string>
+     */
+    public function data(): array
     {
         if (is_null($this->body_data)) {
             $this->parseBody();
@@ -125,11 +153,17 @@ class Request
         return $this->body_data;
     }
 
+    /**
+     * Returns request body value for given key
+     */
     public function get(string $key): ?string
     {
         return $this->data()[$key] ?? null;
     }
 
+    /**
+     * If key is null, returns parsed query, otherwise value for given key in parsed query or null if not found.
+     */
     public function query(?string $key = null): string|array|null
     {
         if (!empty($this->query)) {
@@ -143,6 +177,11 @@ class Request
         return $this->query_data[$key] ?? null;
     }
 
+    /**
+     * Determins whenever request meets given rules
+     *
+     * @throws Exception When lifecycle is not injected
+     */
     public function validate(array $rules): bool
     {
         if (!$this->lifecycle) {
@@ -154,6 +193,9 @@ class Request
         ;
     }
 
+    /**
+     * Returns array from request
+     */
     public function toArray(): array
     {
         return [

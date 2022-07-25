@@ -15,6 +15,9 @@ class Dispatcher
     ) {
     }
 
+    /**
+     * Registers event handling function
+     */
     public function on(string $name, callable $action): static
     {
         $this->events[$name][] = $action;
@@ -22,6 +25,9 @@ class Dispatcher
         return $this;
     }
 
+    /**
+     * Calls all event handling functions with given arguments
+     */
     public function fire(string $name, mixed ...$args): static
     {
         foreach ($this->events[$name] as $event) {
@@ -31,7 +37,10 @@ class Dispatcher
         return $this;
     }
 
-    public function all(): array
+    /**
+     * Returns all events
+     */
+    public function events(): array
     {
         return $this->events;
     }

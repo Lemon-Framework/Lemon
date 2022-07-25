@@ -6,6 +6,9 @@ namespace Lemon\Http\Responses;
 
 use Lemon\Http\Response;
 
+/**
+ * Response with html body
+ */
 class HtmlResponse extends Response
 {
     public function parseBody(): string

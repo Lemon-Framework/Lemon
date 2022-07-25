@@ -8,6 +8,9 @@ use Lemon\Http\Exceptions\CookieException;
 
 class Cookies
 {
+    /**
+     * Sets cookie
+     */
     public function set(string $name, string $value, int $expires): static
     {
         setcookie(
@@ -20,11 +23,17 @@ class Cookies
         return $this;
     }
 
+    /**
+     * Determins whenever cookie exists
+     */
     public function has(string $name): bool
     {
         return isset($_COOKIE[$name]);
     }
 
+    /**
+     * Returns cookie value
+     */
     public function get(string $name): mixed
     {
         if (!$this->has($name)) {
@@ -34,6 +43,9 @@ class Cookies
         return $_COOKIE[$name];
     }
 
+    /**
+     * Removes cookie
+     */
     public function remove(string $name): static
     {
         unset($_COOKIE[$name]);

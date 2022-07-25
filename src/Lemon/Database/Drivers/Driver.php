@@ -15,5 +15,8 @@ abstract class Driver extends PDO
         parent::__construct(...$this->getConnection());
     }
 
+    /**
+     * Returns array of pdo construct arguments 
+     */
     abstract protected function getConnection(): array;
 }

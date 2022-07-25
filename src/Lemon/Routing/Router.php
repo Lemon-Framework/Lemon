@@ -72,15 +72,20 @@ class Router
     }
 
     /**
+     * Creates GET route directly returning view
+     *
      * @author CoolFido sort of
      */
-    public function template(string $path, ?string $view = null)
+    public function template(string $path, ?string $view = null): Route
     {
         $view = $view ?? Str::replace($path, '/', '.');
 
         return $this->routes->add($path, 'get', fn (TemplateFactory $templates) => $templates->make($view));
     }
 
+    /**
+     * Creates collection of routes created in given callback
+     */
     public function collection(callable $routes): Collection
     {
         $original = $this->routes;
@@ -93,6 +98,9 @@ class Router
         return $collection;
     }
 
+    /**
+     * Creates collection of routes created in given file
+     */
     public function file(string $file): Collection
     {
         return $this->collection(function () use ($file) {
@@ -135,6 +143,9 @@ class Router
         return $this->response->make($action, $result[1]);
     }
 
+    /**
+     * Returns all routes
+     */
     public function routes(): Collection
     {
         return $this->routes;

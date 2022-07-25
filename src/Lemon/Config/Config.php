@@ -13,7 +13,7 @@ use Lemon\Support\Types\Str;
 class Config
 {
     private array $files = [];
-
+    
     private array $data = [];
 
     public function __construct(
@@ -21,6 +21,9 @@ class Config
     ) {
     }
 
+    /**
+     * Loads config data from given directory.
+     */
     public function load(string $directory = 'config'): static
     {
         $directory = $this->lifecycle->file($directory);
@@ -39,6 +42,9 @@ class Config
         return $this;
     }
 
+    /**
+     * Returns value for given key in config
+     */
     public function get(string $key): mixed
     {
         $keys = explode('.', $key);
@@ -58,11 +64,17 @@ class Config
         return $last;
     }
 
+    /**
+     * Returns project file for given key in config.
+     */
     public function file(string $key, string $extension = null): string
     {
         return $this->lifecycle->file($this->get($key), $extension);
     }
 
+    /**
+     * Sets key in config for given value.
+     */
     public function set(string $key, mixed $value): static
     {
         $keys = explode('.', $key);
@@ -78,6 +90,9 @@ class Config
         return $this;
     }
 
+    /**
+     * Loads part (if not loaded or force is true) into static::$data.
+     */
     public function loadPart(string $part, bool $force = false): void
     {
         if (isset($this->data[$part]) && !$force) {
@@ -95,6 +110,9 @@ class Config
         $this->data[$part] = require $path;
     }
 
+    /**
+     * Returns all config data
+     */
     public function data(): array
     {
         return $this->data;

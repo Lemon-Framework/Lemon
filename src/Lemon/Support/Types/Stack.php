@@ -15,11 +15,17 @@ class Stack
     ) {
     }
 
+    /**
+     * Creates new Stack with given type
+     */
     public static function withType(string $type): self
     {
         return new self($type);
     }
 
+    /**
+     * Pushes item to the stack
+     */
     public function push(mixed $value): static
     {
         if (!Type::is($this->type, $value)) {
@@ -30,21 +36,33 @@ class Stack
         return $this;
     }
 
+    /**
+     * Pops item from the stack
+     */
     public function pop(): mixed
     {
         return array_pop($this->storage);
     }
 
+    /**
+     * Returns top of the stack
+     */
     public function top(): mixed
     {
         return $this->storage[count($this->storage) - 1];
     }
 
+    /**
+     * Returns size of the stack
+     */
     public function size(): int
     {
         return count($this->storage);
     }
 
+    /**
+     * Returns stack as array
+     */
     public function storage(): array
     {
         return $this->storage;

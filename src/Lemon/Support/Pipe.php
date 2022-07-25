@@ -13,11 +13,17 @@ class Pipe
     ) {
     }
 
+    /**
+     * Creates new instance with given value
+     */
     public static function send(mixed $value): self
     {
         return new self($value);
     }
 
+    /**
+     * Sets argument which will be autimaticaly passed in every callback
+     */
     public function with(mixed $value): static
     {
         $this->args[] = $value;
@@ -37,6 +43,9 @@ class Pipe
         return $this;
     }
 
+    /**
+     * Returns curent value
+     */
     public function return(): mixed
     {
         return $this->value;

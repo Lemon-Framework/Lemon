@@ -23,6 +23,9 @@ class Logger extends AbstractLogger
         $this->resolveDestination();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function log($level, string|Stringable $message, array $context = []): void
     {
         $level = Str::toUpper($level)->value;
@@ -35,6 +38,9 @@ class Logger extends AbstractLogger
         file_put_contents($this->destination, sprintf("[%s] %s: %s\n", $now, $level, $message), FILE_APPEND);
     }
 
+    /**
+     * Compiles message with given context
+     */
     public function interpolate(string $message, array $context): string
     {
         foreach ($context as $key => $value) {
@@ -44,6 +50,9 @@ class Logger extends AbstractLogger
         return $message;
     }
 
+    /**
+     * Resolves logging destination
+     */
     private function resolveDestination()
     {
         $this->destination = $this->config->file('logging.file', 'log');

@@ -24,6 +24,9 @@ class ResponseFactory
     ) {
     }
 
+    /**
+     * Creates new response out of given callable
+     */
     public function make(callable $action, array $params = []): Response
     {
         $output = $this->lifecycle->call($action, $params);
@@ -31,6 +34,9 @@ class ResponseFactory
         return $this->resolve($output);
     }
 
+    /**
+     * Returns response depending on given data
+     */
     public function resolve(mixed $data): Response
     {
         if (is_null($data)) {
@@ -61,7 +67,7 @@ class ResponseFactory
     }
 
     /**
-     * Returns response of 400-500 http status codes.
+     * Returns response for 400-500 http status codes.
      */
     public function error(int $code): Response
     {
@@ -87,11 +93,17 @@ class ResponseFactory
         ), $code);
     }
 
+    /**
+     * Returns response for 400-500 http status codes.
+     */
     public function raise(int $code): Response
     {
         return $this->error($code);
     }
 
+    /**
+     * Registers custom handler for given status code
+     */
     public function handle(int $code, callable $action): static
     {
         $this->handlers[$code] = $action;

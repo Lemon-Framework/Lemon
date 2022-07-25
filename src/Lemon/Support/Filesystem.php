@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Support;
 
 use Exception;
-use Lemon\Exceptions\FilesystemException;
+use Lemon\Support\Exceptions\FilesystemException;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 
@@ -14,7 +14,7 @@ class Filesystem
     /**
      * Returns content of given file.
      *
-     * @throws \Lemon\Exceptions\FilesystemException
+     * @throws \Lemon\Support\Exceptions\FilesystemException
      */
     public static function read(string $file): string
     {
@@ -36,7 +36,7 @@ class Filesystem
     /**
      * Creates new directory.
      *
-     * @throws \Lemon\Exceptions\FilesystemException
+     * @throws \Lemon\Support\Exceptions\FilesystemException
      */
     public static function makeDir(string $dir): void
     {
@@ -50,7 +50,7 @@ class Filesystem
     /**
      * Returns array of paths in given directory.
      *
-     * @throws \Lemon\Exceptions\FilesystemException
+     * @throws \Lemon\Support\Exceptions\FilesystemException
      */
     public static function listDir(string $dir): array
     {

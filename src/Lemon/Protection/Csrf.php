@@ -14,6 +14,9 @@ class Csrf
     ) {
     }
 
+    /**
+     * Returns csrf token and creates new if does not exist
+     */
     public function getToken(): string
     {
         if (!$this->cookies->has('CSRF_TOKEN')) {
@@ -23,11 +26,17 @@ class Csrf
         return $this->cookies->get('CSRF_TOKEN');
     }
 
+    /**
+     * Removes token from cookies
+     */
     public function reset(): void
     {
         $this->cookies->remove('CSRF_TOKEN');
     }
 
+    /**
+     * Returns whenever given token equals token in cookies
+     */
     public function validate(string $token): bool
     {
         return $token == $this->getToken();

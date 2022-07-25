@@ -17,6 +17,9 @@ class Route
     ) {
     }
 
+    /**
+     * Adds/returns route action of given method
+     */
     public function action(string $method, callable $action = null): static|null|callable
     {
         $method = (string) Str::toLower($method);
@@ -28,6 +31,9 @@ class Route
         return $this;
     }
 
+    /**
+     * Adds middleware(s)
+     */
     public function middleware(string|array ...$middlewares): static
     {
         foreach ($middlewares as $middleware) {
@@ -37,6 +43,9 @@ class Route
         return $this;
     }
 
+    /**
+     * Sets matching patern
+     */
     public function patern(string $patern): static
     {
         $this->patern = $patern;
@@ -44,6 +53,9 @@ class Route
         return $this;
     }
 
+    /**
+     * Returns array of matched dynamic data, null if not matching
+     */
     public function matches(string $path): ?array
     {
         $patern = $this->buildRegex();
@@ -54,6 +66,9 @@ class Route
         ;
     }
 
+    /**
+     * Returns regex patern for route
+     */
     public function buildRegex(): string
     {
         return preg_replace('/\{([a-zA-Z_0-9]+)\}/', '(?<$1>['.$this->patern.']+)', $this->path);

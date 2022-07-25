@@ -6,6 +6,9 @@ namespace Lemon\Database\Drivers;
 
 class Mysql extends Driver
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function getConnection(): array
     {
         $result = [];

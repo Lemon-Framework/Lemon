@@ -72,6 +72,11 @@ class Rules
         return $this;
     }
 
+    /**
+     * Determins whenever given target meets given rule
+     *
+     * @throws ValidatorException
+     */
     public function call(string $target, array $rule): bool
     {
         $args = [];

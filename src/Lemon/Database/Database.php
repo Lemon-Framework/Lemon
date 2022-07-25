@@ -22,6 +22,9 @@ class Database
     ) {
     }
 
+    /**
+     * Returns current driver and creates new if isn't already.
+     */
     public function getConnection(): Driver
     {
         if (!$this->connection) {
@@ -31,6 +34,9 @@ class Database
         return $this->connection;
     }
 
+    /**
+     * Creates new Driver and connects to database.
+     */
     public function connect(): void
     {
         $driver = $this->drivers[$this->config->get('database.driver')];

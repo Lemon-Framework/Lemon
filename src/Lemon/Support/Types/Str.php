@@ -43,6 +43,9 @@ class Str
         return new String_($subject);
     }
 
+    /**
+     * Returns random string
+     */
     public static function random(int $size): string
     {
         $chars = str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-{}[]');

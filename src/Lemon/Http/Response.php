@@ -57,6 +57,9 @@ abstract class Response
     ) {
     }
 
+    /**
+     * Sends response data back to user
+     */
     public function send(): static
     {
         $body = $this->parseBody();
@@ -67,6 +70,9 @@ abstract class Response
         return $this;
     }
 
+    /**
+     * Gets/sets header
+     */
     public function header(string $key, string $value = null): string|static
     {
         if (!$value) {
@@ -78,6 +84,9 @@ abstract class Response
         return $this;
     }
 
+    /**
+     * Sets location
+     */
     public function location(string $location): static
     {
         $this->header('Location', $location);
@@ -85,11 +94,17 @@ abstract class Response
         return $this;
     }
 
+    /**
+     * Redirects to given location
+     */
     public function redirect(string $to): static
     {
         return $this->location($to);
     }
 
+    /**
+     * Sets status code
+     */
     public function code(int $code = null): static|int
     {
         if (!$code) {
@@ -101,6 +116,9 @@ abstract class Response
         return $this;
     }
 
+    /**
+     * Sets body content
+     */
     public function body(string $body): static
     {
         $this->body = $body;
@@ -108,13 +126,22 @@ abstract class Response
         return $this;
     }
 
+    /**
+     * Parses body
+     */
     abstract public function parseBody(): string;
 
+    /**
+     * Sends status code
+     */
     public function handleStatusCode()
     {
         http_response_code($this->status_code);
     }
 
+    /**
+     * Sends headers
+     */
     public function handleHeaders()
     {
         foreach ($this->headers as $header => $value) {
@@ -122,11 +149,19 @@ abstract class Response
         }
     }
 
+    /**
+     * Sends body
+     */
     public function handleBody(string $body): void
     {
         echo $body;
     }
 
+    /**
+     * Returns all headers
+     *
+     * @return array<string, string>
+     */
     public function headers(): array
     {
         return $this->headers;

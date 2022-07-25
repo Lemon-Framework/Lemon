@@ -10,6 +10,8 @@ use Exception;
  * Lemon Terminal Zest
  * Provides static layer over the Lemon Terminal.
  *
+
+ *
  * @see \Lemon\Terminal\Terminal
  */
 class Terminal extends Zest
