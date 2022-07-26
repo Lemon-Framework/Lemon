@@ -8,6 +8,7 @@ use Error;
 use ErrorException;
 use Exception;
 use Lemon\Http\Request;
+use Lemon\Http\Session;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Str;
 use Lemon\Zest;
@@ -34,7 +35,7 @@ final class Lifecycle extends Container
         \Lemon\Templating\Factory::class => ['templating'],
         \Lemon\Support\Env::class => ['env'],
         \Lemon\Http\ResponseFactory::class => ['response'],
-        \Lemon\Http\PhpSession::class => ['session', \Lemon\Http\Session::class],
+        Lemon\Http\Session::class => ['session', \Lemon\Http\Session::class],
         \Lemon\Http\Cookies::class => ['cookies'],
         \Lemon\Protection\Csrf::class => ['csrf'],
         \Lemon\Debug\Handling\Handler::class => ['handler'],

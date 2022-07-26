@@ -5,6 +5,7 @@ declare(strict_types=1);
 // --- This file contains helping functions for whole framework. ---
 
 use Lemon\Config;
+use Lemon\Debug;
 use Lemon\Env;
 use Lemon\Http\Responses\RedirectResponse;
 use Lemon\Support\Pipe;
@@ -51,4 +52,20 @@ function config(string $key, string $value): mixed
     }
 
     return Config::get($key);
+}
+
+function d(mixed ...$values): void
+{
+    foreach ($values as $value) {
+        Debug::dump($value);
+    }
+}
+
+function dd(mixed ...$values): void
+{
+    foreach ($values as $value) {
+        Debug::dump($value);
+    }
+
+    die();
 }
