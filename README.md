@@ -32,9 +32,7 @@ TODO:
 - [x] fake tests for caching
 - [x] tests for caching
 - [x] juice template engine (base)
-- [ ] rewrite exceptiont esting
 - [x] rething config
-- [ ] rewrite exceptions
 - [x] events
 - [x] logging
 - [x] validation

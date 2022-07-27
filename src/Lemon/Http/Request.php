@@ -200,6 +200,7 @@ class Request
             'path' => $this->path,
             'query' => $this->query,
             'method' => $this->method,
+            'headers' => $this->headers,
             'body' => $this->body,
         ];
     }

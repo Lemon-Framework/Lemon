@@ -31,7 +31,12 @@
     </div>
 </body>
 <script>
-let context = <?= json_encode($trace) ?>
+let context = <?= json_encode([
+    'error' => $file,
+    'hints' => $hint,
+    'request' => $request,
+    'trace' => $trace,
+]) ?>
 </script>
 <script src="https://cdn.jsdelivr.net/gh/Lemon-Framework/static/reporter/dist/js/app.js"></script>
 </html>
