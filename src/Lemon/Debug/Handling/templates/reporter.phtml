@@ -23,7 +23,7 @@
         <div class="block p-3 shadow-xl bg-red text-primary">
             <div class="text-xl"><?= $problem ?> - <?= $file ?>:<?= $line ?></div>
             <div class="text-2xl"><?= $message ?></div>
-            <div class="text-2xl"><?= $hint[0] ?></div>
+            <div class="text-2xl"><?= $hint[0] ?? '' ?></div>
         </div>
         <div id="app">
             <context></context>
