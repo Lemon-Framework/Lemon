@@ -9,7 +9,7 @@ Contributions are welcomed but please follow:
 - Add new consultant handlers (see src/Lemon/Debug/Handling/README.md)
 
 
-If you want to add some features, please open issue before you open pull request.
+If you want to add some features, please open issue before you open pull request. If there is some openned issue for longer time, you can write comment and say you will do it. Please wait for aproval.
 
 ## Pull request
 
