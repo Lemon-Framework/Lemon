@@ -124,7 +124,6 @@ class Router
             return $this->response->error(400);
         }
 
-        
         foreach ($route->middlewares->middlewares() as $middleware) {
             $response = $this->response->make($middleware);
             if ($response instanceof EmptyResponse) {

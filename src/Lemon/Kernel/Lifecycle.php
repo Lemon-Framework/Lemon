@@ -8,7 +8,6 @@ use Error;
 use ErrorException;
 use Exception;
 use Lemon\Http\Request;
-use Lemon\Http\Session;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Str;
 use Lemon\Zest;

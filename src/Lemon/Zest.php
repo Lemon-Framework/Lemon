@@ -12,7 +12,6 @@ abstract class Zest
 
     private function __construct()
     {
-        
     }
 
     public static function __callStatic($name, $arguments)

@@ -55,6 +55,16 @@ class Terminal
         return readline($this->output->out($prompt));
     }
 
+    public function width(): int
+    {
+        return (int) exec('tput cols');
+    }
+
+    public function height(): int
+    {
+        return (int) exec('tput lines');
+    }
+
     /**
      * Runs CLI.
      */

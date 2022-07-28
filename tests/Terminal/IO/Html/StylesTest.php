@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lemon\Tests\Http\Middlewares;
+namespace Lemon\Tests\Terminal\IO\Html;
 
 use Lemon\Tests\TestCase;
 
@@ -10,6 +10,6 @@ use Lemon\Tests\TestCase;
  * @internal
  * @coversNothing
  */
-class CorsTest extends TestCase
+class StylesTest extends TestCase
 {
 }

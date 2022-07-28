@@ -8,9 +8,8 @@ use Lemon\Support\Types\Str;
 
 class Route
 {
-    private string $patern = 'a-zA-Z_\-0-9';
-
     public readonly MiddlewareCollection $middlewares;
+    private string $patern = 'a-zA-Z_\-0-9';
 
     public function __construct(
         private readonly string $path,
