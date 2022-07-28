@@ -86,6 +86,19 @@ class Cache implements CacheInterface
         return $default;
     }
 
+    public function retreive(string $key, callable $action): mixed
+    {
+        if ($result = $this->get($key)) {
+            return $result;
+        }
+
+        $new = $this->lifecycle->call($action, []);
+
+        $this->set($key, $new);
+
+        return $new;
+    }
+
     /**
      * Sets new value to cache.
      */
