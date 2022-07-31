@@ -22,19 +22,8 @@ class Csrf
         return $this->token;
     }
 
-    /**
-     * Removes token from cookies.
-     */
-    public function reset(): void
+    public function created(): bool
     {
-        $this->token = null;
-    }
-
-    /**
-     * Returns whenever given token equals token in cookies.
-     */
-    public function validate(string $token): bool
-    {
-        return $token == $this->getToken();
+        return !is_null($this->token);
     }
 }

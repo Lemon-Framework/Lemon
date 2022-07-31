@@ -27,5 +27,5 @@ class ZestTest extends TestCase
         ZestsBar::add('foo');
 
         $this->assertSame(['foo'], $lc->get(Bar::class)->all());
-    } 
+    }
 }

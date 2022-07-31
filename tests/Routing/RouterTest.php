@@ -95,11 +95,11 @@ class RouterTest extends TestCase
 
         $r->get('/', fn () => 'foo');
 
-        $this->assertThat($r->dispatch($this->emulate('/', 'get')), $this->equalTo(new HtmlResponse('foo')));
+        $this->assertThat($r->dispatch($this->emulate('/', 'GET')), $this->equalTo(new HtmlResponse('foo')));
 
         $path = Filesystem::join(dirname((new ReflectionClass(ResponseFactory::class))->getFileName()), 'templates', 'error.phtml');
-        $this->assertThat($r->dispatch($this->emulate('foo', 'get')), $this->equalTo(new TemplateResponse(new Template($path, $path, ['code' => 404]), 404)));
-        $this->assertThat($r->dispatch($this->emulate('/', 'post')), $this->equalTo(new TemplateResponse(new Template($path, $path, ['code' => 400]), 400)));
+        $this->assertThat($r->dispatch($this->emulate('foo', 'GET')), $this->equalTo(new TemplateResponse(new Template($path, $path, ['code' => 404]), 404)));
+        $this->assertThat($r->dispatch($this->emulate('/', 'POST')), $this->equalTo(new TemplateResponse(new Template($path, $path, ['code' => 400]), 400)));
     }
 }
 

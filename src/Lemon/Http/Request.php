@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Http;
 
 use Exception;
-use Lemon\Http\Exceptions\CookieException;
-use Lemon\Http\Exceptions\HttpException;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Validation\Validator;
 
@@ -195,13 +193,9 @@ class Request
         ;
     }
 
-    public function getCookie(string $name): string
+    public function getCookie(string $name): ?string
     {
-        if (!$this->hasCookie($name)) {
-            throw new CookieException('Cookie '.$name.' wasn\'t send'); 
-        }
-
-        return $this->cookies[$name];
+        return $this->cookies[$name] ?? null;
     }
 
     public function hasCookie(string $name): bool

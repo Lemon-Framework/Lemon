@@ -85,9 +85,9 @@ class FakeCacheTest extends TestCase
     {
         $cache = new FakeCache(time());
         $cache->set('foo', 'bar', 100000);
-        $this->assertSame('bar', $cache->retreive('foo', fn() => 'baz'));
+        $this->assertSame('bar', $cache->retreive('foo', fn () => 'baz'));
         $cache->time = time() + 100001;
-        $this->assertSame('baz', $cache->retreive('foo', fn() => 'baz'));
+        $this->assertSame('baz', $cache->retreive('foo', fn () => 'baz'));
     }
 
     public function testSetMultiple()

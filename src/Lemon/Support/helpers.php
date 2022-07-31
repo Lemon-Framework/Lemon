@@ -14,7 +14,7 @@ use Lemon\Templating\Template;
 
 if (!function_exists('arr')) {
     /**
-     * Creates new Array_
+     * Creates new Array_.
      */
     function arr(mixed ...$data): Array_
     {
@@ -24,7 +24,7 @@ if (!function_exists('arr')) {
 
 if (!function_exists('config')) {
     /**
-     * Gets/Sets value to config or returns config service. 
+     * Gets/Sets value to config or returns config service.
      */
     function config(string $key = null, string $value = null): mixed
     {
@@ -42,7 +42,7 @@ if (!function_exists('config')) {
 
 if (!function_exists('d')) {
     /**
-     * Dumps values
+     * Dumps values.
      */
     function d(mixed ...$values): void
     {
@@ -54,7 +54,7 @@ if (!function_exists('d')) {
 
 if (!function_exists('dd')) {
     /**
-     * Dumps values and exits app
+     * Dumps values and exits app.
      */
     function dd(mixed ...$values): void
     {
@@ -68,7 +68,7 @@ if (!function_exists('dd')) {
 
 if (!function_exists('env')) {
     /**
-     * Gets value from env or returns env service
+     * Gets value from env or returns env service.
      */
     function env(string $key = null, string $value = null): mixed
     {
@@ -82,7 +82,7 @@ if (!function_exists('env')) {
 
 if (!function_exists('pipe')) {
     /**
-     * Returns new Pipe
+     * Returns new Pipe.
      */
     function pipe(mixed $value): Pipe
     {
@@ -92,7 +92,7 @@ if (!function_exists('pipe')) {
 
 if (!function_exists('redirect')) {
     /**
-     * Redirects user to given adress
+     * Redirects user to given adress.
      */
     function redirect(string $location): RedirectResponse
     {
@@ -102,7 +102,7 @@ if (!function_exists('redirect')) {
 
 if (!function_exists('template')) {
     /**
-     * Returns template with given name and data
+     * Returns template with given name and data.
      */
     function template(string $name, mixed ...$data): Template
     {
