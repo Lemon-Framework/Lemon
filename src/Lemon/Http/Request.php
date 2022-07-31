@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Lemon\Http;
 
 use Exception;
+use Lemon\Http\Exceptions\CookieException;
+use Lemon\Http\Exceptions\HttpException;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Validation\Validator;
 
@@ -23,7 +25,8 @@ class Request
         public readonly string $query,
         public readonly string $method,
         public readonly array $headers,
-        public readonly string $body
+        public readonly string $body,
+        public readonly array $cookies,
     ) {
     }
 
@@ -48,7 +51,8 @@ class Request
             $query,
             $_SERVER['REQUEST_METHOD'],
             static::parseHeaders(headers_list()),
-            file_get_contents('php://input')
+            file_get_contents('php://input'),
+            $_COOKIE
         );
     }
 
@@ -189,6 +193,25 @@ class Request
         return $this->lifecycle->get(Validator::class)
             ->validate($this->body_data, $rules)
         ;
+    }
+
+    public function getCookie(string $name): string
+    {
+        if (!$this->hasCookie($name)) {
+            throw new CookieException('Cookie '.$name.' wasn\'t send'); 
+        }
+
+        return $this->cookies[$name];
+    }
+
+    public function hasCookie(string $name): bool
+    {
+        return isset($this->cookies[$name]);
+    }
+
+    public function cookies()
+    {
+        return $this->cookies;
     }
 
     /**

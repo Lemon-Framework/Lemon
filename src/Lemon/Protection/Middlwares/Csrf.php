@@ -6,6 +6,7 @@ namespace Lemon\Protection\Middlwares;
 
 use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
+use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Protection\Csrf as ProtectionCsrf;
 use Lemon\Support\Types\Arr;
 
@@ -15,6 +16,10 @@ class Csrf
     {
         if (!Arr::has(['POST', 'PUT'], $request->method)) {
             return;
+        }
+
+        if ($request->method === 'GET') {
+            return (new EmptyResponse())->cookie('CSRF_TOKEN', $csrf->getToken());
         }
 
         if (!$csrf->validate($request->get('CSRF_TOKEN') ?? '')) {

@@ -50,6 +50,8 @@ abstract class Response
         510 => 'Not Extended',
     ];
 
+    private array $cookies = [];
+
     public function __construct(
         public mixed $body = '',
         public int $status_code = 200,
@@ -126,6 +128,13 @@ abstract class Response
         return $this;
     }
 
+    public function cookie(string $name, string $value, int $expires = 0): static
+    {
+        $this->cookies[] = [$name, $value, $expires];
+
+        return $this;
+    }
+
     /**
      * Parses body.
      */
@@ -155,6 +164,13 @@ abstract class Response
     public function handleBody(string $body): void
     {
         echo $body;
+    }
+
+    public function handleCookies(): void
+    {
+        foreach ($this->cookies as $cookie) {
+            setcookie(...[...$cookie, 'httponly' => false]);
+        }
     }
 
     /**

@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace Lemon\Protection;
 
-use Lemon\Http\Cookies;
 use Lemon\Support\Types\Str;
 
 class Csrf
 {
-    public function __construct(
-        private Cookies $cookies
-    ) {
-    }
+    private ?string $token = null;
 
     /**
      * Returns csrf token and creates new if does not exist.
      */
     public function getToken(): string
     {
-        if (!$this->cookies->has('CSRF_TOKEN')) {
-            $this->cookies->set('CSRF_TOKEN', Str::random(32), 0);
+        if (!$this->token) {
+            $this->token = Str::random(32);
         }
 
-        return $this->cookies->get('CSRF_TOKEN');
+        return $this->token;
     }
 
     /**
@@ -31,7 +27,7 @@ class Csrf
      */
     public function reset(): void
     {
-        $this->cookies->remove('CSRF_TOKEN');
+        $this->token = null;
     }
 
     /**

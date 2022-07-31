@@ -35,7 +35,6 @@ final class Lifecycle extends Container
         \Lemon\Support\Env::class => ['env'],
         \Lemon\Http\ResponseFactory::class => ['response'],
         \Lemon\Http\Session::class => ['session'],
-        \Lemon\Http\Cookies::class => ['cookies'],
         \Lemon\Protection\Csrf::class => ['csrf'],
         \Lemon\Debug\Handling\Handler::class => ['handler'],
         \Lemon\Terminal\Terminal::class => ['terminal'],
