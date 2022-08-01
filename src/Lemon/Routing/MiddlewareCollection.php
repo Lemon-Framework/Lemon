@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Routing;
 
-use Lemon\Routing\Exceptions\RouteException;
-
 class MiddlewareCollection
 {
     private array $middlewares = [];
@@ -13,13 +11,14 @@ class MiddlewareCollection
     /**
      * Resolves middleware name.
      */
-    public function resolve(string|array $name): array
+    public function resolve(): array
     {
-        if (is_array($name)) {
-            return $name;
-        }
-
-        return [$name, 'handle'];
+        return array_map(
+            fn($item) => 
+                is_array($item) 
+                ? [new $item[0](), $item[1]]
+                : [new $item(), 'handle']
+        , $this->middlewares);
     }
 
     /**
@@ -27,11 +26,7 @@ class MiddlewareCollection
      */
     public function add(string|array $name): static
     {
-        $action = $this->resolve($name);
-        if (!is_callable($action)) {
-            throw new RouteException('Middleware '.implode('::', $action).' is not valid');
-        }
-        $this->middlewares[] = $action;
+        $this->middlewares[] = $name;
 
         return $this;
     }

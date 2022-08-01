@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Tests\Routing;
 
 use Closure;
-use Lemon\Kernel\Container;
 use Lemon\Routing\MiddlewareCollection;
 use Lemon\Routing\Route;
 use Lemon\Tests\TestCase;
@@ -19,7 +18,7 @@ class RouteTest extends TestCase
     public function testAction()
     {
         $closure = Closure::fromCallable(fn () => 'foo');
-        $route = new Route('/', ['get' => $closure], new MiddlewareCollection(new Container()));
+        $route = new Route('/', ['get' => $closure], new MiddlewareCollection());
 
         $this->assertSame($closure, $route->action('get'));
         $this->assertSame($closure, $route->action('GET'));
@@ -32,24 +31,24 @@ class RouteTest extends TestCase
 
     public function testBuildRegex()
     {
-        $route = new Route('/foo/{something}/bar/{else}', [], new MiddlewareCollection(new Container()));
+        $route = new Route('/foo/{something}/bar/{else}', [], new MiddlewareCollection());
         $this->assertSame('/foo/(?<something>[a-zA-Z_\-0-9]+)/bar/(?<else>[a-zA-Z_\-0-9]+)', $route->buildRegex());
     }
 
     public function testMatch()
     {
-        $route = new Route('foo/bar', [], new MiddlewareCollection(new Container()));
+        $route = new Route('foo/bar', [], new MiddlewareCollection());
         $this->assertEmpty($route->matches('/foo/bar////'));
         $this->assertNull($route->matches('parek'));
     }
 
     public function testRegexMatch()
     {
-        $route = new Route('foo/{something}/bar/{else}', [], new MiddlewareCollection(new Container()));
+        $route = new Route('foo/{something}/bar/{else}', [], new MiddlewareCollection());
         $this->assertSame(['something' => 'baz', 'else' => 'parek'], $route->matches('/foo/baz/bar/parek/'));
         $this->assertNull($route->matches('/foo/baz/bar/'));
 
-        $route = new Route('foo/{something}/bar/{else}?', [], new MiddlewareCollection(new Container()));
+        $route = new Route('foo/{something}/bar/{else}?', [], new MiddlewareCollection());
         $this->assertSame(['something' => 'baz', 'else' => 'parek'], $route->matches('/foo/baz/bar/parek'));
         $this->assertSame(['something' => 'baz'], $route->matches('/foo/baz/bar/'));
     }

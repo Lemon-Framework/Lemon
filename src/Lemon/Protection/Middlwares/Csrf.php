@@ -12,7 +12,7 @@ use Lemon\Support\Types\Arr;
 
 class Csrf
 {
-    public function hande(Request $request, ProtectionCsrf $csrf, ResponseFactory $response)
+    public function handle(Request $request, ProtectionCsrf $csrf, ResponseFactory $response)
     {
         if ('GET' === $request->method) {
             if ($csrf->created()) {

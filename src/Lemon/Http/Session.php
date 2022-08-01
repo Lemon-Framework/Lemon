@@ -7,7 +7,6 @@ namespace Lemon\Http;
 use Lemon\Config\Config;
 use Lemon\Http\Exceptions\SessionException;
 
-/** TODO some high level stuff, maybe rewrite to be tests-friendly */
 class Session
 {
     private bool $started = false;

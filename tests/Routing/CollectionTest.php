@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Tests\Routing;
 
 use Lemon\Kernel\Container;
+use Lemon\Protection\Middlwares\Csrf;
 use Lemon\Routing\Collection;
 use Lemon\Routing\Exceptions\RouteException;
 use Lemon\Tests\TestCase;
@@ -17,7 +18,7 @@ class CollectionTest extends TestCase
 {
     public function testAdding()
     {
-        $collection = new Collection(new Container());
+        $collection = new Collection();
         $route = $collection->add('/rizek/', 'get', fn () => 'foo');
         $this->assertSame([
             'rizek' => $route,
@@ -31,7 +32,7 @@ class CollectionTest extends TestCase
 
     public function testFinding()
     {
-        $collection = new Collection(new Container());
+        $collection = new Collection();
         $route = $collection->add('/rizek', 'get', fn () => 'foo');
         $this->assertSame($route, $collection->find('rizek'));
         $this->expectException(RouteException::class);
@@ -40,7 +41,7 @@ class CollectionTest extends TestCase
 
     public function testHas()
     {
-        $collection = new Collection(new Container());
+        $collection = new Collection();
         $collection->add('/rizek', 'get', fn () => 'foo');
         $this->assertTrue($collection->has('rizek'));
         $this->assertFalse($collection->has('nevim'));
@@ -48,7 +49,7 @@ class CollectionTest extends TestCase
 
     public function testPrefix()
     {
-        $collection = new Collection(new Container());
+        $collection = new Collection();
         $collection->prefix('/api/');
         $this->assertSame('api', $collection->prefix());
     }
@@ -90,5 +91,22 @@ class CollectionTest extends TestCase
         $route = $collection->add('foo', 'get', fn () => 'foo');
         $this->assertNull($collection->dispatch('foo'));
         $this->assertSame([$route, []], $collection->dispatch('api/foo'));
+    }
+
+    public function testMiddlewares()
+    {
+        $c = new Collection();
+
+        $c->middleware(Csrf::class);
+
+        $c->add('/', 'get', fn() => 'foo');
+
+        $this->assertSame([Csrf::class], $c->dispatch('/')[0]->middlewares->middlewares());
+
+        $r = new Collection();
+        $r->add('/foo', 'get', fn() => 'foo');
+        $c->collection($r);
+
+        $this->assertSame([Csrf::class], $c->dispatch('foo')[0]->middlewares->middlewares());
     }
 }

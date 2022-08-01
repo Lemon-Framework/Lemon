@@ -17,13 +17,13 @@ use Lemon\Templating\Factory as TemplateFactory;
 /**
  * The Lemon Router.
  *
- * @method \Lemon\Http\Routing\Route get(string $path, $action)     Creates route with method get
- * @method \Lemon\Http\Routing\Route post(string $path, $action)    Creates route with method post
- * @method \Lemon\Http\Routing\Route put(string $path, $action)     Creates route with method put
- * @method \Lemon\Http\Routing\Route head(string $path, $action)    Creates route with method head
- * @method \Lemon\Http\Routing\Route delete(string $path, $action)  Creates route with method delete
- * @method \Lemon\Http\Routing\Route path(string $path, $action)    Creates route with method path
- * @method \Lemon\Http\Routing\Route options(string $path, $action) Creates route with method options
+ * @method \Lemon\Routing\Route get(string $path, $action)     Creates route with method get
+ * @method \Lemon\Routing\Route post(string $path, $action)    Creates route with method post
+ * @method \Lemon\Routing\Route put(string $path, $action)     Creates route with method put
+ * @method \Lemon\Routing\Route head(string $path, $action)    Creates route with method head
+ * @method \Lemon\Routing\Route delete(string $path, $action)  Creates route with method delete
+ * @method \Lemon\Routing\Route path(string $path, $action)    Creates route with method path
+ * @method \Lemon\Routing\Route options(string $path, $action) Creates route with method options
  */
 class Router
 {
@@ -124,7 +124,7 @@ class Router
             return $this->response->error(400);
         }
 
-        foreach ($route->middlewares->middlewares() as $middleware) {
+        foreach ($route->middlewares->resolve() as $middleware) {
             $response = $this->response->make($middleware);
             if ($response instanceof EmptyResponse) {
                 $response->send();

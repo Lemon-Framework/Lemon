@@ -42,19 +42,19 @@ class CsrfTest extends TestCase
         $f = new ResponseFactory(new Factory($cf, new Compiler($cf), $lc), $lc);
 
         $r = new Request('/', '', 'GET', [], '', []); // Lets say we have regular get request
-        $this->assertNull($m->hande($r, $c, $f));
+        $this->assertNull($m->handle($r, $c, $f));
 
         $c->getToken(); // Now lets say we get the token in our template
 
-        $this->assertThat($m->hande($r, $c, $f), $this->equalTo((new EmptyResponse())->cookie('CSRF_TOKEN', $c->getToken()))); // Now user has the token in cookie
+        $this->assertThat($m->handle($r, $c, $f), $this->equalTo((new EmptyResponse())->cookie('CSRF_TOKEN', $c->getToken()))); // Now user has the token in cookie
 
         $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), ['CSRF_TOKEN' => $c->getToken()]);
-        $this->assertNull($m->hande($r, $c, $f)); // And since everything is all right
+        $this->assertNull($m->handle($r, $c, $f)); // And since everything is all right
 
         $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), []);
-        $this->assertSame(400, $m->hande($r, $c, $f)->code()); // But when something is missing
+        $this->assertSame(400, $m->handle($r, $c, $f)->code()); // But when something is missing
 
         $r = new Request('/', '', 'POST', [], '', ['CSRF_TOKEN' => $c->getToken()]);
-        $this->assertSame(400, $m->hande($r, $c, $f)->code());
+        $this->assertSame(400, $m->handle($r, $c, $f)->code());
     }
 }

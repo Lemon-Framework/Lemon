@@ -16,7 +16,7 @@ TODO:
 - [x] tests for arr and str
 - [x] Better array map
 - [ ] new session
-- [ ] new csrf (middleware?)
+- [x] new csrf (middleware?)
 - [ ] cors
 - [x] env
 - [x] basic filesystem
@@ -37,7 +37,7 @@ TODO:
 - [x] logging
 - [x] validation
 - [x] Router
-- [ ] Middlewares
+- [x] Middlewares
 
 Directories with D means deprecated so they will have to be completely rewritten
 

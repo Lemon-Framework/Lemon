@@ -9,7 +9,6 @@ use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Http\Responses\TemplateResponse;
-use Lemon\Kernel\Container;
 use Lemon\Kernel\Lifecycle;
 use Lemon\Routing\Collection;
 use Lemon\Routing\Router;
@@ -47,7 +46,7 @@ class RouterTest extends TestCase
     {
         $r = $this->getRouter();
 
-        $c = new Collection(new Container());
+        $c = new Collection();
 
         foreach (Router::REQUEST_METHODS as $method) {
             $c->add('/', $method, fn () => 'idk');
@@ -69,8 +68,8 @@ class RouterTest extends TestCase
             $router->get('/', fn () => 'hi');
         });
 
-        $c = new Collection(new Container());
-        $i = new Collection(new Container());
+        $c = new Collection();
+        $i = new Collection();
         $i->add('/', 'get', fn () => 'hi');
         $c->collection($i);
 
@@ -83,10 +82,10 @@ class RouterTest extends TestCase
 
         $r->file('routes.web');
 
-        $c = new Collection(new Container());
+        $c = new Collection();
         $c->add('/', 'get', fn () => 'hi');
         $c->add('/foo', 'post', fn () => 'foo');
-        $this->assertThat($r->routes(), $this->equalTo((new Collection(new Container()))->collection($c)));
+        $this->assertThat($r->routes(), $this->equalTo((new Collection())->collection($c)));
     }
 
     public function testDispatching()

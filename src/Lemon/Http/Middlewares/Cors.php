@@ -7,6 +7,7 @@ namespace Lemon\Http\Middlewares;
 use Lemon\Config\Config;
 use Lemon\Config\Exceptions\ConfigException;
 use Lemon\Http\Request;
+use Lemon\Http\Responses\EmptyResponse;
 
 /**
  * Cors handling middleware
@@ -16,8 +17,11 @@ use Lemon\Http\Request;
  */
 class Cors
 {
-    public function handle(Config $config, Request $request)
+    private EmptyResponse $response;
+
+    public function handle(Config $config, Request $request): EmptyResponse
     {
+        $this->response = new EmptyResponse();
         $config = $config->get('http.cors');
 
         $this->handleAllowedOrigins($request, $config['allowed-origins'] ?? null);
@@ -26,6 +30,8 @@ class Cors
         $this->handleAllowedCredentials($config['allowed-credential'] ?? null);
         $this->handleAllowedMethods($config['allowed-methods'] ?? null);
         $this->handleAllowedHeaders($config['allowed-headers'] ?? null);
+
+        return $this->response;
     }
 
     private function handleAllowedOrigins(Request $request, mixed $origins): void
@@ -46,7 +52,7 @@ class Cors
             throw new ConfigException('Cors allowed-origins must be array or string');
         }
 
-        header('Access-Control-Allow-Origin: '.$origin);
+        $this->response->header('Access-Control-Allow-Origin', $origin);
     }
 
     private function handleExposeHeaders(mixed $headers)
@@ -63,7 +69,7 @@ class Cors
             throw new ConfigException('Cors expose-headers must be array or string');
         }
 
-        header('Access-Control-Expose-Headers: '.$headers);
+        $this->response->header('Access-Control-Expose-Headers', $headers);
     }
 
     private function handleMaxAge(mixed $age)
@@ -76,7 +82,7 @@ class Cors
             throw new ConfigException('Cors max age must be int');
         }
 
-        header('Access-Control-Max-Age: '.$age);
+        $this->response->header('Access-Control-Max-Age', (string) $age);
     }
 
     private function handleAllowedCredentials(mixed $credentials)
@@ -89,7 +95,7 @@ class Cors
             throw new ConfigException('Cors credentials must be bool');
         }
 
-        header('Access-Control-Max-Age: '.($credentials ? 'true' : 'false'));
+        $this->response->header('Access-Control-Max-Age', ($credentials ? 'true' : 'false'));
     }
 
     private function handleAllowedMethods(mixed $methods)
@@ -106,7 +112,7 @@ class Cors
             throw new ConfigException('Cors methods must be array or string');
         }
 
-        header('Access-Control-Expose-Headers: '.$methods);
+        $this->response->header('Access-Control-Expose-Headers', $methods);
     }
 
     private function handleAllowedHeaders(mixed $headers)
@@ -123,6 +129,6 @@ class Cors
             throw new ConfigException('Cors allowed-headers must be array or string');
         }
 
-        header('Access-Control-Allowed-Headers: '.$headers);
+        $this->response->header('Access-Control-Allowed-Headers', $headers);
     }
 }
