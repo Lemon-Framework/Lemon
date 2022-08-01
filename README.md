@@ -26,8 +26,8 @@ TODO:
 - [ ] database (base)
 - [x] new lemonade kernel
 - [x] dump die
-- [ ] reporter
-- [ ] consultant
+- [x] reporter
+- [x] consultant
 - [x] caching core, psr
 - [x] fake tests for caching
 - [x] tests for caching
