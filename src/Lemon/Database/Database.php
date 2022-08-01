@@ -35,16 +35,6 @@ class Database
     }
 
     /**
-     * Creates new Driver and connects to database.
-     */
-    private function connect(): void
-    {
-        $driver = $this->drivers[$this->config->get('database.driver')];
-
-        $this->connection = new $driver($this->config);
-    }
-
-    /**
      * Sends query to database.
      *
      * @phpstan-param literal-string $query
@@ -55,5 +45,15 @@ class Database
         $statement->execute($params);
 
         return $statement;
+    }
+
+    /**
+     * Creates new Driver and connects to database.
+     */
+    private function connect(): void
+    {
+        $driver = $this->drivers[$this->config->get('database.driver')];
+
+        $this->connection = new $driver($this->config);
     }
 }

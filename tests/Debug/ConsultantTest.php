@@ -8,6 +8,10 @@ use Lemon\Debug\Handling\Consultant;
 use Lemon\Templating\Juice\Compiler;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ConsultantTest extends TestCase
 {
     public function testBestMatch()

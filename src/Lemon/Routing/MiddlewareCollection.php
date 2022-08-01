@@ -14,11 +14,11 @@ class MiddlewareCollection
     public function resolve(): array
     {
         return array_map(
-            fn($item) => 
-                is_array($item) 
+            fn ($item) => is_array($item)
                 ? [new $item[0](), $item[1]]
-                : [new $item(), 'handle']
-        , $this->middlewares);
+                : [new $item(), 'handle'],
+            $this->middlewares
+        );
     }
 
     /**

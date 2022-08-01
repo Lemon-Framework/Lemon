@@ -9,6 +9,9 @@ use Lemon\Terminal\Exceptions\HtmlException;
 
 class Styles
 {
+    /**
+     * inherit open close.
+     */
     private array $styles = [
         'text-black' => ['%e30m', '', ''],
         'text-red' => ['%e31m', '', ''],
@@ -35,7 +38,7 @@ class Styles
         }
 
         $result = ['', '', ''];
-        foreach (explode(' ', $node->attributes['class']->value) as $class) {
+        foreach (explode(' ', $node->attributes['class']->nodeValue) as $class) {
             if (!isset($this->styles[$class])) {
                 throw new HtmlException('Class '.$class.' does not exist');
             }

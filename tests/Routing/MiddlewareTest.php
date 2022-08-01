@@ -18,6 +18,10 @@ use Lemon\Templating\Factory;
 use Lemon\Templating\Juice\Compiler;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class MiddlewareTest extends TestCase
 {
     public function testCollection()
@@ -27,7 +31,7 @@ class MiddlewareTest extends TestCase
         $c->add(Csrf::class);
 
         $this->assertSame([
-            Csrf::class
+            Csrf::class,
         ], $c->middlewares());
 
         $this->assertThat($c->resolve(), $this->equalTo([[new Csrf(), 'handle']]));
@@ -43,15 +47,12 @@ class MiddlewareTest extends TestCase
 
         $l->add(Router::class, $r);
 
-        $r->get('/', fn() => 'foo')->middleware(Csrf::class);
+        $r->get('/', fn () => 'foo')->middleware(Csrf::class);
 
         $this->assertInstanceOf(HtmlResponse::class, $r->dispatch($re));
 
         $l->add(Request::class, $re = new Request('/', '', 'POST', [], '', []));
 
         $this->assertInstanceOf(TemplateResponse::class, $r->dispatch($re));
-
     }
-
-
 }

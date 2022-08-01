@@ -6,6 +6,10 @@ namespace Lemon\Tests\Database\Drivers;
 
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class PosgreTest extends TestCase
 {
 }

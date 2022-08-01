@@ -6,7 +6,6 @@ namespace Lemon\Terminal\IO\Html;
 
 use DOMDocument;
 use DOMNode;
-use DOMXPath;
 
 class HtmlOutput
 {
@@ -26,8 +25,7 @@ class HtmlOutput
     {
         $dom = new DOMDocument();
         $dom->loadHTML($content);
-        $xpath = new DOMXPath($dom);
 
-        return $xpath->document->getElementsByTagName('body')[0];
+        return $dom->getElementsByTagName('body')[0];
     }
 }

@@ -7,11 +7,15 @@ namespace Lemon\Tests\Database;
 use Lemon\Config\Config;
 use Lemon\Database\Database;
 use Lemon\Database\Drivers\Sqlite;
-use Lemon\Support\Env;
 use Lemon\Kernel\Lifecycle;
+use Lemon\Support\Env;
 use Lemon\Tests\TestCase;
 use Lemon\Zest;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class DatabaseTest extends TestCase
 {
     public function setUp(): void
@@ -48,7 +52,7 @@ class DatabaseTest extends TestCase
 
         Zest::init($lc);
 
-        $d = new Database(new Config($lc));       
+        $d = new Database(new Config($lc));
 
         $d->query('CREATE TABLE example (name varchar)');
         $foo = 'majkel';
@@ -60,7 +64,7 @@ class DatabaseTest extends TestCase
             [
                 'name' => 'majkel',
                 0 => 'majkel',
-            ]
+            ],
         ], $r->fetchAll());
     }
 }

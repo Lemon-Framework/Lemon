@@ -11,6 +11,10 @@ use Lemon\Support\Env;
 use Lemon\Tests\TestCase;
 use Lemon\Zest;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class SqliteTest extends TestCase
 {
     public function setUp(): void
@@ -35,6 +39,6 @@ class SqliteTest extends TestCase
 
         $c = new Config($lc);
 
-        new Sqlite($c); 
+        new Sqlite($c);
     }
 }

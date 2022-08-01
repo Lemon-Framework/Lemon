@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Routing;
 
-use Lemon\Kernel\Container;
 use Lemon\Protection\Middlwares\Csrf;
 use Lemon\Routing\Collection;
 use Lemon\Routing\Exceptions\RouteException;
@@ -99,12 +98,12 @@ class CollectionTest extends TestCase
 
         $c->middleware(Csrf::class);
 
-        $c->add('/', 'get', fn() => 'foo');
+        $c->add('/', 'get', fn () => 'foo');
 
         $this->assertSame([Csrf::class], $c->dispatch('/')[0]->middlewares->middlewares());
 
         $r = new Collection();
-        $r->add('/foo', 'get', fn() => 'foo');
+        $r->add('/foo', 'get', fn () => 'foo');
         $c->collection($r);
 
         $this->assertSame([Csrf::class], $c->dispatch('foo')[0]->middlewares->middlewares());
