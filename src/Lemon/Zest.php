@@ -8,7 +8,7 @@ use Lemon\Kernel\Lifecycle;
 
 abstract class Zest
 {
-    protected static Lifecycle $lifecycle;
+    protected static ?Lifecycle $lifecycle = null;
 
     private function __construct()
     {
@@ -26,7 +26,7 @@ abstract class Zest
         self::$lifecycle = $lifecycle;
     }
 
-    public static function getAccessor()
+    public static function getAccessor(): mixed
     {
         $unit = static::unit();
 

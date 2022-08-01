@@ -15,6 +15,7 @@ class ResponseTest extends TestCase
 {
     /**
      * @runInSeparateProcess
+     * @preserveGlobalState disabled
      *
      * @see https://github.com/sebastianbergmann/phpunit/issues/720#issuecomment-10421092
      */

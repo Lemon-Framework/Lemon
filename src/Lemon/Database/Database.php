@@ -37,11 +37,11 @@ class Database
     /**
      * Creates new Driver and connects to database.
      */
-    public function connect(): void
+    private function connect(): void
     {
         $driver = $this->drivers[$this->config->get('database.driver')];
 
-        $this->connection = new $driver($this);
+        $this->connection = new $driver($this->config);
     }
 
     /**

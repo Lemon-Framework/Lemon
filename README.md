@@ -20,7 +20,7 @@ TODO:
 - [ ] cors
 - [x] env
 - [x] basic filesystem
-- [ ] tests for kernel
+- [x] tests for kernel
 - [x] new kernel
 - [x] split container
 - [ ] database (base)
