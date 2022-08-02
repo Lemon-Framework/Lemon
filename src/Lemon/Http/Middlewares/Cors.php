@@ -10,10 +10,13 @@ use Lemon\Http\Request;
 use Lemon\Http\Responses\EmptyResponse;
 
 /**
- * Cors handling middleware
+ * Cors.handling middleware
  * TODO less boilerplate.
  *
- * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#access-control-allow-methods
+ * @see https://developer.mozilla.
+ *
+ *
+ * org/en-US/docs/Web/HTTP/CORS#access-control-allow-methods
  */
 class Cors
 {
@@ -27,7 +30,7 @@ class Cors
         $this->handleAllowedOrigins($request, $config['allowed-origins'] ?? null);
         $this->handleExposeHeaders($config['expose-headers'] ?? null);
         $this->handleMaxAge($config['max-age'] ?? null);
-        $this->handleAllowedCredentials($config['allowed-credential'] ?? null);
+        $this->handleAllowedCredentials($config['allowed-credentials'] ?? null);
         $this->handleAllowedMethods($config['allowed-methods'] ?? null);
         $this->handleAllowedHeaders($config['allowed-headers'] ?? null);
 
@@ -43,13 +46,11 @@ class Cors
         if (is_string($origins)) {
             $origin = $origins;
         } elseif (is_array($origins)) {
-            if (!in_array($request->path, $origins)) {
+            if (!in_array($origin = $request->header('Origin'), $origins)) {
                 return;
             }
-
-            $origin = $request->path;
         } else {
-            throw new ConfigException('Cors allowed-origins must be array or string');
+            throw new ConfigException('Cors.allowed-origins must be array or string');
         }
 
         $this->response->header('Access-Control-Allow-Origin', $origin);
@@ -66,7 +67,7 @@ class Cors
         }
 
         if (!is_string($headers)) {
-            throw new ConfigException('Cors expose-headers must be array or string');
+            throw new ConfigException('Cors.expose-headers must be array or string');
         }
 
         $this->response->header('Access-Control-Expose-Headers', $headers);
@@ -79,7 +80,7 @@ class Cors
         }
 
         if (!is_int($age)) {
-            throw new ConfigException('Cors max age must be int');
+            throw new ConfigException('Cors.max age must be int');
         }
 
         $this->response->header('Access-Control-Max-Age', (string) $age);
@@ -92,10 +93,10 @@ class Cors
         }
 
         if (!is_bool($credentials)) {
-            throw new ConfigException('Cors credentials must be bool');
+            throw new ConfigException('Cors.credentials must be bool');
         }
 
-        $this->response->header('Access-Control-Max-Age', ($credentials ? 'true' : 'false'));
+        $this->response->header('Access-Control-Allow-Credentials', ($credentials ? 'true' : 'false'));
     }
 
     private function handleAllowedMethods(mixed $methods)
@@ -109,10 +110,10 @@ class Cors
         }
 
         if (!is_string($methods)) {
-            throw new ConfigException('Cors methods must be array or string');
+            throw new ConfigException('Cors.methods must be array or string');
         }
 
-        $this->response->header('Access-Control-Expose-Headers', $methods);
+        $this->response->header('Access-Control-Allow-Methods', $methods);
     }
 
     private function handleAllowedHeaders(mixed $headers)
@@ -126,9 +127,9 @@ class Cors
         }
 
         if (!is_string($headers)) {
-            throw new ConfigException('Cors allowed-headers must be array or string');
+            throw new ConfigException('Cors.allowed-headers must be array or string');
         }
 
-        $this->response->header('Access-Control-Allowed-Headers', $headers);
+        $this->response->header('Access-Control-Allow-Headers', $headers);
     }
 }

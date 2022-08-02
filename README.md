@@ -17,7 +17,7 @@ TODO:
 - [x] Better array map
 - [ ] new session
 - [x] new csrf (middleware?)
-- [ ] cors
+- [x] cors
 - [x] env
 - [x] basic filesystem
 - [x] tests for kernel
