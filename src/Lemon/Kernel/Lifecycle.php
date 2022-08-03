@@ -174,9 +174,11 @@ final class Lifecycle extends Container
         $lifecycle = new self(Filesystem::parent($directory));
 
         // --- Obtaining request ---
-        $lifecycle->add(Request::class, Request::capture()->injectLifecycle($lifecycle));
+        if ($lifecycle->runsInTerminal()) {
+            $lifecycle->add(Request::class, Request::capture()->injectLifecycle($lifecycle));
 
-        $lifecycle->alias('request', Request::class);
+            $lifecycle->alias('request', Request::class);
+        }
 
         // --- Loading default Lemon services ---
         $lifecycle->loadServices();
