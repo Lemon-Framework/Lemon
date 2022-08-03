@@ -20,12 +20,6 @@ class RequestTest extends TestCase
         $this->assertSame(['foo/bar/', ''], Request::trimQuery('foo/bar/'));
     }
 
-    public function testParseHeaders()
-    {
-        $this->assertSame(['Content-Type' => 'text/html', 'parek' => 'rizek'], Request::parseHeaders(['Content-Type: text/html', 'parek: rizek']));
-        $this->assertEmpty(Request::parseHeaders([]));
-    }
-
     public function testHeaders()
     {
         $r = new Request('/', '', 'GET', ['foo' => 'bar'], '', []);

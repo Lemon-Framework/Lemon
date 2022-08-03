@@ -48,7 +48,7 @@ class Request
             $path,
             $query,
             $_SERVER['REQUEST_METHOD'],
-            static::parseHeaders(getallheaders()),
+            getallheaders(),
             file_get_contents('php://input'),
             $_COOKIE
         );
@@ -76,25 +76,6 @@ class Request
         }
 
         return [$path, ''];
-    }
-
-    /**
-     * Converts string headers into key-value array.
-     *
-     * @param array<string> $headers
-     *
-     * @return array<string, string>
-     */
-    public static function parseHeaders(array $headers): array
-    {
-        $result = [];
-
-        foreach ($headers as $header) {
-            [$key, $value] = explode(': ', $header);
-            $result[$key] = $value;
-        }
-
-        return $result;
     }
 
     /**
