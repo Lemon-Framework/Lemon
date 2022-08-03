@@ -45,9 +45,9 @@ final class Lexer
 
                 switch ($size) {
                     case 2:
-                        if (preg_match("/^{$this->syntax->end}$/", $matches[1], $matches)) {
+                        if (preg_match("/^{$this->syntax->end}$/", $matches[1], $result)) {
                             $kind = Token::TAG_END;
-                            $content = $matches[1];
+                            $content = $result[1];
 
                             break;
                         }

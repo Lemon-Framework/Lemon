@@ -40,7 +40,7 @@ class Session
         session_start([
             'name' => $this->config->get('http.session.name'),
             'cookie_lifetime' => 3600,
-            'httponly' => true,
+            'cookie_httponly' => true,
         ]);
     }
 

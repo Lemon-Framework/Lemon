@@ -67,6 +67,7 @@ abstract class Response
         $body = $this->parseBody();
         $this->handleHeaders();
         $this->handleStatusCode();
+        $this->handleCookies();
         $this->handleBody($body);
 
         return $this;

@@ -15,17 +15,17 @@ class Csrf
     public function handle(Request $request, ProtectionCsrf $csrf, ResponseFactory $response)
     {
         if ('GET' === $request->method) {
-            if ($csrf->created()) {
-                return (new EmptyResponse())->cookie('CSRF_TOKEN', $csrf->getToken());
-            }
+            return (new EmptyResponse())->cookie('CSRF_TOKEN', $csrf->getToken());
         }
 
         if (!Arr::has(['POST', 'PUT'], $request->method)) {
             return;
         }
 
-        if ($request->getCookie('CSRF_TOKEN') !== $request->get('CSRF_TOKEN')) {
+        $cookie = $request->getCookie('CSRF_TOKEN');
+        if ($cookie !== $request->get('CSRF_TOKEN') || $cookie === null) {
             return $response->error(400);
         }
+
     }
 }
