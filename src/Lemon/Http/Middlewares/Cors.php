@@ -15,7 +15,6 @@ use Lemon\Http\Responses\EmptyResponse;
  *
  * @see https://developer.mozilla.
  *
- *
  * org/en-US/docs/Web/HTTP/CORS#access-control-allow-methods
  */
 class Cors

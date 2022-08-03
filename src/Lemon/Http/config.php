@@ -6,6 +6,6 @@ return [
     'cors' => [
     ],
     'session' => [
-        'name' => 'PHP_SESSION'
+        'name' => 'PHP_SESSION',
     ],
 ];

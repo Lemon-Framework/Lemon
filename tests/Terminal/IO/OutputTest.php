@@ -9,6 +9,10 @@ use Lemon\Templating\Template;
 use Lemon\Terminal\IO\Output;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class OutputTest extends TestCase
 {
     public function testOut()

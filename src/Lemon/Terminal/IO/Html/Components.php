@@ -84,17 +84,17 @@ class Components
 
     public static function lenght(string $target): int
     {
-        return strlen(preg_replace("/\033\[[0-9]+m/", '', $target));
+        return strlen(preg_replace("/\033\\[[0-9]+m/", '', $target));
     }
 
     public static function removeWhitespace(DOMText $element): string
     {
         $content = $element->textContent;
-        if ($element->previousSibling === null) {
+        if (null === $element->previousSibling) {
             $content = ltrim($content);
         }
 
-        if ($element->nextSibling === null) {
+        if (null === $element->nextSibling) {
             $content = rtrim($content);
         }
 

@@ -43,24 +43,24 @@ class ComponentsTest extends TestCase
         HTML, $result);
     }
 
-    public function testB() 
+    public function testB()
     {
         $components = new Components();
-        $result = $components->parseElement($this->getElement('<b>parek</b>'));           
+        $result = $components->parseElement($this->getElement('<b>parek</b>'));
         $this->assertSame("\033[1mparek\033[0m", $result);
     }
 
-    public function testI() 
+    public function testI()
     {
         $components = new Components();
-        $result = $components->parseElement($this->getElement('<i>parek</i>'));           
+        $result = $components->parseElement($this->getElement('<i>parek</i>'));
         $this->assertSame("\033[3mparek\033[0m", $result);
     }
 
-    public function testU() 
+    public function testU()
     {
         $components = new Components();
-        $result = $components->parseElement($this->getElement('<u>parek</u>'));           
+        $result = $components->parseElement($this->getElement('<u>parek</u>'));
         $this->assertSame("\033[4mparek\033[0m", $result);
     }
 
@@ -68,14 +68,14 @@ class ComponentsTest extends TestCase
     {
         $this->assertSame(5, Components::lenght("\033[33mparek\033[0m"));
         $this->assertSame(5, Components::lenght("pa\033[33m\033[31mrek"));
-        $this->assertSame(5, Components::lenght("parek"));
+        $this->assertSame(5, Components::lenght('parek'));
     }
 
     public function testParsing()
     {
         $components = new Components();
         $dom = new DOMDocument();
-        $dom->loadHTML(<<<HTML
+        $dom->loadHTML(<<<'HTML'
         <h1>Something <b>cool</b></h1>
         <div class="bg-yellow">
             Very nice
