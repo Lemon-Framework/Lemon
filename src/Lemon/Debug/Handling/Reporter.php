@@ -56,7 +56,7 @@ class Reporter
         $problem = $this->exception;
         $trace = array_map(
             // @phpstan-ignore-next-line
-            fn ($item) => $item ? [
+            fn ($item) => isset($item['file']) ? [
                 'file' => $file = $item['file'],
                 'code' => file_get_contents($file),
                 'line' => $item['line'],
