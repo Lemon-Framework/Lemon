@@ -43,6 +43,11 @@ class ValidationTest extends TestCase
         ));
 
         $this->assertFalse($validator->validate(
+            ['foo' => ''],
+            ['foo' => 'numeric']
+        ));
+
+        $this->assertFalse($validator->validate(
             ['foo' => 'parek'],
             ['foo' => 'max:1']
         ));
