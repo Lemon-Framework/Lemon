@@ -48,7 +48,7 @@ class Request
             $path,
             $query,
             $_SERVER['REQUEST_METHOD'],
-            static::parseHeaders(headers_list()),
+            static::parseHeaders(getallheaders()),
             file_get_contents('php://input'),
             $_COOKIE
         );
