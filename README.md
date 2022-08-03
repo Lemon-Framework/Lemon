@@ -19,6 +19,14 @@ Lemon is microframework for php designed to be simple for begginers. <!-- TODO -
     - [nunomaduro/termwind](https://github.com/nunomaduro/termwind)
     - [feast-framework/framework](https://github.com/feast-framework/framework)
 
+## Learning Lemon
+
+Curently there is no documentation, but it will come in days/weeks.
+
+## Installing
+
+`composer require lemon_framework/lemon`
+
 ## Thanks
 
 - CoolFido - Psychical helping, contributting, ideas, the whole idea of creating framework from scratch (he didn't expect that to happen)
