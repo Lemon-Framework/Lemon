@@ -149,7 +149,7 @@ final class Lifecycle extends Container
         }
 
         try {
-            $this->get('routing')->dispatch($this->get(Request::class))->terminate();
+            $this->get('routing')->dispatch($this->get(Request::class))->send();
         } catch (Exception|Error $e) {
             $this->handle($e);
         }

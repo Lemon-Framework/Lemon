@@ -26,6 +26,8 @@ class DispatcherTest extends TestCase
 
         $this->assertSame('Command parek was not found.', $d->dispatch(['parek']));
 
+        $this->assertSame('No command provided', $d->dispatch([]));
+
         $d->add(new Command('baz {bar} {foo?} {idk}', $fn));
         $this->assertSame([$fn, ['bar' => 'foo', 'idk' => '10']], $d->dispatch(['baz', 'idk=10', 'bar=foo']));
 

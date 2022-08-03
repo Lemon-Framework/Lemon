@@ -24,6 +24,10 @@ class Dispatcher
      */
     public function dispatch(array $arguments): array|string
     {
+        if (empty($arguments)) {
+            return 'No command provided';
+        }
+
         $name = $arguments[0];
         $arguments = array_slice($arguments, 1);
 
