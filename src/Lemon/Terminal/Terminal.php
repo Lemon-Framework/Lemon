@@ -39,7 +39,7 @@ class Terminal
      */
     public function out(mixed $content): void
     {
-        $out = $this->output->out($content);
+        $out = $this->output->out($content).PHP_EOL;
         if ($this->lifecycle->runsInTerminal()) {
             echo $out;
         } else {

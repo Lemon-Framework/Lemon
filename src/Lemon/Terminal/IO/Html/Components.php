@@ -77,6 +77,11 @@ class Components
         return "\033[4m".$this->parse($node);
     }
 
+    public function parseBr(): string
+    {
+        return PHP_EOL;
+    }
+
     public static function lenght(string $target): int
     {
         return strlen(preg_replace("/\033\[[0-9]+m/", '', $target));
