@@ -10,7 +10,7 @@ namespace Lemon;
  *
  * @method static string compile(string $template)                         Compiles Juice Templates.
  * @method static string getExtension()                                    Returns file exception
- * @method static static addDirectiveCompiler(string $name, string $class) Adds directive compiler class.
+ * @method static \Lemon\Templating\Juice\Compiler addDirectiveCompiler(string $name, string $class) Adds directive compiler class.
  *
  * @see \Lemon\Templating\Juice\Compiler
  */

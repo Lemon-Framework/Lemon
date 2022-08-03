@@ -7,6 +7,7 @@ declare(strict_types=1);
 use Lemon\Config;
 use Lemon\Debug;
 use Lemon\Env;
+use Lemon\Http\Response;
 use Lemon\Http\Responses\RedirectResponse;
 use Lemon\Support\Pipe;
 use Lemon\Support\Types\Array_;
@@ -77,6 +78,16 @@ if (!function_exists('env')) {
         }
 
         return Env::get($key, $value);
+    }
+}
+
+if (!function_exists('error')) {
+    /**
+     * Returns response with given status code.
+     */
+    function error(int $code): Response
+    {
+        return \Lemon\Response::error($code);
     }
 }
 

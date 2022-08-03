@@ -21,12 +21,15 @@ abstract class Zest
         return $instance->{$name}(...$arguments);
     }
 
+    /**
+     * Initializes zests.
+     */
     public static function init(Lifecycle $lifecycle): void
     {
         self::$lifecycle = $lifecycle;
     }
 
-    public static function getAccessor(): mixed
+    public static function getAccessor(): object
     {
         $unit = static::unit();
 
