@@ -23,9 +23,8 @@ class Csrf
         }
 
         $cookie = $request->getCookie('CSRF_TOKEN');
-        if ($cookie !== $request->get('CSRF_TOKEN') || $cookie === null) {
+        if ($cookie !== $request->get('CSRF_TOKEN') || null === $cookie) {
             return $response->error(400);
         }
-
     }
 }

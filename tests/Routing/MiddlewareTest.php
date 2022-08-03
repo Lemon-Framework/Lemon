@@ -24,6 +24,10 @@ use Lemon\Tests\TestCase;
  */
 class MiddlewareTest extends TestCase
 {
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testCollection()
     {
         $c = new MiddlewareCollection();

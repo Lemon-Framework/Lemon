@@ -42,9 +42,6 @@ class CsrfTest extends TestCase
         $f = new ResponseFactory(new Factory($cf, new Compiler($cf), $lc), $lc);
 
         $r = new Request('/', '', 'GET', [], '', []); // Lets say we have regular get request
-        $this->assertNull($m->handle($r, $c, $f));
-
-        $c->getToken(); // Now lets say we get the token in our template
 
         $this->assertThat($m->handle($r, $c, $f), $this->equalTo((new EmptyResponse())->cookie('CSRF_TOKEN', $c->getToken()))); // Now user has the token in cookie
 
