@@ -15,6 +15,6 @@ class JsonResponse extends Response
     {
         $this->header('Content-Type', 'application/json');
 
-        return json_decode($this->body);
+        return json_encode($this->body);
     }
 }
