@@ -215,7 +215,7 @@ final class Lifecycle extends Container
                 return;
             }
 
-            $lifecycle->get(Router::class)->collection->middleware(Csrf::class);
+            $lifecycle->get(Router::class)->routes()->middleware(Csrf::class);
 
             $lifecycle->boot();
         });

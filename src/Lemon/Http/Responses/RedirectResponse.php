@@ -13,6 +13,8 @@ class RedirectResponse extends Response
 {
     public function parseBody(): string
     {
+        $this->code(302);
+
         return '';
     }
 }
