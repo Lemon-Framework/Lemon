@@ -108,4 +108,20 @@ class CollectionTest extends TestCase
 
         $this->assertSame([Csrf::class], $c->dispatch('foo')[0]->middlewares->middlewares());
     }
+
+    public function testExclude()
+    {
+        $c = new Collection();
+
+        $c->middleware(Csrf::class);
+
+        $c->add('/', 'get', fn () => 'foo');
+
+        $r = new Collection();
+        $r->add('/foo', 'get', fn () => 'foo');
+        $c->collection($r);
+        $r->exclude(Csrf::class);
+
+        $this->assertSame([], $c->dispatch('foo')[0]->middlewares->middlewares());
+    }
 }

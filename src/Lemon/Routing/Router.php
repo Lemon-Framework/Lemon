@@ -37,7 +37,7 @@ class Router
         'options',
     ];
 
-    private Collection $routes;
+    public readonly Collection $routes;
 
     public function __construct(
         private Lifecycle $lifecycle,

@@ -9,7 +9,10 @@ use Lemon\Support\Types\Str;
 class Route
 {
     public readonly MiddlewareCollection $middlewares;
+
     private string $patern = 'a-zA-Z_\-0-9';
+
+    private array $exclude = [];
 
     public function __construct(
         private readonly string $path,
@@ -38,8 +41,20 @@ class Route
     public function middleware(string|array ...$middlewares): static
     {
         foreach ($middlewares as $middleware) {
-            $this->middlewares->add($middleware);
+            if (!in_array($middleware, $this->exclude)) {
+                $this->middlewares->add($middleware);
+            }
         }
+
+        return $this;
+    }
+
+    /**
+     * Excludes middleware(s).
+     */
+    public function exclude(string|array ...$middlewares): static
+    {
+        $this->exclude = [...$this->exclude, ...$middlewares];
 
         return $this;
     }

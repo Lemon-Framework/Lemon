@@ -20,6 +20,8 @@ class Collection
 
     private array $middlewares = [];
 
+    private array $exclude = [];
+
     /**
      * Adds route to collection.
      */
@@ -80,6 +82,16 @@ class Collection
     }
 
     /**
+     * Excludes colective middleware.
+     */
+    public function exclude(string|array ...$middlewares): static
+    {
+        $this->exclude = [...$this->exclude, ...$middlewares];
+
+        return $this;
+    }
+
+    /**
      * Sets prefix.
      */
     public function prefix(string $prefix = null): string|static
@@ -110,6 +122,10 @@ class Collection
         foreach ($this->routes as $route) {
             if ($route instanceof Collection) {
                 if (!is_null($found = $route->dispatch($path))) {
+                    if ($this->exclude) {
+                        $found[0]->exclude(...$this->exclude);
+                    }
+
                     if ($this->middlewares) {
                         $found[0]->middleware(...$this->middlewares);
                     }
@@ -120,6 +136,10 @@ class Collection
 
             if ($route instanceof Route) {
                 if (!is_null($found = $route->matches($path))) {
+                    if ($this->exclude) {
+                        $route->exclude(...$this->exclude);
+                    }
+
                     if ($this->middlewares) {
                         $route->middleware(...$this->middlewares);
                     }
