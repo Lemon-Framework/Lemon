@@ -40,7 +40,7 @@ class Commands
 
     public function serve($port = 8000, $url = 'localhost'): void
     {
-        exec('php -S '.$url.':'.$port);
+        exec('php -S '.$url.':'.$port.' -t '.$this->lifecycle->directory.DIRECTORY_SEPARATOR.'public');
     }
 
     public function clearTemplates(): void
