@@ -1,4 +1,4 @@
-# The Lemon Kernel
+# Lemon Kernel
 
 This Unit contains Container and Lifecycle, main parts of Lemon.
 

@@ -1,61 +1,23 @@
-# 🍋 Lemon 3 
+# 🍋 Lemon
 
-Pracujem na jednom phpcku ten sa bude volat Lemon... 3. Bude tam nieco zo symfony nieco z laravelu nieco z nette nieco z termwindu chcem to akokeby spojit do jedneho. 
+Lemon is microframework for php designed to be simple for begginers. <!-- TODO -->
 
-Moral: dont be lazy, read the docs.
+## Features
 
-❗NOT READY FOR PRODUCTION EVERYTHING COULD (AND PROPABLY WILL) CHANGE❗
+- Simple to use router
+- Safe, hackable template engine Juice
+- Simplified database manipulation
+- Debugging tools
+- Html-based Terminal layer
+- Http abstraction
+- Caching
+- All bundled using DI container
 
-TODO:
-
-- [x] setup unit testing
-- [x] split routing from http
-- [x] array slicing ["1..2"]
-- [x] tests for array
-- [x] tests for string
-- [x] tests for arr and str
-- [x] Better array map
-- [ ] new session
-- [x] new csrf (middleware?)
-- [x] cors
-- [x] env
-- [x] basic filesystem
-- [x] tests for kernel
-- [x] new kernel
-- [x] split container
-- [ ] database (base)
-- [x] new lemonade kernel
-- [x] dump die
-- [x] reporter
-- [x] consultant
-- [x] caching core, psr
-- [x] fake tests for caching
-- [x] tests for caching
-- [x] juice template engine (base)
-- [x] rething config
-- [x] events
-- [x] logging
-- [x] validation
-- [x] Router
-- [x] Middlewares
-
-Directories with D means deprecated so they will have to be completely rewritten
-
-## Contributing
-
-Lemon 3 is under rapid rewriting, if you have ideas for Lemon 3 please create issue first. Bug fixes or tests will be propably accepted but please wait with features.
-
-### How to contribute
-
-Fork repo, create new branch, add stuff and:
-
-```php
-$ ./vendor/bin/phpunit # test
-$ ./vendor/bin/phpstan # first static analysis
-$ ./vendor/bin/php-cs-fixer fix # fixes style
-```
-
-Make sure all of them pass before sending pull request, if they wont pr wont be ignored, but its better to use it.
+- Whole framework was heavilly inspired by:
+    - [laravel/framework](https://github.com/laravel/framework)
+    - [nette](https://github.com/nette) (mostly [latte](https://github.com/nette/latte))
+    - [nunomaduro/termwind](https://github.com/nunomaduro/termwind)
+    - [feast-framework/framework](https://github.com/feast-framework/framework)
 
 ## Thanks
 

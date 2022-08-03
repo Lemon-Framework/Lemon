@@ -26,13 +26,16 @@ Custom syntax are very risky so be aware.
 - [x] context-based rendering like in Latte https://stackoverflow.com/questions/2725156/complete-list-of-html-tag-attributes-which-have-a-url-value, `on.+='|"`, `src|href|...=`
 - [x] syntax bundle of blade and twig (For blade `@([^\(]+)(?(?=\()\((.+?)\))` this is what my mind made in 23:15 CET i will regret this tommorow cause i have no idea how it works but it works lets goooooo)
 - [x] syntax highlight for vim (emacs?)
-- [ ] tests tests tests tests
 - [x] ability of custom tags
 - [x] metaframework
 - [x] elixir-like piping?
-- [ ] sager syntax check
+- [ ] safer syntax check
 - [ ] syntax for actual {}
 - [x] includes, extends,...
 - [x] line counting
 - [ ] rewrite lexer
 - [ ] migrate to stack
+
+## Contributing
+
+You can add more directives.

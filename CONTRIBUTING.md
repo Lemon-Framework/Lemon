@@ -5,11 +5,11 @@ Contributions are welcomed but please follow:
 ## Ways of contributing
 
 - Write tests (see tests/README.md)
-- Find and report bugs (see SECURITY.md)
-- Add new consultant handlers (see src/Lemon/Debug/Handling/README.md)
+- Find, report and fix bugs (see SECURITY.md)
 
+For more details about contributing to specific component see its README.
 
-If you want to add some features, please open issue before you open pull request. If there is some openned issue for longer time, you can write comment and say you will do it. Please wait for aproval.
+Before you add big feature please open issue first.
 
 ## Pull request
 
