@@ -48,7 +48,7 @@ class Str
      */
     public static function random(int $size): string
     {
-        $chars = str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789');
+        $chars = str_split(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'));
 
         return array_reduce(array_rand($chars, $size), fn ($carry, $item) => $carry.$chars[$item]);
     }

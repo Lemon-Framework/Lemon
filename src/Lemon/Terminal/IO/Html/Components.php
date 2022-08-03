@@ -82,6 +82,11 @@ class Components
         return PHP_EOL;
     }
 
+    public function parseP(DOMNode $node): string
+    {
+        return $this->parse($node).PHP_EOL;
+    }
+
     public static function lenght(string $target): int
     {
         return strlen(preg_replace("/\033\\[[0-9]+m/", '', $target));

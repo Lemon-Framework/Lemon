@@ -64,11 +64,11 @@ class ComponentsTest extends TestCase
         $this->assertSame("\033[4mparek\033[0m", $result);
     }
 
-    public function testLengt()
+    public function testP()
     {
-        $this->assertSame(5, Components::lenght("\033[33mparek\033[0m"));
-        $this->assertSame(5, Components::lenght("pa\033[33m\033[31mrek"));
-        $this->assertSame(5, Components::lenght('parek'));
+        $components = new Components();
+        $result = $components->parseElement($this->getElement('<p>parek</p>'));
+        $this->assertSame("parek\033[0m".PHP_EOL, $result);
     }
 
     public function testParsing()
@@ -90,6 +90,13 @@ class ComponentsTest extends TestCase
         +----------------+
         \033[43mVery nice \033[43m\033[43m\033[41mnot so nice\033[41m\033[0m\033[43m\033[43m Nice again\033[43m\033[0m\033[0m
         HTML, $components->parse($dom->getElementsByTagName('body')[0]));
+    }
+
+    public function testLengt()
+    {
+        $this->assertSame(5, Components::lenght("\033[33mparek\033[0m"));
+        $this->assertSame(5, Components::lenght("pa\033[33m\033[31mrek"));
+        $this->assertSame(5, Components::lenght('parek'));
     }
 
     private function getElement(string $el): DOMNode
