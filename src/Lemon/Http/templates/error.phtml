@@ -20,11 +20,11 @@ use Lemon\Http\Response;
         }
     </style>
 </head>
-<body style="min-height: 100vh; margin: 10%; align-items: center; display: flex">
-    <div style="display: block;">
+<body style="min-height: 100vh; margin: 0; align-items: center; display: flex">
+    <h1 style="display: block; margin-left: 1%">
         <?php echo $code ?>
         <hr>
         <?php echo Response::ERROR_STATUS_CODES[$code] ?>
-    </div>
+    </h1>
 </body>
 </html>
