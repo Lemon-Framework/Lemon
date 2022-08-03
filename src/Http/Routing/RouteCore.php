@@ -21,10 +21,10 @@ class RouteCore
     public static $controller_resources = [
         "index" => ["get", "/"],
         "create" => ["get", "/create"],
-        "store" => ["get", "/create"],
+        "store" => ["post", "/create"],
         "show" => ["get", "/{target}"],
         "edit" => ["get", "/{target}/edit"],
-        "update" => ["post", "/{target}"],
+        "update" => ["put", "/{target}"],
         "delete" => ["get", "/{target}/delete"]
     ];
 
@@ -74,6 +74,20 @@ class RouteCore
     public static function post(String $path, $action)
     {
         return self::createRoute($path, ["POST"], $action);
+    }
+    
+    /**
+     * Creates GET route directly returning view
+     *
+     * @param string $path
+     * @param ?string $view
+     *
+     * @return Route
+     */
+    public static function view(string $path, string $view = null)
+    {
+        $view = $view ?? str_replace('/', '.', $path);
+        return self::createRoute($path, ["GET"], fn() => view($view));
     }
 
     /**
@@ -133,7 +147,7 @@ class RouteCore
             }
         }   
         
-        return $routes;
+        return new RouteGroup([], $routes);
     }
 
     /**

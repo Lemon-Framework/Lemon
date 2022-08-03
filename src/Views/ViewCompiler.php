@@ -103,6 +103,8 @@ class ViewCompiler
             throw new ViewException("View $view_name does not exist or is not readable!");
 
         $view_raw = file_get_contents($view_path);
+        if (preg_match("/<\?(php|=)/", $view_raw, $matches))
+            throw new ViewException("Unexpected <?{$matches[1]} in view {$view_name}");
         $view_tags = self::compileTags($view_raw);
 
         $view_compiled = "?>" . self::map($view_tags);

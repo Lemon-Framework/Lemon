@@ -49,7 +49,7 @@ class RouteGroup
     /**
      * Resolves nested route groups and arays of routes
      */ 
-    public function resolve()
+    private function resolve()
     {
         foreach ($this->routes as $pos => $route)
         {
@@ -67,10 +67,49 @@ class RouteGroup
     /**
      * Resolves routes that aren't Route instance
      */
-    public function resolveRoute($pos, $routes)
+    private function resolveRoute($pos, $routes)
     {
         array_push($this->unset_positions, $pos);
         $this->routes = array_merge($this->routes, $routes);
+    }
+
+    /**
+     * Adds middlewares to each route in group
+     *      
+     * @param array $middlewares
+     * @return self
+     */
+    public function middlewares(array $middlewares)
+    {
+        $this->middlewares = array_merge($this->middlewares, $middlewares);
+        $this->update();
+        return $this;
+    }
+
+    /**
+     * Sets route uri prefix to each route in group
+     *
+     * @param string $prefix
+     * @return self
+     */
+    public function prefix(string $prefix)
+    {
+        $this->prefix = $prefix;
+        $this->update();
+        return $this;
+    }
+
+    /**
+     * Updates route name to each route in group
+     *
+     * @param string $name
+     * @return self
+     */
+    public function name(string $name)
+    {
+        $this->name = $name;
+        $this->update();
+        return $this;
     }
 
     /**
