@@ -174,7 +174,7 @@ final class Lifecycle extends Container
         $lifecycle = new self(Filesystem::parent($directory));
 
         // --- Obtaining request ---
-        if ($lifecycle->runsInTerminal()) {
+        if (!$lifecycle->runsInTerminal()) {
             $lifecycle->add(Request::class, Request::capture()->injectLifecycle($lifecycle));
 
             $lifecycle->alias('request', Request::class);
