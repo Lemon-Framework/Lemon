@@ -29,6 +29,7 @@ class Handler
     {
         if ($this->lifecycle->runsInTerminal()) {
             echo $problem;
+
             return;
         }
 

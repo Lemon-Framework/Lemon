@@ -6,6 +6,7 @@ namespace Lemon\Database;
 
 use Lemon\Config\Config;
 use Lemon\Database\Drivers\Driver;
+use PDOStatement;
 
 class Database
 {
@@ -39,7 +40,7 @@ class Database
      *
      * @phpstan-param literal-string $query
      */
-    public function query(string $query, ...$params)
+    public function query(string $query, ...$params): PDOStatement
     {
         $statement = $this->getConnection()->prepare($query);
         $statement->execute($params);

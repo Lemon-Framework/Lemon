@@ -62,7 +62,7 @@ if (!function_exists('dd')) {
             Debug::dump($value);
         }
 
-        exit();
+        exit;
     }
 }
 

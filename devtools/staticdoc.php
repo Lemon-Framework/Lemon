@@ -40,7 +40,7 @@ $target_file = Filesystem::read($target_filename);
 $functions = [];
 
 preg_replace_callback('/\s*\/\*\*\n\s*\*\s(.+?)\n[\s\S]+?\*\/\n\s*public\s*function\s+(.*?\(.*?\))(?:\s*:\s*(.*?))\s/m', static function ($matches) use (&$functions, $target): void {
-    $functions[] = [('self' === $matches[3] ? $target : $matches[3]), $matches[2], $matches[1]];
+    $functions[] = ['self' === $matches[3] ? $target : $matches[3], $matches[2], $matches[1]];
 }, $target_file);
 
 $file = $ref->getFileName();

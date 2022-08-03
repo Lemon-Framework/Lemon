@@ -95,7 +95,7 @@ class Cors
             throw new ConfigException('Cors.credentials must be bool');
         }
 
-        $this->response->header('Access-Control-Allow-Credentials', ($credentials ? 'true' : 'false'));
+        $this->response->header('Access-Control-Allow-Credentials', $credentials ? 'true' : 'false');
     }
 
     private function handleAllowedMethods(mixed $methods)
