@@ -63,10 +63,10 @@ class ResponseFactoryTest extends TestCase
                 }
             </style>
         </head>
-        <body style="min-height: 100vh; margin: 10%; align-items: center; display: flex">
-            <div style="display: block;">
+        <body style="min-height: 100vh; margin: 0; align-items: center; display: flex">
+            <h1 style="display: block; margin-left: 1%">
                 500        <hr>
-                Internal Server Error    </div>
+                Internal Server Error    </h1>
         </body>
         </html>
 
