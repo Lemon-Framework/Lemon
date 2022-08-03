@@ -99,7 +99,7 @@ final class Lifecycle extends Container
     public function handle(Throwable $problem): void
     {
         if ($problem instanceof Error) {
-            throw new ErrorException($problem->getMessage(), 0, $problem->getCode(), $problem->getFile(), $problem->getLine());
+            $this->handle(new ErrorException($problem->getMessage(), 0, $problem->getCode(), $problem->getFile(), $problem->getLine());
         }
         $this->get('handler')->handle($problem);
 
