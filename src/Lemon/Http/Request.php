@@ -170,7 +170,7 @@ class Request
         }
 
         return $this->lifecycle->get(Validator::class)
-            ->validate($this->body_data, $rules)
+            ->validate($this->data(), $rules)
         ;
     }
 
