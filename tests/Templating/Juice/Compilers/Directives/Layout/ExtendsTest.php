@@ -27,7 +27,7 @@ class ExtendsDirectiveTest extends TestCase
         new Factory($config, $compiler, $lifecycle);
 
         $this->assertSame(
-            '<?php $_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout\Layout($_factory->make("foo.bar")->raw_path ?>',
+            '<?php $_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout\Layout($_factory->make("foo.bar")->raw_path) ?>',
             $compiler->directives->compileOpenning(new Token(Token::TAG, ['extends', '"foo.bar"'], 1), [])
         );
 

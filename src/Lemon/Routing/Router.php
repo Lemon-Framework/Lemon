@@ -74,7 +74,7 @@ class Router
      */
     public function template(string $path, ?string $view = null): Route
     {
-        $view = $view ?? Str::replace($path, '/', '.');
+        $view = $view ?? (string) Str::replace($path, '/', '.');
 
         return $this->routes->add($path, 'get', fn (TemplateFactory $templates) => $templates->make($view));
     }
