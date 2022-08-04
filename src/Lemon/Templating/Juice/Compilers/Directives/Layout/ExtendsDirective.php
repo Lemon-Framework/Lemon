@@ -22,6 +22,6 @@ class ExtendsDirective implements Directive
 
         $class = Layout::class;
 
-        return '<?php $_layout = new \\'.$class.'($_factory->make('.$tokens[1][1].')->raw_path) ?>';
+        return '<?php $_layout = new \\'.$class.'($_factory->make('.$tokens[1][1].')->compiled_path) ?>';
     }
 }

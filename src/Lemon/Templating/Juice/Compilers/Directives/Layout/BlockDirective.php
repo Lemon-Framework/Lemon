@@ -20,11 +20,11 @@ class BlockDirective implements Directive
             throw new CompilerException('Argument 1 of directive block has to be string', $token->line);
         }
 
-        return '<?php $_layout->block(\''.substr($tokens[1][1], 1, -1).'\', function() { ?>';
+        return '<?php $_layout->startBlock(\''.substr($tokens[1][1], 1, -1).'\') ?>';
     }
 
     public function compileClosing()
     {
-        return '<?php }) ?>';
+        return '<?php $_layout->endBlock() ?>';
     }
 }
