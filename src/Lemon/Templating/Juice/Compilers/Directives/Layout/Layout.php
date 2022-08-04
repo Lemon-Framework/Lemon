@@ -21,11 +21,9 @@ class Layout
     {
         $_layout = $this;
 
-        if ($this->last) {
-            throw new TemplateException('Unclosed block '.$this->last);
+        if (!$this->last) {
+            include $this->file;
         }
-
-        include $this->file;
     }
 
     public function startBlock(string $name)
