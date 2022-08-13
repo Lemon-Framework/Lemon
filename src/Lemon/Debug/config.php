@@ -8,4 +8,5 @@ return [
     'dumper' => [
         'style' => new Style(),
     ],
+    'debug' => false,
 ];

@@ -23,7 +23,7 @@ final class Lifecycle extends Container
     /**
      * Current Lemon version.
      */
-    public const VERSION = '3-develop';
+    public const VERSION = '3.0.2';
 
     /**
      * Default units with aliases.
@@ -147,10 +147,6 @@ final class Lifecycle extends Container
      */
     public function boot(): void
     {
-        if ('web' !== $this->get('config')->get('kernel.mode')) {
-            return;
-        }
-
         try {
             $this->get('routing')->dispatch($this->get(Request::class))->send();
         } catch (Exception|Error $e) {
@@ -173,8 +169,16 @@ final class Lifecycle extends Container
      */
     public static function init(string $directory, bool $terminal = true): self
     {
+        $directory = Filesystem::parent($directory);
+        $maintenance = $directory.DIRECTORY_SEPARATOR.'maintenance.php';
+
+        if (file_exists($maintenance)) {
+            require $maintenance;
+            die();
+        }
+
         // --- Creating Lifecycle instance ---
-        $lifecycle = new self(Filesystem::parent($directory));
+        $lifecycle = new self($directory);
 
         // --- Obtaining request ---
         if (!$lifecycle->runsInTerminal()) {

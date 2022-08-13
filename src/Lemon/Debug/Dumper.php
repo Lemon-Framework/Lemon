@@ -73,7 +73,7 @@ class Dumper
      */
     public function dump(mixed $data): void
     {
-        if ($this->config->get('kernel.debug')) {
+        if ($this->config->get('debug.debug')) {
             echo $this->build($data);
         }
     }

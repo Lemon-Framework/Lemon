@@ -16,7 +16,6 @@ class Handler
     public function __construct(
         private Config $config,
         private ResponseFactory $response,
-        private Request $request,
         private Logger $logger,
         private Lifecycle $lifecycle
     ) {
@@ -33,8 +32,8 @@ class Handler
             return;
         }
 
-        if ($this->config->get('kernel.debug')) {
-            (new Reporter($problem, $this->request))->report();
+        if ($this->config->get('debug.debug')) {
+            (new Reporter($problem, $this->lifecycle->get('request')))->report();
         } else {
             $this->response->error(500)->send();
             $this->logger->error((string) $problem);

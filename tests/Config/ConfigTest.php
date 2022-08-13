@@ -19,32 +19,29 @@ class ConfigTest extends TestCase
     public function testLoading()
     {
         $config = new Config(new Lifecycle(__DIR__));
-        $config->loadPart('kernel');
+        $config->loadPart('cache');
 
         $this->assertSame([
-            'kernel' => [
-                'mode' => 'web',
-                'debug' => false,
+            'cache' => [
+                'storage' => 'storage.cache',
             ],
         ], $config->data());
 
         $config->load('config');
 
-        $config->loadPart('kernel');
+        $config->loadPart('cache');
 
         $this->assertSame([
-            'kernel' => [
-                'mode' => 'web',
-                'debug' => false,
+            'cache' => [
+                'storage' => 'storage.cache',
             ],
         ], $config->data());
 
-        $config->loadPart('kernel', true);
+        $config->loadPart('cache', true);
 
         $this->assertSame([
-            'kernel' => [
-                'mode' => 'testing',
-                'debug' => true,
+            'cache' => [
+                'storage' => 'storage.cache',
             ],
         ], $config->data());
 
