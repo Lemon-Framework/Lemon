@@ -8,7 +8,7 @@ use DateInterval;
 use DateTime;
 use Lemon\Cache\Exceptions\InvalidArgumentException;
 use Lemon\Config\Config;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
 use Lemon\Support\Types\Arr;
 use Psr\SimpleCache\CacheInterface;
@@ -30,7 +30,7 @@ class Cache implements CacheInterface
     private string $data_path;
 
     public function __construct(
-        private Lifecycle $lifecycle,
+        private Application $lifecycle,
         private Config $config
     ) {
         $this->time = time();

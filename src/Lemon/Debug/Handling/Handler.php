@@ -8,7 +8,7 @@ use Exception;
 use Lemon\Config\Config;
 use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Logging\Logger;
 
 class Handler
@@ -17,7 +17,7 @@ class Handler
         private Config $config,
         private ResponseFactory $response,
         private Logger $logger,
-        private Lifecycle $lifecycle
+        private Application $lifecycle
     ) {
     }
 

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Lemon;
 
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 
 abstract class Zest
 {
-    protected static ?Lifecycle $lifecycle = null;
+    protected static ?Application $lifecycle = null;
 
     private function __construct()
     {
@@ -24,7 +24,7 @@ abstract class Zest
     /**
      * Initializes zests.
      */
-    public static function init(Lifecycle $lifecycle): void
+    public static function init(Application $lifecycle): void
     {
         self::$lifecycle = $lifecycle;
     }

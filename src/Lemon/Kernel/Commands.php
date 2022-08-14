@@ -27,7 +27,7 @@ class Commands
     public function __construct(
         private Terminal $terminal,
         private Config $config,
-        private Lifecycle $lifecycle
+        private Application $lifecycle
     ) {
     }
 

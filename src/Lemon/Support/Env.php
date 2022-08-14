@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Support;
 
 use Exception;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Support\Types\Str;
 
 final class Env
@@ -16,7 +16,7 @@ final class Env
 
     private bool $changed = false;
 
-    public function __construct(Lifecycle $lifecycle)
+    public function __construct(Application $lifecycle)
     {
         $this->path = $lifecycle->directory.DIRECTORY_SEPARATOR.'.env';
         $this->load();

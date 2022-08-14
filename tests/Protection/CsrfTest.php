@@ -8,7 +8,7 @@ use Lemon\Config\Config;
 use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\EmptyResponse;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Protection\Csrf;
 use Lemon\Protection\Middlwares\Csrf as MiddlwaresCsrf;
 use Lemon\Templating\Factory;
@@ -37,7 +37,7 @@ class CsrfTest extends TestCase
 
         $c = new Csrf();
 
-        $lc = new Lifecycle(__DIR__);
+        $lc = new Application(__DIR__);
         $cf = new Config($lc);
         $f = new ResponseFactory(new Factory($cf, new Compiler($cf), $lc), $lc);
 

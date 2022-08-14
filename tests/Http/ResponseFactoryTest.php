@@ -13,7 +13,7 @@ use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Http\Responses\JsonResponse;
 use Lemon\Http\Responses\TemplateResponse;
 use Lemon\Http\Responses\TextResponse;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Templating\Compiler;
 use Lemon\Templating\Factory;
 use Lemon\Tests\TestCase;
@@ -26,7 +26,7 @@ class ResponseFactoryTest extends TestCase
 {
     public function getFactory()
     {
-        $lc = new Lifecycle(__DIR__);
+        $lc = new Application(__DIR__);
         $templates = new Factory(new Config($lc), new SimpleCompiler(), $lc);
 
         return new ResponseFactory($templates, $lc);
@@ -80,7 +80,7 @@ class ResponseFactoryTest extends TestCase
 
     public function testHandling()
     {
-        $lc = new Lifecycle(__DIR__);
+        $lc = new Application(__DIR__);
         $lc->add(SimpleLogger::class);
         $templates = new Factory(new Config($lc), new SimpleCompiler(), $lc);
         $factory = new ResponseFactory($templates, $lc);

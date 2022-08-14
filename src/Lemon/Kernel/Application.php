@@ -18,7 +18,7 @@ use Throwable;
 /**
  * The Lemon Lifecycle.
  */
-final class Lifecycle extends Container
+final class Application extends Container
 {
     /**
      * Current Lemon version.

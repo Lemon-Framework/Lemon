@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Kernel;
 
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Tests\Kernel\Resources\Units\Bar;
 use Lemon\Tests\Kernel\Resources\Units\Foo;
 use Lemon\Tests\Kernel\Resources\Zests\Bar as ZestsBar;
@@ -19,7 +19,7 @@ class ZestTest extends TestCase
 {
     public function testZest()
     {
-        $lc = new Lifecycle(__DIR__);
+        $lc = new Application(__DIR__);
         $lc->add(Bar::class);
         $lc->add(Foo::class);
         Zest::init($lc);

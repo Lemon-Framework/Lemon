@@ -6,7 +6,7 @@ namespace Lemon\Tests\Database\Drivers;
 
 use Lemon\Config\Config;
 use Lemon\Database\Drivers\Sqlite;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Support\Env;
 use Lemon\Tests\TestCase;
 use Lemon\Zest;
@@ -31,7 +31,7 @@ class SqliteTest extends TestCase
     {
         $this->expectNotToPerformAssertions(); // Just checking if we are able to connect
 
-        $lc = new Lifecycle(__DIR__);
+        $lc = new Application(__DIR__);
         $lc->add(Env::class);
         $lc->alias('env', Env::class);
 

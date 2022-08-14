@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Tests\Events;
 
 use Lemon\Events\Dispatcher;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Tests\TestCase;
 
 /**
@@ -16,7 +16,7 @@ class DispatcherTest extends TestCase
 {
     public function testRegistration()
     {
-        $events = new Dispatcher(new Lifecycle(__DIR__));
+        $events = new Dispatcher(new Application(__DIR__));
         $events->on('foo', function () {});
         $events->on('foo', function () {});
         $events->on('bar', function () {});
@@ -26,7 +26,7 @@ class DispatcherTest extends TestCase
 
     public function testFiring()
     {
-        $lc = new Lifecycle(__DIR__);
+        $lc = new Application(__DIR__);
         $lc->add(Logger::class);
         $events = new Dispatcher($lc);
         $events->on('foo', function (Logger $logger) {

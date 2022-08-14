@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Tests\Templating;
 
 use Lemon\Config\Config;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
 use Lemon\Support\Types\Str;
 use Lemon\Templating\Compiler;
@@ -106,7 +106,7 @@ class FactoryTest extends TestCase
 
     private function getFactory(): Factory
     {
-        $lc = new Lifecycle(__DIR__);
+        $lc = new Application(__DIR__);
 
         return new Factory(new Config($lc), new FooCompiler(), $lc);
     }

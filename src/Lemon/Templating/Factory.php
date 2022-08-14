@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Templating;
 
 use Lemon\Config\Config;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
 use Lemon\Support\Types\Str;
 use Lemon\Templating\Exceptions\TemplateException;
@@ -29,7 +29,7 @@ class Factory
     public function __construct(
         Config $config,
         private Compiler $compiler,
-        private Lifecycle $lifecycle
+        private Application $lifecycle
     ) {
         $lifecycle->add(Enviroment::class);
         $lifecycle->alias('templating.env', Enviroment::class);

@@ -9,7 +9,7 @@ use Lemon\Config\Exceptions\ConfigException;
 use Lemon\Http\Middlewares\Cors;
 use Lemon\Http\Request;
 use Lemon\Http\Responses\EmptyResponse;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Tests\TestCase;
 
 /**
@@ -20,7 +20,7 @@ class CorsTest extends TestCase
 {
     public function testAllowedOrigins()
     {
-        $config = new Config(new Lifecycle(__DIR__));
+        $config = new Config(new Application(__DIR__));
         $c = new Cors();
 
         $config->set('http.cors.allowed-origins', '*');
@@ -66,7 +66,7 @@ class CorsTest extends TestCase
 
     public function testExposeHeaders()
     {
-        $config = new Config(new Lifecycle(__DIR__));
+        $config = new Config(new Application(__DIR__));
         $c = new Cors();
 
         $config->set('http.cors.expose-headers', 'Parek');
@@ -91,7 +91,7 @@ class CorsTest extends TestCase
 
     public function testMaxAge()
     {
-        $config = new Config(new Lifecycle(__DIR__));
+        $config = new Config(new Application(__DIR__));
         $c = new Cors();
 
         $config->set('http.cors.max-age', 10);
@@ -109,7 +109,7 @@ class CorsTest extends TestCase
 
     public function testCredentials()
     {
-        $config = new Config(new Lifecycle(__DIR__));
+        $config = new Config(new Application(__DIR__));
         $c = new Cors();
 
         $config->set('http.cors.allowed-credentials', true);
@@ -127,7 +127,7 @@ class CorsTest extends TestCase
 
     public function testAllowedMethods()
     {
-        $config = new Config(new Lifecycle(__DIR__));
+        $config = new Config(new Application(__DIR__));
         $c = new Cors();
 
         $config->set('http.cors.allowed-methods', 'GET');
@@ -152,7 +152,7 @@ class CorsTest extends TestCase
 
     public function testAllowedHeaders()
     {
-        $config = new Config(new Lifecycle(__DIR__));
+        $config = new Config(new Application(__DIR__));
         $c = new Cors();
 
         $config->set('http.cors.allowed-headers', 'Parek');

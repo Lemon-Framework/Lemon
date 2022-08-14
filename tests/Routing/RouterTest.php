@@ -9,7 +9,7 @@ use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Http\Responses\TemplateResponse;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Routing\Collection;
 use Lemon\Routing\Router;
 use Lemon\Support\Filesystem;
@@ -27,7 +27,7 @@ class RouterTest extends TestCase
 {
     public function getRouter(): Router
     {
-        $l = new Lifecycle(__DIR__);
+        $l = new Application(__DIR__);
         $c = new Config($l);
         $f = new Factory($c, new SimpleCompiler(), $l);
         $r = new Router($l, new ResponseFactory($f, $l));

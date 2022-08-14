@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Terminal;
 
 use Closure;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Terminal\Commands\Command;
 use Lemon\Terminal\Commands\Dispatcher;
 use Lemon\Terminal\IO\Output;
@@ -17,7 +17,7 @@ class Terminal
     private Output $output;
 
     public function __construct(
-        private Lifecycle $lifecycle
+        private Application $lifecycle
     ) {
         $this->commands = new Dispatcher();
         $this->output = new Output();

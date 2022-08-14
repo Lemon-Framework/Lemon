@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
 
 use Lemon\Config\Config;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Factory;
 use Lemon\Templating\Juice\Compiler;
@@ -21,7 +21,7 @@ class IncludeDirectiveTest extends TestCase
 {
     public function testCompilation()
     {
-        $lifecycle = new Lifecycle(__DIR__);
+        $lifecycle = new Application(__DIR__);
         $config = new Config($lifecycle);
         $compiler = new Compiler($config);
         new Factory($config, $compiler, $lifecycle);

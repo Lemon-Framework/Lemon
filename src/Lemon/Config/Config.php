@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Config;
 
 use Lemon\Config\Exceptions\ConfigException;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
@@ -17,7 +17,7 @@ class Config
     private array $data = [];
 
     public function __construct(
-        private Lifecycle $lifecycle
+        private Application $lifecycle
     ) {
     }
 

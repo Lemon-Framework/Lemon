@@ -8,7 +8,7 @@ use DateInterval;
 use Lemon\Cache\Cache as LemonCache;
 use Lemon\Cache\Exceptions\InvalidArgumentException;
 use Lemon\Config\Config;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem;
 use PHPUnit\Framework\TestCase;
 
@@ -206,7 +206,7 @@ class CacheTest extends TestCase
 
     public function setUp(): void
     {
-        $lc = new Lifecycle(__DIR__);
+        $lc = new Application(__DIR__);
         $this->cache = new LemonCache($lc, new Config($lc));
     }
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Tests\Support;
 
 use Exception;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Support\Env;
 use Lemon\Tests\TestCase;
 
@@ -23,7 +23,7 @@ class EnvTest extends TestCase
     public function getEnv(string $data): Env
     {
         file_put_contents(__DIR__.DIRECTORY_SEPARATOR.'.env', $data);
-        $lc = new Lifecycle(__DIR__);
+        $lc = new Application(__DIR__);
 
         return new Env($lc);
     }

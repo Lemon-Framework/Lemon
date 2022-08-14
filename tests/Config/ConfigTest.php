@@ -6,7 +6,7 @@ namespace Lemon\Tests\Config;
 
 use Lemon\Config\Config;
 use Lemon\Config\Exceptions\ConfigException;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem;
 use Lemon\Tests\TestCase;
 
@@ -18,7 +18,7 @@ class ConfigTest extends TestCase
 {
     public function testLoading()
     {
-        $config = new Config(new Lifecycle(__DIR__));
+        $config = new Config(new Application(__DIR__));
         $config->loadPart('cache');
 
         $this->assertSame([
@@ -51,7 +51,7 @@ class ConfigTest extends TestCase
 
     public function testGet()
     {
-        $config = new Config(new Lifecycle(__DIR__));
+        $config = new Config(new Application(__DIR__));
         $config->load('config');
 
         $this->assertSame('neco', $config->get('schnitzels.foo.bar'));
@@ -62,7 +62,7 @@ class ConfigTest extends TestCase
 
     public function testFile()
     {
-        $config = new Config(new Lifecycle(__DIR__));
+        $config = new Config(new Application(__DIR__));
         $config->load('config');
 
         $this->assertSame(
@@ -73,7 +73,7 @@ class ConfigTest extends TestCase
 
     public function testSet()
     {
-        $config = new Config(new Lifecycle(__DIR__));
+        $config = new Config(new Application(__DIR__));
         $config->load('config');
 
         $config->set('schnitzels.foo.bar', 'parek');

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Lemon\Events;
 
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 
 class Dispatcher
 {
     private array $events = [];
 
     public function __construct(
-        private Lifecycle $lifecycle,
+        private Application $lifecycle,
     ) {
     }
 

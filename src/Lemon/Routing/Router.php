@@ -9,7 +9,7 @@ use Lemon\Http\Request;
 use Lemon\Http\Response;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\EmptyResponse;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 use Lemon\Templating\Factory as TemplateFactory;
@@ -40,7 +40,7 @@ class Router
     private Collection $routes;
 
     public function __construct(
-        private Lifecycle $lifecycle,
+        private Application $lifecycle,
         private ResponseFactory $response
     ) {
         $this->routes = new Collection();

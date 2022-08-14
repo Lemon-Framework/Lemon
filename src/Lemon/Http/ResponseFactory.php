@@ -10,7 +10,7 @@ use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Http\Responses\JsonResponse;
 use Lemon\Http\Responses\TemplateResponse;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Templating\Factory as Templating;
 use Lemon\Templating\Template;
 
@@ -20,7 +20,7 @@ class ResponseFactory
 
     public function __construct(
         private Templating $templating,
-        private Lifecycle $lifecycle
+        private Application $lifecycle
     ) {
     }
 

@@ -6,7 +6,7 @@ namespace Lemon\Tests\Logging;
 
 use DateTime;
 use Lemon\Config\Config;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Logging\Logger;
 use Lemon\Support\Filesystem;
 use Lemon\Tests\TestCase;
@@ -26,20 +26,20 @@ class LoggerTest extends TestCase
 
     public function testDirectoryCreation()
     {
-        $log = new Logger(new Config(new Lifecycle(__DIR__)));
+        $log = new Logger(new Config(new Application(__DIR__)));
         $this->assertDirectoryExists(Filesystem::join(__DIR__, 'storage', 'logs'));
         $this->assertFileExists(Filesystem::join(__DIR__, 'storage', 'logs', '.gitignore'));
     }
 
     public function testInterpolation()
     {
-        $log = new Logger(new Config(new Lifecycle(__DIR__)));
+        $log = new Logger(new Config(new Application(__DIR__)));
         $this->assertSame('foo idk ok 10', $log->interpolate('foo {bar} ok {baz}', ['bar' => 'idk', 'baz' => 10]));
     }
 
     public function testLogging()
     {
-        $log = new Logger(new Config(new Lifecycle(__DIR__)));
+        $log = new Logger(new Config(new Application(__DIR__)));
         $log->log(LogLevel::INFO, '{what} se hrouti', ['what' => 'festival']);
         $log->log(LogLevel::ALERT, '{what} protekaji', ['what' => 'zachody']);
         $log->log(LogLevel::EMERGENCY, 'on proste nema svoje kafe');

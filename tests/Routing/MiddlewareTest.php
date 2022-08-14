@@ -9,7 +9,7 @@ use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Http\Responses\TemplateResponse;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Protection\Csrf as ProtectionCsrf;
 use Lemon\Protection\Middlwares\Csrf;
 use Lemon\Routing\MiddlewareCollection;
@@ -40,7 +40,7 @@ class MiddlewareTest extends TestCase
 
         $this->assertThat($c->resolve(), $this->equalTo([[new Csrf(), 'handle']]));
 
-        $l = new Lifecycle(__DIR__);
+        $l = new Application(__DIR__);
         $c = new Config($l);
         $f = new Factory($c, new Compiler($c), $l);
         $r = new Router($l, $rs = new ResponseFactory($f, $l));

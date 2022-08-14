@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Http;
 
 use Exception;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Validation\Validator;
 
 class Request
@@ -14,7 +14,7 @@ class Request
 
     private ?array $query_data = null;
 
-    private ?Lifecycle $lifecycle = null;
+    private ?Application $lifecycle = null;
 
     private array $parsers = [];
 
@@ -57,7 +57,7 @@ class Request
     /**
      * Injects lifecycle.
      */
-    public function injectLifecycle(Lifecycle $lifecycle): static
+    public function injectLifecycle(Application $lifecycle): static
     {
         $this->lifecycle = $lifecycle;
 

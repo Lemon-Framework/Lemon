@@ -7,7 +7,7 @@ namespace Lemon\Tests\Database;
 use Lemon\Config\Config;
 use Lemon\Database\Database;
 use Lemon\Database\Drivers\Sqlite;
-use Lemon\Kernel\Lifecycle;
+use Lemon\Kernel\Application;
 use Lemon\Support\Env;
 use Lemon\Tests\TestCase;
 use Lemon\Zest;
@@ -30,7 +30,7 @@ class DatabaseTest extends TestCase
 
     public function testConnecting()
     {
-        $lc = new Lifecycle(__DIR__);
+        $lc = new Application(__DIR__);
         $lc->add(Env::class);
         $lc->alias('env', Env::class);
 
@@ -46,7 +46,7 @@ class DatabaseTest extends TestCase
 
     public function testQuery()
     {
-        $lc = new Lifecycle(__DIR__);
+        $lc = new Application(__DIR__);
         $lc->add(Env::class);
         $lc->alias('env', Env::class);
 
