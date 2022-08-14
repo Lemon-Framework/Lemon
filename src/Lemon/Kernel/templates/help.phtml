@@ -1,11 +1,9 @@
+<div class="text-yellow">Help</div>
+<br>
 <?php
-
-declare (strict_types = 1);
-
 /** @var array<\Lemon\Terminal\Commands\Command> $commands */
-
 foreach ($commands as $command) { 
 ?>
-<div class="text-yellow"><?= $command->name ?></div> - <div class="text-green"><?= $command->description?></div>
 <br>
+<div class="text-yellow"><?= $command->name ?></div> - <div class="text-green"><?= $command->description?></div>
 <?php } ?>
