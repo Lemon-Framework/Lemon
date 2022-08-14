@@ -25,7 +25,7 @@ class Collection
     /**
      * Adds route to collection.
      */
-    public function add(string $path, string $method, callable $action): Route
+    public function add(string $path, string $method, callable|array $action): Route
     {
         $path = trim($path, '/');
         if ($this->has($path)) {

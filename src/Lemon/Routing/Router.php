@@ -17,13 +17,13 @@ use Lemon\Templating\Factory as TemplateFactory;
 /**
  * The Lemon Router.
  *
- * @method \Lemon\Routing\Route get(string $path, $action)     Creates route with method get
- * @method \Lemon\Routing\Route post(string $path, $action)    Creates route with method post
- * @method \Lemon\Routing\Route put(string $path, $action)     Creates route with method put
- * @method \Lemon\Routing\Route head(string $path, $action)    Creates route with method head
- * @method \Lemon\Routing\Route delete(string $path, $action)  Creates route with method delete
- * @method \Lemon\Routing\Route path(string $path, $action)    Creates route with method path
- * @method \Lemon\Routing\Route options(string $path, $action) Creates route with method options
+ * @method \Lemon\Routing\Route get(string $path, callable|array $action)     Creates route with method get
+ * @method \Lemon\Routing\Route post(string $path, callable|array $action)    Creates route with method post
+ * @method \Lemon\Routing\Route put(string $path, callable|array $action)     Creates route with method put
+ * @method \Lemon\Routing\Route head(string $path, callable|array $action)    Creates route with method head
+ * @method \Lemon\Routing\Route delete(string $path, callable|array $action)  Creates route with method delete
+ * @method \Lemon\Routing\Route path(string $path, callable|array $action)    Creates route with method path
+ * @method \Lemon\Routing\Route options(string $path, callable|array $action) Creates route with method options
  */
 class Router
 {
@@ -58,7 +58,7 @@ class Router
     /**
      * Creates new route with every request method.
      */
-    public function any(string $path, callable $action): Route
+    public function any(string $path, callable|array $action): Route
     {
         foreach (self::REQUEST_METHODS as $method) {
             $this->routes->add($path, $method, $action);

@@ -28,8 +28,6 @@ class ContainerTest extends TestCase
         $container->add(Bar::class);
         $this->assertSame([Foo::class, Bar::class], $container->services());
 
-        $this->expectException(ContainerException::class);
-        $container->add(Foo::class);
         $this->expectException(NotFoundException::class);
         $container->add('Klobna');
     }
