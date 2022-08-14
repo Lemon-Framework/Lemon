@@ -51,6 +51,16 @@ class Dispatcher
         return [$command->action, $result];
     }
 
+    /**
+     * Returns all commands
+     *
+     * @return array<\Lemon\Terminal\Commands\Command>
+     */
+    public function commands(): array
+    {
+        return $this->commands;
+    }
+
     private function parseArguments(array $arguments): array
     {
         $result = [];

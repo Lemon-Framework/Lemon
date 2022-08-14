@@ -12,7 +12,7 @@ use Lemon\Terminal\IO\Output;
 
 class Terminal
 {
-    private Dispatcher $commands;
+    public readonly Dispatcher $commands;
 
     private Output $output;
 

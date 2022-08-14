@@ -7,6 +7,7 @@ namespace Lemon\Kernel;
 use Closure;
 use Lemon\Config\Config;
 use Lemon\Support\Filesystem;
+use Lemon\Templating\Template;
 use Lemon\Terminal\Terminal;
 
 /**
@@ -22,6 +23,7 @@ class Commands
         ['clear', 'clear', 'Clears cached data, views and logs'],
         ['down', 'down', 'Puts app into maintenance mode'],
         ['up', 'up', 'Puts app back from maintenance mode'],
+        ['help', 'help', 'Shows help'],
     ];
 
     public function __construct(
@@ -73,5 +75,13 @@ class Commands
     public function up(): void
     {
         $this->lifecycle->up();
+    }
+
+    public function help(): void
+    {
+        $path = Filesystem::join(__DIR__, 'templates', 'help.phtml');
+        $this->terminal->out(
+            new Template($path, $path, ['commands' => $this->terminal->commands->commands()])
+        );
     }
 }
