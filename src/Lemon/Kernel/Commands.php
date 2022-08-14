@@ -17,7 +17,7 @@ class Commands
 {
     private const COMMANDS = [
         ['serve {port?} {url?}', 'serve', 'Starts development server'],
-        ['template:clear', 'clearTemplates', 'Clears cached views'],
+        ['template:clear', 'clearTemplates', 'Clears cached templates'],
         ['cache:clear', 'clearCache', 'Clears cached data'],
         ['log:clear', 'clearLogs', 'Clears log'],
         ['clear', 'clear', 'Clears cached data, views and logs'],
