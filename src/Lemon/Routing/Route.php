@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Routing;
 
+use Lemon\Routing\Exceptions\RouteException;
 use Lemon\Support\Types\Str;
 
 class Route
@@ -24,11 +25,14 @@ class Route
     /**
      * Adds/returns route action of given method.
      */
-    public function action(string $method, callable $action = null): static|null|callable
+    public function action(string $method, callable|array $action = null): static|null|callable
     {
         $method = (string) Str::toLower($method);
         if (!$action) {
-            return $this->actions[$method] ?? null;
+            return isset($this->actions[$method]) 
+                ? $this->handle($this->actions[$method]) 
+                : null
+            ;
         }
         $this->actions[$method] = $action;
 
@@ -88,5 +92,24 @@ class Route
     public function buildRegex(): string
     {
         return preg_replace('/\{([a-zA-Z_0-9]+)\}/', '(?<$1>['.$this->patern.']+)', $this->path);
+    }
+
+    private function handle(callable|array $action): callable
+    {
+        if (is_callable($action)) {
+            return $action;
+        }
+
+        if (!class_exists($action[0])) {
+            throw new RouteException('Class '.$action[0].' does not exist.');
+        }
+
+        $result = [new $action[0](), $action[1]];
+
+        if (!is_callable($result)) {
+            throw new RouteException('Action '.$action[0].'::'.$action[1].'()'.' is not callable.');
+        }
+
+        return $result;
     }
 }
