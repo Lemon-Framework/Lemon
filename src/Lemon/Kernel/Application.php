@@ -174,7 +174,8 @@ final class Application extends Container
 
         if (file_exists($maintenance)) {
             require $maintenance;
-            die();
+
+            exit;
         }
 
         // --- Creating Lifecycle instance ---

@@ -32,12 +32,12 @@ class RouteTest extends TestCase
         $this->assertThat($route->action('DELETE'), $this->equalTo([new FooController(), 'handle']));
 
         $route->action('put', [FooController::class, 'foo']);
-        $this->assertThrowable(function() use($route) {
+        $this->assertThrowable(function () use ($route) {
             $route->action('PUT');
         }, RouteException::class);
 
         $route->action('head', ['AAAAAAAAAAAA', 'foo']);
-        $this->assertThrowable(function() use($route) {
+        $this->assertThrowable(function () use ($route) {
             $route->action('head');
         }, RouteException::class);
     }
@@ -71,6 +71,5 @@ class FooController
 {
     public function handle()
     {
-
     }
 }

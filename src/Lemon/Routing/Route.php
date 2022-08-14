@@ -29,8 +29,8 @@ class Route
     {
         $method = (string) Str::toLower($method);
         if (!$action) {
-            return isset($this->actions[$method]) 
-                ? $this->handle($this->actions[$method]) 
+            return isset($this->actions[$method])
+                ? $this->handle($this->actions[$method])
                 : null
             ;
         }

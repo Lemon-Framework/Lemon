@@ -6,7 +6,6 @@ namespace Lemon\Debug\Handling;
 
 use Exception;
 use Lemon\Config\Config;
-use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
 use Lemon\Kernel\Application;
 use Lemon\Logging\Logger;

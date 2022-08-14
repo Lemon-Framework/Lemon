@@ -8,7 +8,6 @@ use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Protection\Csrf as ProtectionCsrf;
-use Lemon\Support\Types\Arr;
 
 class Csrf
 {

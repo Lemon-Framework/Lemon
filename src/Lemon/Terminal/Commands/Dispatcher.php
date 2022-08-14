@@ -52,7 +52,7 @@ class Dispatcher
     }
 
     /**
-     * Returns all commands
+     * Returns all commands.
      *
      * @return array<\Lemon\Terminal\Commands\Command>
      */

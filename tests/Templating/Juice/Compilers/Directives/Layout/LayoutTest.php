@@ -29,12 +29,12 @@ class LayoutTest extends TestCase
 
         HTML, $result);
 
-        $this->assertThrowable(function() {
+        $this->assertThrowable(function () {
             $l = new FakeLayout('foo');
             $l->endBlock();
         }, TemplateException::class);
 
-        $this->assertThrowable(function() {
+        $this->assertThrowable(function () {
             $l = new FakeLayout('foo');
             $l->startBlock('nevim');
             $l->startBlock('neco');
@@ -42,16 +42,16 @@ class LayoutTest extends TestCase
 
         ob_get_clean();
 
-        $this->assertThrowable(function() {
+        $this->assertThrowable(function () {
             $l = new FakeLayout('foo');
             $l->yield('parek');
         }, TemplateException::class);
-
     }
 
     private function render(string $file, array $data): void
     {
         extract($data);
+
         include $file;
     }
 }
@@ -60,6 +60,5 @@ class FakeLayout extends Layout
 {
     public function __destruct()
     {
-        
     }
 }
