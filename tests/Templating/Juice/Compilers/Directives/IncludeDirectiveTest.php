@@ -21,10 +21,10 @@ class IncludeDirectiveTest extends TestCase
 {
     public function testCompilation()
     {
-        $lifecycle = new Application(__DIR__);
-        $config = new Config($lifecycle);
+        $application = new Application(__DIR__);
+        $config = new Config($application);
         $compiler = new Compiler($config);
-        new Factory($config, $compiler, $lifecycle);
+        new Factory($config, $compiler, $application);
 
         $this->assertSame('<?php include $_factory->make("foo.bar")->raw_path ?>', $compiler->directives->compileOpenning(new Token(Token::TAG, ['include', '"foo.bar"'], 1), []));
 

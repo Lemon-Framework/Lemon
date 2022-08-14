@@ -16,7 +16,7 @@ class Handler
         private Config $config,
         private ResponseFactory $response,
         private Logger $logger,
-        private Application $lifecycle
+        private Application $application
     ) {
     }
 
@@ -25,14 +25,14 @@ class Handler
      */
     public function handle(Exception $problem): void
     {
-        if ($this->lifecycle->runsInTerminal()) {
+        if ($this->application->runsInTerminal()) {
             echo $problem;
 
             return;
         }
 
         if ($this->config->get('debug.debug')) {
-            (new Reporter($problem, $this->lifecycle->get('request')))->report();
+            (new Reporter($problem, $this->application->get('request')))->report();
         } else {
             $this->response->error(500)->send();
             $this->logger->error((string) $problem);

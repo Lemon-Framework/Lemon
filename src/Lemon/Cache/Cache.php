@@ -30,7 +30,7 @@ class Cache implements CacheInterface
     private string $data_path;
 
     public function __construct(
-        private Application $lifecycle,
+        private Application $application,
         private Config $config
     ) {
         $this->time = time();
@@ -51,7 +51,7 @@ class Cache implements CacheInterface
     public function load(): void
     {
         $directory = $this->config->get('cache.storage');
-        $path = $this->lifecycle->file($directory);
+        $path = $this->application->file($directory);
         $this->data_path = FS::join($path, 'data.json');
         if (!FS::isDir($path)) {
             FS::makeDir($path);
@@ -92,7 +92,7 @@ class Cache implements CacheInterface
             return $result;
         }
 
-        $new = $this->lifecycle->call($action, []);
+        $new = $this->application->call($action, []);
 
         $this->set($key, $new);
 

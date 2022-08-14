@@ -20,7 +20,7 @@ class ResponseFactory
 
     public function __construct(
         private Templating $templating,
-        private Application $lifecycle
+        private Application $application
     ) {
     }
 
@@ -29,7 +29,7 @@ class ResponseFactory
      */
     public function make(callable $action, array $params = []): Response
     {
-        $output = $this->lifecycle->call($action, $params);
+        $output = $this->application->call($action, $params);
 
         return $this->resolve($output);
     }

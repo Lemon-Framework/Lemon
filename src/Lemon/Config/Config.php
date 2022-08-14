@@ -17,7 +17,7 @@ class Config
     private array $data = [];
 
     public function __construct(
-        private Application $lifecycle
+        private Application $application
     ) {
     }
 
@@ -26,7 +26,7 @@ class Config
      */
     public function load(string $directory = 'config'): static
     {
-        $directory = $this->lifecycle->file($directory);
+        $directory = $this->application->file($directory);
         if (!Filesystem::isDir($directory)) {
             throw new ConfigException('Directory '.$directory.' does not exist');
         }
@@ -69,7 +69,7 @@ class Config
      */
     public function file(string $key, string $extension = null): string
     {
-        return $this->lifecycle->file($this->get($key), $extension);
+        return $this->application->file($this->get($key), $extension);
     }
 
     /**

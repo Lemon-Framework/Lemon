@@ -1,6 +1,6 @@
 # Lemon Kernel
 
-This Unit contains Container and Lifecycle, main parts of Lemon.
+This Unit contains Container and Application, main parts of Lemon.
 
 ## Container
 
@@ -42,6 +42,6 @@ $container->getService(Bar::class)->sayHi('Majkel');
 
 If you try to get unknown service, you'l get Exception
 
-## Lifecycle
+## Application
 
-Lifecycle is main part of Lemon. It allows container-based service management, bootstraping, initialization, filesystem etc.
+Application is main part of Lemon. It allows container-based service management, bootstraping, initialization, filesystem etc.

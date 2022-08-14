@@ -21,10 +21,10 @@ class ExtendsDirectiveTest extends TestCase
 {
     public function testCompilation()
     {
-        $lifecycle = new Application(__DIR__);
-        $config = new Config($lifecycle);
+        $application = new Application(__DIR__);
+        $config = new Config($application);
         $compiler = new Compiler($config);
-        new Factory($config, $compiler, $lifecycle);
+        new Factory($config, $compiler, $application);
 
         $this->assertSame(
             '<?php $_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout\Layout($_factory->make("foo.bar")->compiled_path) ?>',

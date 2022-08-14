@@ -16,7 +16,7 @@ use Lemon\Zest;
 use Throwable;
 
 /**
- * The Lemon Lifecycle.
+ * The Lemon Application.
  */
 final class Application extends Container
 {
@@ -53,7 +53,7 @@ final class Application extends Container
     public readonly string $directory;
 
     /**
-     * Creates new lifecycle instance.
+     * Creates new application instance.
      */
     public function __construct(string $directory)
     {
@@ -143,7 +143,7 @@ final class Application extends Container
     }
 
     /**
-     * Executes whole lifecycle.
+     * Executes whole application.
      */
     public function boot(): void
     {
@@ -178,39 +178,39 @@ final class Application extends Container
             exit;
         }
 
-        // --- Creating Lifecycle instance ---
-        $lifecycle = new self($directory);
+        // --- Creating Application instance ---
+        $application = new self($directory);
 
         // --- Obtaining request ---
-        if (!$lifecycle->runsInTerminal()) {
-            $lifecycle->add(Request::class, Request::capture()->injectLifecycle($lifecycle));
+        if (!$application->runsInTerminal()) {
+            $application->add(Request::class, Request::capture()->injectApplication($application));
 
-            $lifecycle->alias('request', Request::class);
+            $application->alias('request', Request::class);
         }
 
         // --- Loading default Lemon services ---
-        $lifecycle->loadServices();
+        $application->loadServices();
 
         // --- Loading Zests for services ---
-        $lifecycle->loadZests();
+        $application->loadZests();
 
         // --- Loading Error/Exception handlers ---
-        $lifecycle->loadHandler();
+        $application->loadHandler();
 
         // --- Loading commands ---
-        $lifecycle->loadCommands();
+        $application->loadCommands();
 
         /* --- The end ---
          * This function automaticaly boots our app at the end of file
          */
-        register_shutdown_function(function () use ($lifecycle, $terminal) {
+        register_shutdown_function(function () use ($application, $terminal) {
             /* --- Terminal ---
              * Once we run index.php from terminal via php index.php it will automaticaly start terminal
              * mode which will work instead of lemonade
              */
-            if ($lifecycle->runsInTerminal()) {
+            if ($application->runsInTerminal()) {
                 if ($terminal) {
-                    $lifecycle->get('terminal')->run(array_slice($GLOBALS['argv'], 1));
+                    $application->get('terminal')->run(array_slice($GLOBALS['argv'], 1));
                 }
 
                 return;
@@ -220,11 +220,11 @@ final class Application extends Container
                 return;
             }
 
-            $lifecycle->get(Router::class)->routes()->middleware(Csrf::class);
+            $application->get(Router::class)->routes()->middleware(Csrf::class);
 
-            $lifecycle->boot();
+            $application->boot();
         });
 
-        return $lifecycle;
+        return $application;
     }
 }

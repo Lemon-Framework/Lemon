@@ -8,7 +8,7 @@ use Lemon\Kernel\Application;
 
 abstract class Zest
 {
-    protected static ?Application $lifecycle = null;
+    protected static ?Application $application = null;
 
     private function __construct()
     {
@@ -24,16 +24,16 @@ abstract class Zest
     /**
      * Initializes zests.
      */
-    public static function init(Application $lifecycle): void
+    public static function init(Application $application): void
     {
-        self::$lifecycle = $lifecycle;
+        self::$application = $application;
     }
 
     public static function getAccessor(): object
     {
         $unit = static::unit();
 
-        return self::$lifecycle->get($unit);
+        return self::$application->get($unit);
     }
 
     abstract public static function unit(): string;

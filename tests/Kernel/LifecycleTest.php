@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class LifecycleTest extends TestCase
+class ApplicationTest extends TestCase
 {
     public function testFile()
     {

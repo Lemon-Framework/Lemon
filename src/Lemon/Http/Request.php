@@ -14,7 +14,7 @@ class Request
 
     private ?array $query_data = null;
 
-    private ?Application $lifecycle = null;
+    private ?Application $application = null;
 
     private array $parsers = [];
 
@@ -55,11 +55,11 @@ class Request
     }
 
     /**
-     * Injects lifecycle.
+     * Injects application.
      */
-    public function injectLifecycle(Application $lifecycle): static
+    public function injectApplication(Application $application): static
     {
-        $this->lifecycle = $lifecycle;
+        $this->application = $application;
 
         return $this;
     }
@@ -161,15 +161,15 @@ class Request
     /**
      * Determins whenever request meets given rules.
      *
-     * @throws Exception When lifecycle is not injected
+     * @throws Exception When application is not injected
      */
     public function validate(array $rules): bool
     {
-        if (!$this->lifecycle) {
-            throw new Exception('Lifecycle is required for validation. Try injecting using ::injectLifecycle'); // TODO exception
+        if (!$this->application) {
+            throw new Exception('Application is required for validation. Try injecting using ::injectApplication'); // TODO exception
         }
 
-        return $this->lifecycle->get(Validator::class)
+        return $this->application->get(Validator::class)
             ->validate($this->data(), $rules)
         ;
     }

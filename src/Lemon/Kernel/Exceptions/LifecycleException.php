@@ -6,6 +6,6 @@ namespace Lemon\Kernel\Exceptions;
 
 use Exception;
 
-class LifecycleException extends Exception
+class ApplicationException extends Exception
 {
 }

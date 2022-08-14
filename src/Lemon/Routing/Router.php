@@ -40,7 +40,7 @@ class Router
     private Collection $routes;
 
     public function __construct(
-        private Application $lifecycle,
+        private Application $application,
         private ResponseFactory $response
     ) {
         $this->routes = new Collection();
@@ -86,7 +86,7 @@ class Router
     {
         $original = $this->routes;
         $this->routes = new Collection();
-        $this->lifecycle->call($routes, []);
+        $this->application->call($routes, []);
         $collection = $this->routes;
         $this->routes = $original;
         $this->routes->collection($collection);
@@ -102,7 +102,7 @@ class Router
         return $this->collection(function () use ($file) {
             $router = $this;
 
-            require $this->lifecycle->file($file, 'php');
+            require $this->application->file($file, 'php');
         });
     }
 

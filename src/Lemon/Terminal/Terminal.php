@@ -17,7 +17,7 @@ class Terminal
     private Output $output;
 
     public function __construct(
-        private Application $lifecycle
+        private Application $application
     ) {
         $this->commands = new Dispatcher();
         $this->output = new Output();
@@ -40,7 +40,7 @@ class Terminal
     public function out(mixed $content): void
     {
         $out = $this->output->out($content).PHP_EOL;
-        if ($this->lifecycle->runsInTerminal()) {
+        if ($this->application->runsInTerminal()) {
             echo $out;
         } else {
             file_put_contents('php://stdout', $out); // If you write to php://stdout even in server it will actualy write to standart inut which means php console pog
@@ -77,6 +77,6 @@ class Terminal
 
             return;
         }
-        $this->lifecycle->call($result[0], $result[1]);
+        $this->application->call($result[0], $result[1]);
     }
 }

@@ -29,10 +29,10 @@ class Factory
     public function __construct(
         Config $config,
         private Compiler $compiler,
-        private Application $lifecycle
+        private Application $application
     ) {
-        $lifecycle->add(Enviroment::class);
-        $lifecycle->alias('templating.env', Enviroment::class);
+        $application->add(Enviroment::class);
+        $application->alias('templating.env', Enviroment::class);
 
         $this->templates = $config->file('templating.location');
         $this->cached = $config->file('templating.cached');
@@ -50,7 +50,7 @@ class Factory
         $compiled_path = $this->getCompiledPath($name);
         $this->compile($path, $compiled_path);
 
-        $data['_env'] = $this->lifecycle->get('templating.env');
+        $data['_env'] = $this->application->get('templating.env');
         $data['_factory'] = $this;
 
         return new Template($path, $compiled_path, $data);

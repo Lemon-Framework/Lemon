@@ -11,7 +11,7 @@ class Dispatcher
     private array $events = [];
 
     public function __construct(
-        private Application $lifecycle,
+        private Application $application,
     ) {
     }
 
@@ -31,7 +31,7 @@ class Dispatcher
     public function fire(string $name, mixed ...$args): static
     {
         foreach ($this->events[$name] as $event) {
-            $this->lifecycle->call($event, $args);
+            $this->application->call($event, $args);
         }
 
         return $this;

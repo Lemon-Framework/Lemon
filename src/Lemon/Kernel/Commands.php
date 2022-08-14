@@ -29,7 +29,7 @@ class Commands
     public function __construct(
         private Terminal $terminal,
         private Config $config,
-        private Application $lifecycle
+        private Application $application
     ) {
     }
 
@@ -42,7 +42,7 @@ class Commands
 
     public function serve($port = 8000, $url = 'localhost'): void
     {
-        exec('php -S '.$url.':'.$port.' -t '.$this->lifecycle->directory.DIRECTORY_SEPARATOR.'public');
+        exec('php -S '.$url.':'.$port.' -t '.$this->application->directory.DIRECTORY_SEPARATOR.'public');
     }
 
     public function clearTemplates(): void
@@ -69,12 +69,12 @@ class Commands
 
     public function down(): void
     {
-        $this->lifecycle->down();
+        $this->application->down();
     }
 
     public function up(): void
     {
-        $this->lifecycle->up();
+        $this->application->up();
     }
 
     public function help(): void

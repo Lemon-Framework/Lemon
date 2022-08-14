@@ -12,7 +12,7 @@ use ReflectionClass;
 use ReflectionFunction;
 use ReflectionMethod;
 
-// TODO add lifecycle
+// TODO add application
 class Container implements ContainerInterface
 {
     /**
