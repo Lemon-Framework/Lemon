@@ -18,10 +18,6 @@ class Csrf
             return (new EmptyResponse())->cookie('CSRF_TOKEN', $csrf->getToken());
         }
 
-        if (!Arr::has(['POST', 'PUT'], $request->method)) {
-            return;
-        }
-
         $cookie = $request->getCookie('CSRF_TOKEN');
         if ($cookie !== $request->get('CSRF_TOKEN') || null === $cookie) {
             return $response->error(400);

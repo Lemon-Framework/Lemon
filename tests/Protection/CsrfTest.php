@@ -51,6 +51,9 @@ class CsrfTest extends TestCase
         $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), []);
         $this->assertSame(400, $m->handle($r, $c, $f)->code()); // But when something is missing
 
+        $r = new Request('/', '', 'PUT', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), []);
+        $this->assertSame(400, $m->handle($r, $c, $f)->code()); // But when something is missing
+
         $r = new Request('/', '', 'POST', [], '', ['CSRF_TOKEN' => $c->getToken()]);
         $this->assertSame(400, $m->handle($r, $c, $f)->code());
     }
