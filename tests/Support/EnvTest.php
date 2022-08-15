@@ -63,6 +63,13 @@ class EnvTest extends TestCase
         $this->assertSame('bar', $env->get('BAR', 'bar'));
     }
 
+    public function testFile()
+    {
+        $env = $this->getEnv('FOO=Types.TypeTest');
+
+        $this->assertSame(__DIR__.DIRECTORY_SEPARATOR.'Types'.DIRECTORY_SEPARATOR.'TypeTest.php', $env->file('FOO', 'php'));
+    }
+
     public function testSet()
     {
         $env = $this->getEnv('');

@@ -16,8 +16,9 @@ final class Env
 
     private bool $changed = false;
 
-    public function __construct(Application $application)
-    {
+    public function __construct(
+        private Application $application
+    ) {
         $this->path = $application->directory.DIRECTORY_SEPARATOR.'.env';
         $this->load();
     }
@@ -55,6 +56,14 @@ final class Env
         }
 
         return $this->data[$key];
+    }
+
+    /**
+     * Returns file with name from env
+     */
+    public function file(string $key, string $prefix, mixed $default = null): string
+    {
+        return $this->application->file($this->get($key, $default), $prefix);
     }
 
     /**

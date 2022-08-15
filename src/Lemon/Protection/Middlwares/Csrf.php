@@ -13,13 +13,13 @@ class Csrf
 {
     public function handle(Request $request, ProtectionCsrf $csrf, ResponseFactory $response)
     {
-        if ('GET' === $request->method) {
-            return (new EmptyResponse())->cookie('CSRF_TOKEN', $csrf->getToken());
+        if ('GET' != $request->method) {
+            $cookie = $request->getCookie('CSRF_TOKEN');
+            if ($cookie !== $request->get('CSRF_TOKEN') || null === $cookie) {
+                return $response->error(400);
+            }
         }
 
-        $cookie = $request->getCookie('CSRF_TOKEN');
-        if ($cookie !== $request->get('CSRF_TOKEN') || null === $cookie) {
-            return $response->error(400);
-        }
+        return (new EmptyResponse())->cookie('CSRF_TOKEN', $csrf->getToken());
     }
 }

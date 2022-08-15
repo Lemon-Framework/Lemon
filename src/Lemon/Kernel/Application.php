@@ -92,7 +92,7 @@ final class Application extends Container
      */
     public function loadHandler(): void
     {
-        error_reporting(-1);
+        error_reporting(E_ALL);
         set_exception_handler([$this, 'handle']);
     }
 

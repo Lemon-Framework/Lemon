@@ -8,7 +8,7 @@ return [
     'driver' => Env::get('DB_DRIVER'),
 
     // --- Sqlite specific ---
-    'file' => Env::get('DB_FILE'),
+    'file' => Env::file('DB_FILE', 'sqlite', 'database'),
 
     'host' => Env::get('DB_HOST'),
     'port' => Env::get('DB_PORT'),

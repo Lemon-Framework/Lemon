@@ -10,6 +10,7 @@ namespace Lemon;
  *
  * @method static void load()                                   Loads env file
  * @method static mixed get(string $key, mixed $default = null) Returns env value of given key or default if not present
+ * @method static string file(string $key, string $prefix, mixed $default = null) Returns file with name from env
  * @method static bool has(string $key)                         Returns whenever env key exist
  * @method static void set(string $key, string $value)          Sets env key with given value
  * @method static array data()                                  Returns env data
