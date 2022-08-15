@@ -46,7 +46,7 @@ class CsrfTest extends TestCase
         $this->assertThat($m->handle($r, $c, $f), $this->equalTo((new EmptyResponse())->cookie('CSRF_TOKEN', $c->getToken()))); // Now user has the token in cookie
 
         $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), ['CSRF_TOKEN' => $c->getToken()]);
-        $this->assertNull($m->handle($r, $c, $f)); // And since everything is all right
+        $this->assertThat($m->handle($r, $c, $f), $this->equalTo((new EmptyResponse())->cookie('CSRF_TOKEN', $c->getToken()))); // Now user has new token in cookie
 
         $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), []);
         $this->assertSame(400, $m->handle($r, $c, $f)->code()); // But when something is missing
