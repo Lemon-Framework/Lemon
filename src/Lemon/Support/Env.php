@@ -59,7 +59,7 @@ final class Env
     }
 
     /**
-     * Returns file with name from env
+     * Returns file with name from env.
      */
     public function file(string $key, string $prefix, mixed $default = null): string
     {

@@ -30,7 +30,7 @@ class Validator
     {
         foreach ($ruleset as $key => $rules) {
             $rules = $this->resolveRules($rules);
-            if (!Arr::hasKey($data, $key) || strlen($data[$key]) === 0) {
+            if (!Arr::hasKey($data, $key) || 0 === strlen($data[$key])) {
                 if (Arr::has($rules, ['optional'])) {
                     continue;
                 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Tests\Kernel;
 
 use Lemon\Kernel\Container;
-use Lemon\Kernel\Exceptions\ContainerException;
 use Lemon\Kernel\Exceptions\NotFoundException;
 use Lemon\Tests\Kernel\Resources\IFoo;
 use Lemon\Tests\Kernel\Resources\Units\Bar;

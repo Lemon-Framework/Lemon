@@ -17,13 +17,13 @@ use Lemon\Templating\Factory as TemplateFactory;
 /**
  * The Lemon Router.
  *
- * @method \Lemon\Routing\Route get(string $path, callable|array $action)     Creates route with method get
- * @method \Lemon\Routing\Route post(string $path, callable|array $action)    Creates route with method post
- * @method \Lemon\Routing\Route put(string $path, callable|array $action)     Creates route with method put
- * @method \Lemon\Routing\Route head(string $path, callable|array $action)    Creates route with method head
- * @method \Lemon\Routing\Route delete(string $path, callable|array $action)  Creates route with method delete
- * @method \Lemon\Routing\Route path(string $path, callable|array $action)    Creates route with method path
- * @method \Lemon\Routing\Route options(string $path, callable|array $action) Creates route with method options
+ * @method \Lemon\Routing\Route get(string $path, array|callable $action)     Creates route with method get
+ * @method \Lemon\Routing\Route post(string $path, array|callable $action)    Creates route with method post
+ * @method \Lemon\Routing\Route put(string $path, array|callable $action)     Creates route with method put
+ * @method \Lemon\Routing\Route head(string $path, array|callable $action)    Creates route with method head
+ * @method \Lemon\Routing\Route delete(string $path, array|callable $action)  Creates route with method delete
+ * @method \Lemon\Routing\Route path(string $path, array|callable $action)    Creates route with method path
+ * @method \Lemon\Routing\Route options(string $path, array|callable $action) Creates route with method options
  */
 class Router
 {
