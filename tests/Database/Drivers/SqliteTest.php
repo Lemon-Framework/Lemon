@@ -17,14 +17,9 @@ use Lemon\Zest;
  */
 class SqliteTest extends TestCase
 {
-    public function setUp(): void
-    {
-        touch('database.sqlite');
-    }
-
     public function tearDown(): void
     {
-        unlink('database.sqlite');
+        unlink(__DIR__.DIRECTORY_SEPARATOR.'database.sqlite');
     }
 
     public function testConnecting()
