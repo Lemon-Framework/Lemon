@@ -19,12 +19,12 @@ class SqliteTest extends TestCase
 {
     public function setUp(): void
     {
-        touch('database.sql');
+        touch('database.sqlite');
     }
 
     public function tearDown(): void
     {
-        unlink('database.sql');
+        unlink('database.sqlite');
     }
 
     public function testConnecting()
