@@ -30,7 +30,7 @@ class Request
 
     public function __get($name)
     {
-        if ($result = $this->get($name)) {
+        if (!is_null($result = $this->get($name))) {
             return $result;
         }
 

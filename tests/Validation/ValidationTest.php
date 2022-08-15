@@ -51,5 +51,10 @@ class ValidationTest extends TestCase
             ['foo' => 'parek'],
             ['foo' => 'max:1']
         ));
+
+        $this->assertTrue($validator->validate(
+            ['foo' => '0'],
+            ['foo' => 'numeric'],
+        ));
     }
 }
