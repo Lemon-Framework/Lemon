@@ -88,6 +88,41 @@ class RouterTest extends TestCase
         $this->assertThat($r->routes(), $this->equalTo((new Collection())->collection($c)));
     }
 
+    public function testController()
+    {
+        $r = $this->getRouter();
+        $r->controller('/login', Controller::class);
+
+        $c = new Collection();
+        $c->add('/', 'get', [Controller::class, 'get']);
+        $c->add('/', 'post', [Controller::class, 'post']);
+        $c->prefix('login');
+        $expect = new Collection();
+        $expect->collection($c);
+
+        $r = $this->getRouter();
+        $r->controller('posts', ResourceController::class);
+
+        $c = new Collection();
+        $c->add('/create', 'get', [ResourceController::class, 'create']);
+        $c->add('/{target}', 'get', [ResourceController::class, 'show']);
+        $c->add('/', 'get', [ResourceController::class, 'index']);
+        $c->prefix('posts');
+        $expect = new Collection();
+        $expect->collection($c);
+        $this->assertThat($r->routes(), $this->equalTo($expect));
+
+        $r = $this->getRouter();
+        $r->controller('mixed', MixedController::class);
+
+        $c = new Collection();
+        $c->add('/', 'put', [MixedController::class, 'put']);
+        $c->add('/create', 'get', [MixedController::class, 'create']);
+        $c->add('/{target}', 'put', [MixedController::class, 'update']);
+        $c->add('/', 'post', [MixedController::class, 'post']);
+        $c->prefix('mixed');
+    }
+
     public function testDispatching()
     {
         $r = $this->getRouter();
@@ -112,5 +147,50 @@ class SimpleCompiler implements Compiler
     public function getExtension(): string
     {
         return 'phtml';
+    }
+}
+
+class ResourceController
+{
+    public function create()
+    {
+    }
+
+    public function show()
+    {
+    }
+
+    public function index()
+    {
+    }
+}
+
+class Controller
+{
+    public function get()
+    {
+    }
+
+    public function post()
+    {
+    }
+}
+
+class MixedController
+{
+    public function put()
+    {
+    }
+
+    public function create()
+    {
+    }
+
+    public function update()
+    {
+    }
+
+    public function post()
+    {
     }
 }

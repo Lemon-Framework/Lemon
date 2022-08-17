@@ -6,7 +6,7 @@ namespace Lemon\Support\Types;
 
 abstract class Maybe
 {
-    public static function just(mixed $data): Just    
+    public static function just(mixed $data): Just
     {
         return new Just($data);
     }
@@ -16,9 +16,9 @@ abstract class Maybe
         return new Nothing();
     }
 
-    abstract function unwrap(mixed $default = null): mixed;
+    abstract public function unwrap(mixed $default = null): mixed;
 
-    abstract function then(callable $action): static;
+    abstract public function then(callable $action): static;
 
-    abstract function expect(string $error): mixed;
+    abstract public function expect(string $error): mixed;
 }

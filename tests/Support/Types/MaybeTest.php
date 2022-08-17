@@ -9,6 +9,10 @@ use Lemon\Support\Types\Maybe;
 use Lemon\Support\Types\Nothing;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class MaybeTest extends TestCase
 {
     public function testJust()
@@ -26,7 +30,7 @@ class MaybeTest extends TestCase
         $this->assertNull(Maybe::nothing()->unwrap());
         $this->assertSame('foo', Maybe::nothing()->unwrap('foo'));
         $this->assertNull(Maybe::nothing()->then('ucfirst')->unwrap());
-        
+
         $this->expectExceptionMessage('bad');
         Maybe::nothing()->expect('bad');
     }

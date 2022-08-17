@@ -10,6 +10,7 @@ use Lemon\Http\Response;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Kernel\Application;
+use Lemon\Routing\Exceptions\RouteException;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 use Lemon\Templating\Factory as TemplateFactory;
@@ -35,6 +36,17 @@ class Router
         'delete',
         'path',
         'options',
+    ];
+
+    /** @see https://laravel.com/docs/9.x/controllers#actions-handled-by-resource-controller */
+    public const CONTROLLER_RESOURCES = [
+        'index' => ['get', '/'],
+        'create' => ['get', '/create'],
+        'store' => ['post', '/create'],
+        'show' => ['get', '/{target}'],
+        'edit' => ['get', '/{target}/edit'],
+        'update' => ['put', '/{target}'],
+        'delete' => ['get', '/{target}/delete'],
     ];
 
     private Collection $routes;
@@ -104,6 +116,29 @@ class Router
 
             require $this->application->file($file, 'php');
         });
+    }
+
+    /**
+     * Generates collection of given controller.
+     */
+    public function controller(string $base, string $controller): Collection
+    {
+        if (!class_exists($controller)) {
+            throw new RouteException('Controller '.$controller.' does not exist');
+        }
+
+        return $this->collection(function () use ($controller) {
+            foreach (get_class_methods($controller) as $method) {
+                if (in_array($method, self::REQUEST_METHODS)) {
+                    $this->{$method}('/', [$controller, $method]);
+                }
+
+                if (isset(self::CONTROLLER_RESOURCES[$method])) {
+                    $resource = self::CONTROLLER_RESOURCES[$method];
+                    $this->{$resource[0]}($resource[1], [$controller, $method]);
+                }
+            }
+        })->prefix($base);
     }
 
     /**

@@ -1,12 +1,12 @@
 {
     "name": "lemon_framework/lemon",
-    "description": "Dead simple microframework allowing you to squeeze the most out of your code",
+    "description": "A php microframework",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "TENMAJKL",
-            "email": "tenmajkl@liskyjidlokod.fun"
+            "name": "Majkel",
+            "email": "tenmajkl@proton.me"
         }
     ],
     "autoload": {
@@ -32,8 +32,7 @@
     "require-dev": {
         "phpunit/phpunit": "^9",
         "friendsofphp/php-cs-fixer": "^3.6",
-        "phpstan/phpstan": "^1.4",
-        "bmitch/churn-php": "^1.6"
+        "phpstan/phpstan": "^1.4"
     },
     "config": {
         "allow-plugins": {

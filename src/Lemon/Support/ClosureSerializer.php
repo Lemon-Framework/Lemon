@@ -18,19 +18,20 @@ class ClosureSerializer
     {
         $reflection = new ReflectionFunction($closure);
         $file = file_get_contents($reflection->getFileName());
-        $code = '<?php '.implode("\n", 
+        $code = '<?php '.implode(
+            "\n",
             array_slice(
                 explode("\n", $file),
                 $reflection->getStartLine() - 1,
-                ($reflection->getEndLine() - $reflection->getStartLine() + 1)
+                $reflection->getEndLine() - $reflection->getStartLine() + 1
             )
-        );      
+        );
 
         $tokens = PhpToken::tokenize($code);
         foreach ($tokens as $index => $token) {
             if ($token->is('function')) {
                 return self::serializeFunction(array_slice($tokens, $index));
-            } 
+            }
 
             if ($token->is('fn')) {
                 return self::serializeArrowFunction(array_slice($tokens, $index));
@@ -55,18 +56,19 @@ class ClosureSerializer
 
             if ($token->is(T_WHITESPACE)) {
                 $result .= ' ';
+
                 continue;
             }
 
             $result .= $token->text;
 
             if ($token->is('{')) {
-                $braces++;
+                ++$braces;
             }
 
             if ($token->is('}')) {
-                $braces--;
-                if ($braces == 0) {
+                --$braces;
+                if (0 == $braces) {
                     return $result;
                 }
             }
@@ -90,22 +92,23 @@ class ClosureSerializer
 
             if ($token->is(T_WHITESPACE)) {
                 $result .= ' ';
+
                 continue;
             }
 
             if ($token->is('(')) {
-                $braces++;
+                ++$braces;
             }
 
             if ($token->is(')')) {
-                if ($braces == 0) {
+                if (0 == $braces) {
                     return $result;
                 }
-                $braces--;
+                --$braces;
             }
 
             if ($token->is(',')) {
-                if ($braces == 0) {
+                if (0 == $braces) {
                     return $result;
                 }
             }
