@@ -8,9 +8,9 @@ use Exception;
 
 class Nothing extends Maybe
 {
-    public function unwrap(): mixed
+    public function unwrap(mixed $default = null): mixed
     {
-        return null;
+        return $default;
     }
 
     public function expect(string $error): mixed

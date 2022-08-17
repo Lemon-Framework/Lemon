@@ -12,7 +12,7 @@ class Just extends Maybe
         
     }
 
-    public function unwrap(): mixed
+    public function unwrap(mixed $default = null): mixed
     {
         return $this->data;
     }

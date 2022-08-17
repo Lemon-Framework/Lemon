@@ -16,7 +16,7 @@ abstract class Maybe
         return new Nothing();
     }
 
-    abstract function unwrap(): mixed;
+    abstract function unwrap(mixed $default = null): mixed;
 
     abstract function then(callable $action): static;
 
