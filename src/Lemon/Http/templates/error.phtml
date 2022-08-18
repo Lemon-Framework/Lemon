@@ -12,7 +12,7 @@ use Lemon\Http\Response;
 <head>
     <meta charset="UTF-8">
     <title>
-        <?php echo Response::ERROR_STATUS_CODES[$code] ?></title>
+        <?php echo Response::STATUS_CODES[$code] ?></title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
         
@@ -25,7 +25,7 @@ use Lemon\Http\Response;
     <h1 style="display: block; margin-left: 1%">
         <?php echo $code ?>
         <hr>
-        <?php echo Response::ERROR_STATUS_CODES[$code] ?>
+        <?php echo Response::STATUS_CODES[$code] ?>
     </h1>
 </body>
 </html>

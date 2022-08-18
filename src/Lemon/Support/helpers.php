@@ -114,7 +114,7 @@ if (!function_exists('redirect')) {
 
 if (!function_exists('response')) {
     /**
-     * Returns response with given data
+     * Returns response with given data.
      */
     function response(mixed $data): Response
     {

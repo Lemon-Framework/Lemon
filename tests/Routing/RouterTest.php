@@ -129,7 +129,7 @@ class RouterTest extends TestCase
 
         $r->get('/', fn () => 'foo');
 
-        $r->get('foo/bar', fn() => 'bar');
+        $r->get('foo/bar', fn () => 'bar');
 
         $this->assertThat($r->dispatch($this->emulate('/', 'GET')), $this->equalTo(new HtmlResponse('foo')));
         $this->assertThat($r->dispatch($this->emulate('/foo/bar', 'GET')), $this->equalTo(new HtmlResponse('bar')));
