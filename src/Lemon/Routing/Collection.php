@@ -113,8 +113,8 @@ class Collection
     public function dispatch(string $path): ?array
     {
         if ($this->prefix) {
-            if (preg_match("/^({$this->prefix})(.+)$/", $path, $matches)) {
-                $path = $matches[2];
+            if (preg_match("/^({$this->prefix})(.*)$/", $path, $matches)) {
+                $path = trim($matches[2], '/');
             } else {
                 return null;
             }

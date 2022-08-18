@@ -62,7 +62,7 @@ class CollectionTest extends TestCase
         $dynamic = $collection->add('users/{user}', 'get', fn ($user) => $user);
 
         $this->assertSame([$route, []], $collection->dispatch('foo'));
-        $this->assertSame([$dynamic, ['user' => 'majkel']], $collection->dispatch('/users/majkel/'));
+        $this->assertSame([$dynamic, ['user' => 'majkel']], $collection->dispatch('users/majkel'));
     }
 
     public function testRecursiveDispatching()
@@ -88,8 +88,10 @@ class CollectionTest extends TestCase
         $collection = new Collection();
         $collection->prefix('api');
         $route = $collection->add('foo', 'get', fn () => 'foo');
+        $index = $collection->add('/', 'get', fn () => 'bar');
         $this->assertNull($collection->dispatch('foo'));
         $this->assertSame([$route, []], $collection->dispatch('api/foo'));
+        $this->assertSame([$index, []], $collection->dispatch('api'));
     }
 
     public function testMiddlewares()
@@ -100,7 +102,7 @@ class CollectionTest extends TestCase
 
         $c->add('/', 'get', fn () => 'foo');
 
-        $this->assertSame([Csrf::class], $c->dispatch('/')[0]->middlewares->middlewares());
+        $this->assertSame([Csrf::class], $c->dispatch('')[0]->middlewares->middlewares());
 
         $r = new Collection();
         $r->add('/foo', 'get', fn () => 'foo');

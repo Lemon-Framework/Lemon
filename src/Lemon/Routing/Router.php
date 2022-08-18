@@ -146,7 +146,7 @@ class Router
      */
     public function dispatch(Request $request): Response
     {
-        $result = $this->routes->dispatch($request->path);
+        $result = $this->routes->dispatch(trim($request->path, '/'));
 
         if (!$result) {
             return $this->response->error(404);

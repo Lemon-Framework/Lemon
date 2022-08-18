@@ -79,8 +79,8 @@ class Route
     public function matches(string $path): ?array
     {
         $patern = $this->buildRegex();
-
-        return preg_match('~^[/]*'.$patern.'[/]*$~', $path, $matches)
+        
+        return preg_match('~^'.$patern.'$~', $path, $matches)
             ? array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY)
             : null
         ;
