@@ -79,5 +79,9 @@ class ContainerTest extends TestCase
         $this->assertSame(3, $container->call(function ($bar, Foo $foo, $baz = 1) {
             return $bar + $baz;
         }, ['bar' => 2]));
+
+        $this->assertSame(3, $container->call(function (Foo $foo, $bar, $baz = 1) {
+            return $bar + $baz;
+        }, ['bar' => 2]));
     }
 }

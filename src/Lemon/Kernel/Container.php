@@ -112,12 +112,12 @@ class Container implements ContainerInterface
         foreach ($fn->getParameters() as $param) {
             if ($class = (string) $param->getType()) {
                 if ($this->has($class)) {
-                    $injected[] = $this->get($class);
+                    $injected[$param->getName()] = $this->get($class);
                 } else {
                     throw new ContainerException('Parameter of type '.$class.' could not be injected, because its not present in container');
                 }
             } elseif (isset($params[$param->getName()])) {
-                $injected[] = $params[$param->getName()];
+                $injected[$param->getName()] = $params[$param->getName()];
             } elseif (!$param->isOptional()) {
                 return new ContainerException('Parameter '.$param->getName().' is missing');
             }
