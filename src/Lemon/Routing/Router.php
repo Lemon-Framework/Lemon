@@ -159,18 +159,19 @@ class Router
             return $this->response->error(400);
         }
 
+        $prototype = $this->response->make($action, $result[1]);
+        $this->application->add(Response::class, $prototype);
+
         foreach ($route->middlewares->resolve() as $middleware) {
             $response = $this->response->make($middleware);
-            if ($response instanceof EmptyResponse) {
-                $response->send();
-
+            if ($response instanceof EmptyResponse || $response === $prototype) {
                 continue;
             }
 
             return $response;
         }
 
-        return $this->response->make($action, $result[1]);
+        return $prototype; 
     }
 
     /**

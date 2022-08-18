@@ -8,6 +8,7 @@ use Lemon\Config\Config;
 use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\EmptyResponse;
+use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Kernel\Application;
 use Lemon\Protection\Csrf;
 use Lemon\Protection\Middlwares\Csrf as MiddlwaresCsrf;
@@ -42,19 +43,21 @@ class CsrfTest extends TestCase
         $f = new ResponseFactory(new Factory($cf, new Compiler($cf), $lc), $lc);
 
         $r = new Request('/', '', 'GET', [], '', []); // Lets say we have regular get request
-
-        $this->assertThat($m->handle($r, $c, $f), $this->equalTo((new EmptyResponse())->cookie('CSRF_TOKEN', $c->getToken()))); // Now user has the token in cookie
+        $res = new HtmlResponse();
+        $this->assertSame([['CSRF_TOKEN', $c->getToken(), 0]], $m->handle($r, $c, $f, $res)->cookies()); // Now user has the token in cookie
 
         $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), ['CSRF_TOKEN' => $c->getToken()]);
-        $this->assertThat($m->handle($r, $c, $f), $this->equalTo((new EmptyResponse())->cookie('CSRF_TOKEN', $c->getToken()))); // Now user has new token in cookie
+        $res = new HtmlResponse();
+        $this->assertSame([['CSRF_TOKEN', $c->getToken(), 0]], $m->handle($r, $c, $f, $res)->cookies()); // Now user has new token in cookie
 
         $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), []);
-        $this->assertSame(400, $m->handle($r, $c, $f)->code()); // But when something is missing
+        $res = new HtmlResponse();
+        $this->assertSame(400, $m->handle($r, $c, $f, $res)->code()); // But when something is missing
 
         $r = new Request('/', '', 'PUT', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), []);
-        $this->assertSame(400, $m->handle($r, $c, $f)->code()); // But when something is missing
+        $this->assertSame(400, $m->handle($r, $c, $f, $res)->code()); // But when something is missing
 
         $r = new Request('/', '', 'POST', [], '', ['CSRF_TOKEN' => $c->getToken()]);
-        $this->assertSame(400, $m->handle($r, $c, $f)->code());
+        $this->assertSame(400, $m->handle($r, $c, $f, $res)->code());
     }
 }

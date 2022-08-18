@@ -7,7 +7,7 @@ namespace Lemon\Http\Middlewares;
 use Lemon\Config\Config;
 use Lemon\Config\Exceptions\ConfigException;
 use Lemon\Http\Request;
-use Lemon\Http\Responses\EmptyResponse;
+use Lemon\Http\Response;
 
 /**
  * Cors.handling middleware
@@ -19,11 +19,11 @@ use Lemon\Http\Responses\EmptyResponse;
  */
 class Cors
 {
-    private EmptyResponse $response;
+    private Response $response;
 
-    public function handle(Config $config, Request $request): EmptyResponse
+    public function handle(Config $config, Request $request, Response $response): Response
     {
-        $this->response = new EmptyResponse();
+        $this->response = $response;
         $config = $config->get('http.cors');
 
         $this->handleAllowedOrigins($request, $config['allowed-origins'] ?? null);
