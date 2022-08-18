@@ -183,6 +183,11 @@ abstract class Response
         return $this;
     }
 
+    public function cookies(): array
+    {
+        return $this->cookies;
+    }
+
     /**
      * Parses body.
      */
