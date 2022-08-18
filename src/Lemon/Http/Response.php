@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Lemon\Http;
 
+use DateInterval;
+use DateTime;
+use DateTimeInterface;
+
 /**
  * Represents Http Response.
  *
@@ -11,7 +15,27 @@ namespace Lemon\Http;
  */
 abstract class Response
 {
-    public const ERROR_STATUS_CODES = [
+    public const STATUS_CODES = [
+        100 => 'Continue',
+        101 => 'Switching Protocols',
+        102 => 'Processing',
+        103 => 'Checkpoint',
+        200 => 'OK',
+        201 => 'Created',
+        202 => 'Accepted',
+        203 => 'Non-Authoritative Information',
+        204 => 'No Content',
+        205 => 'Reset Content',
+        206 => 'Partial Content',
+        207 => 'Multi-Status',
+        300 => 'Multiple Choices',
+        301 => 'Moved Permanently',
+        302 => 'Found',
+        303 => 'See Other',
+        304 => 'Not Modified',
+        305 => 'Use Proxy',
+        306 => 'Switch Proxy',
+        307 => 'Temporary Redirect',
         400 => 'Bad Request',
         401 => 'Unauthorized',
         402 => 'Payment Required',
@@ -182,5 +206,29 @@ abstract class Response
     public function headers(): array
     {
         return $this->headers;
+    }
+
+    public function __toString(): string
+    {
+        $status = self::STATUS_CODES[$this->status_code];
+
+        foreach ($this->cookies as [$name, $cookie, $expire]) {
+            $header = "{$name}={$cookie}";
+            if ($expire) {
+                $expires = new DateTime();
+                $expires = $expires->setTimestamp($expire)->format(DateTimeInterface::RFC7231);
+                $header .= ' Expires='.$expires;
+            }
+            $this->header('Set-Cookie', $header);
+        }
+
+        $body = $this->parseBody();
+
+        return implode("\r\n", [
+            "HTTP/1.1 {$this->status_code} {$status}",
+            ...array_map(fn($key) => $key.': '.$this->headers[$key], array_keys($this->headers)),
+            '',
+            $body
+        ]);
     }
 }

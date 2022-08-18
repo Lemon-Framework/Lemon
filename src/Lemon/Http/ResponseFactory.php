@@ -71,7 +71,7 @@ class ResponseFactory
      */
     public function error(int $code): Response
     {
-        if (!isset(Response::ERROR_STATUS_CODES[$code])) {
+        if (!isset(Response::STATUS_CODES[$code])) {
             throw new InvalidArgumentException('Status code '.$code.' is not error status code');
         }
 

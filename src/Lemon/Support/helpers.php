@@ -9,6 +9,7 @@ use Lemon\Debug;
 use Lemon\Env;
 use Lemon\Http\Response;
 use Lemon\Http\Responses\RedirectResponse;
+use Lemon\Response as ResponseFactory;
 use Lemon\Support\Pipe;
 use Lemon\Support\Types\Array_;
 use Lemon\Templating\Template;
@@ -108,6 +109,16 @@ if (!function_exists('redirect')) {
     function redirect(string $location): RedirectResponse
     {
         return (new RedirectResponse())->location($location);
+    }
+}
+
+if (!function_exists('response')) {
+    /**
+     * Returns response with given data
+     */
+    function response(mixed $data): Response
+    {
+        return ResponseFactory::resolve($data);
     }
 }
 

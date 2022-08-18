@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Http;
 
+use DateTime;
+use DateTimeInterface;
 use Lemon\Http\Responses\HtmlResponse;
+use Lemon\Http\Responses\JsonResponse;
 use Lemon\Tests\TestCase;
 
 /**
@@ -48,5 +51,27 @@ class ResponseTest extends TestCase
         $this->assertSame(500, $r->code());
         $r->handleStatusCode();
         $this->assertSame(500, http_response_code());
+    }
+
+    public function testStringCasting()
+    {
+        $r = new HtmlResponse('foo');
+        $this->assertSame("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\nfoo", (string) $r);
+
+        $r = new HtmlResponse('foo');
+        $r->cookie('foo', 'bar');
+        $this->assertSame("HTTP/1.1 200 OK\r\nSet-Cookie: foo=bar\r\nContent-Type: text/html\r\n\r\nfoo", (string) $r);
+
+        $r = new HtmlResponse('foo');
+        $time = time();
+        $r->cookie('foo', 'bar', $time + 60);
+        $expires = (new DateTime())->setTimestamp($time + 60)->format(DateTimeInterface::RFC7231);
+        $this->assertSame("HTTP/1.1 200 OK\r\nSet-Cookie: foo=bar Expires={$expires}\r\nContent-Type: text/html\r\n\r\nfoo", (string) $r);
+
+        $r = new HtmlResponse('foo', 500, ['Foo' => 'Bar']);
+        $this->assertSame("HTTP/1.1 500 Internal Server Error\r\nFoo: Bar\r\nContent-Type: text/html\r\n\r\nfoo", (string) $r);
+
+        $r = new JsonResponse(['foo' => 'bar']);
+        $this->assertSame("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n{\"foo\":\"bar\"}", (string) $r);
     }
 }
