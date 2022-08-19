@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon\Contracts\Validation;
 
+use Lemon\Validation\Rules;
+
 interface Validator
 {
     /**

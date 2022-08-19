@@ -51,7 +51,7 @@ class Router
     /**
      * Creates route for method get.
      */
-    public function get(string $path, callable $action): Route
+    public function get(string $path, callable|array $action): Route
     {
         return $this->routes->add($path, 'get', $action);
     }
@@ -59,7 +59,7 @@ class Router
     /**
      * Creates route for method post.
      */
-    public function post(string $path, callable $action): Route
+    public function post(string $path, callable|array $action): Route
     {
         return $this->routes->add($path, 'post', $action);
     }
@@ -67,7 +67,7 @@ class Router
     /**
      * Creates route for method put.
      */
-    public function put(string $path, callable $action): Route
+    public function put(string $path, callable|array $action): Route
     {
         return $this->routes->add($path, 'put', $action);
     }
@@ -75,7 +75,7 @@ class Router
     /**
      * Creates route for method head.
      */
-    public function head(string $path, callable $action): Route
+    public function head(string $path, callable|array $action): Route
     {
         return $this->routes->add($path, 'head', $action);
     }
@@ -83,7 +83,7 @@ class Router
     /**
      * Creates route for method delete.
      */
-    public function delete(string $path, callable $action): Route
+    public function delete(string $path, callable|array $action): Route
     {
         return $this->routes->add($path, 'delete', $action);
     }
@@ -91,7 +91,7 @@ class Router
     /**
      * Creates route for method path.
      */
-    public function path(string $path, callable $action): Route
+    public function path(string $path, callable|array $action): Route
     {
         return $this->routes->add($path, 'path', $action);
     }
@@ -99,7 +99,7 @@ class Router
     /**
      * Creates route for method options.
      */
-    public function options(string $path, callable $action): Route
+    public function options(string $path, callable|array $action): Route
     {
         return $this->routes->add($path, 'options', $action);
     }
