@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ prototype.namespace }};
+
+{% for class in prototype.classes %}
+interface {{ class.name }}
+{
+
+}
+{% endfor %}

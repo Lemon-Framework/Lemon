@@ -55,11 +55,17 @@ class Terminal
         return readline($this->output->out($prompt));
     }
 
+    /**
+     * Returns widht of terminal.
+     */
     public function width(): int
     {
         return (int) exec('tput cols');
     }
 
+    /**
+     * Returns height of terminal.
+     */
     public function height(): int
     {
         return (int) exec('tput lines');

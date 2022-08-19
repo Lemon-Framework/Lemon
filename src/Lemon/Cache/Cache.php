@@ -8,12 +8,12 @@ use DateInterval;
 use DateTime;
 use Lemon\Cache\Exceptions\InvalidArgumentException;
 use Lemon\Config\Config;
+use Lemon\Contracts\Cache\Cache as CacheContract;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
 use Lemon\Support\Types\Arr;
-use Psr\SimpleCache\CacheInterface;
 
-class Cache implements CacheInterface
+class Cache implements CacheContract
 {
     protected int $time;
 
@@ -86,6 +86,9 @@ class Cache implements CacheInterface
         return $default;
     }
 
+    /**
+     * Returns cached value or executes given action.
+     */
     public function retreive(string $key, callable $action): mixed
     {
         if ($result = $this->get($key)) {

@@ -25,48 +25,40 @@ class CorsTest extends TestCase
 
         $config->set('http.cors.allowed-origins', '*');
 
-        
-
         $this->assertSame(
             ['Access-Control-Allow-Origin' => '*'],
             $c->handle($config, new Request('/', '', 'GET', ['Origin' => 'tvojemama'], '', []), new HtmlResponse())->headers()
         );
 
         $config->set('http.cors.allowed-origins', 'parek');
-        
 
         $this->assertSame(
             ['Access-Control-Allow-Origin' => 'parek'],
             $c->handle($config, new Request('parek', '', 'GET', ['Origin' => 'parek'], '', []), new HtmlResponse())->headers()
         );
 
-        
-
         $this->assertSame(
             ['Access-Control-Allow-Origin' => 'parek'],
             $c->handle($config, new Request('RIZKOCHLEBOPARKOVAR', '', 'GET', ['Origin' => 'nevim'], '', []), new HtmlResponse())->headers(),
         );
 
-        
         $config->set('http.cors.allowed-origins', ['/', 'foo', 'klobna']);
 
         $this->assertSame(
             ['Access-Control-Allow-Origin' => 'foo'],
             $c->handle($config, new Request('/foo', '', 'GET', ['Origin' => 'foo'], '', []), new HtmlResponse())->headers()
         );
-        
 
         $this->assertEmpty(
             $c->handle($config, new Request('/foo', '', 'GET', ['Origin' => 'parek'], '', []), new HtmlResponse())->headers(),
         );
 
-        
         $this->assertEmpty(
             $c->handle($config, new Request('PAREKVROHLIKU', '', 'GET', [], '', []), new HtmlResponse())->headers(),
         );
 
         $config->set('http.cors.allowed-origins', 10);
-        
+
         $this->expectException(ConfigException::class);
         $c->handle($config, new Request('PAREKVROHLIKU', '', 'GET', [], '', []), new HtmlResponse())->headers();
     }
@@ -78,14 +70,12 @@ class CorsTest extends TestCase
 
         $config->set('http.cors.expose-headers', 'Parek');
 
-        
         $this->assertSame(
             ['Access-Control-Expose-Headers' => 'Parek'],
             $c->handle($config, new Request('/', '', 'GET', [], '', []), new HtmlResponse())->headers()
         );
 
         $config->set('http.cors.expose-headers', ['Parek', 'Rohlik']);
-        
 
         $this->assertSame(
             ['Access-Control-Expose-Headers' => 'Parek, Rohlik'],
@@ -93,7 +83,6 @@ class CorsTest extends TestCase
         );
 
         $config->set('http.cors.expose-headers', 10);
-        
 
         $this->expectException(ConfigException::class);
         $c->handle($config, new Request('PAREKVROHLIKU', '', 'GET', [], '', []), new HtmlResponse())->headers();
@@ -105,7 +94,6 @@ class CorsTest extends TestCase
         $c = new Cors();
 
         $config->set('http.cors.max-age', 10);
-        
 
         $this->assertSame(
             ['Access-Control-Max-Age' => '10'],
@@ -113,7 +101,6 @@ class CorsTest extends TestCase
         );
 
         $config->set('http.cors.max-age', 'parek');
-        
 
         $this->expectException(ConfigException::class);
         $c->handle($config, new Request('PAREKVROHLIKU', '', 'GET', [], '', []), new HtmlResponse())->headers();
@@ -125,7 +112,6 @@ class CorsTest extends TestCase
         $c = new Cors();
 
         $config->set('http.cors.allowed-credentials', true);
-        
 
         $this->assertSame(
             ['Access-Control-Allow-Credentials' => 'true'],
@@ -133,7 +119,6 @@ class CorsTest extends TestCase
         );
 
         $config->set('http.cors.allowed-credentials', 'parek');
-        
 
         $this->expectException(ConfigException::class);
         $c->handle($config, new Request('PAREKVROHLIKU', '', 'GET', [], '', []), new HtmlResponse())->headers();
@@ -145,7 +130,6 @@ class CorsTest extends TestCase
         $c = new Cors();
 
         $config->set('http.cors.allowed-methods', 'GET');
-        
 
         $this->assertSame(
             ['Access-Control-Allow-Methods' => 'GET'],

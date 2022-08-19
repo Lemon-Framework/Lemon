@@ -1,4 +1,5 @@
 code_transform.class_new.variants:
     default: default
+    interface: interface
     unit: phpunit_test
     zest: zest

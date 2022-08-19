@@ -22,6 +22,9 @@ class Csrf
         return $this->token;
     }
 
+    /**
+     * Returns whenever token is created.
+     */
     public function created(): bool
     {
         return !is_null($this->token);

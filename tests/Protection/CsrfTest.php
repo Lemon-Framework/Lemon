@@ -7,7 +7,6 @@ namespace Lemon\Tests\Protection;
 use Lemon\Config\Config;
 use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
-use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Kernel\Application;
 use Lemon\Protection\Csrf;

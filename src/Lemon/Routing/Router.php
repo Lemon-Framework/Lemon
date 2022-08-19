@@ -4,27 +4,17 @@ declare(strict_types=1);
 
 namespace Lemon\Routing;
 
-use Exception;
 use Lemon\Http\Request;
 use Lemon\Http\Response;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Kernel\Application;
 use Lemon\Routing\Exceptions\RouteException;
-use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 use Lemon\Templating\Factory as TemplateFactory;
 
 /**
  * The Lemon Router.
- *
- * @method \Lemon\Routing\Route get(string $path, array|callable $action)     Creates route with method get
- * @method \Lemon\Routing\Route post(string $path, array|callable $action)    Creates route with method post
- * @method \Lemon\Routing\Route put(string $path, array|callable $action)     Creates route with method put
- * @method \Lemon\Routing\Route head(string $path, array|callable $action)    Creates route with method head
- * @method \Lemon\Routing\Route delete(string $path, array|callable $action)  Creates route with method delete
- * @method \Lemon\Routing\Route path(string $path, array|callable $action)    Creates route with method path
- * @method \Lemon\Routing\Route options(string $path, array|callable $action) Creates route with method options
  */
 class Router
 {
@@ -58,13 +48,60 @@ class Router
         $this->routes = new Collection();
     }
 
-    public function __call($name, $arguments)
+    /**
+     * Creates route for method get.
+     */
+    public function get(string $path, callable $action): Route
     {
-        if (!Arr::has(self::REQUEST_METHODS, $name)) {
-            throw new Exception('Call to undefined method '.static::class.'::'.$name.'()');
-        }
+        return $this->routes->add($path, 'get', $action);
+    }
 
-        return $this->routes->add($arguments[0], $name, $arguments[1]);
+    /**
+     * Creates route for method post.
+     */
+    public function post(string $path, callable $action): Route
+    {
+        return $this->routes->add($path, 'post', $action);
+    }
+
+    /**
+     * Creates route for method put.
+     */
+    public function put(string $path, callable $action): Route
+    {
+        return $this->routes->add($path, 'put', $action);
+    }
+
+    /**
+     * Creates route for method head.
+     */
+    public function head(string $path, callable $action): Route
+    {
+        return $this->routes->add($path, 'head', $action);
+    }
+
+    /**
+     * Creates route for method delete.
+     */
+    public function delete(string $path, callable $action): Route
+    {
+        return $this->routes->add($path, 'delete', $action);
+    }
+
+    /**
+     * Creates route for method path.
+     */
+    public function path(string $path, callable $action): Route
+    {
+        return $this->routes->add($path, 'path', $action);
+    }
+
+    /**
+     * Creates route for method options.
+     */
+    public function options(string $path, callable $action): Route
+    {
+        return $this->routes->add($path, 'options', $action);
     }
 
     /**
@@ -171,7 +208,7 @@ class Router
             return $response;
         }
 
-        return $prototype; 
+        return $prototype;
     }
 
     /**

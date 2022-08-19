@@ -103,7 +103,10 @@ class Factory
         FS::write($compiled_path, $compiled);
     }
 
-    public function exist(string $template)
+    /**
+     * Returns whenver template exists.
+     */
+    public function exist(string $template): bool
     {
         return $this->getRawPath($template) ? true : false;
     }
