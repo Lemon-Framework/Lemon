@@ -6,15 +6,17 @@ namespace Lemon\Http;
 
 use Exception;
 use InvalidArgumentException;
+use Lemon\Contracts\Http\Jsonable;
+use Lemon\Contracts\Http\ResponseFactory as ResponseFactoryContract;
+use Lemon\Contracts\Templating\Factory as Templating;
 use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Http\Responses\JsonResponse;
 use Lemon\Http\Responses\TemplateResponse;
 use Lemon\Kernel\Application;
-use Lemon\Templating\Factory as Templating;
 use Lemon\Templating\Template;
 
-class ResponseFactory
+class ResponseFactory implements ResponseFactoryContract
 {
     private array $handlers = [];
 

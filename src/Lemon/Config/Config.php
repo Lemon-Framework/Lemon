@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Lemon\Config;
 
 use Lemon\Config\Exceptions\ConfigException;
+use Lemon\Contracts\Config\Config as ConfigContract;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Arr;
 use Lemon\Support\Types\Str;
 
-class Config
+class Config implements ConfigContract
 {
     private array $files = [];
 

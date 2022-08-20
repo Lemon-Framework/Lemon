@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Lemon\Validation;
 
+use Lemon\Contracts\Validation\Validator as ValidatorContract;
 use Lemon\Support\Types\Arr;
 
-class Validator
+class Validator implements ValidatorContract
 {
     private Rules $rules;
 

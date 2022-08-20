@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Lemon\Logging;
 
 use DateTime;
-use Lemon\Config\Config;
+use Lemon\Contracts\Config\Config;
+use Lemon\Contracts\Logging\Logger as LoggerContract;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Str;
 use Psr\Log\AbstractLogger;
@@ -13,7 +14,7 @@ use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Stringable;
 
-class Logger extends AbstractLogger
+class Logger extends AbstractLogger implements LoggerContract
 {
     private string $destination;
 

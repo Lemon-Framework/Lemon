@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Lemon\Protection;
 
+use Lemon\Contracts\Protection\Csrf as CsrfContract;
 use Lemon\Support\Types\Str;
 
-class Csrf
+class Csrf implements CsrfContract
 {
     private ?string $token = null;
 

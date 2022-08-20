@@ -6,7 +6,8 @@ namespace Lemon\Tests\Http;
 
 use InvalidArgumentException;
 use Lemon\Config\Config;
-use Lemon\Http\Jsonable;
+use Lemon\Contracts\Http\Jsonable;
+use Lemon\Contracts\Templating\Compiler;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Http\Responses\HtmlResponse;
@@ -14,7 +15,6 @@ use Lemon\Http\Responses\JsonResponse;
 use Lemon\Http\Responses\TemplateResponse;
 use Lemon\Http\Responses\TextResponse;
 use Lemon\Kernel\Application;
-use Lemon\Templating\Compiler;
 use Lemon\Templating\Factory;
 use Lemon\Tests\TestCase;
 

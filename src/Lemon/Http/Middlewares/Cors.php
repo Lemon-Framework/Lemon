@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon\Http\Middlewares;
 
-use Lemon\Config\Config;
 use Lemon\Config\Exceptions\ConfigException;
+use Lemon\Contracts\Config\Config;
 use Lemon\Http\Request;
 use Lemon\Http\Response;
 
@@ -13,9 +13,7 @@ use Lemon\Http\Response;
  * Cors.handling middleware
  * TODO less boilerplate.
  *
- * @see https://developer.mozilla.
- *
- * org/en-US/docs/Web/HTTP/CORS#access-control-allow-methods
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#access-control-allow-methods
  */
 class Cors
 {

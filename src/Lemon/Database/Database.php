@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Lemon\Database;
 
-use Lemon\Config\Config;
+use Lemon\Contracts\Config\Config;
+use Lemon\Contracts\Database\Database as DatabaseContract;
 use Lemon\Database\Drivers\Driver;
 use PDOStatement;
 
-class Database
+class Database implements DatabaseContract
 {
     private ?Driver $connection = null;
 

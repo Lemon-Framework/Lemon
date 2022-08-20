@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace Lemon\Routing;
 
+use Lemon\Contracts\Http\ResponseFactory;
+use Lemon\Contracts\Routing\Router as RouterContract;
+use Lemon\Contracts\Templating\Factory as TemplateFactory;
 use Lemon\Http\Request;
 use Lemon\Http\Response;
-use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Kernel\Application;
 use Lemon\Routing\Exceptions\RouteException;
 use Lemon\Support\Types\Str;
-use Lemon\Templating\Factory as TemplateFactory;
 
 /**
  * The Lemon Router.
  */
-class Router
+class Router implements RouterContract
 {
     public const REQUEST_METHODS = [
         'get',

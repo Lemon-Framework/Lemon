@@ -10,7 +10,7 @@ use Throwable;
 /**
  * Represents compiled template.
  */
-class Template
+final class Template
 {
     public function __construct(
         public readonly string $raw_path,

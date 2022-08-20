@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Lemon\Terminal;
 
 use Closure;
+use Lemon\Contracts\Terminal\Terminal as TerminalContract;
 use Lemon\Kernel\Application;
 use Lemon\Terminal\Commands\Command;
 use Lemon\Terminal\Commands\Dispatcher;
 use Lemon\Terminal\IO\Output;
 
-class Terminal
+class Terminal implements TerminalContract
 {
     public readonly Dispatcher $commands;
 

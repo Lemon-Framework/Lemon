@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Lemon\Http;
 
-use Lemon\Config\Config;
+use Lemon\Contracts\Config\Config;
+use Lemon\Contracts\Http\Session as SessionContract;
 use Lemon\Http\Exceptions\SessionException;
 
-class Session
+class Session implements SessionContract
 {
     private bool $started = false;
 

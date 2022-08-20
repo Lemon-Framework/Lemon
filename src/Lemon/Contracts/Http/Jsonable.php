@@ -1,8 +1,8 @@
-r?php
+<?php
 
 declare(strict_types=1);
 
-namespace Lemon\Http;
+namespace Lemon\Contracts\Http;
 
 interface Jsonable
 {

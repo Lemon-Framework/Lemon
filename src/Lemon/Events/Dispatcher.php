@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Lemon\Events;
 
+use Lemon\Contracts\Events\Dispatcher as DispatcherContract;
 use Lemon\Kernel\Application;
 
-class Dispatcher
+class Dispatcher implements DispatcherContract
 {
     private array $events = [];
 

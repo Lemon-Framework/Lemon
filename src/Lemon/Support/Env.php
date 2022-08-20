@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Lemon\Support;
 
 use Exception;
+use Lemon\Contracts\Support\Env as EnvContract;
 use Lemon\Kernel\Application;
 use Lemon\Support\Types\Str;
 
-final class Env
+final class Env implements EnvContract
 {
     private array $data = [];
 

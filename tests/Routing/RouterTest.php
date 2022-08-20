@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Tests\Routing;
 
 use Lemon\Config\Config;
+use Lemon\Contracts\Templating\Compiler;
 use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\HtmlResponse;
@@ -13,7 +14,6 @@ use Lemon\Kernel\Application;
 use Lemon\Routing\Collection;
 use Lemon\Routing\Router;
 use Lemon\Support\Filesystem;
-use Lemon\Templating\Compiler;
 use Lemon\Templating\Factory;
 use Lemon\Templating\Template;
 use Lemon\Tests\TestCase;

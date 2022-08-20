@@ -7,6 +7,7 @@ namespace Lemon\Kernel;
 use Error;
 use ErrorException;
 use Exception;
+use Lemon\Contracts;
 use Lemon\Http\Request;
 use Lemon\Protection\Middlwares\Csrf;
 use Lemon\Routing\Router;
@@ -29,22 +30,22 @@ final class Application extends Container
      * Default units with aliases.
      */
     private const DEFAULTS = [
-        \Lemon\Routing\Router::class => ['routing'],
-        \Lemon\Config\Config::class => ['config'],
-        \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class],
-        \Lemon\Templating\Juice\Compiler::class => ['juice', \Lemon\Templating\Compiler::class],
-        \Lemon\Templating\Factory::class => ['templating'],
-        \Lemon\Support\Env::class => ['env'],
-        \Lemon\Http\ResponseFactory::class => ['response'],
-        \Lemon\Http\Session::class => ['session'],
-        \Lemon\Protection\Csrf::class => ['csrf'],
-        \Lemon\Debug\Handling\Handler::class => ['handler'],
-        \Lemon\Terminal\Terminal::class => ['terminal'],
-        \Lemon\Debug\Dumper::class => ['dumper'],
-        \Lemon\Events\Dispatcher::class => ['events'],
-        \Lemon\Logging\Logger::class => ['log', \Psr\Log\LoggerInterface::class],
-        \Lemon\Database\Database::class => ['database'],
-        \Lemon\Validation\Validator::class => ['validation'],
+        \Lemon\Routing\Router::class => ['routing', Contracts\Routing\Router::class],
+        \Lemon\Config\Config::class => ['config', Contracts\Config\Config::class],
+        \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class, Contracts\Cache\Cache::class],
+        \Lemon\Templating\Juice\Compiler::class => ['juice', Contracts\Templating\Compiler::class],
+        \Lemon\Templating\Factory::class => ['templating', Contracts\Templating\Factory::class],
+        \Lemon\Support\Env::class => ['env', Contracts\Support\Env::class],
+        \Lemon\Http\ResponseFactory::class => ['response', Contracts\Http\ResponseFactory::class],
+        \Lemon\Http\Session::class => ['session', Contracts\Http\Session::class],
+        \Lemon\Protection\Csrf::class => ['csrf', Contracts\Protection\Csrf::class],
+        \Lemon\Debug\Handling\Handler::class => ['handler', Contracts\Debug\Handler::class],
+        \Lemon\Terminal\Terminal::class => ['terminal', Contracts\Terminal\Terminal::class],
+        \Lemon\Debug\Dumper::class => ['dumper', Contracts\Debug\Dumper::class],
+        \Lemon\Events\Dispatcher::class => ['events', Contracts\Events\Dispatcher::class],
+        \Lemon\Logging\Logger::class => ['log', \Psr\Log\LoggerInterface::class, Contracts\Logging\Logger::class],
+        \Lemon\Database\Database::class => ['database', Contracts\Database\Database::class],
+        \Lemon\Validation\Validator::class => ['validation', Contracts\Validation\Validator::class],
     ];
 
     /**

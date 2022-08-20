@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
-use Lemon\Config\Config;
-use Lemon\Templating\Compiler as CompilerInterface;
+use Lemon\Contracts\Config\Config;
+use Lemon\Contracts\Templating\Compiler as CompilerContract;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
 
 /**
  * Compiles Juice Templates.
  */
-class Compiler implements CompilerInterface
+class Compiler implements CompilerContract
 {
     public readonly DirectiveCompiler $directives;
 

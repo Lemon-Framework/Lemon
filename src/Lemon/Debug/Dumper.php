@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Lemon\Debug;
 
-use Lemon\Config\Config;
+use Lemon\Contracts\Config\Config;
+use Lemon\Contracts\Debug\Dumper as DumperContract;
 use Lemon\Debug\Exceptions\DebugerException;
 
-class Dumper
+class Dumper implements DumperContract
 {
     private Style $style;
 

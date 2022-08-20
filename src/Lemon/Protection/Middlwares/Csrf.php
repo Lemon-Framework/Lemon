@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Lemon\Protection\Middlwares;
 
+use Lemon\Contracts\Http\ResponseFactory;
+use Lemon\Contracts\Protection\Csrf as ProtectionCsrf;
 use Lemon\Http\Request;
 use Lemon\Http\Response;
-use Lemon\Http\ResponseFactory;
-use Lemon\Protection\Csrf as ProtectionCsrf;
 
 class Csrf
 {

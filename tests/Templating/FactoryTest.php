@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Lemon\Tests\Templating;
 
 use Lemon\Config\Config;
+use Lemon\Contracts\Templating\Compiler;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
 use Lemon\Support\Types\Str;
-use Lemon\Templating\Compiler;
 use Lemon\Templating\Enviroment;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Exceptions\TemplateException;

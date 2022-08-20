@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lemon\Templating;
+namespace Lemon\Contracts\Templating;
 
 interface Compiler
 {

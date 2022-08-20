@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Lemon\Templating;
 
-use Lemon\Config\Config;
+use Lemon\Contracts\Config\Config;
+use Lemon\Contracts\Templating\Compiler;
+use Lemon\Contracts\Templating\Factory as FactoryInterface;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
 use Lemon\Support\Types\Str;
@@ -14,7 +16,7 @@ use Throwable;
 /**
  * Manages and generates templates.
  */
-class Factory
+final class Factory implements FactoryInterface
 {
     /**
      * Directory containing templates.

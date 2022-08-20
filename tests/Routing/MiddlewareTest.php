@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Lemon\Tests\Routing;
 
 use Lemon\Config\Config;
+use Lemon\Contracts\Http\ResponseFactory as ResponseFactoryContract;
+use Lemon\Contracts\Protection\Csrf as CsrfContract;
+use Lemon\Contracts\Routing\Router as RouterContract;
 use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\HtmlResponse;
@@ -46,10 +49,15 @@ class MiddlewareTest extends TestCase
         $r = new Router($l, $rs = new ResponseFactory($f, $l));
 
         $l->add(Request::class, $re = new Request('/', '', 'GET', [], '', []));
+
         $l->add(ProtectionCsrf::class);
+        $l->alias(CsrfContract::class, ProtectionCsrf::class);
+
         $l->add(ResponseFactory::class, $rs);
+        $l->alias(ResponseFactoryContract::class, ResponseFactory::class);
 
         $l->add(Router::class, $r);
+        $l->alias(RouterContract::class, Router::class);
 
         $r->get('/', fn () => 'foo')->middleware(Csrf::class);
 
