@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Testing;
 
+use Lemon\Contracts\Templating\Factory;
 use Lemon\Http\Request;
 use Lemon\Kernel\Application;
 use PHPUnit\Framework\TestCase as BaseTestCase;
@@ -27,7 +28,8 @@ abstract class TestCase extends BaseTestCase
 
         return new TestResponse(
             $app->get('routing')->dispatch($request),
-            $this
+            $this,
+            $app->get(Factory::class)
         );
     }
 }
