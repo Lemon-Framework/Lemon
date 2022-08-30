@@ -11,7 +11,7 @@ use Lemon\Support\Types\Str;
  * Runtime string manipulaton utility.
  * TODO filters.
  */
-final class Enviroment
+final class Environment
 {
     use Macros;
 
@@ -36,6 +36,6 @@ final class Enviroment
      */
     public function escapeAttribute(string $content): string
     {
-        return Str::startsWith($content, 'javascript:') ? '' : $content;
+        return Str::startsWith($content, 'javascript:') ? '' : htmlspecialchars($content);
     }
 }

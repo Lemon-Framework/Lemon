@@ -33,8 +33,8 @@ final class Factory implements FactoryInterface
         private Compiler $compiler,
         private Application $application
     ) {
-        $application->add(Enviroment::class);
-        $application->alias('templating.env', Enviroment::class);
+        $application->add(Environment::class);
+        $application->alias('templating.env', Environment::class);
 
         $this->templates = $config->file('templating.location');
         $this->cached = $config->file('templating.cached');

@@ -9,7 +9,7 @@ use Lemon\Contracts\Templating\Compiler;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
 use Lemon\Support\Types\Str;
-use Lemon\Templating\Enviroment;
+use Lemon\Templating\Environment;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Exceptions\TemplateException;
 use Lemon\Templating\Factory;
@@ -94,7 +94,7 @@ class FactoryTest extends TestCase
         $this->assertThat(new Template(
             __DIR__.$s.'templates'.$s.'foo'.$s.'bar.foo',
             __DIR__.$s.'storage'.$s.'templates'.$s.'foo_bar.php',
-            ['foo' => 'bar', '_env' => new Enviroment(), '_factory' => $factory]
+            ['foo' => 'bar', '_env' => new Environment(), '_factory' => $factory]
         ), $this->equalTo($factory->make('foo.bar', ['foo' => 'bar'])));
     }
 
