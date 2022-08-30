@@ -95,6 +95,7 @@ final class Application extends Container
     {
         error_reporting(E_ALL);
         set_exception_handler([$this, 'handle']);
+        set_error_handler([$this, 'handleError']);
     }
 
     /**
@@ -102,12 +103,17 @@ final class Application extends Container
      */
     public function handle(Throwable $problem): void
     {
-        if ($problem instanceof Error) {
-            $this->handle(new ErrorException($problem->getMessage(), 0, $problem->getCode(), $problem->getFile(), $problem->getLine()));
-        }
         $this->get('handler')->handle($problem);
 
         exit;
+    }
+
+    /**
+     * Converts warnings/notices to Exception.
+     */
+    public function handleError(int $severity, string $error, string $file, int $line): bool
+    {
+        throw new ErrorException($error, 0, $severity, $file, $line);       
     }
 
     /**
