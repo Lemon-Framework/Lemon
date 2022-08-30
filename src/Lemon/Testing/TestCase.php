@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
  */
 abstract class TestCase extends BaseTestCase
 {
+    private ?Application $application = null;
+
     abstract public function createApplication(): Application;
 
     public function request(string $path, string $method = 'GET', array $headers = [], array $cookies = [], string $body = ''): TestResponse
@@ -22,7 +24,7 @@ abstract class TestCase extends BaseTestCase
         [$path, $query] = Request::trimQuery($path);
         $request = new Request($path, $query, $method, $headers, $body, $cookies);
 
-        $app = $this->createApplication();
+        $app = $this->getApplication();
         $app->add(Request::class, $request);
         $app->alias('request', Request::class);
 
@@ -31,5 +33,14 @@ abstract class TestCase extends BaseTestCase
             $this,
             $app->get(Factory::class)
         );
+    }
+
+    public function getApplication(): Application
+    {
+        if (!$this->application) {
+            $this->application = $this->createApplication();
+        } 
+
+        return $this->application;
     }
 }
