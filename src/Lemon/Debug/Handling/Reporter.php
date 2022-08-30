@@ -42,8 +42,8 @@ class Reporter
         $problem = $this->exception;
 
         return [
-            'problem' => $problem instanceof ErrorException 
-                         ? $this->severityToString($problem->getSeverity()) 
+            'problem' => $problem instanceof ErrorException
+                         ? $this->severityToString($problem->getSeverity())
                          : $problem::class,
             'file' => $problem->getFile(),
             'line' => $problem->getLine(),
@@ -77,7 +77,7 @@ class Reporter
 
     public function severityToString(int $severity): string
     {
-        return match($severity) {
+        return match ($severity) {
             E_ERROR => 'Fatal Error',
             E_WARNING => 'Warning',
             E_PARSE => 'Parse Error',

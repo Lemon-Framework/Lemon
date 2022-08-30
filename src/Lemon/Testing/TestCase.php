@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
  */
 abstract class TestCase extends BaseTestCase
 {
-    protected ?Application $application = null;
+    protected Application $application;
 
     public function setUp(): void
     {

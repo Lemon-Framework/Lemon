@@ -113,7 +113,7 @@ final class Application extends Container
      */
     public function handleError(int $severity, string $error, string $file, int $line): bool
     {
-        throw new ErrorException($error, 0, $severity, $file, $line);       
+        throw new ErrorException($error, 0, $severity, $file, $line);
     }
 
     /**
