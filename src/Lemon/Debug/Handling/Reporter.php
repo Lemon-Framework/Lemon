@@ -69,7 +69,7 @@ class Reporter
         );
 
         array_unshift($trace, [
-            'file' => $file = $problem->getFile(),
+            'file' => str_replace($this->application->directory, '', $file = $problem->getFile()),
             'code' => file_get_contents($file),
             'line' => $problem->getLine(),
         ]);
