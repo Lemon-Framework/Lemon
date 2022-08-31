@@ -4,33 +4,38 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
-use Lemon\Support\Properties\Properties;
-use Lemon\Support\Properties\Read;
-
-/**
- * Represents template Token.
- *
- * @property int                  $kind
- * @property array<string>|string $content
- * @property int                  $line
- */
-class Token
+final class Token
 {
-    use Properties;
-
-    public const TAG = 0;
-    public const TAG_END = 1;
-    public const OUTPUT = 2;
-    public const UNESCAPED = 3;
-    public const TEXT = 4;
-
     public function __construct(
-        #[Read]
-        private int $kind,
-        #[Read]
-        private string|array $content,
-        #[Read]
-        private int $line,
+        public readonly TokenKind $kind,
+        public readonly int $line,
+        public readonly int $pos,
+        public readonly string $name = '',
+        private array $content = [],
+        private array $children = [],
     ) {
+        
+    }
+
+    public function addChild(Token $child): self
+    {
+        $this->children[] = $child;
+        return $this;
+    }
+
+    public function getChildren(): array
+    {
+        return $this->children;
+    }
+
+    public function addToContent(Token $token): self
+    {
+        $this->content[] = $token;
+        return $this;
+    }
+
+    public function getContent(): array
+    {
+        return $this->content;
     }
 }
