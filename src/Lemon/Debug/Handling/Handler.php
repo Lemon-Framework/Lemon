@@ -32,7 +32,7 @@ class Handler
         }
 
         if ($this->config->get('debug.debug')) {
-            (new Reporter($problem, $this->application->get('request')))->report();
+            (new Reporter($problem, $this->application->get('request'), $this->application))->report();
         } else {
             $this->response->error(500)->send();
             $this->logger->error((string) $problem);

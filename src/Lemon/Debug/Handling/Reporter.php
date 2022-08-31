@@ -7,6 +7,7 @@ namespace Lemon\Debug\Handling;
 use ErrorException;
 use Lemon\Http\Request;
 use Lemon\Http\Responses\TemplateResponse;
+use Lemon\Kernel\Application;
 use Lemon\Templating\Template;
 use Throwable;
 
@@ -18,7 +19,8 @@ class Reporter
 
     public function __construct(
         private Throwable $exception,
-        private Request $request
+        private Request $request, 
+        private Application $application
     ) {
         $this->consultant = new Consultant();
     }
@@ -59,7 +61,7 @@ class Reporter
         $problem = $this->exception;
         $trace = array_map(
             fn ($item) => isset($item['file']) ? [
-                'file' => $file = $item['file'],
+                'file' => str_replace($this->application->directory, '', $file = $item['file']),
                 'code' => file_get_contents($file),
                 'line' => $item['line'],
             ] : [],
