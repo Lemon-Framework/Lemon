@@ -17,7 +17,7 @@ abstract class TestCase extends BaseTestCase
 {
     protected Application $application;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->application = $this->createApplication();
     }
