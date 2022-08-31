@@ -47,7 +47,7 @@ class Reporter
             'problem' => $problem instanceof ErrorException
                          ? $this->severityToString($problem->getSeverity())
                          : $problem::class,
-            'file' => $problem->getFile(),
+            'file' => str_replace($this->application->directory, '', $problem->getFile()),
             'line' => $problem->getLine(),
             'message' => $problem->getMessage(),
             'hint' => $this->consultant->giveAdvice($problem->getMessage()),
