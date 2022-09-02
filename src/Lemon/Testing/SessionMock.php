@@ -46,6 +46,17 @@ final class SessionMock implements Session
         return $this;
     }
 
+    public function dontExpire(): static
+    {
+        return $this;
+    }
+
+    public function remove(string $key): static
+    {
+        unset($this->data[$key]);
+        return $this;
+    }
+
     public function clear(): void
     {
         $this->data = [];

@@ -12,6 +12,11 @@ interface Session
     public function expireAt(int $seconds): static;
 
     /**
+     * Removes expiration.
+     */
+    public function dontExpire(): static;
+
+    /**
      * Returns value of given key.
      */
     public function get(string $key): string;
