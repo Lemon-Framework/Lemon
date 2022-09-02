@@ -27,6 +27,11 @@ interface Session
     public function has(string $key): bool;
 
     /**
+     * Removes key.
+     */
+    public function remove(string $key): static;
+
+    /**
      * Clears session.
      */
     public function clear(): void;
