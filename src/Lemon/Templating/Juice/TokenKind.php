@@ -6,9 +6,13 @@ namespace Lemon\Templating\Juice;
 
 enum TokenKind
 {
+    case Document;
+
     // Hmtl
     case HtmlTag;
+
     case HtmlAttribute;
+
     case HtmlComment;
 
     // Text
@@ -16,6 +20,8 @@ enum TokenKind
 
     // Juice
     case Directive;
+
     case Output;
+
     case UnsafeOutput;
 }
