@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Testing;
 
+use Lemon\Contracts\Http\Session;
 use Lemon\Contracts\Templating\Factory;
 use Lemon\Http\Request;
 use Lemon\Kernel\Application;
@@ -38,5 +39,14 @@ abstract class TestCase extends BaseTestCase
             $this,
             $app->get(Factory::class)
         );
+    }
+
+    public function session(...$data): static
+    {
+        $this->application->add(SessionMock::class, new SessionMock($data));
+        $this->application->alias(Session::class, SessionMock::class);
+        $this->application->alias('session', SessionMock::class);
+
+        return $this;
     }
 }

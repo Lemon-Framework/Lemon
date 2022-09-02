@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon\Support;
 
+use Exception;
+
 class Pipe
 {
     private array $args = [];
@@ -49,5 +51,14 @@ class Pipe
     public function return(): mixed
     {
         return $this->value;
+    }
+
+    public function __call($name, $arguments): static
+    {
+        if ($name !== '>>>=') { // haha
+            throw new Exception('Call to undefined method '.static::class.'::'.$name.'()');
+        }
+
+        return $this->then(...$arguments);
     }
 }

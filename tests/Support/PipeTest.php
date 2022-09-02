@@ -30,5 +30,13 @@ class PipeTest extends TestCase
                 ->then(fn ($value, $bar) => $value.' '.$bar)
                 ->return()
         );
+
+        $this->assertSame(
+            'Foo bar baz',
+            Pipe::send('foo.bar.baz')
+                ->{'>>>='}('ucfirst')
+                ->{'>>>='}(fn ($value) => str_replace('.', ' ', $value))
+                ->return()
+        );
     }
 }
