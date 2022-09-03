@@ -17,7 +17,7 @@ namespace Lemon;
  *
  * @see \Lemon\Http\ResponseFactory
  */
-class Response extends Zest
+class ResponseFactory extends Zest
 {
     public static function unit(): string
     {

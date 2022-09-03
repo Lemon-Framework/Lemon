@@ -9,7 +9,8 @@ use Lemon\Debug;
 use Lemon\Env;
 use Lemon\Http\Response;
 use Lemon\Http\Responses\RedirectResponse;
-use Lemon\Response as ResponseFactory;
+use Lemon\ResponseFactory as ResponseFactory;
+use Lemon\ResponseFactory;
 use Lemon\Support\Pipe;
 use Lemon\Support\Types\Array_;
 use Lemon\Templating\Template;
@@ -88,7 +89,7 @@ if (!function_exists('error')) {
      */
     function error(int $code): Response
     {
-        return \Lemon\Response::error($code);
+        return Lemon\ResponseFactory::error($code);
     }
 }
 
