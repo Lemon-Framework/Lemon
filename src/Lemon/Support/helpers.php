@@ -9,7 +9,6 @@ use Lemon\Debug;
 use Lemon\Env;
 use Lemon\Http\Response;
 use Lemon\Http\Responses\RedirectResponse;
-use Lemon\ResponseFactory as ResponseFactory;
 use Lemon\ResponseFactory;
 use Lemon\Support\Pipe;
 use Lemon\Support\Types\Array_;
