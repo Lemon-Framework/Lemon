@@ -34,6 +34,12 @@ final class Env implements EnvContract
      */
     public function load(): void
     {
+        // For replit mostly
+        if (!is_file($this->path)) {
+            $this->data = $_ENV;
+            return;
+        }
+
         $content = str_replace("\r\n", "\n", Filesystem::read($this->path)); // @windows dekujeme za nazor, posilame klicenku
         foreach (Str::split($content, "\n") as $line) {
             if (!$line) {
