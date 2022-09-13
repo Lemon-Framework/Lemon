@@ -105,7 +105,7 @@ final class Env implements EnvContract
      */
     public function commit(): void
     {
-        if (!$this->changed) {
+        if (!$this->changed || !is_file($this->path)) {
             return;
         }
 
