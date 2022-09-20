@@ -18,6 +18,23 @@ use Throwable;
 
 /**
  * The Lemon Application.
+ *
+ * @property-read Lemon\Routing\Router $routing
+ * @property-read Lemon\Config\Config $config
+ * @property-read Lemon\Cache\Cache $cache
+ * @property-read Lemon\Templating\Juice\Compiler $juice
+ * @property-read Lemon\Templating\Factory $templating
+ * @property-read Lemon\Support\Env $env
+ * @property-read Lemon\Http\ResponseFactory $response
+ * @property-read Lemon\Http\Session $session
+ * @property-read Lemon\Protection\Csrf $csrf
+ * @property-read Lemon\Debug\Handling\Handler $handler
+ * @property-read Lemon\Terminal\Terminal $terminal
+ * @property-read Lemon\Debug\Dumper $dumper
+ * @property-read Lemon\Events\Dispatcher $events
+ * @property-read Lemon\Logging\Logger $log
+ * @property-read Lemon\Database\Database $database
+ * @property-read Lemon\Validation\Validator $validation
  */
 final class Application extends Container
 {
@@ -29,7 +46,7 @@ final class Application extends Container
     /**
      * Default units with aliases.
      */
-    private const DEFAULTS = [
+    public const DEFAULTS = [
         \Lemon\Routing\Router::class => ['routing', Contracts\Routing\Router::class],
         \Lemon\Config\Config::class => ['config', Contracts\Config\Config::class],
         \Lemon\Cache\Cache::class => ['cache', \Psr\SimpleCache\CacheInterface::class, Contracts\Cache\Cache::class],
