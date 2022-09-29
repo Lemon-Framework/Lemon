@@ -17,7 +17,7 @@ Lemon is microframework for php designed to be simple for begginers. <!-- TODO -
     - [laravel/framework](https://github.com/laravel/framework)
     - [nette](https://github.com/nette) (mostly [latte](https://github.com/nette/latte))
     - [nunomaduro/termwind](https://github.com/nunomaduro/termwind)
-    - [feast-framework/framework](https://github.com/feast-framework/framework)
+    - [FeastFramework/framework](https://github.com/FeastFramework/framework)
 
 ## Learning Lemon
 
