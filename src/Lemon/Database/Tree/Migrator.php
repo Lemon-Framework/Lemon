@@ -64,8 +64,9 @@ class Migrator
         $type = $property->getType();
         $sql_type = $this->buildType((string) $type, $property);
         $nullable = $type->allowsNull();
+        $default = $property->getDefaultValue();
         
-        return $property->getName().$sql_type.($nullable ? '' : 'NOT NULL');
+        return $property->getName().$sql_type.($nullable ? '' : 'NOT NULL').($default ? 'DEFAULT='.$default : '');
     }
 
     public function buildType(string $type, ReflectionProperty $property): string
