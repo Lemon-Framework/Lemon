@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Lemon\Database\Tree;
 
+use Lemon\Contracts\Config\Config;
 use Lemon\Contracts\Database\Database;
+use Lemon\Contracts\Events\Dispatcher;
 use Lemon\Database\Exceptions\ModelException;
 use Lemon\Database\Tree\Attributes\AutoIncrement;
 use Lemon\Database\Tree\Attributes\Binary;
 use Lemon\Database\Tree\Attributes\Size;
 use Lemon\Database\Tree\Attributes\Table;
 use Lemon\Database\Tree\Attributes\Unsigned;
+use Lemon\Support\Filesystem;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -33,13 +36,34 @@ class Migrator
     ];
 
     public function __construct(
-        private Database $database
+        private Database $database,
+        private Config $config,
+        private Dispatcher $events
     ) {
         
     }
 
-    public function migrateModel(string $model): string
+    public function migrate(): void
     {
+        $folder = $this->config->file('database.models');
+        foreach (Filesystem::listDir($folder) as $file) {
+            preg_match("/^{$folder}(.+?)\.php\$/", $file, $matches);
+            $class = str_replace(DIRECTORY_SEPARATOR, '\\', $matches[1]);
+            $query = $this->migrateModel($class);
+            if ($query) {
+                /** @phpstan-ignore-next-line */
+                $this->database->query($query);
+                $this->events->fire('migration', $class);
+            }
+        }
+    }
+
+    public function migrateModel(string $model): ?string
+    {
+        if (get_parent_class($model) !== Model::class) {
+            return null;
+        }
+
         $reflection = new ReflectionClass($model);
         $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
         $attributes = $reflection->getAttributes(Table::class);
@@ -56,7 +80,7 @@ class Migrator
             $result[] = $this->buildColumn($property);
         }
 
-        return 'CREATE TABLE `'.$table.'` ('.implode(', ', $result).');';
+        return 'CREATE TABLE `'.$table.'` ('.implode(', ', $result).')';
     }
     
     public function buildColumn(ReflectionProperty $property): string
