@@ -19,9 +19,12 @@ class Database implements DatabaseContract
         'mysql' => \Lemon\Database\Drivers\Mysql::class,
     ];
 
+    public readonly string $driver;
+
     public function __construct(
         public readonly Config $config
     ) {
+        $this->driver = $this->config->get('database.driver');
     }
 
     /**
@@ -50,11 +53,19 @@ class Database implements DatabaseContract
     }
 
     /**
+     * Returns driver name
+     */
+    public function getDriver(): string
+    {
+        return $this->driver;
+    }
+
+    /**
      * Creates new Driver and connects to database.
      */
     private function connect(): void
     {
-        $driver = $this->drivers[$this->config->get('database.driver')];
+        $driver = $this->drivers[$this->driver];
 
         $this->connection = new $driver($this->config);
     }

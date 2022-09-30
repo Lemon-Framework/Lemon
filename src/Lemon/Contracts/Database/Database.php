@@ -20,4 +20,9 @@ interface Database
      * @phpstan-param literal-string $query
      */
     public function query(string $query, ...$params): PDOStatement;
+
+    /**
+     * Returns driver name
+     */
+    public function getDriver(): string;
 }
