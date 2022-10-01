@@ -21,23 +21,22 @@ final class Template
 
     public function __toString(): string
     {
-        ob_start();
-        $this->render();
-
-        return ob_get_clean();
+        return $this->render();
     }
 
-    /**
-     * Renders template.
-     */
-    public function render(): void
+    public function render(): string
     {
+        ob_start();
+
         extract($this->data);
 
         try {
             require $this->compiled_path;
         } catch (Throwable $e) {
+            ob_get_clean();
             throw TemplateException::from($e, $this->raw_path);
         }
+
+        return ob_get_clean();
     }
 }

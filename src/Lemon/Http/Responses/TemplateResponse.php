@@ -15,9 +15,6 @@ class TemplateResponse extends Response
     {
         $this->header('Content-Type', 'text/html');
 
-        ob_start();
-        $this->body->render();
-
-        return ob_get_clean();
+        return (string) $this->body;
     }
 }
