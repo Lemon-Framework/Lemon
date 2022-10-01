@@ -1,1 +1,4 @@
-<?php echo $bar ?>
+<?php
+
+declare(strict_types=1);
+echo $bar;

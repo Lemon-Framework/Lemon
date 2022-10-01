@@ -20,10 +20,7 @@ class Output
     public function out(mixed $content): string
     {
         if ($content instanceof Template) {
-            ob_start();
-            $content->render();
-
-            return $this->out(ob_get_clean());
+            return $this->out($content->render());
         }
 
         if (is_string($content)) {

@@ -34,6 +34,7 @@ final class Template
             require $this->compiled_path;
         } catch (Throwable $e) {
             ob_get_clean();
+
             throw TemplateException::from($e, $this->raw_path);
         }
 
