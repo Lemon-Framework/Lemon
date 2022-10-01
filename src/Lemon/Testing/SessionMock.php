@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Testing;
 
-use Exception;
 use Lemon\Contracts\Http\Session;
 use Lemon\Http\Exceptions\SessionException;
 
@@ -18,7 +17,6 @@ final class SessionMock implements Session
     public function __construct(
         private array $data
     ) {
-        
     }
 
     public function get(string $key): string
@@ -38,6 +36,7 @@ final class SessionMock implements Session
     public function set(string $key, mixed $value): static
     {
         $this->data[$key] = $value;
+
         return $this;
     }
 
@@ -54,6 +53,7 @@ final class SessionMock implements Session
     public function remove(string $key): static
     {
         unset($this->data[$key]);
+
         return $this;
     }
 

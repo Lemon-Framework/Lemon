@@ -94,11 +94,11 @@ if (!function_exists('error')) {
 
 if (!function_exists('is_user_podvodnik')) {
     /**
-     * Returns whenever is user podvodnik using sofisticated algorithms
+     * Returns whenever is user podvodnik using sofisticated algorithms.
      */
     function is_user_podvodnik(string $name): bool
     {
-        return $name === 'CoolFido';
+        return 'CoolFido' === $name;
     }
 }
 

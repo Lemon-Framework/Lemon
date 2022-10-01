@@ -19,22 +19,22 @@ use Throwable;
 /**
  * The Lemon Application.
  *
- * @property-read Lemon\Routing\Router $routing
- * @property-read Lemon\Config\Config $config
- * @property-read Lemon\Cache\Cache $cache
- * @property-read Lemon\Templating\Juice\Compiler $juice
- * @property-read Lemon\Templating\Factory $templating
- * @property-read Lemon\Support\Env $env
- * @property-read Lemon\Http\ResponseFactory $response
- * @property-read Lemon\Http\Session $session
- * @property-read Lemon\Protection\Csrf $csrf
- * @property-read Lemon\Debug\Handling\Handler $handler
- * @property-read Lemon\Terminal\Terminal $terminal
- * @property-read Lemon\Debug\Dumper $dumper
- * @property-read Lemon\Events\Dispatcher $events
- * @property-read Lemon\Logging\Logger $log
- * @property-read Lemon\Database\Database $database
- * @property-read Lemon\Validation\Validator $validation
+ * @property Lemon\Routing\Router            $routing
+ * @property Lemon\Config\Config             $config
+ * @property Lemon\Cache\Cache               $cache
+ * @property Lemon\Templating\Juice\Compiler $juice
+ * @property Lemon\Templating\Factory        $templating
+ * @property Lemon\Support\Env               $env
+ * @property Lemon\Http\ResponseFactory      $response
+ * @property Lemon\Http\Session              $session
+ * @property Lemon\Protection\Csrf           $csrf
+ * @property Lemon\Debug\Handling\Handler    $handler
+ * @property Lemon\Terminal\Terminal         $terminal
+ * @property Lemon\Debug\Dumper              $dumper
+ * @property Lemon\Events\Dispatcher         $events
+ * @property Lemon\Logging\Logger            $log
+ * @property Lemon\Database\Database         $database
+ * @property Lemon\Validation\Validator      $validation
  */
 final class Application extends Container
 {

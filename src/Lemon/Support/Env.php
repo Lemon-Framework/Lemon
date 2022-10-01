@@ -37,6 +37,7 @@ final class Env implements EnvContract
         // For replit mostly
         if (!is_file($this->path)) {
             $this->data = $_ENV;
+
             return;
         }
 

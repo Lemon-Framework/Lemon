@@ -19,7 +19,7 @@ class Reporter
 
     public function __construct(
         private Throwable $exception,
-        private Request $request, 
+        private Request $request,
         private Application $application
     ) {
         $this->consultant = new Consultant();

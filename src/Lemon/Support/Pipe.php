@@ -15,6 +15,15 @@ class Pipe
     ) {
     }
 
+    public function __call($name, $arguments): static
+    {
+        if ('>>>=' !== $name) { // haha
+            throw new Exception('Call to undefined method '.static::class.'::'.$name.'()');
+        }
+
+        return $this->then(...$arguments);
+    }
+
     /**
      * Creates new instance with given value.
      */
@@ -51,14 +60,5 @@ class Pipe
     public function return(): mixed
     {
         return $this->value;
-    }
-
-    public function __call($name, $arguments): static
-    {
-        if ($name !== '>>>=') { // haha
-            throw new Exception('Call to undefined method '.static::class.'::'.$name.'()');
-        }
-
-        return $this->then(...$arguments);
     }
 }
