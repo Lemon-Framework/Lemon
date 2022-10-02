@@ -39,7 +39,7 @@ class RouterTest extends TestCase
 
     public function emulate(string $path, string $method): Request
     {
-        return new Request($path, '', $method, [], '', []);
+        return new Request($path, '', $method, [], '', [], []);
     }
 
     public function testAdding()

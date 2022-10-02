@@ -25,10 +25,10 @@ abstract class TestCase extends BaseTestCase
 
     abstract public function createApplication(): Application;
 
-    public function request(string $path, string $method = 'GET', array $headers = [], array $cookies = [], string $body = ''): TestResponse
+    public function request(string $path, string $method = 'GET', array $headers = [], array $cookies = [], string $body = '', array $files = []): TestResponse
     {
         [$path, $query] = Request::trimQuery($path);
-        $request = new Request($path, $query, $method, $headers, $body, $cookies);
+        $request = new Request($path, $query, $method, $headers, $body, $cookies, $files);
 
         $app = $this->application;
         $app->add(Request::class, $request);

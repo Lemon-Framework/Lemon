@@ -25,6 +25,7 @@ class Request
         public readonly array $headers,
         public readonly string $body,
         public readonly array $cookies,
+        public readonly array $files
     ) {
     }
 
@@ -50,7 +51,8 @@ class Request
             $_SERVER['REQUEST_METHOD'],
             getallheaders(),
             file_get_contents('php://input'),
-            $_COOKIE
+            $_COOKIE,
+            array_map(fn($item) => new File(...$item), $_FILES)
         );
     }
 
@@ -187,6 +189,16 @@ class Request
     public function cookies()
     {
         return $this->cookies;
+    }
+
+    public function file(string $name): ?File
+    {
+        return $this->files[$name] ?? null;
+    } 
+
+    public function hasFile(string $name): bool
+    {
+        return isset($this->files[$name]);
     }
 
     /**
