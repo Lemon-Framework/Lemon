@@ -79,8 +79,11 @@ final class Application extends Container
         $this->add(self::class, $this);
     }
 
-    public function __get(string $name): mixed
+    public function __get(string $name): object
     {
+        if (!$this->has($name)) {
+            throw new Exception('Undefined property: '.self::class.'::$'.$name);
+        }
         return $this->get($name);
     }
 
