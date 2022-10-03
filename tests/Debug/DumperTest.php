@@ -51,7 +51,7 @@ class DumperTest extends TestCase
     public function testObjectParsing()
     {
         $dumper = $this->getDumper();
-        $this->assertSame('<div class="ldg-object"><details open><summary>Lemon\Tests\Debug\Foo [</summary><span class="ldg-property"><span class="ldg-property-name">bar</span> => <span class="ldg-string">"foo"</span></span><span class="ldg-property"><span class="ldg-property-name">baz</span> => <span class="ldg-null">null</span></span></details>]</div>', $dumper->resolve(new Foo()));
+        $this->assertSame('<div class="ldg-object"><details open><summary>Lemon\Tests\Debug\Foo [</summary><span class="ldg-property"><span class="ldg-property-name">bar</span> => <span class="ldg-string">"foo"</span></span><span class="ldg-property"><span class="ldg-property-name">baz</span> => <span class="ldg-null">null</span></span><span class="ldg-property"><span class="ldg-property-name">foo</span> => <span class="ldg-bool">true</span></span></details>]</div>', $dumper->resolve(new Foo()));
     }
 
     public function testDumping()
@@ -123,5 +123,5 @@ class Foo
 
     public float $baz;
 
-    private bool $buz;
+    private bool $foo = true;
 }
