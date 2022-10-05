@@ -11,6 +11,8 @@ For more details about contributing to specific component see its README.
 
 Before you add big feature please open issue first.
 
+You should allways write tests to your new features.
+
 ## Pull request
 
 Before you oepn pull request, make sure to run following:
@@ -22,3 +24,6 @@ $ ./vendor/bin/php-cs-fixer fix # fixes style
 ```
 They all should pass before you open it.
 
+## Support
+
+If you want to contribute but don't know how to e.g. write tests, don't be scared to contact Majkel#2652 on discord with anything.
