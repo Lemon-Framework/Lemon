@@ -31,6 +31,7 @@ abstract class TestCase extends BaseTestCase
         $request = new Request($path, $query, $method, $headers, $body, $cookies, $files);
 
         $app = $this->application;
+        $request->injectApplication($app);
         $app->add(Request::class, $request);
         $app->alias('request', Request::class);
 
