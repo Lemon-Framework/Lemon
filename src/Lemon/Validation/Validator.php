@@ -31,7 +31,7 @@ class Validator implements ValidatorContract
     {
         foreach ($ruleset as $key => $rules) {
             $rules = $this->resolveRules($rules);
-            if (!Arr::hasKey($data, $key) || 0 === strlen($data[$key])) {
+            if (!Arr::hasKey($data, $key) || 0 === strlen((string) $data[$key])) {
                 if (Arr::has($rules, ['optional'])) {
                     continue;
                 }
@@ -43,7 +43,7 @@ class Validator implements ValidatorContract
                     continue;
                 }
 
-                if (!$this->rules->call($data[$key], $rule)) {
+                if (!$this->rules->call((string) $data[$key], $rule)) {
                     return false;
                 }
             }

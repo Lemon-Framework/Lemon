@@ -37,6 +37,11 @@ class ValidationTest extends TestCase
             ['foo' => 'optional|numeric']
         ));
 
+        $this->assertTrue($validator->validate(
+            ['foo' => 10],
+            ['foo' => 'optional|numeric']
+        ));
+
         $this->assertFalse($validator->validate(
             [],
             ['foo' => 'numeric']
