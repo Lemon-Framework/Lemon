@@ -41,7 +41,7 @@ final class Application extends Container
     /**
      * Current Lemon version.
      */
-    public const VERSION = '3.6.1';
+    public const VERSION = '3.6.4';
 
     /**
      * Default units with aliases.
@@ -84,6 +84,7 @@ final class Application extends Container
         if (!$this->has($name)) {
             throw new Exception('Undefined property: '.self::class.'::$'.$name);
         }
+
         return $this->get($name);
     }
 

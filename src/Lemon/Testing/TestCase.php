@@ -35,7 +35,7 @@ abstract class TestCase extends BaseTestCase
         }
 
         return $mock;
-    } 
+    }
 
     public function request(string $path, string $method = 'GET', array $headers = [], array $cookies = [], string $body = '', array $files = []): TestResponse
     {

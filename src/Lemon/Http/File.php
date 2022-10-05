@@ -13,7 +13,6 @@ class File
         public readonly int $error,
         public readonly int $size
     ) {
-        
     }
 
     public function read(): string
@@ -24,6 +23,7 @@ class File
     public function copy(string $new): static
     {
         copy($this->tmp_path, $new);
+
         return $this;
     }
 }

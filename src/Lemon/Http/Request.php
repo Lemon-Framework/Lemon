@@ -52,7 +52,7 @@ class Request
             getallheaders(),
             file_get_contents('php://input'),
             $_COOKIE,
-            array_map(fn($item) => new File(...$item), $_FILES)
+            array_map(fn ($item) => new File(...$item), $_FILES)
         );
     }
 
@@ -194,7 +194,7 @@ class Request
     public function file(string $name): ?File
     {
         return $this->files[$name] ?? null;
-    } 
+    }
 
     public function hasFile(string $name): bool
     {

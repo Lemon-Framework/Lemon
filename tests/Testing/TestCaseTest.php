@@ -20,7 +20,7 @@ class TestCaseTest extends TestCase
     public function testMock()
     {
         $this->mock(Foo::class, 'foo')
-             ->expect(bar: fn() => 'cs')
+            ->expect(bar: fn () => 'cs')
         ;
 
         $this->assertSame('cs', $this->application->get(Foo::class)->bar());

@@ -20,18 +20,21 @@ final class TestResponse
     public function assertStatus(int $expected): self
     {
         $this->testCase->assertSame($expected, $this->response->code());
+
         return $this;
     }
 
     public function assertOK(): self
     {
         $this->assertStatus(200);
+
         return $this;
     }
 
     public function assertBody(mixed $expected): self
     {
         $this->testCase->assertSame($expected, $this->response->body);
+
         return $this;
     }
 
@@ -44,18 +47,21 @@ final class TestResponse
         $path = $this->factory->getRawPath($expected_name);
 
         $this->testCase->assertSame($path, $this->response->body->raw_path);
+
         return $this;
     }
 
     public function assertHeader(string $header, string $expected): self
     {
         $this->testCase->assertSame($expected, $this->response->header($header));
+
         return $this;
     }
 
     public function assertLocation(string $expected): self
     {
         $this->assertHeader('Location', $expected);
+
         return $this;
     }
 
@@ -65,6 +71,7 @@ final class TestResponse
             $expected,
             array_filter($this->response->cookies(), fn ($item) => $item[0] === $cookie)[0][1] ?? null
         );
+
         return $this;
     }
 }
