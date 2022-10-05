@@ -28,7 +28,7 @@ abstract class TestCase extends BaseTestCase
     public function mock(string $class, string ...$aliases): Mock
     {
         $mock = new Mock($class);
-        $mock_class = get_class($mock);
+        $mock_class = get_class($mock->mock);
         $this->application->add($mock_class, $mock->mock);
         foreach ([$class, ...$aliases] as $alias) {
             $this->application->alias($alias, $mock_class);
