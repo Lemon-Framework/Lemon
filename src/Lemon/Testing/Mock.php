@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Testing;
 
+use Closure;
 use Mockery;
 use Mockery\MockInterface;
 
@@ -22,7 +23,7 @@ class Mock
         foreach ($methods as $method => $action) {
             // @phpstan-ignore-next-line
             $this->mock->shouldReceive($method)
-                ->andReturnUsing($action)
+                ->andReturnUsing(Closure::fromCallable($action)->bindTo($this->mock))
             ;
         }
 
