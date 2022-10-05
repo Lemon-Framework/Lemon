@@ -25,6 +25,18 @@ abstract class TestCase extends BaseTestCase
 
     abstract public function createApplication(): Application;
 
+    public function mock(string $class, string ...$aliases): Mock
+    {
+        $mock = new Mock($class);
+        $mock_class = get_class($mock);
+        $this->application->add($mock_class, $mock->mock);
+        foreach ([$class, ...$aliases] as $alias) {
+            $this->application->alias($alias, $mock_class);
+        }
+
+        return $mock;
+    } 
+
     public function request(string $path, string $method = 'GET', array $headers = [], array $cookies = [], string $body = '', array $files = []): TestResponse
     {
         [$path, $query] = Request::trimQuery($path);
