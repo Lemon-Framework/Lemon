@@ -19,29 +19,29 @@ use Throwable;
 /**
  * The Lemon Application.
  *
- * @property Lemon\Routing\Router            $routing
- * @property Lemon\Config\Config             $config
- * @property Lemon\Cache\Cache               $cache
- * @property Lemon\Templating\Juice\Compiler $juice
- * @property Lemon\Templating\Factory        $templating
- * @property Lemon\Support\Env               $env
- * @property Lemon\Http\ResponseFactory      $response
- * @property Lemon\Http\Session              $session
- * @property Lemon\Protection\Csrf           $csrf
- * @property Lemon\Debug\Handling\Handler    $handler
- * @property Lemon\Terminal\Terminal         $terminal
- * @property Lemon\Debug\Dumper              $dumper
- * @property Lemon\Events\Dispatcher         $events
- * @property Lemon\Logging\Logger            $log
- * @property Lemon\Database\Database         $database
- * @property Lemon\Validation\Validator      $validation
+ * @property \Lemon\Routing\Router            $routing
+ * @property \Lemon\Config\Config             $config
+ * @property \Lemon\Cache\Cache               $cache
+ * @property \Lemon\Templating\Juice\Compiler $juice
+ * @property \Lemon\Templating\Factory        $templating
+ * @property \Lemon\Support\Env               $env
+ * @property \Lemon\Http\ResponseFactory      $response
+ * @property \Lemon\Http\Session              $session
+ * @property \Lemon\Protection\Csrf           $csrf
+ * @property \Lemon\Debug\Handling\Handler    $handler
+ * @property \Lemon\Terminal\Terminal         $terminal
+ * @property \Lemon\Debug\Dumper              $dumper
+ * @property \Lemon\Events\Dispatcher         $events
+ * @property \Lemon\Logging\Logger            $log
+ * @property \Lemon\Database\Database         $database
+ * @property \Lemon\Validation\Validator      $validation
  */
 final class Application extends Container
 {
     /**
      * Current Lemon version.
      */
-    public const VERSION = '3.6.5';
+    public const VERSION = '3.6.6';
 
     /**
      * Default units with aliases.

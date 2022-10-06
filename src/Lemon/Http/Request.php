@@ -139,7 +139,7 @@ class Request
     /**
      * Returns request body value for given key.
      */
-    public function get(string $key): ?string
+    public function get(string $key): mixed
     {
         return $this->data()[$key] ?? null;
     }
