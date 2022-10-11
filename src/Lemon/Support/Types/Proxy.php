@@ -13,7 +13,6 @@ class Proxy
     public function __construct(
         public readonly object $object
     ) {
-
     }
 
     public function __call($name, $arguments)
@@ -22,7 +21,7 @@ class Proxy
             $action();
         }
 
-        $result = $this->object->$name(...$arguments);
+        $result = $this->object->{$name}(...$arguments);
 
         foreach ($this->after as $action) {
             $action($result);
@@ -33,18 +32,20 @@ class Proxy
 
     public function __get($name)
     {
-        return $this->object->$name;
+        return $this->object->{$name};
     }
 
     public function after(callable $action): static
     {
         $this->after[] = $action;
+
         return $this;
     }
 
     public function before(callable $action): static
     {
         $this->before[] = $action;
+
         return $this;
     }
 }
