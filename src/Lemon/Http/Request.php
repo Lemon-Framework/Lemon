@@ -112,6 +112,11 @@ class Request
         return $this->header('Content-Type') === $content_type;
     }
 
+    public function aint(string $content_type): bool
+    {
+        return !$this->is($content_type);
+    }
+
     /**
      * Adds request parsing function.
      */
