@@ -6,8 +6,6 @@ namespace Lemon\Templating\Juice;
 
 enum TokenKind
 {
-    case Document;
-
     // Hmtl
     case HtmlTag;
 
@@ -24,4 +22,32 @@ enum TokenKind
     case Output;
 
     case UnsafeOutput;
+
+    // PHP
+    case BinaryOperator;
+    case UnaryOperator;
+    case Not;
+    case OpeningBracket;
+    case ClosingBracket;
+    case OpeningSquareBracket;
+    case ClosingSquareBracket;
+    case Pipe;
+    case Arrow;
+    case NullArrow;
+    case DoubleArrow;
+    case DoubleColon;
+    case QuestionMark;
+    case Colon;
+    case As;
+    case In;
+    case Instanceof;
+    case New;
+    case Elipsis;
+    case Comma;
+    case Fn;
+    case String;
+    case Number;
+    case Variable;
+    case Name;
 }
+
