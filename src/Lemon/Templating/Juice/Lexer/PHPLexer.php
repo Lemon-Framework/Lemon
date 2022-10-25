@@ -59,7 +59,7 @@ class PHPLexer
         'fn' => TokenKind::Fn,
     ];
 
-    private int $pos = 0;
+    private int $pos = -1;
     private int $line = 1;
 
     public function __construct(
@@ -68,8 +68,12 @@ class PHPLexer
 
     }
 
-    public function lexNext(): Token
+    public function lexNext(): Token|null
     {
+        if ($this->code === '') {
+            return null;
+        }
+
         $this->trim();
         return
             $this->lexString()
@@ -81,13 +85,27 @@ class PHPLexer
         ;
     }
 
+    /**
+     * @internal
+     *
+     * @return array<Token>
+     */
+    public function lex(): array
+    {
+        $result = [];
+        while ($next = $this->lexNext()) {
+            $result[] = $next;
+        }
+
+        return $result;
+    }
+
     public function lexKeyWords(): Token|null
     {
         foreach (self::Tokens as $token => $kind) {
             if (str_starts_with($this->code, $token)) {
-                $len = strlen($token);
-                $this->code = substr($this->code, $len);
-                return new Token($kind, $this->line, $this->pos, substr($this->code, 0, $len));
+                $this->code = substr($this->code, strlen($token));
+                return new Token($kind, $this->line, $this->pos, trim($token));
             }
         }
 
@@ -113,19 +131,23 @@ class PHPLexer
             throw new CompilerException('Unexpected end of string', $this->line);
         }
 
-        $this->code = substr($this->code, 0, $index + 1);
+        $token = new Token(TokenKind::String, $this->line, $this->pos, $result);
 
+
+        $this->code = substr($this->code, $index + 1);
         $this->pos += $index + 1;
 
-        return new Token(TokenKind::String, $this->line, $this->pos, $result);
+        return $token;
     }
 
     public function lexNumber(): Token|null
     {
         $result = '';
         for ($index = 0; 
-            ctype_digit($c = $this->code[$index])
-            || in_array($c, ['-', '.']);
+            isset($this->code[$index])
+            && (ctype_digit($c = $this->code[$index])
+                || in_array($c, ['-', '.']
+            ));
         $index++) {
             $result .= $c;
         }
@@ -133,6 +155,8 @@ class PHPLexer
         if (!is_numeric($result)) {
             return null;
         }
+
+        $this->code = substr($this->code, $index);
 
         return new Token(TokenKind::Number, $this->line, $this->pos, $result);
     }
@@ -148,11 +172,14 @@ class PHPLexer
         }
 
         $result = '';
-        for ($index = 1; $this->isNameChar($this->code[$index]); $index++) {
+        for ($index = 1; 
+            isset($this->code[$index])
+            && $this->isNameChar($this->code[$index]); 
+        $index++) {
             $result .= $this->code[$index];
         }
 
-        $this->code = substr($this->code, 0, $index);
+        $this->code = substr($this->code, $index);
 
         return new Token(TokenKind::Variable, $this->line, $this->pos, $result);
     } 
@@ -160,16 +187,20 @@ class PHPLexer
     public function lexName(): Token|null
     {
         $result = '';
-        for ($index = 1;
+        for ($index = 0;
             isset($this->code[$index])
             && ($this->isNameChar($c = $this->code[$index])
                 || $c === '\\'
             ); 
         $index++) {
-            $result .= $c;
+            $result .= $c;    
         }
 
-        $this->code = substr($this->code, 0, $index);
+        if ($result === '') {
+            return null;
+        }
+
+        $this->code = substr($this->code, $index);
 
         return new Token(TokenKind::Name, $this->line, $this->pos, $result);
     }
@@ -179,11 +210,15 @@ class PHPLexer
         for ($index = 0; ctype_space($this->code[$index]); $index++) {
             if ($this->code[$index] === "\n") {
                 $this->line++;
-                $this->pos = 0;
+                $this->pos = -1;
             } else {
                 $this->pos++;
             }
-        }
+        } 
+
+        $this->pos++;
+
+        $this->code = substr($this->code, $index);
     }
 
     private function isQuote(string $char): bool
