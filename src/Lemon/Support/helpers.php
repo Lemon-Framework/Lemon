@@ -24,6 +24,17 @@ if (!function_exists('arr')) {
     }
 }
 
+if (!function_exists('compose')) {
+    /**
+     * Composes 2 functions into one like haskells .
+     * Most useless function but ok
+     */
+    function compose(callable $first, callable $second): callable
+    {
+        return fn($value) => $first($second($value)); 
+    }
+}
+
 if (!function_exists('config')) {
     /**
      * Gets/Sets value to config or returns config service.
