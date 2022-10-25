@@ -117,14 +117,24 @@ class PHPLexer
 
         $this->pos += $index + 1;
 
-        return new Token(TokenKind::String, $this->pos, $this->line, $result);
+        return new Token(TokenKind::String, $this->line, $this->pos, $result);
     }
 
     public function lexNumber(): Token|null
     {
-        // TODO
-        // -1.2
-        return null;
+        $result = '';
+        for ($index = 0; 
+            ctype_digit($c = $this->code[$index])
+            || in_array($c, ['-', '.']);
+        $index++) {
+            $result .= $c;
+        }
+        
+        if (!is_numeric($result)) {
+            return null;
+        }
+
+        return new Token(TokenKind::Number, $this->line, $this->pos, $result);
     }
 
     public function lexVariable(): Token|null
@@ -144,7 +154,7 @@ class PHPLexer
 
         $this->code = substr($this->code, 0, $index);
 
-        return new Token(TokenKind::Variable, $this->pos, $this->line, $result);
+        return new Token(TokenKind::Variable, $this->line, $this->pos, $result);
     } 
 
     public function lexName(): Token|null
@@ -161,7 +171,7 @@ class PHPLexer
 
         $this->code = substr($this->code, 0, $index);
 
-        return new Token(TokenKind::Name, $this->pos, $this->line, $result);
+        return new Token(TokenKind::Name, $this->line, $this->pos, $result);
     }
 
     private function trim(): void
