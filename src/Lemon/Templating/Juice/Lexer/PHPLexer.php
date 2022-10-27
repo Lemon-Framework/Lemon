@@ -41,6 +41,7 @@ class PHPLexer
         '|>' => TokenKind::Pipe,
         '?->' => TokenKind::NullArrow,
         '??' => TokenKind::BinaryOperator,
+        '?:' => TokenKind::BinaryOperator,
         '?' => TokenKind::QuestionMark,
         '::' => TokenKind::DoubleColon,
         ':' => TokenKind::Colon,
@@ -59,7 +60,7 @@ class PHPLexer
         'fn' => TokenKind::Fn,
     ];
 
-    private int $pos = -1;
+    private int $pos = 0;
     private int $line = 1;
 
     public function __construct(
@@ -104,8 +105,11 @@ class PHPLexer
     {
         foreach (self::Tokens as $token => $kind) {
             if (str_starts_with($this->code, $token)) {
-                $this->code = substr($this->code, strlen($token));
-                return new Token($kind, $this->line, $this->pos, trim($token));
+                $len = strlen($token);
+                $this->code = substr($this->code, $len);
+                $token = new Token($kind, $this->line, $this->pos, trim($token)); 
+                $this->pos += $len;
+                return $token;
             }
         }
 
@@ -158,7 +162,10 @@ class PHPLexer
 
         $this->code = substr($this->code, $index);
 
-        return new Token(TokenKind::Number, $this->line, $this->pos, $result);
+        $token = new Token(TokenKind::Number, $this->line, $this->pos, $result);
+        $this->pos += $index;
+
+        return $token;
     }
 
     public function lexVariable(): Token|null
@@ -181,7 +188,11 @@ class PHPLexer
 
         $this->code = substr($this->code, $index);
 
-        return new Token(TokenKind::Variable, $this->line, $this->pos, $result);
+        $token = new Token(TokenKind::Variable, $this->line, $this->pos, $result);
+
+        $this->pos += $index;
+
+        return $token;
     } 
 
     public function lexName(): Token|null
@@ -215,8 +226,6 @@ class PHPLexer
                 $this->pos++;
             }
         } 
-
-        $this->pos++;
 
         $this->code = substr($this->code, $index);
     }
