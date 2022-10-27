@@ -56,6 +56,7 @@ class ConfigTest extends TestCase
 
         $this->assertSame('neco', $config->get('schnitzels.foo.bar'));
         $this->assertSame(['bar' => 'neco'], $config->get('schnitzels.foo'));
+        $this->assertNull($config->get('schnitzels.baz'));
         $this->expectException(ConfigException::class);
         $config->get('schnitzels.parek');
     }

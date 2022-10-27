@@ -9,4 +9,5 @@ return [
     'foo' => [
         'bar' => 'neco',
     ],
+    'baz' => null,
 ];

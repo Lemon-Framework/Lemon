@@ -56,7 +56,7 @@ class Config implements ConfigContract
         $this->loadPart($part);
         $last = $this->data[$part];
         foreach ($keys as $key) {
-            if (!isset($last[$key])) {
+            if (!array_key_exists($key, $last)) {
                 throw new ConfigException('Config key '.$key.' does not exist');
             }
             $last = $last[$key];
