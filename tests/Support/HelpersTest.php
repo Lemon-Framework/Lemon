@@ -6,6 +6,10 @@ namespace Lemon\Tests\Support;
 
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class HelpersTest extends TestCase
 {
     public function testCompose()

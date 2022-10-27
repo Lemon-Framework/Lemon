@@ -27,11 +27,11 @@ if (!function_exists('arr')) {
 if (!function_exists('compose')) {
     /**
      * Composes 2 functions into one like haskells .
-     * Most useless function but ok
+     * Most useless function but ok.
      */
     function compose(callable $first, callable $second): callable
     {
-        return fn($value) => $first($second($value)); 
+        return fn ($value) => $first($second($value));
     }
 }
 
