@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Debug\Handling;
 
-use Lemon\Support\Types\Arr;
-
 class Consultant
 {
     public array $signatures = [
@@ -51,7 +49,7 @@ class Consultant
 
     public function handleFunction(array $matches): array
     {
-        $functions = Arr::merge(get_defined_functions()['internal'], get_defined_functions()['user'])->content;
+        $functions = array_merge(get_defined_functions()['internal'], get_defined_functions()['user']);
         $match = $this->bestMatch($functions, $matches[1]);
 
         return [

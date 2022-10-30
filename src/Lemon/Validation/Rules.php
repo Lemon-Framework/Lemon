@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Validation;
 
-use Lemon\Support\Types\Arr;
-
 class Rules
 {
     private array $rules = [];
@@ -88,7 +86,7 @@ class Rules
             return $this->{$rule[0]}($target, ...$args);
         }
 
-        if (Arr::hasKey($this->rules, $rule[0])) {
+        if (array_key_exists($rule[0], $this->rules)) {
             return $this->rules[$rule[0]]($target, ...$args);
         }
 

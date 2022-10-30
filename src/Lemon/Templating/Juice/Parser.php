@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
+use ArrayIterator;
 use Lemon\Support\Types\Arr;
-use Lemon\Support\Types\Array_;
-use Lemon\Support\Types\Str;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;
@@ -33,16 +32,16 @@ final class Parser
     /**
      * Stream of all tokens.
      *
-     * @var \Lemon\Support\Types\Array_<Token>
+     * @var ArrayIterator<Token>
      */
-    private Array_ $tokens;
+    private ArrayIterator $tokens;
 
     public function __construct(
         array $tokens,
         private OutputCompiler $output,
         private DirectiveCompiler $directives
     ) {
-        $this->tokens = new Array_($tokens);
+        $this->tokens = new ArrayIterator($tokens);
     }
 
     /**
@@ -84,7 +83,7 @@ final class Parser
 
                 case Token::TEXT:
                     $this->context = self::resolveContext($content, $this->context);
-                    $result .= Str::replace($content, '<?php', '&ltphp');  // :trollak:
+                    $result .= str_replace('<?php', '&ltphp', $content);  // :trollak:
 
                     break;
             }
@@ -108,7 +107,7 @@ final class Parser
         $matches = $matches[0];
         $result = $context;
 
-        if (Arr::size($matches) > 0) {
+        if (count($matches) > 0) {
             if (preg_match('/<script.*?>/', Arr::last($matches))) {
                 $result = self::CONTEXT_JS;
             }
@@ -126,7 +125,7 @@ final class Parser
         }
 
         if (preg_match('/([^\']*?\'|[^\"]*?\")/', $target)
-            && Arr::has([self::CONTEXT_ATTRIBUTE, self::CONTEXT_JS_ATTRIBUTE], $context)) {
+            && in_array($context, [self::CONTEXT_ATTRIBUTE, self::CONTEXT_JS_ATTRIBUTE])) {
             $result = self::CONTEXT_HTML;
         }
 

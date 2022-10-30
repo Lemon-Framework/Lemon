@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Validation;
 
 use Lemon\Contracts\Validation\Validator as ValidatorContract;
-use Lemon\Support\Types\Arr;
 
 class Validator implements ValidatorContract
 {
@@ -31,8 +30,8 @@ class Validator implements ValidatorContract
     {
         foreach ($ruleset as $key => $rules) {
             $rules = $this->resolveRules($rules);
-            if (!Arr::hasKey($data, $key) || 0 === strlen((string) $data[$key])) {
-                if (Arr::has($rules, ['optional'])) {
+            if (!array_key_exists($key, $data) || 0 === strlen((string) $data[$key])) {
+                if (in_array(['optional'], $rules)) {
                     continue;
                 }
 

@@ -8,7 +8,6 @@ use Lemon\Config\Config;
 use Lemon\Contracts\Templating\Compiler;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
-use Lemon\Support\Types\Str;
 use Lemon\Templating\Environment;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Exceptions\TemplateException;
@@ -118,7 +117,7 @@ class FooCompiler implements Compiler
 
     public function compile(string $template): string
     {
-        if (Str::startsWith($template, 'baz')) {
+        if (str_starts_with($template, 'baz')) {
             throw new CompilerException('', 1);
         }
         ++$this->counter;

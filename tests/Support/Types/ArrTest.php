@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Lemon\Tests\Types;
+namespace Lemon\Tests\Support\Types;
 
-use Exception;
 use Lemon\Support\Types\Arr;
-use PHPUnit\Framework\TestCase;
+use Lemon\Tests\TestCase;
 
 /**
  * @internal
@@ -14,44 +13,24 @@ use PHPUnit\Framework\TestCase;
  */
 class ArrTest extends TestCase
 {
-    public function testFromJson()
+    public function testLast()
     {
-        $this->assertSame([1, 'foo', ['foo' => 2]], Arr::fromJson('[1,"foo",{"foo":2}]')->content);
-        $this->assertEmpty(Arr::fromJson('[]')->content);
+        $this->assertSame('foo', Arr::last(['klobna', 'parek', 'rizek', 'foo']));
+        $this->assertSame('foo', Arr::last(['bar' => 'klobna', 'baz' => 'parek', 'nevim' => 'rizek', 'neco' => 'foo']));
+        $this->assertNull(Arr::last([]));
     }
 
-    public function testFrom()
+    public function testFirst()
     {
-        $this->assertSame([1, 2, 3], Arr::from([1, 2, 3])->content);
-        $this->assertSame([1, 2, 'foo', ['bar' => 3]], Arr::from([1, 2, 'foo', ['bar' => 3]])->export());
-        $this->assertEmpty(Arr::from([])->content);
-    }
-
-    public function testOf()
-    {
-        $this->assertSame([1, 2, 3], Arr::of(1, 2, 3)->content);
-        $this->assertSame([1, 2, 'foo', ['bar' => 3]], Arr::of(1, 2, 'foo', ['bar' => 3])->export());
-        $this->assertEmpty(Arr::of()->content);
+        $this->assertSame('klobna', Arr::first(['klobna', 'parek', 'rizek', 'foo']));
+        $this->assertSame('klobna', Arr::first(['bar' => 'klobna', 'baz' => 'parek', 'nevim' => 'rizek', 'neco' => 'foo']));
+        $this->assertNull(Arr::first([]));
     }
 
     public function testRange()
     {
-        $this->assertSame([1, 2, 3, 4, 5, 6], Arr::range(1, 6)->content);
-        $this->assertSame([2, 4, 6, 8, 10], Arr::range(2, 11, 2)->content);
-        $this->assertSame([0], Arr::range(0, 0)->content);
-        $this->assertSame([5, 4, 3, 2, 1, 0], Arr::range(5, 0)->content);
-        $this->assertSame([5, 3, 1], Arr::range(5, 0, 2)->content);
-    }
-
-    public function testEmpty()
-    {
-        $this->assertEmpty(Arr::empty()->content);
-    }
-
-    public function testCalling()
-    {
-        $this->assertSame(10, Arr::get([20, 30, 10, 40], 2));
-        $this->expectException(Exception::class);
-        Arr::klobasa();
+        $this->assertSame([1, 2, 3, 4, 5], iterator_to_array(Arr::range(1, 5)));
+        $this->assertSame([5, 4, 3, 2, 1], iterator_to_array(Arr::range(5, 1)));
+        $this->assertSame([1], iterator_to_array(Arr::range(1, 1)));
     }
 }

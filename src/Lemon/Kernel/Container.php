@@ -6,7 +6,6 @@ namespace Lemon\Kernel;
 
 use Lemon\Kernel\Exceptions\ContainerException;
 use Lemon\Kernel\Exceptions\NotFoundException;
-use Lemon\Support\Types\Arr;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionFunction;
@@ -36,8 +35,8 @@ class Container implements ContainerInterface
      */
     public function get(string $id): mixed
     {
-        if (!Arr::hasKey($this->services, $id)) {
-            if (!Arr::hasKey($this->aliases, $id)) {
+        if (!array_key_exists($id, $this->services)) {
+            if (!array_key_exists($id, $this->aliases)) {
                 throw new NotFoundException('Service '.$id.' does not exist');
             }
             $id = $this->aliases[$id];
@@ -86,7 +85,7 @@ class Container implements ContainerInterface
      */
     public function services(): array
     {
-        return Arr::keys($this->services)->content;
+        return array_keys($this->services);
     }
 
     /**
@@ -94,7 +93,7 @@ class Container implements ContainerInterface
      */
     public function has(string $id): bool
     {
-        return Arr::hasKey($this->services, $id);
+        return array_key_exists($id, $this->services);
     }
 
     /**
@@ -102,7 +101,7 @@ class Container implements ContainerInterface
      */
     public function hasAlias(string $id): bool
     {
-        return Arr::hasKey($this->aliases, $id);
+        return array_key_exists($id, $this->aliases);
     }
 
     public function call(callable $callback, array $params): mixed

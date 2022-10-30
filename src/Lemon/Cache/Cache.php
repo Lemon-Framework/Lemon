@@ -11,7 +11,6 @@ use Lemon\Contracts\Cache\Cache as CacheContract;
 use Lemon\Contracts\Config\Config;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
-use Lemon\Support\Types\Arr;
 
 class Cache implements CacheContract
 {
@@ -197,7 +196,7 @@ class Cache implements CacheContract
      */
     public function has(string $key): bool
     {
-        return Arr::hasKey($this->data, $key);
+        return array_key_exists($key, $this->data);
     }
 
     /**

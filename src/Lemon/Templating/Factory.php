@@ -9,7 +9,6 @@ use Lemon\Contracts\Templating\Compiler;
 use Lemon\Contracts\Templating\Factory as FactoryInterface;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
-use Lemon\Support\Types\Str;
 use Lemon\Templating\Exceptions\TemplateException;
 use Throwable;
 
@@ -63,7 +62,7 @@ final class Factory implements FactoryInterface
      */
     public function getRawPath(string $name): string|false
     {
-        $path = $this->templates.DIRECTORY_SEPARATOR.Str::replace($name, '.', DIRECTORY_SEPARATOR)->value.'.'.$this->compiler->getExtension();
+        $path = $this->templates.DIRECTORY_SEPARATOR.str_replace('.', DIRECTORY_SEPARATOR, $name).'.'.$this->compiler->getExtension();
 
         if (!FS::isFile($path)) {
             return false;
@@ -77,7 +76,7 @@ final class Factory implements FactoryInterface
      */
     public function getCompiledPath(string $name): string
     {
-        return $this->cached.DIRECTORY_SEPARATOR.Str::replace($name, '.', '_').'.php';
+        return $this->cached.DIRECTORY_SEPARATOR.str_replace('.', '_', $name).'.php';
     }
 
     /**

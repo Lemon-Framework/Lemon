@@ -12,7 +12,6 @@ use Lemon\Http\Response;
 use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Kernel\Application;
 use Lemon\Routing\Exceptions\RouteException;
-use Lemon\Support\Types\Str;
 
 /**
  * The Lemon Router.
@@ -124,7 +123,7 @@ class Router implements RouterContract
      */
     public function template(string $path, ?string $view = null): Route
     {
-        $view = $view ?? (string) Str::replace($path, '/', '.');
+        $view = $view ?? str_replace('/', '.', $path);
 
         return $this->routes->add($path, 'get', fn (TemplateFactory $templates) => $templates->make($view));
     }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Routing;
 
 use Lemon\Routing\Exceptions\RouteException;
-use Lemon\Support\Types\Arr;
 
 class Collection
 {
@@ -58,7 +57,7 @@ class Collection
     {
         $path = trim($path, '/');
 
-        return Arr::hasKey($this->routes, $path);
+        return array_key_exists($path, $this->routes);
     }
 
     /**

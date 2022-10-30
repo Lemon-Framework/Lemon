@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Templating\Juice\Compilers;
 
 use Lemon\Kernel\Container;
-use Lemon\Support\Types\Arr;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Compilers\Directives\Directive;
 use Lemon\Templating\Juice\Token;
@@ -64,7 +63,7 @@ final class DirectiveCompiler
             throw new CompilerException('Directive '.$directive.' already exist.');
         }
 
-        if (!Arr::has(class_implements($class), Directive::class)) {
+        if (!in_array(Directive::class, class_implements($class))) {
             throw new CompilerException('Directive class '.$class.' does not implement '.Directive::class.' Interface');
         }
 

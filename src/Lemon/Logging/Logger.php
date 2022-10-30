@@ -8,7 +8,6 @@ use DateTime;
 use Lemon\Contracts\Config\Config;
 use Lemon\Contracts\Logging\Logger as LoggerContract;
 use Lemon\Support\Filesystem;
-use Lemon\Support\Types\Str;
 use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
@@ -29,7 +28,7 @@ class Logger extends AbstractLogger implements LoggerContract
      */
     public function log($level, string|Stringable $message, array $context = []): void
     {
-        $level = Str::toUpper($level)->value;
+        $level = strtoupper($level);
         if (!defined(LogLevel::class.'::'.$level)) {
             throw new InvalidArgumentException('Log level '.$level.' is not valid');
         }

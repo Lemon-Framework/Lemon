@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Terminal\Commands;
 
 use Closure;
-use Lemon\Support\Types\Str;
 use Lemon\Terminal\Exceptions\CommandException;
 
 class Command
@@ -26,10 +25,10 @@ class Command
 
     private function resolveSignature(string $signature): array
     {
-        $signature = Str::split($signature, ' ');
+        $signature = explode(' ', $signature);
         $name = $signature[0];
         $result = [];
-        foreach ($signature['1..'] as $argument) {
+        foreach (array_slice($signature, 1) as $argument) {
             if (preg_match('/^{([a-zA-Z0-9]+)}$/', $argument, $matches)) {
                 $result[] = ['obligated', $matches[1]];
             } elseif (preg_match('/^{([a-zA-Z0-9]+)\?}$/', $argument, $matches)) {

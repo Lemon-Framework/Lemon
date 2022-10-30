@@ -11,16 +11,25 @@ use Lemon\Http\Response;
 use Lemon\Http\Responses\RedirectResponse;
 use Lemon\ResponseFactory;
 use Lemon\Support\Pipe;
-use Lemon\Support\Types\Array_;
 use Lemon\Templating\Template;
 
 if (!function_exists('arr')) {
     /**
-     * Creates new Array_.
+     * Creates new array.
+     *
+     * Instead of
+     * [
+     *     "foo" => 10
+     * ]
+     *
+     * you can use
+     * arr(
+     *     foo: 10
+     * )
      */
-    function arr(mixed ...$data): Array_
+    function arr(mixed ...$data): array
     {
-        return new Array_($data);
+        return $data;
     }
 }
 

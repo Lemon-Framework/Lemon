@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Templating;
 
 use Lemon\Support\Macros;
-use Lemon\Support\Types\Str;
 
 /**
  * Runtime string manipulaton utility.
@@ -36,6 +35,6 @@ final class Environment
      */
     public function escapeAttribute(string $content): string
     {
-        return Str::startsWith($content, 'javascript:') ? '' : htmlspecialchars($content);
+        return str_starts_with($content, 'javascript:') ? '' : htmlspecialchars($content);
     }
 }
