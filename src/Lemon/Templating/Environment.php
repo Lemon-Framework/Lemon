@@ -36,6 +36,6 @@ final class Environment
      */
     public function escapeAttribute(string $content): string
     {
-        return Str::startsWith($content, 'javascript:') ? '' : htmlspecialchars($content);
+        return str_starts_with($content, 'javascript:') ? '' : htmlspecialchars($content);
     }
 }

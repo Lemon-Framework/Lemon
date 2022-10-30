@@ -153,7 +153,7 @@ final class Application extends Container
     {
         $dir = Filesystem::join(
             $this->directory,
-            Str::replace($path, '.', DIRECTORY_SEPARATOR)->value
+            str_replace('.', DIRECTORY_SEPARATOR, $path)
         );
 
         $dir = Filesystem::normalize($dir);

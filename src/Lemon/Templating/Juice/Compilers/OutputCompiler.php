@@ -42,14 +42,14 @@ class OutputCompiler
     private function resolvePipes(string $content): string
     {
         // TODO tokenizer?
-        $parts = Str::split($content, '|>');
-        if ($parts->lenght() < 2) {
+        $parts = explode('|>', $content);
+        if (count($parts) < 2) {
             return $content;
         }
 
         $result = trim($parts[0]);
 
-        foreach ($parts['1..'] as $part) {
+        foreach (array_slice($parts, 1) as $part) {
             $part = trim($part);
             $result = "\$_env->{$part}({$result})";
         }

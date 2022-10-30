@@ -88,7 +88,7 @@ class Rules
             return $this->{$rule[0]}($target, ...$args);
         }
 
-        if (Arr::hasKey($this->rules, $rule[0])) {
+        if (array_key_exists($rule[0], $this->rules)) {
             return $this->rules[$rule[0]]($target, ...$args);
         }
 

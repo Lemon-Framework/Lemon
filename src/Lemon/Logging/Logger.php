@@ -29,7 +29,7 @@ class Logger extends AbstractLogger implements LoggerContract
      */
     public function log($level, string|Stringable $message, array $context = []): void
     {
-        $level = Str::toUpper($level)->value;
+        $level = strtoupper($level);
         if (!defined(LogLevel::class.'::'.$level)) {
             throw new InvalidArgumentException('Log level '.$level.' is not valid');
         }

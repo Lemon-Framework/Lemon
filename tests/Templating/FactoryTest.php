@@ -118,7 +118,7 @@ class FooCompiler implements Compiler
 
     public function compile(string $template): string
     {
-        if (Str::startsWith($template, 'baz')) {
+        if (str_starts_with($template, 'baz')) {
             throw new CompilerException('', 1);
         }
         ++$this->counter;

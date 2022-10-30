@@ -27,7 +27,7 @@ class Route
      */
     public function action(string $method, callable|array $action = null): static|null|callable
     {
-        $method = (string) Str::toLower($method);
+        $method = strtolower($method);
         if (!$action) {
             return isset($this->actions[$method])
                 ? $this->handle($this->actions[$method])

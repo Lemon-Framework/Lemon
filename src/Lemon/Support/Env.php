@@ -42,11 +42,11 @@ final class Env implements EnvContract
         }
 
         $content = str_replace("\r\n", "\n", Filesystem::read($this->path)); // @windows dekujeme za nazor, posilame klicenku
-        foreach (Str::split($content, "\n") as $line) {
+        foreach (explode("\n", $content) as $line) {
             if (!$line) {
                 continue;
             }
-            $data = Str::split($line, '=');
+            $data = explode('=', $line);
             if (2 != count($data)) {
                 throw new Exception('Env file does not contain valid data');
             }

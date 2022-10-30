@@ -60,7 +60,7 @@ class Filesystem
 
         $result = [];
         foreach (scandir($dir) as $file) {
-            if (Arr::contains(['.', '..'], $file)) {
+            if (in_array($file, ['.', '..'])) {
                 continue;
             }
 
@@ -71,11 +71,11 @@ class Filesystem
             }
 
             if (self::isDir($file)) {
-                if (Arr::size(scandir($file)) > 2) {
-                    $result = Arr::merge(
+                if (count(scandir($file)) > 2) {
+                    $result = array_merge(
                         $result,
                         self::listDir($file)
-                    )->content;
+                    );
                 } else {
                     $result[] = $file;
                 }
@@ -112,7 +112,7 @@ class Filesystem
 
         if (self::isDir($file)) {
             foreach (scandir($file) as $sub) {
-                if (!Arr::contains(['.', '..'], $sub)) {
+                if (!in_array($sub, ['.', '..'])) {
                     self::delete(self::join($file, $sub));
                 }
             }
@@ -125,19 +125,19 @@ class Filesystem
      */
     public static function join(string ...$paths): string
     {
-        if (Arr::size($paths) < 2) {
+        if (count($paths) < 2) {
             throw new Exception('Function Filesystem::join takes at least 2 arguments');
         }
 
-        $start = Str::startsWith($paths[0], DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '';
+        $start = str_starts_with($paths[0], DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '';
 
-        return $start.Str::join(
+        return $start.implode(
             DIRECTORY_SEPARATOR,
-            Arr::map(
-                $paths,
-                static fn (string $item) => trim($item, DIRECTORY_SEPARATOR)
-            )->content
-        )->value;
+            array_map(
+                static fn (string $item) => trim($item, DIRECTORY_SEPARATOR),
+                $paths
+            )
+        );
     }
 
     /**
@@ -157,9 +157,9 @@ class Filesystem
     {
         $path = self::normalize($path);
 
-        return Str::join(
+        return implode(
             DIRECTORY_SEPARATOR,
-            Str::split($path, DIRECTORY_SEPARATOR)->slice(0, -1)->content
-        )->value;
+            array_slice(explode(DIRECTORY_SEPARATOR, $path), 0, -1)
+        );
     }
 }

@@ -58,7 +58,7 @@ class Collection
     {
         $path = trim($path, '/');
 
-        return Arr::hasKey($this->routes, $path);
+        return array_key_exists($path, $this->routes);
     }
 
     /**

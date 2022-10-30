@@ -197,7 +197,7 @@ class Cache implements CacheContract
      */
     public function has(string $key): bool
     {
-        return Arr::hasKey($this->data, $key);
+        return array_key_exists($key, $this->data);
     }
 
     /**

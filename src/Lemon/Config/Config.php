@@ -35,7 +35,7 @@ class Config implements ConfigContract
         foreach (Filesystem::listDir($directory) as $path) {
             $re = '/^'.preg_quote($directory.$s, '/').'(.+?)\.php$/';
             if (preg_match($re, $path, $matches)) {
-                $key = Str::replace($matches[1], $s, '.')->value;
+                $key = str_replace($s, '.', $matches[1]);
                 $this->files[$key] = $path;
             }
         }
@@ -102,7 +102,7 @@ class Config implements ConfigContract
 
         $path =
             $this->files[$part]
-            ?? Filesystem::join(__DIR__, '..', Str::capitalize($part)->value, 'config.php');
+            ?? Filesystem::join(__DIR__, '..', strtoupper($part), 'config.php');
 
         if (!file_exists($path)) {
             throw new ConfigException('Part '.$part.' does not exist');

@@ -64,7 +64,7 @@ final class DirectiveCompiler
             throw new CompilerException('Directive '.$directive.' already exist.');
         }
 
-        if (!Arr::has(class_implements($class), Directive::class)) {
+        if (!in_array(Directive::class, class_implements($class))) {
             throw new CompilerException('Directive class '.$class.' does not implement '.Directive::class.' Interface');
         }
 
