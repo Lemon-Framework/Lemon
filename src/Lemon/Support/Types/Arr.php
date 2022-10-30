@@ -6,7 +6,6 @@ namespace Lemon\Support\Types;
 
 use Generator;
 
-
 /**
  * Here is regex for replacing Arr::hasKey to array_key_exists
  * :%s/Arr::hasKey(\(.\+\),\s*\([^)]\+\))/array_key_exists(\2, \1).
@@ -14,7 +13,7 @@ use Generator;
 class Arr
 {
     /**
-     * Returns last item in array
+     * Returns last item in array.
      */
     public static function last(array $array): mixed
     {
@@ -24,7 +23,7 @@ class Arr
     }
 
     /**
-     * Returns first item in array
+     * Returns first item in array.
      */
     public static function first(array $array): mixed
     {
@@ -34,7 +33,7 @@ class Arr
     }
 
     /**
-     * Lazy implementation of range procedure
+     * Lazy implementation of range procedure.
      */
     public static function range(int $from, int $to): Generator
     {
