@@ -12,7 +12,6 @@ use Lemon\Http\Response;
 use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Kernel\Application;
 use Lemon\Routing\Exceptions\RouteException;
-use Lemon\Support\Types\Str;
 
 /**
  * The Lemon Router.

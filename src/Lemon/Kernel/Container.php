@@ -6,7 +6,6 @@ namespace Lemon\Kernel;
 
 use Lemon\Kernel\Exceptions\ContainerException;
 use Lemon\Kernel\Exceptions\NotFoundException;
-use Lemon\Support\Types\Arr;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionFunction;

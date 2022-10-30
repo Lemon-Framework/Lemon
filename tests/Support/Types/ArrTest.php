@@ -7,6 +7,10 @@ namespace Lemon\Tests\Support\Types;
 use Lemon\Support\Types\Arr;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ArrTest extends TestCase
 {
     public function testLast()

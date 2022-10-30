@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Validation;
 
-use Lemon\Support\Types\Arr;
-
 class Rules
 {
     private array $rules = [];

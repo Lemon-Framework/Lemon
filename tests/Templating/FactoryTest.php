@@ -8,7 +8,6 @@ use Lemon\Config\Config;
 use Lemon\Contracts\Templating\Compiler;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
-use Lemon\Support\Types\Str;
 use Lemon\Templating\Environment;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Exceptions\TemplateException;

@@ -11,7 +11,6 @@ use Lemon\Http\Response;
 use Lemon\Http\Responses\RedirectResponse;
 use Lemon\ResponseFactory;
 use Lemon\Support\Pipe;
-use Lemon\Support\Types\Array_;
 use Lemon\Templating\Template;
 
 if (!function_exists('arr')) {
@@ -23,7 +22,7 @@ if (!function_exists('arr')) {
      *     "foo" => 10
      * ]
      *
-     * you can use 
+     * you can use
      * arr(
      *     foo: 10
      * )

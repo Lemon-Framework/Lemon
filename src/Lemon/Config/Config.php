@@ -9,7 +9,6 @@ use Lemon\Contracts\Config\Config as ConfigContract;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Arr;
-use Lemon\Support\Types\Str;
 
 class Config implements ConfigContract
 {

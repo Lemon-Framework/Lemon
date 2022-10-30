@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Terminal\Commands;
 
 use Closure;
-use Lemon\Support\Types\Str;
 use Lemon\Terminal\Exceptions\CommandException;
 
 class Command

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Debug\Handling;
 
-use Lemon\Support\Types\Arr;
-
 class Consultant
 {
     public array $signatures = [

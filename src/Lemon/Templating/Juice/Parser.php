@@ -6,8 +6,6 @@ namespace Lemon\Templating\Juice;
 
 use ArrayIterator;
 use Lemon\Support\Types\Arr;
-use Lemon\Support\Types\Array_;
-use Lemon\Support\Types\Str;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Compilers\OutputCompiler;

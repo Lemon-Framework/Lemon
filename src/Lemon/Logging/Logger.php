@@ -8,7 +8,6 @@ use DateTime;
 use Lemon\Contracts\Config\Config;
 use Lemon\Contracts\Logging\Logger as LoggerContract;
 use Lemon\Support\Filesystem;
-use Lemon\Support\Types\Str;
 use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;

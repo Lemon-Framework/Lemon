@@ -9,7 +9,6 @@ use Lemon\Contracts\Templating\Compiler;
 use Lemon\Contracts\Templating\Factory as FactoryInterface;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
-use Lemon\Support\Types\Str;
 use Lemon\Templating\Exceptions\TemplateException;
 use Throwable;
 

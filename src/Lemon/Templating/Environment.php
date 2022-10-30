@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Templating;
 
 use Lemon\Support\Macros;
-use Lemon\Support\Types\Str;
 
 /**
  * Runtime string manipulaton utility.

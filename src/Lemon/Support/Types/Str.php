@@ -6,7 +6,7 @@ namespace Lemon\Support\Types;
 
 /**
  * Regex for handling deprecation of self::replace
- * :%s/\((string)\s*\)\?Str::replace(\([^,]\+\),\s*\([^,]\+\),\s*\(.\+\))\(->value\)\?/str_replace(\3, \4, \2)
+ * :%s/\((string)\s*\)\?Str::replace(\([^,]\+\),\s*\([^,]\+\),\s*\(.\+\))\(->value\)\?/str_replace(\3, \4, \2).
  */
 class Str
 {

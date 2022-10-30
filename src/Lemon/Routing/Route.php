@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Routing;
 
 use Lemon\Routing\Exceptions\RouteException;
-use Lemon\Support\Types\Str;
 
 class Route
 {

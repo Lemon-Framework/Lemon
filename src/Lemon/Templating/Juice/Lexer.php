@@ -6,7 +6,6 @@ namespace Lemon\Templating\Juice;
 
 use ArrayIterator;
 use Lemon\Support\Regex;
-use Lemon\Support\Types\Arr;
 use Lemon\Templating\Exceptions\SyntaxException;
 
 /**

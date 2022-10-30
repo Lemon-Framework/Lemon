@@ -12,7 +12,6 @@ use Lemon\Http\Request;
 use Lemon\Protection\Middlwares\Csrf;
 use Lemon\Routing\Router;
 use Lemon\Support\Filesystem;
-use Lemon\Support\Types\Str;
 use Lemon\Zest;
 use Throwable;
 

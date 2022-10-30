@@ -6,8 +6,6 @@ namespace Lemon\Support;
 
 use Exception;
 use Lemon\Support\Exceptions\FilesystemException;
-use Lemon\Support\Types\Arr;
-use Lemon\Support\Types\Str;
 
 class Filesystem
 {

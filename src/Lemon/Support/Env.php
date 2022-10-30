@@ -7,7 +7,6 @@ namespace Lemon\Support;
 use Exception;
 use Lemon\Contracts\Support\Env as EnvContract;
 use Lemon\Kernel\Application;
-use Lemon\Support\Types\Str;
 
 final class Env implements EnvContract
 {
