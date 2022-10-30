@@ -101,9 +101,8 @@ class Config implements ConfigContract
 
         $path =
             $this->files[$part]
-            ?? Filesystem::join(__DIR__, '..', strtoupper($part), 'config.php');
+            ?? Filesystem::join(__DIR__, '..', ucfirst($part), 'config.php');
 
-        echo $path;
         if (!file_exists($path)) {
             throw new ConfigException('Part '.$part.' does not exist');
         }
