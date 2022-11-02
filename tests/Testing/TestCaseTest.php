@@ -8,6 +8,7 @@ use Lemon\Testing\TestResponse;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class TestCaseTest extends TestCase

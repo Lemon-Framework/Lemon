@@ -10,6 +10,7 @@ use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class OutputCompilerTest extends TestCase

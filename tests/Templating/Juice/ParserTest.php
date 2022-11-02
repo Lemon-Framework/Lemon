@@ -13,6 +13,7 @@ use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class ParserTest extends TestCase

@@ -13,7 +13,7 @@ namespace Lemon;
  * @method static \Lemon\Http\Response resolve(mixed $data)                       Returns response depending on given data
  * @method static \Lemon\Http\Response error(int $code)                           Returns response for 400-500 http status codes.
  * @method static \Lemon\Http\Response raise(int $code)                           Returns response for 400-500 http status codes.
- * @method static static handle(int $code, callable $action)                      Registers custom handler for given status code
+ * @method static static               handle(int $code, callable $action)        Registers custom handler for given status code
  *
  * @see \Lemon\Http\ResponseFactory
  */

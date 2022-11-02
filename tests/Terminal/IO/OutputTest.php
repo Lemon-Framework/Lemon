@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Terminal\IO;
 
-use Exception;
 use Lemon\Templating\Template;
 use Lemon\Terminal\IO\Output;
 use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class OutputTest extends TestCase
@@ -24,7 +24,7 @@ class OutputTest extends TestCase
         $path = __DIR__.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.'foo.phtml';
         $this->assertSame("\033[33mnevim\033[33m\033[0m\033[0m", $output->out(new Template($path, $path, ['foo' => 'nevim'])));
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $output->out($output);
     }
 }

@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Http;
 
-use DateTime;
-use DateTimeInterface;
 use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Http\Responses\JsonResponse;
 use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class ResponseTest extends TestCase
 {
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      *
      * @see https://github.com/sebastianbergmann/phpunit/issues/720#issuecomment-10421092
@@ -65,7 +65,7 @@ class ResponseTest extends TestCase
         $r = new HtmlResponse('foo');
         $time = time();
         $r->cookie('foo', 'bar', $time + 60);
-        $expires = (new DateTime())->setTimestamp($time + 60)->format(DateTimeInterface::RFC7231);
+        $expires = (new \DateTime())->setTimestamp($time + 60)->format(\DateTimeInterface::RFC7231);
         $this->assertSame("HTTP/1.1 200 OK\r\nSet-Cookie: foo=bar Expires={$expires}\r\nContent-Type: text/html\r\n\r\nfoo", (string) $r);
 
         $r = new HtmlResponse('foo', 500, ['Foo' => 'Bar']);

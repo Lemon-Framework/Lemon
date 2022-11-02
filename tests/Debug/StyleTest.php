@@ -9,6 +9,7 @@ use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class StyleTest extends TestCase

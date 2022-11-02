@@ -106,7 +106,7 @@ class Route
         $result = [new $action[0](), $action[1]];
 
         if (!is_callable($result)) {
-            throw new RouteException('Action '.$action[0].'::'.$action[1].'()'.' is not callable.');
+            throw new RouteException('Action '.$action[0].'::'.$action[1].'() is not callable.');
         }
 
         return $result;

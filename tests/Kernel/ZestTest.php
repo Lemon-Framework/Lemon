@@ -13,6 +13,7 @@ use Lemon\Zest;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class ZestTest extends TestCase

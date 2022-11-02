@@ -11,6 +11,7 @@ use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class CsrfDirectiveTest extends TestCase

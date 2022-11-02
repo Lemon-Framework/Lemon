@@ -17,10 +17,10 @@ use Lemon\Support\Filesystem;
 use Lemon\Templating\Factory;
 use Lemon\Templating\Template;
 use Lemon\Tests\TestCase;
-use ReflectionClass;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class RouterTest extends TestCase
@@ -135,7 +135,7 @@ class RouterTest extends TestCase
         $this->assertThat($r->dispatch($this->emulate('/foo/bar', 'GET')), $this->equalTo(new HtmlResponse('bar')));
         $this->assertThat($r->dispatch($this->emulate('/foo/bar/', 'GET')), $this->equalTo(new HtmlResponse('bar')));
 
-        $path = Filesystem::join(dirname((new ReflectionClass(ResponseFactory::class))->getFileName()), 'templates', 'error.phtml');
+        $path = Filesystem::join(dirname((new \ReflectionClass(ResponseFactory::class))->getFileName()), 'templates', 'error.phtml');
         $this->assertThat($r->dispatch($this->emulate('foo', 'GET')), $this->equalTo(new TemplateResponse(new Template($path, $path, ['code' => 404]), 404)));
         $this->assertThat($r->dispatch($this->emulate('/', 'POST')), $this->equalTo(new TemplateResponse(new Template($path, $path, ['code' => 400]), 400)));
     }

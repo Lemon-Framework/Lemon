@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Logging;
 
-use DateTime;
 use Lemon\Config\Config;
 use Lemon\Kernel\Application;
 use Lemon\Logging\Logger;
@@ -15,6 +14,7 @@ use Psr\Log\LogLevel;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class LoggerTest extends TestCase
@@ -43,7 +43,7 @@ class LoggerTest extends TestCase
         $log->log(LogLevel::INFO, '{what} se hrouti', ['what' => 'festival']);
         $log->log(LogLevel::ALERT, '{what} protekaji', ['what' => 'zachody']);
         $log->log(LogLevel::EMERGENCY, 'on proste nema svoje kafe');
-        $now = (new DateTime())->format('D M d h:i:s Y');
+        $now = (new \DateTime())->format('D M d h:i:s Y');
         $this->assertStringEqualsFile(Filesystem::join(__DIR__, 'storage', 'logs', 'lemon.log'), sprintf(<<<'LOG'
         [%s] INFO: festival se hrouti
         [%s] ALERT: zachody protekaji

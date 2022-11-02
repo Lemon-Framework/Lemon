@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Routing;
 
-use Closure;
 use Lemon\Routing\Exceptions\RouteException;
 use Lemon\Routing\Route;
 use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class RouteTest extends TestCase
 {
     public function testAction()
     {
-        $closure = Closure::fromCallable(fn () => 'foo');
+        $closure = \Closure::fromCallable(fn () => 'foo');
         $route = new Route('/', ['get' => $closure]);
 
         $this->assertSame($closure, $route->action('get'));

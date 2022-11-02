@@ -8,7 +8,6 @@ use Lemon\Config\Config;
 use Lemon\Http\ResponseFactory;
 use Lemon\Kernel\Application;
 use Lemon\Logging\Logger;
-use Throwable;
 
 class Handler
 {
@@ -23,7 +22,7 @@ class Handler
     /**
      * Executes handler depending on debug settings.
      */
-    public function handle(Throwable $problem): void
+    public function handle(\Throwable $problem): void
     {
         if ($this->application->runsInTerminal()) {
             echo $problem;

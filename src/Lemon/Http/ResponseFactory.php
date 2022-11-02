@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Http;
 
-use Exception;
-use InvalidArgumentException;
 use Lemon\Contracts\Http\Jsonable;
 use Lemon\Contracts\Http\ResponseFactory as ResponseFactoryContract;
 use Lemon\Contracts\Templating\Factory as Templating;
@@ -65,7 +63,7 @@ class ResponseFactory implements ResponseFactoryContract
             return new TemplateResponse($data);
         }
 
-        throw new Exception('Class '.$data::class.' can\'t be resolved as response');
+        throw new \Exception('Class '.$data::class.' can\'t be resolved as response');
     }
 
     /**
@@ -74,11 +72,13 @@ class ResponseFactory implements ResponseFactoryContract
     public function error(int $code): Response
     {
         if (!isset(Response::STATUS_CODES[$code]) || $code < 400) {
-            throw new InvalidArgumentException('Status code '.$code.' is not error status code');
+            throw new \InvalidArgumentException('Status code '.$code.' is not error status code');
         }
 
         if (isset($this->handlers[$code])) {
-            return $this->make($this->handlers[$code]);
+            if (!($response = $this->make($this->handlers[$code])) instanceof EmptyResponse) {
+                return $response;
+            }
         }
 
         if ($this->templating->exist("errors.{$code}")) {

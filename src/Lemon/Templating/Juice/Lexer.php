@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
-use ArrayIterator;
 use Lemon\Support\Regex;
 use Lemon\Templating\Exceptions\SyntaxException;
 
@@ -31,7 +30,7 @@ final class Lexer
     private function tokenize(string $template, array $lex): array
     {
         $result = [];
-        $lex = new ArrayIterator($lex);
+        $lex = new \ArrayIterator($lex);
         foreach ($lex as [$word, $offset]) {
             if (!$word) {
                 continue;

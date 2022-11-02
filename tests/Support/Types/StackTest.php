@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Support\Types;
 
-use InvalidArgumentException;
 use Lemon\Support\Types\Stack;
 use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class StackTest extends TestCase
@@ -24,7 +24,7 @@ class StackTest extends TestCase
 
         $stack = Stack::withType('integer');
         $stack->push(1);
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $stack->push('foo');
     }
 

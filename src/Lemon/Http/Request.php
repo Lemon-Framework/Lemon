@@ -35,7 +35,7 @@ class Request
             return $result;
         }
 
-        throw new Exception('Property '.$name.' does not exist');
+        throw new \Exception('Property '.$name.' does not exist');
     }
 
     /**
@@ -168,12 +168,12 @@ class Request
     /**
      * Determins whenever request meets given rules.
      *
-     * @throws Exception When application is not injected
+     * @throws \Exception When application is not injected
      */
     public function validate(array $rules): bool
     {
         if (!$this->application) {
-            throw new Exception('Application is required for validation. Try injecting using ::injectApplication'); // TODO exception
+            throw new \Exception('Application is required for validation. Try injecting using ::injectApplication'); // TODO exception
         }
 
         return $this->application->get(Validator::class)

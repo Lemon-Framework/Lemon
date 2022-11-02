@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Support\Properties;
 
-use Exception;
 use Lemon\Support\Properties\Properties;
 use Lemon\Support\Properties\Read;
 use PHPUnit\Framework\TestCase;
@@ -24,6 +23,7 @@ class Foo
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class PropertiesTest extends TestCase
@@ -33,7 +33,7 @@ class PropertiesTest extends TestCase
         $f = new Foo();
         $this->assertSame('parek', $f->bar);
         $this->assertNull($f->baz);
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $f->foo;
         $f->klobna;
     }

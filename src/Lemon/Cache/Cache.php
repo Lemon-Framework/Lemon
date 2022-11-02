@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Cache;
 
-use DateInterval;
-use DateTime;
 use Lemon\Cache\Exceptions\InvalidArgumentException;
 use Lemon\Contracts\Cache\Cache as CacheContract;
 use Lemon\Contracts\Config\Config;
@@ -104,7 +102,7 @@ class Cache implements CacheContract
     /**
      * Sets new value to cache.
      */
-    public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
+    public function set(string $key, mixed $value, null|int|\DateInterval $ttl = null): bool
     {
         $expires_at = null;
         if ($ttl) {
@@ -113,8 +111,8 @@ class Cache implements CacheContract
                     throw new InvalidArgumentException('TTL must be bigger than 0');
                 }
             }
-            $expires_at = new DateTime('@'.$this->time);
-            $ttl = $ttl instanceof DateInterval ? $ttl : new DateInterval("PT{$ttl}S");
+            $expires_at = new \DateTime('@'.$this->time);
+            $ttl = $ttl instanceof \DateInterval ? $ttl : new \DateInterval("PT{$ttl}S");
             $expires_at = $expires_at->add($ttl)->getTimestamp();
         }
         $this->data[$key] = ['value' => $value, 'expires_at' => $expires_at];
@@ -179,7 +177,7 @@ class Cache implements CacheContract
     /**
      * Sets multiple items.
      */
-    public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool
+    public function setMultiple(iterable $values, null|int|\DateInterval $ttl = null): bool
     {
         foreach ($values as $key => $value) {
             if (!is_string($key)) {

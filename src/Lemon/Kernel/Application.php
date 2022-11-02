@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Kernel;
 
 use Error;
-use ErrorException;
 use Exception;
 use Lemon\Contracts;
 use Lemon\Http\Request;
@@ -13,7 +12,6 @@ use Lemon\Protection\Middlwares\Csrf;
 use Lemon\Routing\Router;
 use Lemon\Support\Filesystem;
 use Lemon\Zest;
-use Throwable;
 
 /**
  * The Lemon Application.
@@ -81,7 +79,7 @@ final class Application extends Container
     public function __get(string $name): object
     {
         if (!$this->has($name)) {
-            throw new Exception('Undefined property: '.self::class.'::$'.$name);
+            throw new \Exception('Undefined property: '.self::class.'::$'.$name);
         }
 
         return $this->get($name);
@@ -121,7 +119,7 @@ final class Application extends Container
     /**
      * Executes error handler.
      */
-    public function handle(Throwable $problem): void
+    public function handle(\Throwable $problem): void
     {
         $this->get('handler')->handle($problem);
 
@@ -133,7 +131,7 @@ final class Application extends Container
      */
     public function handleError(int $severity, string $error, string $file, int $line): bool
     {
-        throw new ErrorException($error, 0, $severity, $file, $line);
+        throw new \ErrorException($error, 0, $severity, $file, $line);
     }
 
     /**
@@ -176,7 +174,7 @@ final class Application extends Container
     {
         try {
             $this->get('routing')->dispatch($this->get(Request::class))->send();
-        } catch (Exception|Error $e) {
+        } catch (\Exception|\Error $e) {
             $this->handle($e);
         }
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Debug;
 
-use Closure;
 use Lemon\Contracts\Config\Config;
 use Lemon\Contracts\Debug\Dumper as DumperContract;
 use Lemon\Debug\Exceptions\DebugerException;
@@ -104,7 +103,7 @@ class Dumper implements DumperContract
 
         // This allows us to get private properties in dumped object.
         // Don't use this exploit in production.
-        $result .= Closure::fromCallable(function (Dumper $dumper) {
+        $result .= \Closure::fromCallable(function (Dumper $dumper) {
             $result = '';
             foreach (get_class_vars($this::class) as $property => $_) {
                 $result .= '<span class="ldg-property"><span class="ldg-property-name">'.$property.'</span> => '.$dumper->resolve($this->{$property} ?? null).'</span>';

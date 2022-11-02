@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Support;
 
-use Exception;
 use Lemon\Support\Exceptions\FilesystemException;
 use Lemon\Support\Filesystem;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class FilesystemTest extends TestCase
@@ -116,7 +116,7 @@ class FilesystemTest extends TestCase
         $this->assertSame('foo'.$s.'klobna.php', Filesystem::join('foo'.$s.$s.$s, 'klobna.php'));
         $this->assertSame($s.'foo'.$s.'klobna.php', Filesystem::join($s.'foo', 'klobna.php'));
         $this->assertSame('foo'.$s.'klobna.php', Filesystem::join('foo', 'klobna.php'.$s.$s.$s));
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         Filesystem::join('parek');
         Filesystem::join();
     }

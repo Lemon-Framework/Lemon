@@ -7,7 +7,7 @@ namespace Lemon\Database\Drivers;
 use Lemon\Config\Config;
 use PDO;
 
-abstract class Driver extends PDO
+abstract class Driver extends \PDO
 {
     public function __construct(
         public readonly Config $config

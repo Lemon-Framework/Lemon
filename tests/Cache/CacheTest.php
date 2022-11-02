@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Config;
 
-use DateInterval;
 use Lemon\Cache\Cache as LemonCache;
 use Lemon\Cache\Exceptions\InvalidArgumentException;
 use Lemon\Config\Config;
@@ -29,6 +28,7 @@ class FakeCache extends LemonCache
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class FakeCacheTest extends TestCase
@@ -41,7 +41,7 @@ class FakeCacheTest extends TestCase
         $this->assertSame(['foo' => ['value' => 'bar', 'expires_at' => null]], $cache->data());
         $cache->set('foo', 'baz', 10);
         $this->assertSame(['foo' => ['value' => 'baz', 'expires_at' => $time + 10]], $cache->data());
-        $cache->set('foo', 'klobna', new DateInterval('PT12S'));
+        $cache->set('foo', 'klobna', new \DateInterval('PT12S'));
         $this->assertSame(['foo' => ['value' => 'klobna', 'expires_at' => $time + 12]], $cache->data());
         $this->expectException(InvalidArgumentException::class);
         $cache->set('klobna', 'rizek', -5);
@@ -131,7 +131,7 @@ class FakeCacheTest extends TestCase
         $cache->setMultiple([
             'majkel' => 'klobasnik',
             'fid' => 'parek',
-        ], new DateInterval('PT2S'));
+        ], new \DateInterval('PT2S'));
 
         $this->assertSame([
             'majkel' => ['value' => 'klobasnik', 'expires_at' => $time + 2],
@@ -198,6 +198,7 @@ class FakeCacheTest extends TestCase
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class CacheTest extends TestCase

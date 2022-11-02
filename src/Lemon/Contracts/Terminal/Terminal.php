@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Contracts\Terminal;
 
-use Closure;
 use Lemon\Terminal\Commands\Command;
 
 interface Terminal
@@ -12,7 +11,7 @@ interface Terminal
     /**
      * Creates new command.
      */
-    public function command(string $signature, Closure $action, string $description = ''): Command;
+    public function command(string $signature, \Closure $action, string $description = ''): Command;
 
     /**
      * Outputs given content.

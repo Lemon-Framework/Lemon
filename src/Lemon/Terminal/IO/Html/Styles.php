@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Terminal\IO\Html;
 
-use DOMNode;
 use Lemon\Terminal\Exceptions\HtmlException;
 
 class Styles
@@ -31,7 +30,7 @@ class Styles
         'bg-white' => ['%e47m', '', ''],
     ];
 
-    public function getStyle(DOMNode $node): array
+    public function getStyle(\DOMNode $node): array
     {
         if (!isset($node->attributes['class'])) {
             return ['', '', ''];

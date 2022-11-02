@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Lemon\Tests;
 
 use PHPUnit\Framework\TestCase as FrameworkTestCase;
-use Throwable;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class TestCase extends FrameworkTestCase
@@ -19,7 +19,7 @@ class TestCase extends FrameworkTestCase
 
         try {
             $action(...$args);
-        } catch (Throwable $actual) {
+        } catch (\Throwable $actual) {
             if ($actual instanceof $expected) {
                 $thrown = true;
             }

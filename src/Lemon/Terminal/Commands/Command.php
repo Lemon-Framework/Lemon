@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Terminal\Commands;
 
-use Closure;
 use Lemon\Terminal\Exceptions\CommandException;
 
 class Command
@@ -15,7 +14,7 @@ class Command
 
     public function __construct(
         public string $signature,
-        public readonly Closure $action, // Maybe bad idea?
+        public readonly \Closure $action, // Maybe bad idea?
         public readonly string $description = ''
     ) {
         // maybe bad idea
