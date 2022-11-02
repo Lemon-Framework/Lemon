@@ -23,12 +23,14 @@ use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class MiddlewareTest extends TestCase
 {
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testCollection()

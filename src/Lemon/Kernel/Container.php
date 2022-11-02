@@ -7,9 +7,6 @@ namespace Lemon\Kernel;
 use Lemon\Kernel\Exceptions\ContainerException;
 use Lemon\Kernel\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
-use ReflectionClass;
-use ReflectionFunction;
-use ReflectionMethod;
 
 // TODO add application
 class Container implements ContainerInterface
@@ -106,7 +103,7 @@ class Container implements ContainerInterface
 
     public function call(callable $callback, array $params): mixed
     {
-        $fn = is_array($callback) ? new ReflectionMethod(...$callback) : new ReflectionFunction($callback);
+        $fn = is_array($callback) ? new \ReflectionMethod(...$callback) : new \ReflectionFunction($callback);
         $injected = [];
         foreach ($fn->getParameters() as $param) {
             if ($class = (string) $param->getType()) {
@@ -138,7 +135,7 @@ class Container implements ContainerInterface
      */
     private function make(string $service): mixed
     {
-        $class = new ReflectionClass($service);
+        $class = new \ReflectionClass($service);
         $constructor = $class->getConstructor();
 
         if (!$constructor) {

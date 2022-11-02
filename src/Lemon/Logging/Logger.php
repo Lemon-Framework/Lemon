@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Lemon\Logging;
 
-use DateTime;
 use Lemon\Contracts\Config\Config;
 use Lemon\Contracts\Logging\Logger as LoggerContract;
 use Lemon\Support\Filesystem;
 use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
-use Stringable;
 
 class Logger extends AbstractLogger implements LoggerContract
 {
@@ -26,7 +24,7 @@ class Logger extends AbstractLogger implements LoggerContract
     /**
      * {@inheritdoc}
      */
-    public function log($level, string|Stringable $message, array $context = []): void
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         $level = strtoupper($level);
         if (!defined(LogLevel::class.'::'.$level)) {
@@ -34,7 +32,7 @@ class Logger extends AbstractLogger implements LoggerContract
         }
         $message = $this->interpolate((string) $message, $context);
 
-        $now = (new DateTime())->format('D M d h:i:s Y');
+        $now = (new \DateTime())->format('D M d h:i:s Y');
         file_put_contents($this->destination, sprintf("[%s] %s: %s\n", $now, $level, $message), FILE_APPEND);
     }
 

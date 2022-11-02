@@ -14,6 +14,7 @@ use Lemon\Zest;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class DatabaseTest extends TestCase

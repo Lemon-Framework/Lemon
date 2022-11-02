@@ -7,7 +7,6 @@ namespace Lemon\Database;
 use Lemon\Contracts\Config\Config;
 use Lemon\Contracts\Database\Database as DatabaseContract;
 use Lemon\Database\Drivers\Driver;
-use PDOStatement;
 
 class Database implements DatabaseContract
 {
@@ -41,7 +40,7 @@ class Database implements DatabaseContract
      *
      * @phpstan-param literal-string $query
      */
-    public function query(string $query, ...$params): PDOStatement
+    public function query(string $query, ...$params): \PDOStatement
     {
         $statement = $this->getConnection()->prepare($query);
         $statement->execute($params);

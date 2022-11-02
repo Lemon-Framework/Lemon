@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Terminal\IO\Html;
 
-use DOMDocument;
-use DOMNode;
 use Lemon\Terminal\IO\Html\Components;
 use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class ComponentsTest extends TestCase
@@ -74,7 +73,7 @@ class ComponentsTest extends TestCase
     public function testParsing()
     {
         $components = new Components();
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadHTML(<<<'HTML'
         <h1>Something <b>cool</b></h1>
         <div class="bg-yellow">
@@ -99,9 +98,9 @@ class ComponentsTest extends TestCase
         $this->assertSame(5, Components::lenght('parek'));
     }
 
-    private function getElement(string $el): DOMNode
+    private function getElement(string $el): \DOMNode
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadHTML($el);
 
         return $dom->getElementsByTagName('body')[0]->firstChild;

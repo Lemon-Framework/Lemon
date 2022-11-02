@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Terminal\IO\Html;
 
-use DOMNode;
-use DOMText;
 use Lemon\Terminal\Exceptions\HtmlException;
 
 class Components
@@ -17,7 +15,7 @@ class Components
         $this->styles = new Styles();
     }
 
-    public function parse(DOMNode $element): string
+    public function parse(\DOMNode $element): string
     {
         $result = '';
         foreach ($element->childNodes as $child) {
@@ -28,9 +26,9 @@ class Components
         return $result."\033[0m";
     }
 
-    public function parseElement(DOMNode $element): string
+    public function parseElement(\DOMNode $element): string
     {
-        if ($element instanceof DOMText) {
+        if ($element instanceof \DOMText) {
             return self::removeWhitespace($element);
         }
 
@@ -44,12 +42,12 @@ class Components
         throw new HtmlException('Html tag '.$name.' is not supported');
     }
 
-    public function parseDiv(DOMNode $element): string
+    public function parseDiv(\DOMNode $element): string
     {
         return $this->parse($element);
     }
 
-    public function parseH1(DOMNode $element): string
+    public function parseH1(\DOMNode $element): string
     {
         $content = $this->parse($element);
         $line = '+'.str_repeat('-', self::lenght($content) + 2).'+';
@@ -62,17 +60,17 @@ class Components
         return str_repeat('-', (int) exec('tput cols')); // TODO size
     }
 
-    public function parseB(DOMNode $node): string
+    public function parseB(\DOMNode $node): string
     {
         return "\033[1m".$this->parse($node);
     }
 
-    public function parseI(DOMNode $node): string
+    public function parseI(\DOMNode $node): string
     {
         return "\033[3m".$this->parse($node);
     }
 
-    public function parseU(DOMNode $node): string
+    public function parseU(\DOMNode $node): string
     {
         return "\033[4m".$this->parse($node);
     }
@@ -82,7 +80,7 @@ class Components
         return PHP_EOL;
     }
 
-    public function parseP(DOMNode $node): string
+    public function parseP(\DOMNode $node): string
     {
         return $this->parse($node).PHP_EOL;
     }
@@ -92,7 +90,7 @@ class Components
         return strlen(preg_replace("/\033\\[[0-9]+m/", '', $target));
     }
 
-    public static function removeWhitespace(DOMText $element): string
+    public static function removeWhitespace(\DOMText $element): string
     {
         $content = $element->textContent;
         if (null === $element->previousSibling) {

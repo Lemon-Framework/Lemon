@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Terminal;
 
-use Closure;
 use Lemon\Contracts\Terminal\Terminal as TerminalContract;
 use Lemon\Kernel\Application;
 use Lemon\Terminal\Commands\Command;
@@ -27,7 +26,7 @@ class Terminal implements TerminalContract
     /**
      * Creates new command.
      */
-    public function command(string $signature, Closure $action, string $description = ''): Command
+    public function command(string $signature, \Closure $action, string $description = ''): Command
     {
         $command = new Command($signature, $action, $description);
         $this->commands->add($command);

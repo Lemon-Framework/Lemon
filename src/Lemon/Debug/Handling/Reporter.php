@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Lemon\Debug\Handling;
 
-use ErrorException;
 use Lemon\Http\Request;
 use Lemon\Http\Responses\TemplateResponse;
 use Lemon\Kernel\Application;
 use Lemon\Templating\Template;
-use Throwable;
 
 class Reporter
 {
@@ -18,7 +16,7 @@ class Reporter
     private Consultant $consultant;
 
     public function __construct(
-        private Throwable $exception,
+        private \Throwable $exception,
         private Request $request,
         private Application $application
     ) {
@@ -44,7 +42,7 @@ class Reporter
         $problem = $this->exception;
 
         return [
-            'problem' => $problem instanceof ErrorException
+            'problem' => $problem instanceof \ErrorException
                          ? $this->severityToString($problem->getSeverity())
                          : $problem::class,
             'file' => str_replace($this->application->directory, '', $problem->getFile()),

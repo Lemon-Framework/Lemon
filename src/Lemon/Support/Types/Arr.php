@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Support\Types;
 
-use Generator;
-
 /**
  * Here is regex for replacing Arr::hasKey to array_key_exists
  * :%s/Arr::hasKey(\(.\+\),\s*\([^)]\+\))/array_key_exists(\2, \1).
@@ -35,7 +33,7 @@ class Arr
     /**
      * Lazy implementation of range procedure.
      */
-    public static function range(int $from, int $to): Generator
+    public static function range(int $from, int $to): \Generator
     {
         $step = $from < $to ? 1 : -1;
 

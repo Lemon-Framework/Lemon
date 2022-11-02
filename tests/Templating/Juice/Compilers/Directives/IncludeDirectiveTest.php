@@ -15,6 +15,7 @@ use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class IncludeDirectiveTest extends TestCase

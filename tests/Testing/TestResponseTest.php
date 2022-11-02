@@ -8,6 +8,7 @@ use PHPUnit\Framework\AssertionFailedError;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class TestResponseTest extends TestCase

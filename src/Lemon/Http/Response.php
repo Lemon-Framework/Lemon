@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Http;
 
-use DateTime;
-use DateTimeInterface;
-
 /**
  * Represents Http Response.
  *
@@ -89,8 +86,8 @@ abstract class Response
         foreach ($this->cookies as [$name, $cookie, $expire]) {
             $header = "{$name}={$cookie}";
             if ($expire) {
-                $expires = new DateTime();
-                $expires = $expires->setTimestamp($expire)->format(DateTimeInterface::RFC7231);
+                $expires = new \DateTime();
+                $expires = $expires->setTimestamp($expire)->format(\DateTimeInterface::RFC7231);
                 $header .= ' Expires='.$expires;
             }
             $this->header('Set-Cookie', $header);

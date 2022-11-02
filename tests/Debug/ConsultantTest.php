@@ -10,6 +10,7 @@ use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class ConsultantTest extends TestCase

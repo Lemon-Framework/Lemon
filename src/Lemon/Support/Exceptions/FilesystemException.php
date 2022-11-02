@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Support\Exceptions;
 
-use Exception;
-
-class FilesystemException extends Exception
+class FilesystemException extends \Exception
 {
     public static function explainFileNotFound($file): self
     {

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Terminal\IO\Html;
 
-use DOMDocument;
-use DOMNode;
-
 class HtmlOutput
 {
     private Components $components;
@@ -21,9 +18,9 @@ class HtmlOutput
         return $this->components->parse($this->getDom($content));
     }
 
-    private function getDom(string $content): DOMNode
+    private function getDom(string $content): \DOMNode
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadHTML($content);
 
         return $dom->getElementsByTagName('body')[0];

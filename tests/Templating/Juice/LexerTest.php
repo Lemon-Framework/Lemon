@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
  * Theese tests are testing lexer along with default syntax.
  *
  * @internal
+ *
  * @coversNothing
  */
 class LexerTest extends TestCase

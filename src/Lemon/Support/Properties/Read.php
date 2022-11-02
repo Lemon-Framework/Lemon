@@ -6,7 +6,7 @@ namespace Lemon\Support\Properties;
 
 use Attribute;
 
-#[Attribute()]
+#[\Attribute()]
 class Read
 {
 }

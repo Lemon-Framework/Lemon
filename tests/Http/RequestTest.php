@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Http;
 
-use Exception;
 use Lemon\Http\File;
 use Lemon\Http\Request;
 use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class RequestTest extends TestCase
@@ -64,7 +64,7 @@ class RequestTest extends TestCase
         $r = new Request('/', '', 'GET', ['Content-Type' => 'application/json'], '{"foo":"bar"}', [], []);
         $this->assertThrowable(function () use ($r) {
             $r->validate(['foo' => 'max:3']);
-        }, Exception::class);
+        }, \Exception::class);
     }
 
     public function testCookies()

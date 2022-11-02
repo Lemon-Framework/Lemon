@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Kernel;
 
-use Closure;
 use Lemon\Config\Config;
 use Lemon\Support\Filesystem;
 use Lemon\Templating\Template;
@@ -36,7 +35,7 @@ class Commands
     public function load(): void
     {
         foreach (self::COMMANDS as $command) {
-            $this->terminal->command($command[0], Closure::fromCallable([$this, $command[1]]), $command[2]);
+            $this->terminal->command($command[0], \Closure::fromCallable([$this, $command[1]]), $command[2]);
         }
     }
 

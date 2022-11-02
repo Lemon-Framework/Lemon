@@ -30,6 +30,7 @@ class BarDirective
 // TODO switch compilers test to directivecompiler like youknow
 /**
  * @internal
+ *
  * @coversNothing
  */
 class DirectiveCompilerTest extends TestCase

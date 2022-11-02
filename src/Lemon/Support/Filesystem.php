@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Support;
 
-use Exception;
 use Lemon\Support\Exceptions\FilesystemException;
 
 class Filesystem
@@ -124,7 +123,7 @@ class Filesystem
     public static function join(string ...$paths): string
     {
         if (count($paths) < 2) {
-            throw new Exception('Function Filesystem::join takes at least 2 arguments');
+            throw new \Exception('Function Filesystem::join takes at least 2 arguments');
         }
 
         $start = str_starts_with($paths[0], DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '';

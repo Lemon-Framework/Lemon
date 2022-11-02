@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
-use ArrayIterator;
 use Lemon\Support\Types\Arr;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
@@ -32,16 +31,16 @@ final class Parser
     /**
      * Stream of all tokens.
      *
-     * @var ArrayIterator<Token>
+     * @var \ArrayIterator<Token>
      */
-    private ArrayIterator $tokens;
+    private \ArrayIterator $tokens;
 
     public function __construct(
         array $tokens,
         private OutputCompiler $output,
         private DirectiveCompiler $directives
     ) {
-        $this->tokens = new ArrayIterator($tokens);
+        $this->tokens = new \ArrayIterator($tokens);
     }
 
     /**

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Templating;
 
 use Lemon\Templating\Exceptions\TemplateException;
-use Throwable;
 
 /**
  * Represents compiled template.
@@ -32,7 +31,7 @@ final class Template
 
         try {
             require $this->compiled_path;
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             ob_get_clean();
 
             throw TemplateException::from($e, $this->raw_path);

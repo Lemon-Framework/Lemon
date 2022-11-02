@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Support;
 
-use Exception;
 use Lemon\Contracts\Support\Env as EnvContract;
 use Lemon\Kernel\Application;
 
@@ -47,7 +46,7 @@ final class Env implements EnvContract
             }
             $data = explode('=', $line);
             if (2 != count($data)) {
-                throw new Exception('Env file does not contain valid data');
+                throw new \Exception('Env file does not contain valid data');
             }
             $this->data[$data[0]] = $data[1] ?: null;
         }

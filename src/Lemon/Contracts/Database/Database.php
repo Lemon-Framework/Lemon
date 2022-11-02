@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Contracts\Database;
 
 use Lemon\Database\Drivers\Driver;
-use PDOStatement;
 
 interface Database
 {
@@ -19,5 +18,5 @@ interface Database
      *
      * @phpstan-param literal-string $query
      */
-    public function query(string $query, ...$params): PDOStatement;
+    public function query(string $query, ...$params): \PDOStatement;
 }

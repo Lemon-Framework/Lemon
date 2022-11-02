@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Support;
 
-use Exception;
 use Lemon\Kernel\Application;
 use Lemon\Support\Env;
 use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class EnvTest extends TestCase
@@ -35,7 +35,7 @@ class EnvTest extends TestCase
 
         $this->assertThrowable(function () {
             $env = $this->getEnv("FOO=bar\r\nparek");
-        }, Exception::class);
+        }, \Exception::class);
 
         $env = $this->getEnv("FOO=bar\r\nparek=\n");
 

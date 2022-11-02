@@ -8,8 +8,8 @@ namespace Lemon;
  * Lemon Logger Zest
  * Provides static layer over the Lemon log.
  *
- * @method static void log($level, string|Stringable $message, array $context = []) {@inheritdoc}
- * @method static string interpolate(string $message, array $context)               Compiles message with given context
+ * @method static void   log($level, string|Stringable $message, array $context = []) {@inheritdoc}
+ * @method static string interpolate(string $message, array $context)                 Compiles message with given context
  *
  * @see \Lemon\Logging\Logger
  */

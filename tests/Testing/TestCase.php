@@ -12,19 +12,18 @@ use Lemon\Http\Responses\TemplateResponse;
 use Lemon\Kernel\Application;
 use Lemon\Templating\Template;
 use Lemon\Testing\TestCase as BaseTestCase;
-use Mockery;
 
 abstract class TestCase extends BaseTestCase
 {
     public function createApplication(): Application
     {
         $app = new Application(__DIR__);
-        $templates = Mockery::mock(Factory::class);
+        $templates = \Mockery::mock(Factory::class);
         $templates->allows()->getRawPath('foo.bar')->andReturns('foo/bar.juice');
         $app->add(get_class($templates), $templates);
         $app->alias(Factory::class, get_class($templates));
 
-        $routing = Mockery::mock(Router::class);
+        $routing = \Mockery::mock(Router::class);
         $routing->expects()->dispatch(Request::class)->andReturnUsing(function (Request $request) {
             if ('/' === $request->path) {
                 return (new HtmlResponse(headers: ['Location' => 'foo']))->cookie('foo', 'bar');

@@ -9,6 +9,7 @@ use Lemon\Validation\Validator;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class ValidationTest extends TestCase

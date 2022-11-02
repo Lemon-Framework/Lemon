@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Support\Types;
 
-use InvalidArgumentException;
-
 class Stack
 {
     private array $storage = [];
@@ -29,7 +27,7 @@ class Stack
     public function push(mixed $value): static
     {
         if (!Type::is($this->type, $value)) {
-            throw new InvalidArgumentException('Argument 1 of function '.static::class.'::push() must be type '.$this->type.' '.gettype($value).' given');
+            throw new \InvalidArgumentException('Argument 1 of function '.static::class.'::push() must be type '.$this->type.' '.gettype($value).' given');
         }
         $this->storage[] = $value;
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Http;
 
-use InvalidArgumentException;
 use Lemon\Config\Config;
 use Lemon\Contracts\Http\Jsonable;
 use Lemon\Contracts\Templating\Compiler;
@@ -20,6 +19,7 @@ use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class ResponseFactoryTest extends TestCase
@@ -74,7 +74,7 @@ class ResponseFactoryTest extends TestCase
 
         $this->assertSame("404 rip bozo\n", $factory->error(404)->parseBody());
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $factory->error(515);
     }
 
@@ -90,6 +90,17 @@ class ResponseFactoryTest extends TestCase
 
             return '500';
         });
+
+        $factory->handle(400, function (SimpleRequest $request) {
+            if ('api' == $request->uri) {
+                return new JsonResponse(['code' => 400], 400);
+            }
+        });
+
+        $lc->add(SimpleRequest::class, new SimpleRequest('api'));
+        $this->assertSame('{"code":400}', $factory->error(400)->parseBody());
+        $lc->add(SimpleRequest::class, new SimpleRequest('foo'));
+        $this->assertInstanceOf(TemplateResponse::class, $factory->error(400));
 
         $this->assertSame('500', $factory->error(500)->parseBody());
         $this->assertSame(['500'], $lc->get(SimpleLogger::class)->all());
@@ -136,5 +147,13 @@ class SimpleJson implements Jsonable
     public function toJson(): array
     {
         return $this->json;
+    }
+}
+
+class SimpleRequest
+{
+    public function __construct(
+        public string $uri
+    ) {
     }
 }

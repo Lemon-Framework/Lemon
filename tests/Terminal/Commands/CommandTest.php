@@ -9,6 +9,7 @@ use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class CommandTest extends TestCase

@@ -10,7 +10,6 @@ use Lemon\Contracts\Templating\Factory as FactoryInterface;
 use Lemon\Kernel\Application;
 use Lemon\Support\Filesystem as FS;
 use Lemon\Templating\Exceptions\TemplateException;
-use Throwable;
 
 /**
  * Manages and generates templates.
@@ -97,7 +96,7 @@ final class Factory implements FactoryInterface
 
         try {
             $compiled = $this->compiler->compile(file_get_contents($raw_path));
-        } catch (Throwable $throwable) {
+        } catch (\Throwable $throwable) {
             throw TemplateException::from($throwable, $raw_path);
         }
 
