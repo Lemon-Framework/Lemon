@@ -50,7 +50,7 @@ class MiddlewareTest extends TestCase
         $f = new Factory($c, new Compiler($c), $l);
         $r = new Router($l, $rs = new ResponseFactory($f, $l));
 
-        $l->add(Request::class, $re = new Request('/', '', 'GET', [], '', [], []));
+        $l->add(Request::class, $re = new Request('/', '', 'GET', [], '', [], [], ''));
 
         $l->add(ProtectionCsrf::class);
         $l->alias(CsrfContract::class, ProtectionCsrf::class);
@@ -65,7 +65,7 @@ class MiddlewareTest extends TestCase
 
         $this->assertInstanceOf(HtmlResponse::class, $r->dispatch($re));
 
-        $l->add(Request::class, $re = new Request('/', '', 'POST', [], '', [], []));
+        $l->add(Request::class, $re = new Request('/', '', 'POST', [], '', [], [], ''));
 
         $this->assertInstanceOf(TemplateResponse::class, $r->dispatch($re));
     }

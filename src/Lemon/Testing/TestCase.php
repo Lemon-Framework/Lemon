@@ -37,10 +37,10 @@ abstract class TestCase extends BaseTestCase
         return $mock;
     }
 
-    public function request(string $path, string $method = 'GET', array $headers = [], array $cookies = [], string $body = '', array $files = []): TestResponse
+    public function request(string $path, string $method = 'GET', array $headers = [], array $cookies = [], string $body = '', array $files = [], string $ip = ''): TestResponse
     {
         [$path, $query] = Request::trimQuery($path);
-        $request = new Request($path, $query, $method, $headers, $body, $cookies, $files);
+        $request = new Request($path, $query, $method, $headers, $body, $cookies, $files, $ip);
 
         $app = $this->application;
         $request->injectApplication($app);

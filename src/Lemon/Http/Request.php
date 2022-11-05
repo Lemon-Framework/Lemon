@@ -25,7 +25,8 @@ class Request
         public readonly array $headers,
         public readonly string $body,
         public readonly array $cookies,
-        public readonly array $files
+        public readonly array $files,
+        public readonly string $ip
     ) {
     }
 
@@ -52,7 +53,8 @@ class Request
             getallheaders(),
             file_get_contents('php://input'),
             $_COOKIE,
-            array_map(fn ($item) => new File(...$item), $_FILES)
+            array_map(fn ($item) => new File(...$item), $_FILES),
+            $_SERVER['REMOTE_ADDR']
         );
     }
 
@@ -204,6 +206,15 @@ class Request
     public function hasFile(string $name): bool
     {
         return isset($this->files[$name]);
+    }
+
+    /**
+     * Returns client ip address
+     * Disclaimer: If you want to work with ip address, be aware of security laws
+     */
+    public function ip(): string
+    {
+        return $this->ip;
     }
 
     /**
