@@ -10,8 +10,8 @@ namespace Lemon\Templating\Juice;
  */
 final class Syntax
 {
-
     public readonly string $regex;
+    public readonly string $escape_regex;
 
     public function __construct(
         public readonly string $tag = '\{\s*([^\{!#].*?)(?:\s+?([^\s].+?[^!\}#]))?\s*\}',
@@ -22,6 +22,7 @@ final class Syntax
         public readonly string $escape = '\\'
     ) {
         $this->regex = $this->buildRegex();
+        $this->escape_regex = $this->buildEscapeRegex();
     }
 
     /**
@@ -58,5 +59,14 @@ final class Syntax
     {
         $escape = '(?<!'.preg_quote($this->escape).')';
         return "/({$escape}{$this->tag})|({$escape}{$this->echo})|({$escape}{$this->unescaped})|({$escape}{$this->comment})/";
+    }
+
+    /**
+     * Builds regular expression used for escapment.
+     */
+    private function buildEscapeRegex(): string
+    {
+        $escape = preg_quote($this->escape);
+        return "/({$escape}({$this->tag}))|({$escape}({$this->echo}))|({$escape}({$this->unescaped}))|({$escape}({$this->comment}))/";
     }
 }
