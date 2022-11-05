@@ -4,39 +4,25 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
-use Lemon\Support\Properties\Properties;
-use Lemon\Support\Properties\Read;
 
 /**
  * Stores tag syntax for Juice.
- *
- * @property string $tag
- * @property string $echo
- * @property string $unescaped
- * @property string $end
- * @property string $comment
- * @property string $regex
  */
 final class Syntax
 {
-    use Properties;
-
-    #[Read]
-    private string $regex;
+    public readonly string $regex;
+    public readonly string $escape_regex;
 
     public function __construct(
-        #[Read]
-        private string $tag = '\{\s*([^\{!#].*?)(?:\s+?([^\s].+?[^!\}#]))?\s*\}',
-        #[Read]
-        private string $end = '(?:end|\/)(.+)',
-        #[Read]
-        private string $echo = '\{\{\s*(.+?)\s*\}\}',
-        #[Read]
-        private string $unescaped = '\{!\s*(.+?)\s*!\}',
-        #[Read]
-        private string $comment = '\{#.+?#\}',
+        public readonly string $tag = '\{\s*([^\{!#].*?)(?:\s+?([^\s].+?[^!\}#]))?\s*\}',
+        public readonly string $end = '(?:end|\/)(.+)',
+        public readonly string $echo = '\{\{\s*(.+?)\s*\}\}',
+        public readonly string $unescaped = '\{!\s*(.+?)\s*!\}',
+        public readonly string $comment = '\{#.+?#\}',
+        public readonly string $escape = '\\'
     ) {
-        $this->buildRegex();
+        $this->regex = $this->buildRegex();
+        $this->escape_regex = $this->buildEscapeRegex();
     }
 
     /**
@@ -46,11 +32,12 @@ final class Syntax
     {
         // TODO tests
         return new self(
-            '@([^\(]+)(?(?=\()\((.+?)\))',
+            '\B@([^\(]+)(?(?=\()\((.+?)\))',
             'end(.+)',
             '\{\{[^-]\s*(.+?)\s*[^-]\}\}',
             '{!!\s*(.+?)\s*!!}',
-            '{{--.+?--}}'
+            '{{--.+?--}}',
+            '@'
         );
     }
 
@@ -68,8 +55,18 @@ final class Syntax
     /**
      * Builds regular expression used for lexing.
      */
-    private function buildRegex()
+    private function buildRegex(): string
     {
-        $this->regex = "/({$this->tag})|({$this->echo})|({$this->unescaped})|({$this->comment})/";
+        $escape = '(?<!'.preg_quote($this->escape).')';
+        return "/({$escape}{$this->tag})|({$escape}{$this->echo})|({$escape}{$this->unescaped})|({$escape}{$this->comment})/";
+    }
+
+    /**
+     * Builds regular expression used for escapment.
+     */
+    private function buildEscapeRegex(): string
+    {
+        $escape = preg_quote($this->escape);
+        return "/({$escape}({$this->tag}))|({$escape}({$this->echo}))|({$escape}({$this->unescaped}))|({$escape}({$this->comment}))/";
     }
 }

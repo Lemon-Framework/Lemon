@@ -138,4 +138,46 @@ class LexerTest extends TestCase
             new Token(Token::TAG_END, 'foreach', 5),
         ]));
     }
+
+    public function testLexingWhitespaceStatements()
+    {
+        $lexer = $this->getLexer();
+        $tokens = $lexer->lex(<<<'HTML'
+            .foo \{
+                color: red;
+            }
+        HTML);
+    $this->assertThat($tokens, $this->equalTo([
+            new Token(Token::TEXT, <<<'HTML'
+                .foo {
+                    color: red;
+                }
+            HTML, 1)
+        ]));
+    }
+
+    public function testLexingBlade()
+    {
+        $lexer = new Lexer(Syntax::blade());
+        $tokens = $lexer->lex(<<<'HTML'
+            <h1>{{ $foo }}</h1>
+            foo@bar.baz
+            @foreach($users as $user)
+               <h2>{{ $user }} </h2>
+                {!! md($user->description) !!}
+            @endforeach
+        HTML);
+        $this->assertThat($tokens, $this->equalTo([
+            new Token(Token::TEXT, '    <h1>', 1),
+            new Token(Token::OUTPUT, '$foo', 1),
+            new Token(Token::TEXT, "</h1>\n    foo@bar.baz\n    ", 1),
+            new Token(Token::TAG, ['foreach', '$users as $user'], 3),
+            new Token(Token::TEXT, "\n       <h2>", 4),
+            new Token(Token::OUTPUT, '$user', 4),
+            new Token(Token::TEXT, " </h2>\n        ", 4),
+            new Token(Token::UNESCAPED, 'md($user->description)', 5),
+            new Token(Token::TEXT, "\n    ", 6),
+            new Token(Token::TAG_END, 'foreach', 6),
+        ]));       
+    }
 }
