@@ -73,6 +73,7 @@ final class Lexer
             } elseif (preg_match("/^{$this->syntax->comment}$/", $word)) {
                 // Do nothing
             } else {
+                $word = str_replace($this->syntax->escape, '', $word);
                 $result[] = new Token(Token::TEXT, $word, $line);
             }
         }

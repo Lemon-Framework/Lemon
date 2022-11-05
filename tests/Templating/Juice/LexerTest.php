@@ -138,4 +138,21 @@ class LexerTest extends TestCase
             new Token(Token::TAG_END, 'foreach', 5),
         ]));
     }
+
+    public function testLexingWhitespaceStatements()
+    {
+        $lexer = $this->getLexer();
+        $tokens = $lexer->lex(<<<'HTML'
+            .foo \{
+                color: red;
+            }
+        HTML);
+    $this->assertThat($tokens, $this->equalTo([
+            new Token(Token::TEXT, <<<'HTML'
+                .foo {
+                    color: red;
+                }
+            HTML, 1)
+        ]));
+    }
 }
