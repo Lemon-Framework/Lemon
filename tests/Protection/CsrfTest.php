@@ -42,22 +42,22 @@ class CsrfTest extends TestCase
         $cf = new Config($lc);
         $f = new ResponseFactory(new Factory($cf, new Compiler($cf), $lc), $lc);
 
-        $r = new Request('/', '', 'GET', [], '', [], []); // Lets say we have regular get request
+        $r = new Request('/', '', 'GET', [], '', [], [], ""); // Lets say we have regular get request
         $res = new HtmlResponse();
         $this->assertSame([['CSRF_TOKEN', $c->getToken(), 0]], $m->handle($r, $c, $f, $res)->cookies()); // Now user has the token in cookie
 
-        $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), ['CSRF_TOKEN' => $c->getToken()], []);
+        $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), ['CSRF_TOKEN' => $c->getToken()], [], "");
         $res = new HtmlResponse();
         $this->assertSame([['CSRF_TOKEN', $c->getToken(), 0]], $m->handle($r, $c, $f, $res)->cookies()); // Now user has new token in cookie
 
-        $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), [], []);
+        $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), [], [], "");
         $res = new HtmlResponse();
         $this->assertSame(400, $m->handle($r, $c, $f, $res)->code()); // But when something is missing
 
-        $r = new Request('/', '', 'PUT', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), [], []);
+        $r = new Request('/', '', 'PUT', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), [], [], "");
         $this->assertSame(400, $m->handle($r, $c, $f, $res)->code()); // But when something is missing
 
-        $r = new Request('/', '', 'POST', [], '', ['CSRF_TOKEN' => $c->getToken()], []);
+        $r = new Request('/', '', 'POST', [], '', ['CSRF_TOKEN' => $c->getToken()], [], "");
         $this->assertSame(400, $m->handle($r, $c, $f, $res)->code());
     }
 }
