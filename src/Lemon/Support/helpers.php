@@ -48,7 +48,7 @@ if (!function_exists('config')) {
     /**
      * Gets/Sets value to config or returns config service.
      */
-    function config(string $key = null, string $value = null): mixed
+    function config(string $key = null, mixed $value = null): mixed
     {
         if (!$key) {
             return Config::getAccessor();
@@ -156,8 +156,8 @@ if (!function_exists('template')) {
     /**
      * Returns template with given name and data.
      */
-    function template(string $name, mixed ...$data): Template
+    function template(string $template, mixed ...$data): Template
     {
-        return \Lemon\Template::make($name, $data);
+        return \Lemon\Template::make($template, $data);
     }
 }
