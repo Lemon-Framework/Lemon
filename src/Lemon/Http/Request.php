@@ -210,7 +210,7 @@ class Request
 
     /**
      * Returns client ip address
-     * Disclaimer: If you want to work with ip address, be aware of security laws
+     * Disclaimer: If you want to work with ip address, be aware of security laws.
      */
     public function ip(): string
     {

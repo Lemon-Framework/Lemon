@@ -147,12 +147,12 @@ class LexerTest extends TestCase
                 color: red;
             }
         HTML);
-    $this->assertThat($tokens, $this->equalTo([
+        $this->assertThat($tokens, $this->equalTo([
             new Token(Token::TEXT, <<<'HTML'
                 .foo {
                     color: red;
                 }
-            HTML, 1)
+            HTML, 1),
         ]));
     }
 
@@ -178,6 +178,6 @@ class LexerTest extends TestCase
             new Token(Token::UNESCAPED, 'md($user->description)', 5),
             new Token(Token::TEXT, "\n    ", 6),
             new Token(Token::TAG_END, 'foreach', 6),
-        ]));       
+        ]));
     }
 }

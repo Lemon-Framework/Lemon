@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
-
 /**
  * Stores tag syntax for Juice.
  */
@@ -58,6 +57,7 @@ final class Syntax
     private function buildRegex(): string
     {
         $escape = '(?<!'.preg_quote($this->escape).')';
+
         return "/({$escape}{$this->tag})|({$escape}{$this->echo})|({$escape}{$this->unescaped})|({$escape}{$this->comment})/";
     }
 
@@ -67,6 +67,7 @@ final class Syntax
     private function buildEscapeRegex(): string
     {
         $escape = preg_quote($this->escape);
+
         return "/({$escape}({$this->tag}))|({$escape}({$this->echo}))|({$escape}({$this->unescaped}))|({$escape}({$this->comment}))/";
     }
 }
