@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice\Lexer;
 
+use Generator;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\{Token, TokenKind};
 
@@ -87,18 +88,13 @@ class PHPLexer
     }
 
     /**
-     * @internal
-     *
-     * @return array<Token>
+     * @return Generator<Token>
      */
-    public function lex(): array
+    public function lex(): Generator
     {
-        $result = [];
         while ($next = $this->lexNext()) {
-            $result[] = $next;
+            yield $next;
         }
-
-        return $result;
     }
 
     public function lexKeyWords(): Token|null

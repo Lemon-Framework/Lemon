@@ -78,7 +78,7 @@ class PHPLexerTest extends TestCase
         $this->assertNull($lexer->lexNext());
 
         $lexer = new PHPLexer('+ - * / % = += -= /= *= %= <= >= <=> < > ?? .= . || &&    ?:');
-        $this->assertThat($lexer->lex(), $this->equalTo([
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
             new Token(TokenKind::BinaryOperator, 1, 0, '+'),
             new Token(TokenKind::BinaryOperator, 1, 2, '-'),
             new Token(TokenKind::BinaryOperator, 1, 4, '*'),
@@ -104,21 +104,21 @@ class PHPLexerTest extends TestCase
         ]));   
 
         $lexer = new PHPLexer('1 + $foo');
-        $this->assertThat($lexer->lex(), $this->equalTo([
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
             new Token(TokenKind::Number, 1, 0, '1'),
             new Token(TokenKind::BinaryOperator, 1, 2, '+'),
             new Token(TokenKind::Variable, 1, 4, 'foo')
         ]));
 
         $lexer = new PHPLexer('$foo + 1');
-        $this->assertThat($lexer->lex(), $this->equalTo([
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
             new Token(TokenKind::Variable, 1, 0, 'foo'),
             new Token(TokenKind::BinaryOperator, 1, 5, '+'),
             new Token(TokenKind::Number, 1, 7, '1')
         ]));
 
         $lexer = new PHPLexer('"parek"."v rohliku"');
-        $this->assertThat($lexer->lex(), $this->equalTo([
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
             new Token(TokenKind::String, 1, 0, 'parek'),
             new Token(TokenKind::BinaryOperator, 1, 7, '.'),
             new Token(TokenKind::String, 1, 8, 'v rohliku'),
@@ -128,13 +128,13 @@ class PHPLexerTest extends TestCase
     public function testLexingNew()
     {
         $lexer = new PHPLexer('new Foo\Bar');
-        $this->assertThat($lexer->lex(), $this->equalTo([
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
             new Token(TokenKind::New, 1, 0, 'new'),
             new Token(TokenKind::Name, 1, 4, 'Foo\Bar'),
         ]));       
 
         $lexer = new PHPLexer('new       Foo\Bar');
-        $this->assertThat($lexer->lex(), $this->equalTo([
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
             new Token(TokenKind::New, 1, 0, 'new'),
             new Token(TokenKind::Name, 1, 10, 'Foo\Bar'),
         ]));

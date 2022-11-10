@@ -7,10 +7,10 @@ namespace Lemon\Templating\Juice;
 enum TokenKind
 {
     // Hmtl
-    case HtmlTag;
-
-    case HtmlAttribute;
-
+    case HtmlTagStart;
+    case HtmlEndTagStart;
+    case HtmlTagEnd;
+    case HtmlName;
     case HtmlComment;
 
     // Text
