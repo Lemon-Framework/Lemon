@@ -6,22 +6,22 @@ namespace Lemon\Tests\Templating\Juice\Lexer;
 
 use Lemon\Contracts\Templating\Compiler;
 use Lemon\Templating\Exceptions\CompilerException;
-use Lemon\Templating\Juice\Lexer\PHPLexer;
+use Lemon\Templating\Juice\Lexer\ExpressionLexer;
 use Lemon\Templating\Juice\Token;
 use Lemon\Templating\Juice\TokenKind;
 use Lemon\Tests\Testing\TestCase;
 
-class PHPLexerTest extends TestCase
+class ExpressionLexerTest extends TestCase
 {
     public function testLexingString()
     {
-        $lexer = new PHPLexer('"foo"');
+        $lexer = new ExpressionLexer('"foo"');
         $this->assertThat($lexer->lexNext(), $this->equalTo(
             new Token(TokenKind::String, 1, 0, 'foo')
         ));
         $this->assertNull($lexer->lexNext());
 
-        $lexer = new PHPLexer("'new'");
+        $lexer = new ExpressionLexer("'new'");
         $this->assertThat($lexer->lexNext(), $this->equalTo(
             new Token(TokenKind::String, 1, 0, 'new')
         ));
@@ -29,23 +29,23 @@ class PHPLexerTest extends TestCase
 
     public function testLexingInt()
     {
-        $lexer = new PHPLexer('37');
+        $lexer = new ExpressionLexer('37');
         $this->assertThat($lexer->lexNext(), $this->equalTo(
             new Token(TokenKind::Number, 1, 0, '37')
         ));
         $this->assertNull($lexer->lexNext());
 
-        $lexer = new PHPLexer('-37');
+        $lexer = new ExpressionLexer('-37');
         $this->assertThat($lexer->lexNext(), $this->equalTo(
             new Token(TokenKind::Number, 1, 0, '-37')
         ));
 
-        $lexer = new PHPLexer('3.7');
+        $lexer = new ExpressionLexer('3.7');
         $this->assertThat($lexer->lexNext(), $this->equalTo(
             new Token(TokenKind::Number, 1, 0, '3.7')
         ));
 
-        $lexer = new PHPLexer('.37');
+        $lexer = new ExpressionLexer('.37');
         $this->assertThat($lexer->lexNext(), $this->equalTo(
             new Token(TokenKind::Number, 1, 0, '.37')
         ));
@@ -53,7 +53,7 @@ class PHPLexerTest extends TestCase
 
     public function testLexingVariables()
     {
-        $lexer = new PHPLexer('$F_oo');
+        $lexer = new ExpressionLexer('$F_oo');
         $this->assertThat($lexer->lexNext(), $this->equalTo(
             new Token(TokenKind::Variable, 1, 0, 'F_oo')
         ));
@@ -62,7 +62,7 @@ class PHPLexerTest extends TestCase
 
     public function testLexingName()
     {
-        $lexer = new PHPLexer('foo\Bar\b_az');
+        $lexer = new ExpressionLexer('foo\Bar\b_az');
         $this->assertThat($lexer->lexNext(), $this->equalTo(
             new Token(TokenKind::Name, 1, 0, 'foo\Bar\b_az')
         ));
@@ -71,13 +71,13 @@ class PHPLexerTest extends TestCase
 
     public function testLexingOperators()
     {
-        $lexer = new PHPLexer('+');
+        $lexer = new ExpressionLexer('+');
         $this->assertThat($lexer->lexNext(), $this->equalTo(
             new Token(TokenKind::BinaryOperator, 1, 0, '+')
         ));
         $this->assertNull($lexer->lexNext());
 
-        $lexer = new PHPLexer('+ - * / % = += -= /= *= %= <= >= <=> < > ?? .= . || &&    ?:');
+        $lexer = new ExpressionLexer('+ - * / % = += -= /= *= %= <= >= <=> < > ?? .= . || &&    ?:');
         $this->assertThat($lexer->lex(), $this->equalTo([
             new Token(TokenKind::BinaryOperator, 1, 0, '+'),
             new Token(TokenKind::BinaryOperator, 1, 2, '-'),
@@ -103,21 +103,21 @@ class PHPLexerTest extends TestCase
             new Token(TokenKind::BinaryOperator, 1, 58, '?:'),
         ]));   
 
-        $lexer = new PHPLexer('1 + $foo');
+        $lexer = new ExpressionLexer('1 + $foo');
         $this->assertThat($lexer->lex(), $this->equalTo([
             new Token(TokenKind::Number, 1, 0, '1'),
             new Token(TokenKind::BinaryOperator, 1, 2, '+'),
             new Token(TokenKind::Variable, 1, 4, 'foo')
         ]));
 
-        $lexer = new PHPLexer('$foo + 1');
+        $lexer = new ExpressionLexer('$foo + 1');
         $this->assertThat($lexer->lex(), $this->equalTo([
             new Token(TokenKind::Variable, 1, 0, 'foo'),
             new Token(TokenKind::BinaryOperator, 1, 5, '+'),
             new Token(TokenKind::Number, 1, 7, '1')
         ]));
 
-        $lexer = new PHPLexer('"parek"."v rohliku"');
+        $lexer = new ExpressionLexer('"parek"."v rohliku"');
         $this->assertThat($lexer->lex(), $this->equalTo([
             new Token(TokenKind::String, 1, 0, 'parek'),
             new Token(TokenKind::BinaryOperator, 1, 7, '.'),
@@ -127,13 +127,13 @@ class PHPLexerTest extends TestCase
 
     public function testLexingNew()
     {
-        $lexer = new PHPLexer('new Foo\Bar');
+        $lexer = new ExpressionLexer('new Foo\Bar');
         $this->assertThat($lexer->lex(), $this->equalTo([
             new Token(TokenKind::New, 1, 0, 'new'),
             new Token(TokenKind::Name, 1, 4, 'Foo\Bar'),
         ]));       
 
-        $lexer = new PHPLexer('new       Foo\Bar');
+        $lexer = new ExpressionLexer('new       Foo\Bar');
         $this->assertThat($lexer->lex(), $this->equalTo([
             new Token(TokenKind::New, 1, 0, 'new'),
             new Token(TokenKind::Name, 1, 10, 'Foo\Bar'),
