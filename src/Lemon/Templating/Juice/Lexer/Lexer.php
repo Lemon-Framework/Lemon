@@ -54,5 +54,4 @@ class Lexer
         yield new Token(TokenKind::HtmlCloseTag, $this->line, $this->pos);
     }
 
-
 }

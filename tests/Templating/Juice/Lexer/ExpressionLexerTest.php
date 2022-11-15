@@ -77,8 +77,13 @@ class ExpressionLexerTest extends TestCase
         ));
         $this->assertNull($lexer->lexNext());
 
+<<<<<<< HEAD:tests/Templating/Juice/Lexer/ExpressionLexerTest.php
         $lexer = new ExpressionLexer('+ - * / % = += -= /= *= %= <= >= <=> < > ?? .= . || &&    ?:');
         $this->assertThat($lexer->lex(), $this->equalTo([
+=======
+        $lexer = new PHPLexer('+ - * / % = += -= /= *= %= <= >= <=> < > ?? .= . || &&    ?:');
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
+>>>>>>> d983816e95130bc9a5639100aa61594a08580e6b:tests/Templating/Juice/Lexer/PHPLexerTest.php
             new Token(TokenKind::BinaryOperator, 1, 0, '+'),
             new Token(TokenKind::BinaryOperator, 1, 2, '-'),
             new Token(TokenKind::BinaryOperator, 1, 4, '*'),
@@ -103,22 +108,37 @@ class ExpressionLexerTest extends TestCase
             new Token(TokenKind::BinaryOperator, 1, 58, '?:'),
         ]));   
 
+<<<<<<< HEAD:tests/Templating/Juice/Lexer/ExpressionLexerTest.php
         $lexer = new ExpressionLexer('1 + $foo');
         $this->assertThat($lexer->lex(), $this->equalTo([
+=======
+        $lexer = new PHPLexer('1 + $foo');
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
+>>>>>>> d983816e95130bc9a5639100aa61594a08580e6b:tests/Templating/Juice/Lexer/PHPLexerTest.php
             new Token(TokenKind::Number, 1, 0, '1'),
             new Token(TokenKind::BinaryOperator, 1, 2, '+'),
             new Token(TokenKind::Variable, 1, 4, 'foo')
         ]));
 
+<<<<<<< HEAD:tests/Templating/Juice/Lexer/ExpressionLexerTest.php
         $lexer = new ExpressionLexer('$foo + 1');
         $this->assertThat($lexer->lex(), $this->equalTo([
+=======
+        $lexer = new PHPLexer('$foo + 1');
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
+>>>>>>> d983816e95130bc9a5639100aa61594a08580e6b:tests/Templating/Juice/Lexer/PHPLexerTest.php
             new Token(TokenKind::Variable, 1, 0, 'foo'),
             new Token(TokenKind::BinaryOperator, 1, 5, '+'),
             new Token(TokenKind::Number, 1, 7, '1')
         ]));
 
+<<<<<<< HEAD:tests/Templating/Juice/Lexer/ExpressionLexerTest.php
         $lexer = new ExpressionLexer('"parek"."v rohliku"');
         $this->assertThat($lexer->lex(), $this->equalTo([
+=======
+        $lexer = new PHPLexer('"parek"."v rohliku"');
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
+>>>>>>> d983816e95130bc9a5639100aa61594a08580e6b:tests/Templating/Juice/Lexer/PHPLexerTest.php
             new Token(TokenKind::String, 1, 0, 'parek'),
             new Token(TokenKind::BinaryOperator, 1, 7, '.'),
             new Token(TokenKind::String, 1, 8, 'v rohliku'),
@@ -127,14 +147,24 @@ class ExpressionLexerTest extends TestCase
 
     public function testLexingNew()
     {
+<<<<<<< HEAD:tests/Templating/Juice/Lexer/ExpressionLexerTest.php
         $lexer = new ExpressionLexer('new Foo\Bar');
         $this->assertThat($lexer->lex(), $this->equalTo([
+=======
+        $lexer = new PHPLexer('new Foo\Bar');
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
+>>>>>>> d983816e95130bc9a5639100aa61594a08580e6b:tests/Templating/Juice/Lexer/PHPLexerTest.php
             new Token(TokenKind::New, 1, 0, 'new'),
             new Token(TokenKind::Name, 1, 4, 'Foo\Bar'),
         ]));       
 
+<<<<<<< HEAD:tests/Templating/Juice/Lexer/ExpressionLexerTest.php
         $lexer = new ExpressionLexer('new       Foo\Bar');
         $this->assertThat($lexer->lex(), $this->equalTo([
+=======
+        $lexer = new PHPLexer('new       Foo\Bar');
+        $this->assertThat(iterator_to_array($lexer->lex()), $this->equalTo([
+>>>>>>> d983816e95130bc9a5639100aa61594a08580e6b:tests/Templating/Juice/Lexer/PHPLexerTest.php
             new Token(TokenKind::New, 1, 0, 'new'),
             new Token(TokenKind::Name, 1, 10, 'Foo\Bar'),
         ]));
