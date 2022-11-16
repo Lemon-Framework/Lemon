@@ -47,6 +47,25 @@ class TerminalReporter
         $code = $highlighter->highlight(file_get_contents($this->problem->getFile()));
         $lines = explode("\n", $code);
         $line = $this->problem->getLine();
-        for ($i = $line - 5;)
+
+        $start = $line - 5;
+        $start = $start < 0 ? 0 : $start;
+
+        $line_count = count($lines);
+        $end = $line + 6;
+        $end = $end > $line_count ? $line_count : $end;
+
+        $result = '';
+
+        for ($i = $start; $i < $end; $i++) {
+            $number = sprintf('%3i', $i);
+            $number = 
+                $i === $this->problem->getLine()
+                ? '<span class="text-red">'.$number.'</span>'
+            ;
+            $result .= $i.' | '.$code[$i - 1]."\n";
+        }
+
+        return $result;
     }
 }
