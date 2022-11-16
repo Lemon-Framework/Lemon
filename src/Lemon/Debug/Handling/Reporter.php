@@ -75,7 +75,7 @@ class Reporter
         return $trace;
     }
 
-    public function severityToString(int $severity): string
+    public static function severityToString(int $severity): string
     {
         return match ($severity) {
             E_ERROR => 'Fatal Error',

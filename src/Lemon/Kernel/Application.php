@@ -32,6 +32,7 @@ use Lemon\Zest;
  * @property \Lemon\Logging\Logger            $log
  * @property \Lemon\Database\Database         $database
  * @property \Lemon\Validation\Validator      $validation
+ * @property \Lemon\Highlighter\Highlighter   $highlighter
  */
 final class Application extends Container
 {
