@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Lemon\Highlighter;
 
 use Lemon\Contracts\Config\Config;
+use Lemon\Contracts\Highlighter\Highlighter as HighlighterContract;
 use PhpToken;
 
-class Highlighter
+class Highlighter implements HighlighterContract
 {
     public const 
         Declaration = 0,
@@ -69,6 +70,7 @@ class Highlighter
         T_INSTEADOF => self::Declaration,
         T_INTERFACE => self::Declaration,
         T_INT_CAST => self::Type,
+        T_LNUMBER => self::Number,
         T_MATCH => self::Statement,
         T_NAMESPACE => self::Declaration,
         T_NEW => self::Declaration,
@@ -82,13 +84,13 @@ class Highlighter
         T_REQUIRE => self::Declaration,
         T_REQUIRE_ONCE => self::Declaration,
         T_STATIC => self::Declaration,
-        T_STRING => self::Declaration,
         T_STRING_CAST => self::Type,
         T_SWITCH => self::Statement,
         T_THROW => self::Statement,
         T_TRAIT => self::Declaration,
         T_TRY => self::Statement,
         T_USE => self::Declaration,
+        T_VARIABLE => self::Variable,
         T_YIELD => self::Statement,
         T_YIELD_FROM => self::Statement
     ];
@@ -103,14 +105,15 @@ class Highlighter
     {
         $result = '';
         foreach (PhpToken::tokenize($code) as $token) {
-            if ($token->is("\n")) {
-                $result .= "\n";
+            if ($token->is(T_WHITESPACE)) {
+                $result .= $token->text;
                 continue;
             }
 
             $color = self::TokenToColor[$token->id] ?? self::Default;
             $html = $this->config->get('highlighter.'.$color);
-            $result .= "<span {$html}>{$token->text}</span>";
+            $text = $token->text;
+            $result .= "<span {$html}>{$text}</span>";
         }
 
         return $result;

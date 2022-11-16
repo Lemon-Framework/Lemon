@@ -60,6 +60,7 @@ final class Application extends Container
         \Lemon\Logging\Logger::class => ['log', \Psr\Log\LoggerInterface::class, Contracts\Logging\Logger::class],
         \Lemon\Database\Database::class => ['database', Contracts\Database\Database::class],
         \Lemon\Validation\Validator::class => ['validation', Contracts\Validation\Validator::class],
+        \Lemon\Highlighter\Highlighter::class => ['highlighter', Contracts\Highlighter\Highlighter::class],
     ];
 
     /**
