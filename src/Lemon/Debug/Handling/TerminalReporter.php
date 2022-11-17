@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Lemon\Debug\Handling;
 
+use Lemon\Contracts\Config\Config;
+use Lemon\Contracts\Highlighter\Highlighter as HighlighterContract;
+use Lemon\Highlighter\Highlighter;
 use Lemon\Kernel\Application;
 use Throwable;
 
@@ -43,14 +46,27 @@ class TerminalReporter
 
     public function code(): string
     {
-        $highlighter = $this->app->highlighter;
+        $config = $this->app->get(Config::class);
+        foreach ([
+                Highlighter::Declaration => 'class="text-cyan"',
+                Highlighter::Statement => 'class="text-red"',
+                Highlighter::Number => 'class="text-magenta"',
+                Highlighter::String => 'class="text-green"',
+                Highlighter::Type => 'class="text-yellow"',
+                Highlighter::Comment => 'class="text-white"',
+                Highlighter::Variable => 'class="text-blue"',
+                Highlighter::Default => '',
+        ] as $syntax => $class) {
+            $config->set('highlighter.'.$syntax, $class);
+        }
+
+        $highlighter = $this->app->get(HighlighterContract::class);
         $code = $highlighter->highlight(file_get_contents($this->problem->getFile()));
         $lines = explode("\n", $code);
         $line = $this->problem->getLine();
 
         $start = $line - 5;
-        $start = $start < 0 ? 0 : $start;
-
+        $start = $start < 1 ? 1 : $start;
         $line_count = count($lines);
         $end = $line + 6;
         $end = $end > $line_count ? $line_count : $end;
@@ -58,12 +74,14 @@ class TerminalReporter
         $result = '';
 
         for ($i = $start; $i < $end; $i++) {
-            $number = sprintf('%3i', $i);
+            $number = str_pad((string)$i, 3, ' ', STR_PAD_LEFT);
             $number = 
                 $i === $this->problem->getLine()
                 ? '<span class="text-red">'.$number.'</span>'
-            ;
-            $result .= $i.' | '.$code[$i - 1]."\n";
+                : $number
+                ;
+
+            $result .= $number.' | '.$lines[$i - 1]."\n";
         }
 
         return $result;

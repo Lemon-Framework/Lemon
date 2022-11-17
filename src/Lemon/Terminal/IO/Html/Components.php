@@ -15,21 +15,25 @@ class Components
         $this->styles = new Styles();
     }
 
-    public function parse(\DOMNode $element): string
+    public function parse(\DOMNode $element, bool $remove = true): string
     {
         $result = '';
         foreach ($element->childNodes as $child) {
             [$inherit, $open, $close] = $this->styles->getStyle($element);
-            $result .= $inherit.$open.$this->parseElement($child).$close.$inherit;
+            $result .= $inherit.$open.$this->parseElement($child, $remove).$close.$inherit;
         }
 
         return $result."\033[0m";
     }
 
-    public function parseElement(\DOMNode $element): string
+    public function parseElement(\DOMNode $element, bool $remove = true): string
     {
         if ($element instanceof \DOMText) {
-            return self::removeWhitespace($element);
+            return 
+                $remove 
+                ? self::removeWhitespace($element)
+                : $element->textContent
+            ;
         }
 
         $name = $element->nodeName;
@@ -83,6 +87,11 @@ class Components
     public function parseP(\DOMNode $node): string
     {
         return $this->parse($node).PHP_EOL;
+    }
+
+    public function parseCode(\DOMNode $node): string
+    {
+        return $this->parse($node, false); 
     }
 
     public static function lenght(string $target): int
