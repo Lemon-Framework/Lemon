@@ -114,6 +114,7 @@ final class Application extends Container
     public function loadHandler(): void
     {
         error_reporting(E_ALL);
+        register_shutdown_function([$this, 'handleEnd']);
         set_exception_handler([$this, 'handle']);
         set_error_handler([$this, 'handleError']);
     }
@@ -134,6 +135,16 @@ final class Application extends Container
     public function handleError(int $severity, string $error, string $file, int $line): bool
     {
         throw new \ErrorException($error, 0, $severity, $file, $line);
+    }
+
+    public function handleEnd()
+    {
+        $error = error_get_last();
+        if (!$error) {
+            return;
+        }
+
+        $this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
     }
 
     /**

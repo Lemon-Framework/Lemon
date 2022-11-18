@@ -9,6 +9,7 @@ use Lemon\Kernel\Application;
 use Lemon\Terminal\Commands\Command;
 use Lemon\Terminal\Commands\Dispatcher;
 use Lemon\Terminal\IO\Output;
+use Throwable;
 
 class Terminal implements TerminalContract
 {
@@ -76,13 +77,18 @@ class Terminal implements TerminalContract
      */
     public function run(array $arguments): void
     {
-        $result = $this->commands->dispatch($arguments);
+        try {
+            $result = $this->commands->dispatch($arguments);
 
-        if (is_string($result)) {
-            $this->out("<div class=\"text-red\">ERROR: {$result}</div>");
+            if (is_string($result)) {
+                $this->out("<div class=\"text-red\">ERROR: {$result}</div>");
+    
+                return;
+            }
 
-            return;
+            $this->application->call($result[0], $result[1]);
+        } catch (Throwable $e) {
+            $this->application->handle($e);
         }
-        $this->application->call($result[0], $result[1]);
     }
 }

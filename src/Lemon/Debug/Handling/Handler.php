@@ -26,7 +26,6 @@ class Handler
     {
         if ($this->application->runsInTerminal()) {
             (new TerminalReporter($problem, $this->application))->report();
-            return;
         }
 
         if ($this->config->get('debug.debug')) {

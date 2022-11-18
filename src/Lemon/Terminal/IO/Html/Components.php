@@ -10,17 +10,19 @@ class Components
 {
     public readonly Styles $styles;
 
+    private bool $remove = true;
+
     public function __construct()
     {
         $this->styles = new Styles();
     }
 
-    public function parse(\DOMNode $element, bool $remove = true): string
+    public function parse(\DOMNode $element): string
     {
         $result = '';
         foreach ($element->childNodes as $child) {
             [$inherit, $open, $close] = $this->styles->getStyle($element);
-            $result .= $inherit.$open.$this->parseElement($child, $remove).$close.$inherit;
+            $result .= $inherit.$open.$this->parseElement($child).$close.$inherit;
         }
 
         return $result."\033[0m";
@@ -30,7 +32,7 @@ class Components
     {
         if ($element instanceof \DOMText) {
             return 
-                $remove 
+                $this->remove 
                 ? self::removeWhitespace($element)
                 : $element->textContent
             ;
@@ -47,6 +49,10 @@ class Components
     }
 
     public function parseDiv(\DOMNode $element): string
+    {
+        return $this->parse($element);
+    }
+    public function parseSpan(\DOMNode $element): string
     {
         return $this->parse($element);
     }
@@ -91,7 +97,10 @@ class Components
 
     public function parseCode(\DOMNode $node): string
     {
-        return $this->parse($node, false); 
+        $this->remove = false;
+        $result = $this->parse($node); 
+        $this->remove = true;
+        return $result;
     }
 
     public static function lenght(string $target): int
