@@ -70,6 +70,13 @@ class ComponentsTest extends TestCase
         $this->assertSame("parek\033[0m".PHP_EOL, $result);
     }
 
+    public function testCode()
+    {
+        $components = new Components();
+        $result = $components->parseElement($this->getElement('<code>parek'.PHP_EOL.'    rizek<code>'));
+        $this->assertSame("parek".PHP_EOL."    rizek\033[0m\033[0m", $result);
+    }
+
     public function testParsing()
     {
         $components = new Components();

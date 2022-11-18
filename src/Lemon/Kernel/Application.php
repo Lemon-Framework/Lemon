@@ -32,6 +32,7 @@ use Lemon\Zest;
  * @property \Lemon\Logging\Logger            $log
  * @property \Lemon\Database\Database         $database
  * @property \Lemon\Validation\Validator      $validation
+ * @property \Lemon\Highlighter\Highlighter   $highlighter
  */
 final class Application extends Container
 {
@@ -60,6 +61,7 @@ final class Application extends Container
         \Lemon\Logging\Logger::class => ['log', \Psr\Log\LoggerInterface::class, Contracts\Logging\Logger::class],
         \Lemon\Database\Database::class => ['database', Contracts\Database\Database::class],
         \Lemon\Validation\Validator::class => ['validation', Contracts\Validation\Validator::class],
+        \Lemon\Highlighter\Highlighter::class => ['highlighter', Contracts\Highlighter\Highlighter::class],
     ];
 
     /**
@@ -112,6 +114,7 @@ final class Application extends Container
     public function loadHandler(): void
     {
         error_reporting(E_ALL);
+        register_shutdown_function([$this, 'handleEnd']);
         set_exception_handler([$this, 'handle']);
         set_error_handler([$this, 'handleError']);
     }
@@ -132,6 +135,16 @@ final class Application extends Container
     public function handleError(int $severity, string $error, string $file, int $line): bool
     {
         throw new \ErrorException($error, 0, $severity, $file, $line);
+    }
+
+    public function handleEnd()
+    {
+        $error = error_get_last();
+        if (!$error) {
+            return;
+        }
+
+        $this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
     }
 
     /**
