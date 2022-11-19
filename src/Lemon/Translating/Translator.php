@@ -7,6 +7,7 @@ namespace Lemon\Translating;
 use Lemon\Contracts\Translating\Translator as TranslatorContract;
 use Lemon\Contracts\Config\Config;
 use Lemon\Support\Filesystem;
+use Lemon\Translating\Exceptions\TranslatorException;
 
 class Translator implements TranslatorContract
 {
@@ -28,7 +29,10 @@ class Translator implements TranslatorContract
 
     public function text(string $key): string
     {
-        return $this->translations()[$key];
+        return 
+            $this->translations()[$key] 
+            ?? throw new TranslatorException('Undefined translation text '.$this->locale.'.'.$key)
+        ;
     }
 
     public function locate(string $locale): self

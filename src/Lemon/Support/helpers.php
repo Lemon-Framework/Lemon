@@ -161,3 +161,9 @@ if (!function_exists('template')) {
         return \Lemon\Template::make($template, $data);
     }
 }
+
+if (!function_exists('text')) {
+    function text(string $key): string
+    {
+    }
+}

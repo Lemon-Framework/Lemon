@@ -8,6 +8,10 @@ namespace Lemon;
  * Lemon Translator Zest
  * Provides static layer over the Lemon Translator.
  *
+ * @method static string text(string $key) 
+ * @method static \Lemon\Translating\Translator locate(string $locale)
+ * @method static array translations() 
+ *
  * @see \Lemon\Translating\Translator
  */
 class Translator extends Zest
