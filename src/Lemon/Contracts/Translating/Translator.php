@@ -6,6 +6,7 @@ namespace Lemon\Contracts\Translating;
 
 interface Translator
 {
-    public function text(string $key, string $localization): string;
+    public function text(string $key): string;
 
+    public function locate(string $locale): self;
 }

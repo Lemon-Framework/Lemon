@@ -10,31 +10,45 @@ use Lemon\Support\Filesystem;
 
 class Translator implements TranslatorContract
 {
+    private string $locale;
+
     private array $data = [];
 
     private string $directory;
 
-    public string $fallback;
+    private string $fallback;
 
     public function __construct(
-        private Config $config
+        Config $config
     ) {
-        $this->directory = $config->file('directory');
-        $this->fallback = Filesystem::join($this->directory, $config->file('localization'));
+        $this->directory = $config->file('translating.directory');
+        $this->fallback = $config->get('translating.fallback');
+        $this->locale = $this->fallback;
     }
 
-    public function text(string $key, string $localization): string
+    public function text(string $key): string
     {
-        $this->load($localization);
+        return $this->translations()[$key];
     }
 
-    public function load(string $localization): self
+    public function locate(string $locale): self
     {
-        $file = Filesystem::join($this->directory, $localization);
-        if (!is_file($file)) {
-            $file = $this->fallback();
+        $this->locale = $locale;
+        return $this;
+    }
+
+    public function translations(): array 
+    {
+        if (!isset($this->data[$this->locale])) {
+            if (!file_exists($file = Filesystem::join($this->directory, $this->locale).'.php')) {
+                $this->locale = $this->fallback;
+                return $this->translations();
+            }
+            
+            $this->data[$this->locale] = require $file;
         }
 
-        return $this;
+
+        return $this->data[$this->locale];
     }
 }
