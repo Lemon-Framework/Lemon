@@ -10,6 +10,8 @@ class Components
 {
     public readonly Styles $styles;
 
+    private bool $remove = true;
+
     public function __construct()
     {
         $this->styles = new Styles();
@@ -26,10 +28,14 @@ class Components
         return $result."\033[0m";
     }
 
-    public function parseElement(\DOMNode $element): string
+    public function parseElement(\DOMNode $element, bool $remove = true): string
     {
         if ($element instanceof \DOMText) {
-            return self::removeWhitespace($element);
+            return 
+                $this->remove 
+                ? self::removeWhitespace($element)
+                : $element->textContent
+            ;
         }
 
         $name = $element->nodeName;
@@ -43,6 +49,10 @@ class Components
     }
 
     public function parseDiv(\DOMNode $element): string
+    {
+        return $this->parse($element);
+    }
+    public function parseSpan(\DOMNode $element): string
     {
         return $this->parse($element);
     }
@@ -83,6 +93,14 @@ class Components
     public function parseP(\DOMNode $node): string
     {
         return $this->parse($node).PHP_EOL;
+    }
+
+    public function parseCode(\DOMNode $node): string
+    {
+        $this->remove = false;
+        $result = $this->parse($node); 
+        $this->remove = true;
+        return $result;
     }
 
     public static function lenght(string $target): int

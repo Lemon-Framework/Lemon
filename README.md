@@ -21,7 +21,7 @@ Lemon is microframework for php designed to be simple for begginers. <!-- TODO -
 
 ## Learning Lemon
 
-There is [documentation](https://github.com/Lemon-Framework/docs) (currently unfinished). And there are discord events of writing apps in Lemon (in Czech)
+There is [documentation](https://lemon-framework.github.io/docs) (currently unfinished). And there are discord events of writing apps in Lemon (in Czech)
 
 ## Installing
 

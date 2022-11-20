@@ -25,9 +25,7 @@ class Handler
     public function handle(\Throwable $problem): void
     {
         if ($this->application->runsInTerminal()) {
-            echo $problem;
-
-            return;
+            (new TerminalReporter($problem, $this->application))->report();
         }
 
         if ($this->config->get('debug.debug')) {
