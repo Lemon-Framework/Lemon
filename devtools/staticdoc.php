@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 use Lemon\Support\Filesystem;
 use Lemon\Support\Types\Arr;
-use Lemon\Support\Types\Str;
 
 define('LEMON_NO_INIT', true);
 
@@ -48,9 +47,9 @@ $file = $ref->getFileName();
 Filesystem::write($file, preg_replace(
     '/\s*\*\s*@see.+/',
     PHP_EOL
-    .Str::join(
+    .implode(
         PHP_EOL,
-        Arr::map($functions, static fn ($item) => ' * @method static '.Str::join(' ', $item))->content
+        array_map($functions, static fn ($item) => ' * @method static '.implode(' ', $item))->content
     )
     .PHP_EOL
     .' *'
