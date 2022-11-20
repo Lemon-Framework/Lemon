@@ -55,4 +55,17 @@ class Translator implements TranslatorContract
 
         return $this->data[$this->locale];
     }
+
+    public function locale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Returns whenever curent locale is given locale
+     */
+    public function is(string $locale): bool
+    {
+        return $this->locale === $locale;
+    } 
 }
