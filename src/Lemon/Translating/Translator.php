@@ -27,6 +27,9 @@ class Translator implements TranslatorContract
         $this->locale = $this->fallback;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function text(string $key): string
     {
         return 
@@ -35,12 +38,18 @@ class Translator implements TranslatorContract
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function locate(string $locale): self
     {
         $this->locale = $locale;
         return $this;
     }
 
+    /**
+     * Returns translations of curent locale
+     */
     public function translations(): array 
     {
         if (!isset($this->data[$this->locale])) {
@@ -56,6 +65,9 @@ class Translator implements TranslatorContract
         return $this->data[$this->locale];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function locale(): string
     {
         return $this->locale;

@@ -17,7 +17,7 @@ interface Translator
     public function locate(string $locale): self;
 
     /**
-     * Returns curen locale (language)
+     * Returns curent locale (language)
      */
     public function locale(): string;
 }
