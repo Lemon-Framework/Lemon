@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon\Translating;
 
-use Lemon\Contracts\Translating\Translator as TranslatorContract;
 use Lemon\Contracts\Config\Config;
+use Lemon\Contracts\Translating\Translator as TranslatorContract;
 use Lemon\Support\Filesystem;
 use Lemon\Translating\Exceptions\TranslatorException;
 
@@ -32,8 +32,8 @@ class Translator implements TranslatorContract
      */
     public function text(string $key): string
     {
-        return 
-            $this->translations()[$key] 
+        return
+            $this->translations()[$key]
             ?? throw new TranslatorException('Undefined translation text '.$this->locale.'.'.$key)
         ;
     }
@@ -44,23 +44,24 @@ class Translator implements TranslatorContract
     public function locate(string $locale): self
     {
         $this->locale = $locale;
+
         return $this;
     }
 
     /**
-     * Returns translations of curent locale
+     * Returns translations of curent locale.
      */
-    public function translations(): array 
+    public function translations(): array
     {
         if (!isset($this->data[$this->locale])) {
             if (!file_exists($file = Filesystem::join($this->directory, $this->locale).'.php')) {
                 $this->locale = $this->fallback;
+
                 return $this->translations();
             }
-            
+
             $this->data[$this->locale] = require $file;
         }
-
 
         return $this->data[$this->locale];
     }
@@ -74,10 +75,10 @@ class Translator implements TranslatorContract
     }
 
     /**
-     * Returns whenever curent locale is given locale
+     * Returns whenever curent locale is given locale.
      */
     public function is(string $locale): bool
     {
         return $this->locale === $locale;
-    } 
+    }
 }

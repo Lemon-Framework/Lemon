@@ -1,6 +1,6 @@
 # 🍋 Lemon
 
-Lemon is microframework for php designed to be simple for begginers. <!-- TODO -->
+Lemon is php microframework built for learning web frameworks.
 
 ## Features
 

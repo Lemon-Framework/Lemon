@@ -25,12 +25,13 @@ class TerminalReporter
     public function report(): void
     {
         $this->app->get('terminal')->out($this->output());
-        die();
+
+        exit;
     }
 
     public function output(): string
     {
-        $severity = 
+        $severity =
             $this->problem instanceof ErrorException
             ? Reporter::severityToString($this->problem->getCode())
             : $this->problem::class
@@ -43,13 +44,14 @@ class TerminalReporter
         $hint = $hint ? '<p>'.$hint.'</p>' : '';
         $code = $this->code();
         $trace = $this->problem->getTrace();
-        $trace = array_reduce($trace, fn(string $carry, array $item) =>
-            isset($item['file'])
+        $trace = array_reduce(
+            $trace,
+            fn (string $carry, array $item) => isset($item['file'])
             ? $carry.'<p>'.str_replace($this->app->directory, '', $file = $item['file']).':'.$item['line'].'</p>'
-            : $carry
-            ,
+            : $carry,
             ''
         );
+
         return "
 <br>
 <div class=\"text-red\">
@@ -68,14 +70,14 @@ class TerminalReporter
     {
         $config = $this->app->get(Config::class);
         foreach ([
-                Highlighter::Declaration => 'class="text-cyan"',
-                Highlighter::Statement => 'class="text-red"',
-                Highlighter::Number => 'class="text-magenta"',
-                Highlighter::String => 'class="text-green"',
-                Highlighter::Type => 'class="text-yellow"',
-                Highlighter::Comment => 'class="text-white"',
-                Highlighter::Variable => 'class="text-blue"',
-                Highlighter::Default => '',
+            Highlighter::Declaration => 'class="text-cyan"',
+            Highlighter::Statement => 'class="text-red"',
+            Highlighter::Number => 'class="text-magenta"',
+            Highlighter::String => 'class="text-green"',
+            Highlighter::Type => 'class="text-yellow"',
+            Highlighter::Comment => 'class="text-white"',
+            Highlighter::Variable => 'class="text-blue"',
+            Highlighter::Default => '',
         ] as $syntax => $class) {
             $config->set('highlighter.'.$syntax, $class);
         }
@@ -93,13 +95,13 @@ class TerminalReporter
 
         $result = '';
 
-        for ($i = $start; $i < $end; $i++) {
-            $number = str_pad((string)$i, 3, ' ', STR_PAD_LEFT);
-            $number = 
+        for ($i = $start; $i < $end; ++$i) {
+            $number = str_pad((string) $i, 3, ' ', STR_PAD_LEFT);
+            $number =
                 $i === $this->problem->getLine()
                 ? '<span class="text-red">'.$number.'</span>'
                 : $number
-                ;
+            ;
 
             $result .= $number.' | '.$lines[$i - 1]."\n";
         }

@@ -82,7 +82,7 @@ class Terminal implements TerminalContract
 
             if (is_string($result)) {
                 $this->out("<div class=\"text-red\">ERROR: {$result}</div>");
-    
+
                 return;
             }
 

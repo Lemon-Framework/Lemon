@@ -9,6 +9,7 @@ namespace Lemon;
  * Provides static layer over the Lemon Highlighter.
  *
  * @method static string highlight(string $code)
+ *
  * @see \Lemon\Highlighter\Highlighter
  */
 class Highlighter extends Zest

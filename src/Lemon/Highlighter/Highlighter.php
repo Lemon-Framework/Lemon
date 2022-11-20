@@ -10,15 +10,14 @@ use PhpToken;
 
 class Highlighter implements HighlighterContract
 {
-    public const 
-        Declaration = 0,
-        Statement = 1,
-        Number = 2,
-        String = 3,
-        Type = 4,
-        Comment = 5,
-        Variable = 6,
-        Default = 7
+    public const Declaration = 0;
+    public const Statement = 1;
+    public const Number = 2;
+    public const String = 3;
+    public const Type = 4;
+    public const Comment = 5;
+    public const Variable = 6;
+    public const Default = 7
     ;
 
     public const TokenToColor = [
@@ -92,13 +91,12 @@ class Highlighter implements HighlighterContract
         T_USE => self::Declaration,
         T_VARIABLE => self::Variable,
         T_YIELD => self::Statement,
-        T_YIELD_FROM => self::Statement
+        T_YIELD_FROM => self::Statement,
     ];
 
     public function __construct(
-        public readonly Config $config 
+        public readonly Config $config
     ) {
-
     }
 
     public function highlight(string $code): string
@@ -107,6 +105,7 @@ class Highlighter implements HighlighterContract
         foreach (PhpToken::tokenize($code) as $token) {
             if ($token->is(T_WHITESPACE)) {
                 $result .= $token->text;
+
                 continue;
             }
 

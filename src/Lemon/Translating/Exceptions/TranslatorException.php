@@ -6,5 +6,4 @@ namespace Lemon\Translating\Exceptions;
 
 class TranslatorException extends \Exception
 {
-
 }

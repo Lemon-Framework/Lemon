@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Debug;
 
+use Exception;
 use Lemon\Config\Config;
 use Lemon\Contracts\Config\Config as LemonConfig;
 use Lemon\Contracts\Highlighter\Highlighter as LemonHighlighter;
@@ -11,10 +12,11 @@ use Lemon\Debug\Handling\TerminalReporter;
 use Lemon\Highlighter\Highlighter;
 use Lemon\Kernel\Application;
 use Lemon\Tests\TestCase;
-use Exception;
-use Mockery;
-use Throwable;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class TerminalReporterTest extends TestCase
 {
     public function testCode(): void
@@ -24,7 +26,7 @@ class TerminalReporterTest extends TestCase
         $app->add(Highlighter::class)->alias(LemonHighlighter::class, Highlighter::class);
         $app->add(Config::class)->alias(LemonConfig::class, Config::class);
         $reporter = new TerminalReporter($problem, $app);
- 
+
         $this->assertSame(<<<'HTML'
           1 | <span >1
           2 | 2
@@ -42,7 +44,7 @@ class TerminalReporterTest extends TestCase
 
         $problem = new Problem(__DIR__.DIRECTORY_SEPARATOR.'foo.php', 1);
         $reporter = new TerminalReporter($problem, $app);
- 
+
         $this->assertSame(<<<'HTML'
         <span class="text-red">  1</span> | <span >1
           2 | 2
@@ -55,7 +57,7 @@ class TerminalReporterTest extends TestCase
 
         $problem = new Problem(__DIR__.DIRECTORY_SEPARATOR.'foo.php', 15);
         $reporter = new TerminalReporter($problem, $app);
- 
+
         $this->assertSame(<<<'HTML'
          10 | 10
          11 | 11

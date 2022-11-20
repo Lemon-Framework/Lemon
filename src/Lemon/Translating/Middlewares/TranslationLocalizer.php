@@ -12,5 +12,5 @@ class TranslationLocalizer
     public function handle(Translator $translator, Session $session)
     {
         $translator->locate($session->get('locale'));
-    }    
+    }
 }

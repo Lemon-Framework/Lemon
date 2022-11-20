@@ -9,6 +9,10 @@ use Lemon\Highlighter\Highlighter;
 use Lemon\Kernel\Application;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class HighlighterTest extends TestCase
 {
     public function testHighlighting(): void
@@ -16,7 +20,7 @@ class HighlighterTest extends TestCase
         $highlighter = new Highlighter(
             new Config(new Application(__DIR__))
         );
- 
+
         $this->assertSame(<<<'HTML'
         <span style="color: #ebdbb2"><h1>foo</h1>
         </span><span style="color: #cc241d"><?php
@@ -32,6 +36,5 @@ class HighlighterTest extends TestCase
             array_map($bar, fn() => 10 + 1);
         }
         HTML));
-
     }
 }

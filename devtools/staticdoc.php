@@ -7,7 +7,6 @@ declare(strict_types=1);
 // Majkel 1645651386
 
 use Lemon\Support\Filesystem;
-use Lemon\Support\Types\Arr;
 
 define('LEMON_NO_INIT', true);
 

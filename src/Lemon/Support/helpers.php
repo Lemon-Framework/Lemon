@@ -164,7 +164,7 @@ if (!function_exists('template')) {
 
 if (!function_exists('text')) {
     /**
-     * Returns text of given key
+     * Returns text of given key.
      */
     function text(string $key): string
     {

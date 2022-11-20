@@ -10,6 +10,10 @@ use Lemon\Translating\Exceptions\TranslatorException;
 use Lemon\Translating\Translator;
 use Mockery;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class TranslatorTest extends TestCase
 {
     public function testText()
@@ -19,7 +23,7 @@ class TranslatorTest extends TestCase
             ->shouldReceive('file')
             ->andReturn(__DIR__.DIRECTORY_SEPARATOR.'translations')
         ;
-        
+
         $mock
             ->shouldReceive('get')
             ->andReturn('en')
@@ -31,7 +35,7 @@ class TranslatorTest extends TestCase
         $this->assertSame('Vitejte v citronove ramopraci', $translator->text('title'));
         $translator->locate('sk');
         $this->assertSame('Welcome to the Lemon Framework', $translator->text('title'));
-        $this->assertThrowable(function(Translator $translator) {
+        $this->assertThrowable(function (Translator $translator) {
             $translator->text('parek');
         }, TranslatorException::class, $translator);
     }

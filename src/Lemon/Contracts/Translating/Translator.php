@@ -7,17 +7,17 @@ namespace Lemon\Contracts\Translating;
 interface Translator
 {
     /**
-     * Returns text of given key
+     * Returns text of given key.
      */
     public function text(string $key): string;
 
     /**
-     * Sets locale (language) to curent user
+     * Sets locale (language) to curent user.
      */
     public function locate(string $locale): self;
 
     /**
-     * Returns curent locale (language)
+     * Returns curent locale (language).
      */
     public function locale(): string;
 }

@@ -31,8 +31,8 @@ class Components
     public function parseElement(\DOMNode $element, bool $remove = true): string
     {
         if ($element instanceof \DOMText) {
-            return 
-                $this->remove 
+            return
+                $this->remove
                 ? self::removeWhitespace($element)
                 : $element->textContent
             ;
@@ -52,6 +52,7 @@ class Components
     {
         return $this->parse($element);
     }
+
     public function parseSpan(\DOMNode $element): string
     {
         return $this->parse($element);
@@ -98,8 +99,9 @@ class Components
     public function parseCode(\DOMNode $node): string
     {
         $this->remove = false;
-        $result = $this->parse($node); 
+        $result = $this->parse($node);
         $this->remove = true;
+
         return $result;
     }
 
