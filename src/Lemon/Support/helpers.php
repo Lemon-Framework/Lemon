@@ -161,3 +161,13 @@ if (!function_exists('template')) {
         return \Lemon\Template::make($template, $data);
     }
 }
+
+if (!function_exists('text')) {
+    /**
+     * Returns text of given key
+     */
+    function text(string $key): string
+    {
+        return \Lemon\Translator::text($key);
+    }
+}

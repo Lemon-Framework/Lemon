@@ -32,6 +32,7 @@ use Lemon\Zest;
  * @property \Lemon\Logging\Logger            $log
  * @property \Lemon\Database\Database         $database
  * @property \Lemon\Validation\Validator      $validation
+ * @property \Lemon\Translating\Translator    $translator
  * @property \Lemon\Highlighter\Highlighter   $highlighter
  */
 final class Application extends Container
@@ -61,6 +62,7 @@ final class Application extends Container
         \Lemon\Logging\Logger::class => ['log', \Psr\Log\LoggerInterface::class, Contracts\Logging\Logger::class],
         \Lemon\Database\Database::class => ['database', Contracts\Database\Database::class],
         \Lemon\Validation\Validator::class => ['validation', Contracts\Validation\Validator::class],
+        \Lemon\Translating\Translator::class => ['translator', Contracts\Translating\Translator::class],
         \Lemon\Highlighter\Highlighter::class => ['highlighter', Contracts\Highlighter\Highlighter::class],
     ];
 

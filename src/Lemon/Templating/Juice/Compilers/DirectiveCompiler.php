@@ -32,6 +32,7 @@ final class DirectiveCompiler
         'block' => Directives\Layout\BlockDirective::class,
         'yield' => Directives\Layout\YieldDirective::class,
         'csrf' => Directives\CsrfDirective::class,
+        'text' => Directives\TranslationDirective::class,
     ];
 
     private Container $compilers;
