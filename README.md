@@ -29,6 +29,8 @@ If you had any questions, you can ask them on [Lemon Discord](https://discord.gg
 
 `composer require lemon_framework/lemon`
 
+Required version of php is 8.1.
+
 ## Thanks
 
 - CoolFido - Psychical helping, contributting, ideas, the whole idea of creating framework from scratch (he didn't expect that to happen)
