@@ -23,6 +23,8 @@ Lemon is php microframework built for learning web frameworks.
 
 There is [documentation](https://lemon-framework.github.io/docs) (currently unfinished). And there are discord events of writing apps in Lemon (in Czech)
 
+If you had any questions, you can ask them on [Lemon Discord](https://discord.gg/tsqBauhb8c).
+
 ## Installing
 
 `composer require lemon_framework/lemon`
