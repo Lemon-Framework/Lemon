@@ -139,7 +139,7 @@ final class Application extends Container
         throw new \ErrorException($error, 0, $severity, $file, $line);
     }
 
-    public function handleEnd()
+    public function handleEnd(): void
     {
         $error = error_get_last();
         if (!$error) {
@@ -154,6 +154,9 @@ final class Application extends Container
      */
     public function loadCommands(): void
     {
+        if (!$this->runsInTerminal()) {
+            return;
+        }
         $commands = new Commands($this->get('terminal'), $this->get('config'), $this);
         $commands->load();
     }
