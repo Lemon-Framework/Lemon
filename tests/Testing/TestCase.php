@@ -29,7 +29,7 @@ abstract class TestCase extends BaseTestCase
                 return (new HtmlResponse(headers: ['Location' => 'foo']))->cookie('foo', 'bar');
             }
 
-            return new TemplateResponse(new Template('foo/bar.juice', 'foo/bar.php', ['foo' => 'bar', 'bar' => 'baz']));
+            return new TemplateResponse(new Template('foo/bar.juice', 'foo/bar.php', ['foo' => 'bar']));
         });
         $app->add(get_class($routing), $routing);
         $app->alias(Router::class, get_class($routing));

@@ -26,22 +26,17 @@ class TestResponseTest extends TestCase
 
     public function testTemplate()
     {
-        $this->request('foo')->assertTemplate('foo.bar', foo: 'bar', bar: 'baz');
-        $this->request('foo')->assertTemplate('foo.bar', bar: 'baz', foo: 'bar');
+        $this->request('foo')->assertTemplate('foo.bar');
         $this->expectException(AssertionFailedError::class);
         $this->request('/')->assertTemplate('foo.bar');
     }
 
-    public function testTemplateBadDataError()
+    public function testTemplateData()
     {
-        $this->expectException(AssertionFailedError::class);
-        $this->request('foo')->assertTemplate('foo.bar', foo: 'AAAAAAa', bar: 'baz');
-    }
-
-    public function testTemplateDataError()
-    {
-        $this->expectException(AssertionFailedError::class);
         $this->request('foo')->assertTemplate('foo.bar', foo: 'bar');
+        $this->request('foo')->assertTemplate('foo.bar', bar: null);
+        $this->expectException(AssertionFailedError::class);
+        $this->request('foo')->assertTemplate('foo.bar', foo: 'AAAAAAa');
     }
 
     public function testHeader()

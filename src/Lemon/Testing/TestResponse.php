@@ -49,7 +49,11 @@ final class TestResponse
         $this->testCase->assertSame($path, $this->response->body->raw_path);
 
         $data = $this->response->body->data;
-        $this->testCase->assertEquals($data, $with);
+        foreach ($with as $key => $value) {
+            if (($data[$key] ?? null) !== $value) {
+                $this->testCase->fail('Failed asserting that template data match');
+            }
+        }
 
         return $this;
     }
