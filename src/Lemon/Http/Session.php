@@ -68,7 +68,7 @@ class Session implements SessionContract
     /**
      * Returns value of given key.
      */
-    public function get(string $key): string
+    public function get(string $key): mixed
     {
         $this->init();
         if (!$this->has($key)) {
