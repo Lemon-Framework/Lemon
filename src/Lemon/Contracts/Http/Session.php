@@ -19,7 +19,7 @@ interface Session
     /**
      * Returns value of given key.
      */
-    public function get(string $key): string;
+    public function get(string $key): mixed;
 
     /**
      * Sets value for given key.
