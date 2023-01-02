@@ -11,7 +11,7 @@ namespace Lemon;
  * @method static void                init()                         Starts session if not started.
  * @method static \Lemon\Http\Session expireAt(int $seconds)         Sets expiration.
  * @method static \Lemon\Http\Session dontExpire()                   Removes expiration.
- * @method static string              get(string $key)               Returns value of given key.
+ * @method static array               get(string $key)               Returns value of given key.
  * @method static \Lemon\Http\Session set(string $key, mixed $value) Sets value for given key.
  * @method static bool                has(string $key)               Determins whenever key exists.
  * @method static \Lemon\Http\Sessionremove(string $key)             Removes key.
