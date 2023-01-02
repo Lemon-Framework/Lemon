@@ -31,6 +31,13 @@ class TestResponseTest extends TestCase
         $this->request('/')->assertTemplate('foo.bar');
     }
 
+    public function testTemplateData()
+    {
+        $this->request('foo')->assertTemplate('foo.bar', foo: 'bar');
+        $this->expectException(AssertionFailedError::class);
+        $this->request('foo')->assertTemplate('foo.bar', foo: 'AAAAAAa');
+    }
+
     public function testHeader()
     {
         $this->request('/')->assertHeader('Location', 'foo');

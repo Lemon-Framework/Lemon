@@ -14,7 +14,7 @@ final class Template
     public function __construct(
         public readonly string $raw_path,
         public readonly string $compiled_path,
-        private array $data
+        public readonly array $data
     ) {
     }
 
@@ -27,7 +27,9 @@ final class Template
     {
         ob_start();
 
-        extract($this->data);
+        $data = $this->data;
+
+        extract($data);
 
         try {
             require $this->compiled_path;

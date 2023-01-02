@@ -38,7 +38,7 @@ final class TestResponse
         return $this;
     }
 
-    public function assertTemplate(string $expected_name): self
+    public function assertTemplate(string $expected_name, mixed ...$with): self
     {
         if (!$this->response->body instanceof Template) {
             $this->testCase->fail('Failed asserting that response body is template');
@@ -47,6 +47,13 @@ final class TestResponse
         $path = $this->factory->getRawPath($expected_name);
 
         $this->testCase->assertSame($path, $this->response->body->raw_path);
+
+        $data = $this->response->body->data;
+        foreach ($with as $key => $value) {
+            if ($data[$key] !== $value) {
+                $this->testCase->fail('Failed asserting that template data match');
+            }
+        }
 
         return $this;
     }
