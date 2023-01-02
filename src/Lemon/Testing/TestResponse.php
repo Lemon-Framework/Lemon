@@ -50,7 +50,7 @@ final class TestResponse
 
         $data = $this->response->body->data;
         foreach ($with as $key => $value) {
-            if ($data[$key] !== $value) {
+            if (($data[$key] ?? null) !== $value) {
                 $this->testCase->fail('Failed asserting that template data match');
             }
         }
