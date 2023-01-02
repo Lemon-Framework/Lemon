@@ -19,7 +19,7 @@ final class SessionMock implements Session
     ) {
     }
 
-    public function get(string $key): array
+    public function get(string $key): mixed
     {
         if (!$this->has($key)) {
             throw new SessionException('Session key '.$key.' does not exist');
