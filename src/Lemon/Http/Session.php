@@ -52,6 +52,7 @@ class Session implements SessionContract
     {
         if ($this->started) {
             session_commit();
+            $this->started = false;
         }
 
         session_set_cookie_params($seconds);
