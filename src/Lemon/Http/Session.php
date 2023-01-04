@@ -116,6 +116,6 @@ class Session implements SessionContract
     public function clear(): void
     {
         $this->init();
-        session_destroy();
+        session_unset();
     }
 }
