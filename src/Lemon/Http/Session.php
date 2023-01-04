@@ -50,9 +50,14 @@ class Session implements SessionContract
      */
     public function expireAt(int $seconds): static
     {
-        $this->init();
+        if ($this->started) {
+            session_commit();
+        }
 
         session_set_cookie_params($seconds);
+
+        $this->init();
+
 
         return $this;
     }
