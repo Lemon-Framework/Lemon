@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Kernel;
 
+use Fiber;
 use Lemon\Kernel\Exceptions\ContainerException;
 use Lemon\Kernel\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
@@ -119,7 +120,9 @@ class Container implements ContainerInterface
             }
         }
 
-        return $callback(...$injected);
+        $action = new Fiber($callback);
+
+        return $action->start(...$injected) ?? $action->getReturn();
     }
 
     /**
