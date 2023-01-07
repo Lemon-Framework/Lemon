@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Lemon\Validation;
 
+use Lemon\Validation\Exceptions\ValidatorException;
+
 class Rules
 {
     private array $rules = [];
