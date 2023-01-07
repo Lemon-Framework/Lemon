@@ -17,7 +17,7 @@ class CookieJar implements CookieJarContract
 
     }
 
-    public function get(string $name): string
+    public function get(string $name): ?string
     {
         return $this->request->getCookie($name);
     }
@@ -30,7 +30,10 @@ class CookieJar implements CookieJarContract
 
     public function delete(string $name): static
     {
-        $this->set_cookies[] = [$name, '', time() - 3600];
+        if (!$this->request->hasCookie($name)) {
+            return $this;
+        }
+        $this->set_cookies[] = [$name, '', -1];
         return $this;
     }
 

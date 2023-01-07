@@ -17,7 +17,7 @@ class Reporter
 
     public function __construct(
         private \Throwable $exception,
-        private Request $request,
+        private ?Request $request,
         private Application $application
     ) {
         $this->consultant = new Consultant();
@@ -25,7 +25,7 @@ class Reporter
 
     public function report(): void
     {
-        (new TemplateResponse($this->getTemplate(), 500))->send();
+        (new TemplateResponse($this->getTemplate(), 500))->send($this->application);
     }
 
     public function getTemplate(): Template
@@ -50,7 +50,7 @@ class Reporter
             'message' => $problem->getMessage(),
             'hint' => $this->consultant->giveAdvice($problem->getMessage()),
             'trace' => $this->getTrace(),
-            'request' => $this->request->toArray(),
+            'request' => is_null($this->request) ? [] : $this->request->toArray(),
         ];
     }
 

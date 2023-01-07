@@ -6,7 +6,7 @@ namespace Lemon\Contracts\Http;
 
 interface CookieJar
 {
-    public function get(string $name): string;
+    public function get(string $name): ?string;
 
     public function set(string $name, string $value, int $expires = 0): static;
 

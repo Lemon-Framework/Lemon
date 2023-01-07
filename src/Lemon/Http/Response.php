@@ -115,7 +115,7 @@ abstract class Response
         $body = $this->parseBody();
         $this->handleHeaders();
         $this->handleStatusCode();
-        $this->handleCookies($app->get('cookies'));
+        $this->handleCookies($app->has('cookies') ? $app->get('cookies')->cookies() : []);
         $this->handleBody($body);
 
         return $this;
@@ -220,9 +220,9 @@ abstract class Response
         echo $body;
     }
 
-    public function handleCookies(CookieJar $cookies): void
+    public function handleCookies(array $cookies): void
     {
-        foreach ([...$this->cookies, ...$cookies->cookies()] as $cookie) {
+        foreach ([...$this->cookies, ...$cookies] as $cookie) {
             setcookie(...[...$cookie, 'httponly' => false]);
         }
     }
