@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Lemon\Tests\Routing;
 
 use Lemon\Config\Config;
+use Lemon\Contracts\Http\CookieJar as CookieJarContract;
 use Lemon\Contracts\Http\ResponseFactory as ResponseFactoryContract;
 use Lemon\Contracts\Protection\Csrf as CsrfContract;
 use Lemon\Contracts\Routing\Router as RouterContract;
+use Lemon\Http\CookieJar;
 use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\HtmlResponse;
@@ -51,6 +53,9 @@ class MiddlewareTest extends TestCase
         $f = new Factory($c, new Compiler($c), $l);
         $r = new Router($l, $rs = new ResponseFactory($f, $l));
 
+        $l->add(CookieJar::class);
+        $l->alias(CookieJarContract::class, CookieJar::class);
+
         $l->add(Request::class, $re = new Request('/', '', 'GET', [], '', [], [], ''));
 
         $l->add(ProtectionCsrf::class);
@@ -65,7 +70,6 @@ class MiddlewareTest extends TestCase
         $l->add(Logger::class);
 
         $r->get('/', fn () => 'foo')->middleware(Csrf::class);
-
 
         $r->get('admin', fn(Logger $logger) => $logger->log('foo'))->middleware([TestingMiddleware::class, 'onlyAuthenticated']);
 
