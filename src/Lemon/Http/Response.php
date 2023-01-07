@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Lemon\Http;
 
+use Lemon\Contracts\Http\CookieJar;
+use Lemon\Kernel\Application;
+
+
 /**
  * Represents Http Response.
  *
@@ -106,12 +110,12 @@ abstract class Response
     /**
      * Sends response data back to user.
      */
-    public function send(): static
+    public function send(Application $app): static
     {
         $body = $this->parseBody();
         $this->handleHeaders();
         $this->handleStatusCode();
-        $this->handleCookies();
+        $this->handleCookies($app->get('cookies'));
         $this->handleBody($body);
 
         return $this;
@@ -216,9 +220,9 @@ abstract class Response
         echo $body;
     }
 
-    public function handleCookies(): void
+    public function handleCookies(CookieJar $cookies): void
     {
-        foreach ($this->cookies as $cookie) {
+        foreach ([...$this->cookies, ...$cookies->cookies()] as $cookie) {
             setcookie(...[...$cookie, 'httponly' => false]);
         }
     }

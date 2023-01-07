@@ -64,6 +64,7 @@ final class Application extends Container
         \Lemon\Validation\Validator::class => ['validation', Contracts\Validation\Validator::class],
         \Lemon\Translating\Translator::class => ['translator', Contracts\Translating\Translator::class],
         \Lemon\Highlighter\Highlighter::class => ['highlighter', Contracts\Highlighter\Highlighter::class],
+        \Lemon\Http\CookieJar::class => ['cookies', Contracts\Http\CookieJar::class],
     ];
 
     /**
@@ -191,7 +192,7 @@ final class Application extends Container
     public function boot(): void
     {
         try {
-            $this->get('routing')->dispatch($this->get(Request::class))->send();
+            $this->get('routing')->dispatch($this->get(Request::class))->send($this);
         } catch (\Exception|\Error $e) {
             $this->handle($e);
         }
