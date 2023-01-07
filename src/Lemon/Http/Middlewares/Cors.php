@@ -8,6 +8,7 @@ use Lemon\Config\Exceptions\ConfigException;
 use Lemon\Contracts\Config\Config;
 use Lemon\Http\Request;
 use Lemon\Http\Response;
+use Lemon\Routing\Attributes\AfterAction;
 
 /**
  * Cors.handling middleware
@@ -19,6 +20,7 @@ class Cors
 {
     private Response $response;
 
+    #[AfterAction()]
     public function handle(Config $config, Request $request, Response $response): Response
     {
         $this->response = $response;

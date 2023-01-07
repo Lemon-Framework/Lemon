@@ -8,9 +8,11 @@ use Lemon\Contracts\Http\ResponseFactory;
 use Lemon\Contracts\Protection\Csrf as ProtectionCsrf;
 use Lemon\Http\Request;
 use Lemon\Http\Response;
+use Lemon\Routing\Attributes\AfterAction;
 
 class Csrf
 {
+    #[AfterAction()]
     public function handle(Request $request, ProtectionCsrf $csrf, ResponseFactory $responseFactory, Response $response)
     {
         if ('GET' != $request->method) {
