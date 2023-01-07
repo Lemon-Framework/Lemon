@@ -25,7 +25,7 @@ final class Environment
     /**
      * Escapes data into javascript-ready.
      */
-    public function escapeScript(string $content): string
+    public function escapeScript(mixed $content): string
     {
         return json_encode($content);
     }
