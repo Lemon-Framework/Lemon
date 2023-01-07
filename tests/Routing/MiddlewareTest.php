@@ -15,6 +15,7 @@ use Lemon\Http\Responses\TemplateResponse;
 use Lemon\Kernel\Application;
 use Lemon\Protection\Csrf as ProtectionCsrf;
 use Lemon\Protection\Middlwares\Csrf;
+use Lemon\Routing\Attributes\AfterAction;
 use Lemon\Routing\MiddlewareCollection;
 use Lemon\Routing\Router;
 use Lemon\Templating\Factory;
@@ -61,12 +62,64 @@ class MiddlewareTest extends TestCase
         $l->add(Router::class, $r);
         $l->alias(RouterContract::class, Router::class);
 
+        $l->add(Logger::class);
+
         $r->get('/', fn () => 'foo')->middleware(Csrf::class);
+
+
+        $r->get('admin', fn(Logger $logger) => $logger->log('foo'))->middleware([TestingMiddleware::class, 'onlyAuthenticated']);
+
+        $r->get('foo', fn(Logger $logger) => $logger->log('foo'))->middleware([TestingMiddleware::class, 'onlyAuthenticatedButAfter']); 
 
         $this->assertInstanceOf(HtmlResponse::class, $r->dispatch($re));
 
         $l->add(Request::class, $re = new Request('/', '', 'POST', [], '', [], [], ''));
 
         $this->assertInstanceOf(TemplateResponse::class, $r->dispatch($re));
+
+        $l->add(Request::class, $re = new Request('/admin', '', 'GET', [], '', [], [], ''));
+
+        $this->assertSame('foo', $r->dispatch($re)->parseBody());
+        $this->assertEmpty($l->get(Logger::class)->messages());
+
+        $l->add(Request::class, $re = new Request('/foo', '', 'GET', [], '', [], [], ''));
+
+        $this->assertSame('foo', $r->dispatch($re)->parseBody());
+        $this->assertSame(['foo'], $l->get(Logger::class)->messages());
+
     }
+}
+
+class TestingMiddleware
+{
+    public function onlyAuthenticated(Request $request)
+    {
+        if (!$request->hasCookie('parek')) {
+            return 'foo';
+        }
+    }
+
+    #[AfterAction()] 
+    public function onlyAuthenticatedButAfter(Request $request)
+    {
+        if (!$request->hasCookie('parek')) {
+            return 'foo';
+        }
+    }
+}
+
+class Logger
+{
+    private array $logs = [];
+
+    public function log(string $message)
+    {
+        $this->logs[] = $message;
+    }
+
+    public function messages(): array
+    {
+        return $this->logs;
+    }
+
 }

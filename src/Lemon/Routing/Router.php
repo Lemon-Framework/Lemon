@@ -11,7 +11,10 @@ use Lemon\Http\Request;
 use Lemon\Http\Response;
 use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Kernel\Application;
+use Lemon\Routing\Attributes\AfterAction;
+use Lemon\Routing\Attributes\BeforeAction;
 use Lemon\Routing\Exceptions\RouteException;
+use ReflectionMethod;
 
 /**
  * The Lemon Router.
@@ -196,10 +199,27 @@ class Router implements RouterContract
             return $this->response->error(400);
         }
 
+        $after = [];
+
+        foreach ($route->middlewares->resolve() as $middleware) {
+            $reflection = new ReflectionMethod(...$middleware);
+            if (!empty($reflection->getAttributes(AfterAction::class))) {
+                $after[] = $middleware;
+                continue;
+            }
+
+            $response = $this->response->make($middleware);
+            if ($response instanceof EmptyResponse) {
+                continue;
+            }
+
+            return $response;
+        }
+
         $prototype = $this->response->make($action, $result[1]);
         $this->application->add(Response::class, $prototype);
 
-        foreach ($route->middlewares->resolve() as $middleware) {
+        foreach ($after as $middleware) {
             $response = $this->response->make($middleware);
             if ($response instanceof EmptyResponse || $response === $prototype) {
                 continue;
