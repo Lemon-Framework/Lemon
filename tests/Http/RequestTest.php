@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Http;
 
+use Fiber;
+use Lemon\Contracts\Validation\Validator as ValidatorContract;
 use Lemon\Http\File;
 use Lemon\Http\Request;
+use Lemon\Kernel\Application;
 use Lemon\Tests\TestCase;
+use Lemon\Validation\Validator;
 
 /**
  * @internal
@@ -59,11 +63,11 @@ class RequestTest extends TestCase
         $this->assertSame(['parek' => 'rizek', 'nevim' => 'neco'], $r->query());
     }
 
-    public function testValidation()
+    public function testValidationError()
     {
         $r = new Request('/', '', 'GET', ['Content-Type' => 'application/json'], '{"foo":"bar"}', [], [], '');
         $this->assertThrowable(function () use ($r) {
-            $r->validate(['foo' => 'max:3']);
+            $r->validate(['foo' => 'max:3'], '');
         }, \Exception::class);
     }
 
@@ -97,5 +101,40 @@ class RequestTest extends TestCase
 
         $this->assertFileEquals($first, $second);
         unlink($second);
+    }
+
+    public function testValidation()
+    {
+        $r = new Request('/', '', 'GET', ['Content-Type' => 'application/json'], '{"foo":"bar"}', [], [], '');
+        $app = (new Application(__DIR__))->add(Validator::class)->alias(ValidatorContract::class, Validator::class);
+        $r->injectApplication($app);
+
+        $f = new Fiber(function(Request $r) {
+            $r->validate([
+                'foo' => 'numeric'
+            ], 'foo');
+
+            return 'bar';
+        });
+
+        $this->assertSame('foo', $f->start($r));
+    }
+
+    public function testValidationSuccess()
+    {
+        $r = new Request('/', '', 'GET', ['Content-Type' => 'application/json'], '{"foo":10}', [], [], '');
+        $app = (new Application(__DIR__))->add(Validator::class)->alias(ValidatorContract::class, Validator::class);
+        $r->injectApplication($app);
+
+        $f = new Fiber(function(Request $r) {
+            $r->validate([
+                'foo' => 'numeric'
+            ], 'foo');
+
+            return 'bar';
+        });
+
+        $this->assertNull($f->start($r));
+        $this->assertSame('bar', $f->getReturn());
     }
 }
