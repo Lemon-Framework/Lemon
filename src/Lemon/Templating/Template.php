@@ -14,13 +14,24 @@ final class Template
     public function __construct(
         public readonly string $raw_path,
         public readonly string $compiled_path,
-        public readonly array $data
+        private array $data
     ) {
     }
 
     public function __toString(): string
     {
         return $this->render();
+    }
+
+    public function with(...$data): static
+    {
+        $this->data = [...$this->data, ...$data];
+        return $this;
+    }
+
+    public function data(): array
+    {
+        return $this->data;
     }
 
     public function render(): string

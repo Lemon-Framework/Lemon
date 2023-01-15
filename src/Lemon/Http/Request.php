@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Lemon\Http;
 
 use Exception;
+use Fiber;
 use Lemon\Kernel\Application;
-use Lemon\Validation\Validator;
+use Lemon\Contracts\Validation\Validator;
 
 class Request
 {
@@ -172,15 +173,17 @@ class Request
      *
      * @throws \Exception When application is not injected
      */
-    public function validate(array $rules): bool
+    public function validate(array $rules, mixed $fallback): void
     {
         if (!$this->application) {
             throw new \Exception('Application is required for validation. Try injecting using ::injectApplication'); // TODO exception
         }
 
-        return $this->application->get(Validator::class)
+        if (!$this->application->get(Validator::class)
             ->validate($this->data(), $rules)
-        ;
+        ) {
+            Fiber::suspend($fallback);
+        }
     }
 
     public function getCookie(string $name): ?string
