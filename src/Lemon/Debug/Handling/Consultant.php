@@ -4,6 +4,25 @@ declare(strict_types=1);
 
 namespace Lemon\Debug\Handling;
 
+use Lemon\Validation\Exceptions\ValidatorException;
+
+use Lemon\Translating\Exceptions\TranslatorException;
+use Lemon\Terminal\Exceptions\IOException;
+use Lemon\Terminal\Exceptions\HtmlException;
+use Lemon\Terminal\Exceptions\CommandException;
+use Lemon\Templating\Exceptions\TemplateException;
+use Lemon\Templating\Exceptions\SyntaxException;
+use Lemon\Templating\Exceptions\CompilerException;
+use Lemon\Routing\Exceptions\RouteException;
+use Lemon\Kernel\Exceptions\NotFoundException;
+use Lemon\Kernel\Exceptions\ContainerException;
+use Lemon\Http\Exceptions\SessionException;
+use Lemon\Http\Exceptions\CookieException;
+use Lemon\Debug\Exceptions\DebugerException;
+use Lemon\Config\Exceptions\ConfigException;
+use Lemon\Cache\Exceptions\InvalidArgumentException;
+use Lemon\Cache\Exceptions\CacheException;
+
 class Consultant
 {
     public array $signatures = [
@@ -12,14 +31,43 @@ class Consultant
         'Undefined property: ([\w\\\\]+?)::\$(\w+?)' => 'property',
     ];
 
-    public function giveAdvice(string $message): array
+    public array $classes = [
+        CacheException::class => 'digging_deeper/caching',
+        InvalidArgumentException::class => 'digging_deeper/caching',
+        ConfigException::class => 'getting_started/config',
+        DebugerException::class => 'getting_started/debugging',
+        CookieException::class => 'getting_started/cookies',
+        SessionException::class => 'getting_started/session',
+        ContainerException::class => 'digging_deeper/lifecycle',
+        NotFoundException::class => 'digging_deeper/lifecycle',
+        RouteException::class => 'getting_started/routing',
+        CompilerException::class => 'getting_started/templates',
+        SyntaxException::class => 'getting_started/templates',
+        TemplateException::class => 'getting_started/templates',
+        CommandException::class => 'digging_deeper/terminal_in_depth',
+        HtmlException::class => 'digging_deeper/terminal_in_depth',
+        IOException::class => 'digging_deeper/terminal_in_depth',
+        TranslatorException::class => 'digging_deeper/translating',
+        ValidatorException::class => 'getting_started/validation',
+    ];
+
+    public function giveAdvice(string $class, string $message): array
     {
         $handler = $this->findHandler($message);
-        if (empty($handler)) {
-            return $handler;
+        $hints = [];
+        if (!empty($handler)) {
+            $hints = $this->{$handler[0]}($handler[1]);
         }
 
-        return $this->{$handler[0]}($handler[1]);
+        if (!isset($this->classes[$class])) {
+            return $hints;
+        }
+
+        $docs = $this->classes[$class];
+        $hints[] = 'Try reading the <a href="https://lemon-framework.github.io/docs/'.$docs.'.html">documentation</a>.';
+
+        return $hints;
+
     }
 
     public function findHandler(string $message): array
