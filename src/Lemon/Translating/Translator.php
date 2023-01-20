@@ -32,9 +32,14 @@ class Translator implements TranslatorContract
      */
     public function text(string $key): string
     {
+        if (!strpos($key, '.')) {
+            throw new TranslatorException('Translation keys must be in format file.key');
+        }
+
+        [$file, $key] = explode('.', $key);
         return
-            $this->translations()[$key]
-            ?? throw new TranslatorException('Undefined translation text '.$this->locale.'.'.$key)
+            $this->translations($file)[$key]
+            ?? throw new TranslatorException('Undefined translation text '.$this->locale.'.'.$file.'.'.$key);
         ;
     }
 
@@ -51,19 +56,22 @@ class Translator implements TranslatorContract
     /**
      * Returns translations of curent locale.
      */
-    public function translations(): array
+    public function translations(string $filename): array
     {
-        if (!isset($this->data[$this->locale])) {
-            if (!file_exists($file = Filesystem::join($this->directory, $this->locale).'.php')) {
+        if (!isset($this->data[$this->locale][$filename])) {
+            if (!file_exists($file = Filesystem::join($this->directory, $this->locale, $filename).'.php')) {
+                if ($this->locale === $this->fallback) {
+                    throw new TranslatorException('Undefined translation file '.$this->locale.'.'.$filename);
+                }
                 $this->locale = $this->fallback;
 
-                return $this->translations();
+                return $this->translations($filename);
             }
 
-            $this->data[$this->locale] = require $file;
+            $this->data[$this->locale][$file] = require $file;
         }
 
-        return $this->data[$this->locale];
+        return $this->data[$this->locale][$file];
     }
 
     /**
