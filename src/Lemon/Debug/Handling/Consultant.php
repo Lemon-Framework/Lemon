@@ -64,7 +64,7 @@ class Consultant
         }
 
         $docs = $this->classes[$class];
-        $hints[] = 'Try reading the <a href="https://lemon-framework.github.io/docs/'.$docs.'.html">documentation</a>.';
+        $hints[] = 'Try reading the <a href="https://lemon-framework.github.io/docs/'.$docs.'.html">documentation</a>';
 
         return $hints;
 
