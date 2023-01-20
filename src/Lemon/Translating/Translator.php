@@ -39,7 +39,7 @@ class Translator implements TranslatorContract
         [$file, $key] = explode('.', $key);
         return
             $this->translations($file)[$key]
-            ?? throw new TranslatorException('Undefined translation text '.$this->locale.'.'.$file.'.'.$key);
+            ?? throw new TranslatorException('Undefined translation key '.$this->locale.'.'.$file.'.'.$key);
         ;
     }
 
@@ -68,10 +68,10 @@ class Translator implements TranslatorContract
                 return $this->translations($filename);
             }
 
-            $this->data[$this->locale][$file] = require $file;
+            $this->data[$this->locale][$filename] = require $file;
         }
 
-        return $this->data[$this->locale][$file];
+        return $this->data[$this->locale][$filename];
     }
 
     /**
