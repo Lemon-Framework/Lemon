@@ -23,6 +23,9 @@ class Translator implements TranslatorContract
         Config $config
     ) {
         $this->directory = $config->file('translating.directory');
+        if (!is_dir($this->directory)) {
+            $this->directory = Filesystem::join(__DIR__, 'translations');
+        }
         $this->fallback = $config->get('translating.fallback');
         $this->locale = $this->fallback;
     }
