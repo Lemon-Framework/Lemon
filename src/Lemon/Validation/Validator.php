@@ -59,7 +59,7 @@ class Validator implements ValidatorContract
                 }
 
                 if (!$this->rules->call((string) $data[$key], $rule)) {
-                    $this->error = [$rule[0], $key, $rule[1]];
+                    $this->error = [$rule[0], $key, $rule[1] ?? ''];
                     return false;
                 }
             }
