@@ -11,6 +11,7 @@ use Lemon\Http\Request;
 use Lemon\Http\Response;
 use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Kernel\Application;
+use Lemon\Protection\Middlwares\Csrf;
 use Lemon\Routing\Attributes\AfterAction;
 use Lemon\Routing\Attributes\BeforeAction;
 use Lemon\Routing\Exceptions\RouteException;
@@ -179,6 +180,11 @@ class Router implements RouterContract
                 }
             }
         })->prefix($base);
+    }
+
+    public function noCsrf(callable $routes): Collection
+    {
+        return $this->collection($routes)->exclude(Csrf::class);
     }
 
     /**
