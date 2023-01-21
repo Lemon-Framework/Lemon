@@ -28,23 +28,23 @@ class ConsultantTest extends TestCase
     {
         $c = new Consultant();
 
-        $this->assertSame(['Did you mean explode?'], $c->giveAdvice('Call to undefined function explod()'));
-        $this->assertSame(['Function was propably not loaded. Try checking your loader'], $c->giveAdvice('Call to undefined function AAAAAAAAAAAAAAAAAA()'));
+        $this->assertSame(['Did you mean explode?'], $c->giveAdvice(\Exception::class, 'Call to undefined function explod()'));
+        $this->assertSame(['Function was propably not loaded. Try checking your loader'], $c->giveAdvice(\Exception::class, 'Call to undefined function AAAAAAAAAAAAAAAAAA()'));
     }
 
     public function testMethod()
     {
         $c = new Consultant();
 
-        $this->assertSame(['Did you mean compile?'], $c->giveAdvice('Call to undefined method '.Compiler::class.'::compilr()'));
-        $this->assertSame([''], $c->giveAdvice('Call to undefined method '.Compiler::class.'::qqqq()'));
+        $this->assertSame(['Did you mean compile?'], $c->giveAdvice(\Exception::class, 'Call to undefined method '.Compiler::class.'::compilr()'));
+        $this->assertSame([''], $c->giveAdvice(\Exception::class, 'Call to undefined method '.Compiler::class.'::qqqq()'));
     }
 
     public function testProperty()
     {
         $c = new Consultant();
 
-        $this->assertSame(['Did you mean $directives?'], $c->giveAdvice('Undefined property: '.Compiler::class.'::$direktizep'));
-        $this->assertSame([''], $c->giveAdvice('Undefined property: '.Compiler::class.'::$qaopsfjasdj'));
+        $this->assertSame(['Did you mean $directives?'], $c->giveAdvice(\Exception::class, 'Undefined property: '.Compiler::class.'::$direktizep'));
+        $this->assertSame([''], $c->giveAdvice(\Exception::class, 'Undefined property: '.Compiler::class.'::$qaopsfjasdj'));
     }
 }

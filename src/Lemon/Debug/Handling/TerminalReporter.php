@@ -40,7 +40,7 @@ class TerminalReporter
         $file = str_replace($this->app->directory, '', $file = $this->problem->getFile());
         $line = $this->problem->getLine();
         $message = $this->problem->getMessage();
-        $hint = $this->consultant->giveAdvice($message)[0] ?? '';
+        $hint = $this->consultant->giveAdvice($this->problem::class, $message)[0] ?? '';
         $hint = $hint ? '<p>'.$hint.'</p>' : '';
         $code = $this->code();
         $trace = $this->problem->getTrace();

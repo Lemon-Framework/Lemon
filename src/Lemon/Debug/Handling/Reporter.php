@@ -48,7 +48,7 @@ class Reporter
             'file' => str_replace($this->application->directory, '', $problem->getFile()),
             'line' => $problem->getLine(),
             'message' => $problem->getMessage(),
-            'hint' => $this->consultant->giveAdvice($problem->getMessage()),
+            'hint' => $this->consultant->giveAdvice($problem::class, $problem->getMessage()),
             'trace' => $this->getTrace(),
             'request' => is_null($this->request) ? [] : $this->request->toArray(),
         ];
