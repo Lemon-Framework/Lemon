@@ -18,18 +18,8 @@ class TranslatorTest extends TestCase
 {
     public function testText()
     {
-        $mock = Mockery::mock(Config::class);
-        $mock
-            ->shouldReceive('file')
-            ->andReturn(__DIR__.DIRECTORY_SEPARATOR.'translations')
-        ;
+        $translator = $this->getTranslator('translations'); 
 
-        $mock
-            ->shouldReceive('get')
-            ->andReturn('en')
-        ;
-
-        $translator = new Translator($mock);
         $this->assertSame('Welcome to the Lemon Framework', $translator->text('base.title'));
         $translator->locate('cs');
         $this->assertSame('Vitejte v citronove ramopraci', $translator->text('base.title'));
@@ -51,5 +41,27 @@ class TranslatorTest extends TestCase
         $this->assertThrowable(function (Translator $translator) {
             $translator->text('base.parek');
         }, TranslatorException::class, $translator);
+    }
+
+    public function testDefaultTranslationFile()
+    {
+        $translator = $this->getTranslator('foo');
+        $this->assertSame('Value %field must be numeric.', $translator->text('validation.numeric'));
+    }
+
+    public function getTranslator(string $dir): Translator
+    {
+        $mock = Mockery::mock(Config::class);
+        $mock
+            ->shouldReceive('file')
+            ->andReturn(__DIR__.DIRECTORY_SEPARATOR.$dir)
+        ;
+
+        $mock
+            ->shouldReceive('get')
+            ->andReturn('en')
+        ;
+
+        return new Translator($mock);
     }
 }

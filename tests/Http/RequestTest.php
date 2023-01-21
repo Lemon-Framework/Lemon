@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Lemon\Tests\Http;
 
 use Fiber;
+use Lemon\Contracts\Translating\Translator;
 use Lemon\Contracts\Validation\Validator as ValidatorContract;
 use Lemon\Http\File;
 use Lemon\Http\Request;
 use Lemon\Kernel\Application;
 use Lemon\Tests\TestCase;
 use Lemon\Validation\Validator;
+use Mockery;
 
 /**
  * @internal
@@ -107,6 +109,15 @@ class RequestTest extends TestCase
     {
         $r = new Request('/', '', 'GET', ['Content-Type' => 'application/json'], '{"foo":"bar"}', [], [], '');
         $app = (new Application(__DIR__))->add(Validator::class)->alias(ValidatorContract::class, Validator::class);
+        $mock = Mockery::mock(Translator::class);
+        $mock->shouldReceive('text')
+             ->andReturn('%field must be numeric')
+        ;
+
+        $app->add(get_class($mock), $mock);
+        $app->alias(Translator::class, get_class($mock));
+
+
         $r->injectApplication($app);
 
         $f = new Fiber(function(Request $r) {
@@ -124,6 +135,13 @@ class RequestTest extends TestCase
     {
         $r = new Request('/', '', 'GET', ['Content-Type' => 'application/json'], '{"foo":10}', [], [], '');
         $app = (new Application(__DIR__))->add(Validator::class)->alias(ValidatorContract::class, Validator::class);
+        $mock = Mockery::mock(Translator::class);
+        $mock->shouldReceive('text')
+             ->andReturn('%field must be numeric')
+        ;
+
+        $app->add(get_class($mock), $mock);
+        $app->alias(Translator::class, get_class($mock));
         $r->injectApplication($app);
 
         $f = new Fiber(function(Request $r) {

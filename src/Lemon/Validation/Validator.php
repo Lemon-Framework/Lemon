@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace Lemon\Validation;
 
+use Lemon\Contracts\Translating\Translator;
 use Lemon\Contracts\Validation\Validator as ValidatorContract;
 
 class Validator implements ValidatorContract
 {
     private Rules $rules;
 
-    public function __construct()
-    {
+    private array $error = [];
+
+    public function __construct(
+        private Translator $translator
+    ) {
         $this->rules = new Rules();
     }
 
@@ -21,6 +25,23 @@ class Validator implements ValidatorContract
     public function rules(): Rules
     {
         return $this->rules;
+    }
+
+    /**
+     * Returns validation error
+     */
+    public function error(): string
+    {
+        [$key, $field, $arg] = $this->error;
+        return str_replace(['%field', '%arg'], [$field, $arg], $this->translator->text($key));
+    }
+
+    /**
+     * Returns whenever validator failed
+     */
+    public function hasError(): bool
+    {
+        return $this->error !== [];
     }
 
     /**
@@ -35,6 +56,7 @@ class Validator implements ValidatorContract
                     continue;
                 }
 
+                $this->error = ['missing', $key, ''];
                 return false;
             }
             foreach ($rules as $rule) {
@@ -43,6 +65,7 @@ class Validator implements ValidatorContract
                 }
 
                 if (!$this->rules->call((string) $data[$key], $rule)) {
+                    $this->error = [$rule[0], $key, $rule[1] ?? ''];
                     return false;
                 }
             }

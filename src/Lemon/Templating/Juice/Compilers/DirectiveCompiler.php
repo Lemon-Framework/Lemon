@@ -33,6 +33,8 @@ final class DirectiveCompiler
         'yield' => Directives\Layout\YieldDirective::class,
         'csrf' => Directives\CsrfDirective::class,
         'text' => Directives\TranslationDirective::class,
+        'ifError' => Directives\IfErrorDirective::class,
+        'error' => Directives\ErrorDirective::class,
     ];
 
     private Container $compilers;
