@@ -27,12 +27,18 @@ class Validator implements ValidatorContract
         return $this->rules;
     }
 
+    /**
+     * Returns validation error
+     */
     public function error(): string
     {
         [$key, $field, $arg] = $this->error;
         return str_replace(['%field', '%arg'], [$field, $arg], $this->translator->text($key));
     }
 
+    /**
+     * Returns whenever validator failed
+     */
     public function hasError(): bool
     {
         return $this->error !== [];
