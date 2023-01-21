@@ -68,7 +68,7 @@ class Components
 
     public function parseHr(): string
     {
-        return str_repeat('-', (int) exec('tput cols')); // TODO size
+        return PHP_EOL.str_repeat('-', (int) exec('tput cols')); // TODO size
     }
 
     public function parseB(\DOMNode $node): string

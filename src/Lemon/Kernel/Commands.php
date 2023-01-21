@@ -23,6 +23,7 @@ class Commands
         ['down', 'down', 'Puts app into maintenance mode'],
         ['up', 'up', 'Puts app back from maintenance mode'],
         ['help', 'help', 'Shows help'],
+        ['version', 'version', 'Shows version']
     ];
 
     public function __construct(
@@ -82,5 +83,10 @@ class Commands
         $this->terminal->out(
             new Template($path, $path, ['commands' => $this->terminal->commands->commands()])
         );
+    }
+
+    public function version(): void
+    {
+        $this->terminal->out('<div class="text-yellow">Lemon version <div class="text-white">'.Application::VERSION.'</div></div>');
     }
 }

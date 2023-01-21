@@ -216,7 +216,7 @@ final class Application extends Container
         $directory = Filesystem::parent($directory);
         $maintenance = $directory.DIRECTORY_SEPARATOR.'maintenance.php';
 
-        if (file_exists($maintenance)) {
+        if (file_exists($maintenance) && PHP_SAPI !== 'cli') {
             require $maintenance;
 
             exit;
