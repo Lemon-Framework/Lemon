@@ -182,7 +182,10 @@ class Router implements RouterContract
         })->prefix($base);
     }
 
-    public function withoutCsrf(callable $routes): Collection
+    /**
+     * Creates collection without CSRF protection.
+     */
+    public function withoutCsrfProtection(callable $routes): Collection
     {
         return $this->collection($routes)->exclude(Csrf::class);
     }

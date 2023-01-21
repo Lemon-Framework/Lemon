@@ -22,6 +22,7 @@ namespace Lemon;
  * @method static \Lemon\Routing\Collection controller(string $base, string $controller) Creates collection of given controller
  * @method static \Lemon\Http\Response      dispatch(Request $request)                   Finds route depending on given request.
  * @method static \Lemon\Routing\Collection routes()                                     Returns all routes
+ * @method static \Lemon\Routing\Collection withoutCsrfProtection(callable $routes)                Creates collection without CSRF protection.
  *
  * @see \Lemon\Routing\Router
  */
