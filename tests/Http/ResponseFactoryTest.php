@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Http;
 
+use JsonSerializable;
 use Lemon\Config\Config;
 use Lemon\Contracts\Http\Jsonable;
 use Lemon\Contracts\Templating\Compiler;
@@ -137,14 +138,14 @@ class SimpleCompiler implements Compiler
     }
 }
 
-class SimpleJson implements Jsonable
+class SimpleJson implements JsonSerializable
 {
     public function __construct(
         private array $json
     ) {
     }
 
-    public function toJson(): array
+    public function jsonSerialize(): mixed
     {
         return $this->json;
     }

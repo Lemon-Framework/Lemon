@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Http;
 
+use JsonSerializable;
 use Lemon\Contracts\Http\Jsonable;
 use Lemon\Contracts\Http\ResponseFactory as ResponseFactoryContract;
 use Lemon\Contracts\Templating\Factory as Templating;
@@ -55,8 +56,8 @@ class ResponseFactory implements ResponseFactoryContract
             return $data;
         }
 
-        if ($data instanceof Jsonable) {
-            return new JsonResponse($data->toJson());
+        if ($data instanceof JsonSerializable) {
+            return new JsonResponse($data);
         }
 
         if ($data instanceof Template) {
