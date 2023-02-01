@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Lemon\DataMarshaller;
+namespace Lemon\DataMapper;
 
 use Lemon\Support\Types\Maybe;
 use Lemon\Support\Types\Nothing;
 use ReflectionClass;
 
-class DataMarshaller
+class DataMapper
 {
     /**
      * @param class-string<T> $class
      * @return T
      */
-    public static function convert(array $data, string $class): ?object
+    public static function mapTo(array $data, string $class): ?object
     {
         $reflection = new ReflectionClass($class);
         $params = [];
@@ -40,7 +40,7 @@ class DataMarshaller
             if (!is_array($value)) {
                 return Maybe::nothing();
             }
-            return ($v = static::convert($value, $type)) === null ? Maybe::nothing() : Maybe::just($v);
+            return ($v = static::mapTo($value, $type)) === null ? Maybe::nothing() : Maybe::just($v);
         }
 
         $ok = @settype($value, $type);

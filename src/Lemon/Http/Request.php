@@ -6,6 +6,7 @@ namespace Lemon\Http;
 
 use Exception;
 use Fiber;
+use Lemon\DataMapper\DataMapper;
 use Lemon\Kernel\Application;
 use Lemon\Contracts\Validation\Validator;
 
@@ -234,7 +235,18 @@ class Request
         ];
     }
 
-    private function parseBody()
+    public function mapTo(string $class, mixed $response = null): ?object
+    {
+        $result = DataMapper::mapTo($this->data(), $class);
+
+        if ($result === null && $response !== null) {
+            Fiber::suspend($response);
+        }
+
+        return $result;
+    }
+
+    private function parseBody(): void
     {
         $this->body_data = [];
         if (!$content_type = $this->header('Content-Type')) {
