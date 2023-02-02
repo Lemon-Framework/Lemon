@@ -11,8 +11,9 @@ use ReflectionClass;
 class DataMapper
 {
     /**
+     * @template T of object
      * @param class-string<T> $class
-     * @return T
+     * @return ?T
      */
     public static function mapTo(array $data, string $class): ?object
     {
