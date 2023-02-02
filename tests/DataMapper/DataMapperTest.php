@@ -58,6 +58,12 @@ class DataMapperTest extends TestCase
         ];
 
         $this->assertNull(DataMapper::mapTo($data, TestObjectNested::class));
+
+        $data = [
+            'foo' => ['bar', 'baz'],
+        ];
+
+        $this->assertThat(DataMapper::mapTo($data, TestArrayObject::class), $this->equalTo(new TestArrayObject(['bar', 'baz'])));
     }
 }
 
@@ -76,6 +82,15 @@ class TestObjectNested
     public function __construct(
         public readonly string $baz,
         public readonly TestObject $foo,
+    ) {
+
+    }
+}
+
+class TestArrayObject
+{
+    public function __construct(
+        public readonly array $foo,
     ) {
 
     }
