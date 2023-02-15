@@ -11,6 +11,8 @@ use Lemon\Tests\Kernel\Resources\IFoo;
 use Lemon\Tests\Kernel\Resources\Units\Bar;
 use Lemon\Tests\Kernel\Resources\Units\Baz;
 use Lemon\Tests\Kernel\Resources\Units\Foo;
+use Lemon\Tests\Kernel\Resources\Units\User;
+use Lemon\Tests\Kernel\Resources\Units\UserFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -90,5 +92,28 @@ class ContainerTest extends TestCase
             Fiber::suspend(3);
             return 4;
         }, []));
+    }
+
+    public function testIsInjectable()
+    {
+        $container = new Container();
+        $this->assertTrue($container->isInjectable(User::class));
+    }
+
+    public function testInjectables()
+    {
+        $container = new Container();
+        $container->add(UserFactory::class);
+
+        $this->assertThat(
+            $container->get(User::class, 'frajer'), 
+            $this->equalTo(new User(1, 'frajer'))
+        );
+
+        $this->assertThat(
+            $container->call(fn(User $user) => $user, ['user' => 'frajer']), 
+            $this->equalTo(new User(1, 'frajer'))
+        );
+
     }
 }

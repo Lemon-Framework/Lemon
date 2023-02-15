@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Lemon\Kernel;
 
 use Fiber;
+use Lemon\Contracts\Kernel\Injectable;
 use Lemon\Kernel\Exceptions\ContainerException;
 use Lemon\Kernel\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 
-// TODO add application
 class Container implements ContainerInterface
 {
     /**
@@ -31,8 +31,12 @@ class Container implements ContainerInterface
      *
      * @throws \Lemon\Kernel\Exceptions\NotFoundException
      */
-    public function get(string $id): mixed
+    public function get(string $id, mixed $value = null): mixed
     {
+        if ($this->isInjectable($id)) {
+            return $id::fromInjection($this, $value);
+        }
+
         if (!array_key_exists($id, $this->services)) {
             if (!array_key_exists($id, $this->aliases)) {
                 throw new NotFoundException('Service '.$id.' does not exist');
@@ -41,7 +45,7 @@ class Container implements ContainerInterface
         }
 
         if (is_null($this->services[$id])) {
-            $this->services[$id] = $this->make($id);
+            $this->services[$id] = $this->make($id, $value);
         }
 
         return $this->services[$id];
@@ -108,11 +112,7 @@ class Container implements ContainerInterface
         $injected = [];
         foreach ($fn->getParameters() as $param) {
             if ($class = (string) $param->getType()) {
-                if ($this->has($class) || $this->hasAlias($class)) {
-                    $injected[$param->getName()] = $this->get($class);
-                } else {
-                    throw new ContainerException('Parameter of type '.$class.' could not be injected, because its not present in container');
-                }
+                $injected[$param->getName()] = $this->get($class, $params[$param->getName()] ?? null);
             } elseif (isset($params[$param->getName()])) {
                 $injected[$param->getName()] = $params[$param->getName()];
             } elseif (!$param->isOptional()) {
@@ -133,10 +133,19 @@ class Container implements ContainerInterface
         return $this->aliases;
     }
 
+    public function isInjectable(string $id): bool
+    {
+        return 
+            class_exists($id)
+            ? in_array(Injectable::class, class_implements($id))
+            : false
+        ;
+    }
+
     /**
      * Creates service instance of given class.
      */
-    private function make(string $service): mixed
+    private function make(string $service, mixed $value = null): mixed
     {
         $class = new \ReflectionClass($service);
         $constructor = $class->getConstructor();
