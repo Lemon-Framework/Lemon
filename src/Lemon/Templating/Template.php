@@ -40,16 +40,17 @@ final class Template
         ob_start();
 
         try {
-            (function($data) {
-				extract($data);
-				require $this->compiled_path;
-			})($this->data);
+            (function ($data) {
+                extract($data);
+
+                require $this->compiled_path;
+            })($this->data);
         } catch (\Throwable $e) {
             ob_get_clean();
 
             throw TemplateException::from($e, $this->raw_path);
         }
 
-		return ob_get_clean();
+        return ob_get_clean();
     }
 }
