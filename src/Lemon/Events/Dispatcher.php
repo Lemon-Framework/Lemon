@@ -27,6 +27,15 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
+     * Registers event handling function.
+     * Alias for self::on()
+     */
+    public function when(string $name, callable $action): static
+    {
+        return $this->on($name, $action);
+    }
+
+    /**
      * Calls all event handling functions with given arguments.
      */
     public function fire(string $name, mixed ...$args): static
