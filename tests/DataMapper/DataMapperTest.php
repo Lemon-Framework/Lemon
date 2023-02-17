@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\DataMapper;
 
+use Lemon\DataMapper\DataMapper;
 use Lemon\Http\Request;
 use Lemon\Tests\TestCase;
-use Lemon\DataMapper\DataMapper;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class DataMapperTest extends TestCase
 {
     public function testMapping(): void
@@ -73,7 +78,6 @@ class TestObject
         public readonly string $foo,
         public readonly int $bar,
     ) {
-
     }
 }
 
@@ -83,7 +87,6 @@ class TestObjectNested
         public readonly string $baz,
         public readonly TestObject $foo,
     ) {
-
     }
 }
 
@@ -92,6 +95,5 @@ class TestArrayObject
     public function __construct(
         public readonly array $foo,
     ) {
-
     }
 }

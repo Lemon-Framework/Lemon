@@ -59,7 +59,6 @@ class Session implements SessionContract
 
         $this->init();
 
-
         return $this;
     }
 

@@ -26,6 +26,7 @@ final class Template
     public function with(...$data): static
     {
         $this->data = [...$this->data, ...$data];
+
         return $this;
     }
 

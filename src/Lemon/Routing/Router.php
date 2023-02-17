@@ -13,9 +13,7 @@ use Lemon\Http\Responses\EmptyResponse;
 use Lemon\Kernel\Application;
 use Lemon\Protection\Middlwares\Csrf;
 use Lemon\Routing\Attributes\AfterAction;
-use Lemon\Routing\Attributes\BeforeAction;
 use Lemon\Routing\Exceptions\RouteException;
-use ReflectionMethod;
 
 /**
  * The Lemon Router.
@@ -211,9 +209,10 @@ class Router implements RouterContract
         $after = [];
 
         foreach ($route->middlewares->resolve() as $middleware) {
-            $reflection = new ReflectionMethod(...$middleware);
+            $reflection = new \ReflectionMethod(...$middleware);
             if (!empty($reflection->getAttributes(AfterAction::class))) {
                 $after[] = $middleware;
+
                 continue;
             }
 

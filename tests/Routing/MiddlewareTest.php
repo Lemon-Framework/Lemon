@@ -71,9 +71,9 @@ class MiddlewareTest extends TestCase
 
         $r->get('/', fn () => 'foo')->middleware(Csrf::class);
 
-        $r->get('admin', fn(Logger $logger) => $logger->log('foo'))->middleware([TestingMiddleware::class, 'onlyAuthenticated']);
+        $r->get('admin', fn (Logger $logger) => $logger->log('foo'))->middleware([TestingMiddleware::class, 'onlyAuthenticated']);
 
-        $r->get('foo', fn(Logger $logger) => $logger->log('foo'))->middleware([TestingMiddleware::class, 'onlyAuthenticatedButAfter']); 
+        $r->get('foo', fn (Logger $logger) => $logger->log('foo'))->middleware([TestingMiddleware::class, 'onlyAuthenticatedButAfter']);
 
         $this->assertInstanceOf(HtmlResponse::class, $r->dispatch($re));
 
@@ -90,7 +90,6 @@ class MiddlewareTest extends TestCase
 
         $this->assertSame('foo', $r->dispatch($re)->parseBody());
         $this->assertSame(['foo'], $l->get(Logger::class)->messages());
-
     }
 }
 
@@ -103,7 +102,7 @@ class TestingMiddleware
         }
     }
 
-    #[AfterAction()] 
+    #[AfterAction()]
     public function onlyAuthenticatedButAfter(Request $request)
     {
         if (!$request->hasCookie('parek')) {
@@ -125,5 +124,4 @@ class Logger
     {
         return $this->logs;
     }
-
 }

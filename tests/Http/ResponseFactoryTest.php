@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Http;
 
-use JsonSerializable;
 use Lemon\Config\Config;
-use Lemon\Contracts\Http\Jsonable;
 use Lemon\Contracts\Templating\Compiler;
 use Lemon\Http\ResponseFactory;
 use Lemon\Http\Responses\EmptyResponse;
@@ -138,7 +136,7 @@ class SimpleCompiler implements Compiler
     }
 }
 
-class SimpleJson implements JsonSerializable
+class SimpleJson implements \JsonSerializable
 {
     public function __construct(
         private array $json

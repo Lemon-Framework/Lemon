@@ -40,10 +40,10 @@ class Translator implements TranslatorContract
         }
 
         [$file, $key] = explode('.', $key);
+
         return
             $this->translations($file)[$key]
             ?? throw new TranslatorException('Undefined translation key '.$this->locale.'.'.$file.'.'.$key);
-        ;
     }
 
     /**

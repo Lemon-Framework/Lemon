@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace Lemon\Debug\Handling;
 
-use Lemon\Validation\Exceptions\ValidatorException;
-
-use Lemon\Translating\Exceptions\TranslatorException;
-use Lemon\Terminal\Exceptions\IOException;
-use Lemon\Terminal\Exceptions\HtmlException;
-use Lemon\Terminal\Exceptions\CommandException;
-use Lemon\Templating\Exceptions\TemplateException;
-use Lemon\Templating\Exceptions\SyntaxException;
-use Lemon\Templating\Exceptions\CompilerException;
-use Lemon\Routing\Exceptions\RouteException;
-use Lemon\Kernel\Exceptions\NotFoundException;
-use Lemon\Kernel\Exceptions\ContainerException;
-use Lemon\Http\Exceptions\SessionException;
-use Lemon\Http\Exceptions\CookieException;
-use Lemon\Debug\Exceptions\DebugerException;
-use Lemon\Config\Exceptions\ConfigException;
-use Lemon\Cache\Exceptions\InvalidArgumentException;
 use Lemon\Cache\Exceptions\CacheException;
+use Lemon\Cache\Exceptions\InvalidArgumentException;
+use Lemon\Config\Exceptions\ConfigException;
+use Lemon\Debug\Exceptions\DebugerException;
+use Lemon\Http\Exceptions\CookieException;
+use Lemon\Http\Exceptions\SessionException;
+use Lemon\Kernel\Exceptions\ContainerException;
+use Lemon\Kernel\Exceptions\NotFoundException;
+use Lemon\Routing\Exceptions\RouteException;
+use Lemon\Templating\Exceptions\CompilerException;
+use Lemon\Templating\Exceptions\SyntaxException;
+use Lemon\Templating\Exceptions\TemplateException;
+use Lemon\Terminal\Exceptions\CommandException;
+use Lemon\Terminal\Exceptions\HtmlException;
+use Lemon\Terminal\Exceptions\IOException;
+use Lemon\Translating\Exceptions\TranslatorException;
+use Lemon\Validation\Exceptions\ValidatorException;
 
 class Consultant
 {
@@ -67,7 +66,6 @@ class Consultant
         $hints[] = 'Try reading the <a href="https://lemon-framework.github.io/docs/'.$docs.'.html">documentation</a>';
 
         return $hints;
-
     }
 
     public function findHandler(string $message): array

@@ -23,7 +23,7 @@ class Commands
         ['down', 'down', 'Puts app into maintenance mode'],
         ['up', 'up', 'Puts app back from maintenance mode'],
         ['help', 'help', 'Shows help'],
-        ['version', 'version', 'Shows version']
+        ['version', 'version', 'Shows version'],
     ];
 
     public function __construct(

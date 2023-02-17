@@ -8,6 +8,11 @@ use Lemon\Templating\Juice\Compilers\DirectiveCompiler;
 use Lemon\Templating\Juice\Token;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class IfErrorDirectiveTest extends TestCase
 {
     public function testOpen()
@@ -27,5 +32,4 @@ class IfErrorDirectiveTest extends TestCase
         $c = new DirectiveCompiler();
         $this->assertSame('<?php endif ?>', $c->compileClosing('ifError'));
     }
-
 }

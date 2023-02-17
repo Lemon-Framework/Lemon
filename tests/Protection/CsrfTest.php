@@ -8,7 +8,6 @@ use Lemon\Config\Config;
 use Lemon\Http\CookieJar;
 use Lemon\Http\Request;
 use Lemon\Http\ResponseFactory;
-use Lemon\Http\Responses\HtmlResponse;
 use Lemon\Kernel\Application;
 use Lemon\Protection\Csrf;
 use Lemon\Protection\Middlwares\Csrf as MiddlwaresCsrf;

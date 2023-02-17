@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Kernel;
 
-use Fiber;
 use Lemon\Contracts\Kernel\Injectable;
 use Lemon\Kernel\Exceptions\ContainerException;
 use Lemon\Kernel\Exceptions\NotFoundException;
@@ -120,7 +119,7 @@ class Container implements ContainerInterface
             }
         }
 
-        $action = new Fiber($callback);
+        $action = new \Fiber($callback);
 
         return $action->start(...$injected) ?? $action->getReturn();
     }
@@ -135,7 +134,7 @@ class Container implements ContainerInterface
 
     public function isInjectable(string $id): bool
     {
-        return 
+        return
             class_exists($id)
             ? in_array(Injectable::class, class_implements($id))
             : false

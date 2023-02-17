@@ -29,7 +29,7 @@ class Handler
         }
 
         if ($this->config->get('debug.debug')) {
-            $request = $this->application->has('request') ? $this->application->get('request') : null ;
+            $request = $this->application->has('request') ? $this->application->get('request') : null;
             (new Reporter($problem, $request, $this->application))->report();
         } else {
             $this->response->error(500)->send($this->application);

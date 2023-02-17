@@ -13,7 +13,6 @@ class User implements Injectable
         public readonly int $id,
         public readonly string $name,
     ) {
-
     }
 
     public static function fromInjection(Container $container, mixed $value): self

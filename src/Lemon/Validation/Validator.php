@@ -28,20 +28,21 @@ class Validator implements ValidatorContract
     }
 
     /**
-     * Returns validation error
+     * Returns validation error.
      */
     public function error(): string
     {
         [$key, $field, $arg] = $this->error;
+
         return str_replace(['%field', '%arg'], [$field, $arg], $this->translator->text($key));
     }
 
     /**
-     * Returns whenever validator failed
+     * Returns whenever validator failed.
      */
     public function hasError(): bool
     {
-        return $this->error !== [];
+        return [] !== $this->error;
     }
 
     /**
@@ -57,6 +58,7 @@ class Validator implements ValidatorContract
                 }
 
                 $this->error = ['missing', $key, ''];
+
                 return false;
             }
             foreach ($rules as $rule) {
@@ -66,6 +68,7 @@ class Validator implements ValidatorContract
 
                 if (!$this->rules->call((string) $data[$key], $rule)) {
                     $this->error = [$rule[0], $key, $rule[1] ?? ''];
+
                     return false;
                 }
             }

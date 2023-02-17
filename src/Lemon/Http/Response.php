@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Http;
 
-use Lemon\Contracts\Http\CookieJar;
 use Lemon\Kernel\Application;
-
 
 /**
  * Represents Http Response.

@@ -8,6 +8,11 @@ use Lemon\Http\CookieJar;
 use Lemon\Http\Request;
 use Lemon\Tests\TestCase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class CookieJarTest extends TestCase
 {
     public function getJar(array $cookies = []): CookieJar
@@ -42,8 +47,8 @@ class CookieJarTest extends TestCase
 
     public function testHas()
     {
-        $jar = $this->getJar(['foo' => 'bar']); 
+        $jar = $this->getJar(['foo' => 'bar']);
         $this->assertTrue($jar->has('foo'));
-        $this->assertFalse($jar->has('parek'));      
+        $this->assertFalse($jar->has('parek'));
     }
 }

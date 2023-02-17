@@ -6,18 +6,19 @@ namespace Lemon\DataMapper;
 
 use Lemon\Support\Types\Maybe;
 use Lemon\Support\Types\Nothing;
-use ReflectionClass;
 
 class DataMapper
 {
     /**
      * @template T of object
+     *
      * @param class-string<T> $class
+     *
      * @return ?T
      */
     public static function mapTo(array $data, string $class): ?object
     {
-        $reflection = new ReflectionClass($class);
+        $reflection = new \ReflectionClass($class);
         $params = [];
         foreach ($reflection->getConstructor()->getParameters() as $property) {
             if (!isset($data[$property->getName()])) {
@@ -41,6 +42,7 @@ class DataMapper
             if (!is_array($value)) {
                 return Maybe::nothing();
             }
+
             return ($v = static::mapTo($value, $type)) === null ? Maybe::nothing() : Maybe::just($v);
         }
 

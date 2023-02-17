@@ -10,7 +10,7 @@ interface CookieJar
 
     public function set(string $name, string $value, int $expires = 0): static;
 
-    public function delete(string $name): static; 
+    public function delete(string $name): static;
 
     public function has(string $name): bool;
 

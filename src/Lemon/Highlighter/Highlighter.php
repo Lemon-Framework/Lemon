@@ -6,7 +6,6 @@ namespace Lemon\Highlighter;
 
 use Lemon\Contracts\Config\Config;
 use Lemon\Contracts\Highlighter\Highlighter as HighlighterContract;
-use PhpToken;
 
 class Highlighter implements HighlighterContract
 {
@@ -102,7 +101,7 @@ class Highlighter implements HighlighterContract
     public function highlight(string $code): string
     {
         $result = '';
-        foreach (PhpToken::tokenize($code) as $token) {
+        foreach (\PhpToken::tokenize($code) as $token) {
             if ($token->is(T_WHITESPACE)) {
                 $result .= $token->text;
 

@@ -7,7 +7,6 @@ namespace Lemon\Tests\Validation;
 use Lemon\Contracts\Translating\Translator;
 use Lemon\Tests\TestCase;
 use Lemon\Validation\Validator;
-use Mockery;
 
 /**
  * @internal
@@ -18,7 +17,7 @@ class ValidationTest extends TestCase
 {
     public function testRuleParsing()
     {
-        $mock = Mockery::mock(Translator::class);
+        $mock = \Mockery::mock(Translator::class);
         $validator = new Validator($mock);
         $this->assertSame([['foo'], ['bar', 10]], $validator->resolveRules([['foo'], ['bar', 10]]));
         $this->assertSame([['foo'], ['bar', '10']], $validator->resolveRules('foo|bar:10'));
@@ -26,13 +25,14 @@ class ValidationTest extends TestCase
 
     public function testValidation()
     {
-        $mock = Mockery::mock(Translator::class);
+        $mock = \Mockery::mock(Translator::class);
         $mock->shouldReceive('text')
-             ->andReturnUsing(fn($x) => match($x) {
-                    'numeric' => '%field must be numeric',
-                    'missing' => '%field is missing',
-                    'max' => '%field is longer than %arg',
-                });
+            ->andReturnUsing(fn ($x) => match ($x) {
+                'numeric' => '%field must be numeric',
+                'missing' => '%field is missing',
+                'max' => '%field is longer than %arg',
+            })
+        ;
         $validator = new Validator($mock);
         $this->assertTrue($validator->validate(
             ['foo' => '10'],

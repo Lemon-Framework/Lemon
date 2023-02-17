@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Kernel;
 
-use Fiber;
 use Lemon\Kernel\Container;
 use Lemon\Kernel\Exceptions\NotFoundException;
 use Lemon\Tests\Kernel\Resources\IFoo;
@@ -88,8 +87,9 @@ class ContainerTest extends TestCase
             return $bar + $baz;
         }, ['bar' => 2]));
 
-        $this->assertSame(3, $container->call(function() {
-            Fiber::suspend(3);
+        $this->assertSame(3, $container->call(function () {
+            \Fiber::suspend(3);
+
             return 4;
         }, []));
     }
@@ -106,14 +106,13 @@ class ContainerTest extends TestCase
         $container->add(UserFactory::class);
 
         $this->assertThat(
-            $container->get(User::class, 'frajer'), 
+            $container->get(User::class, 'frajer'),
             $this->equalTo(new User(1, 'frajer'))
         );
 
         $this->assertThat(
-            $container->call(fn(User $user) => $user, ['user' => 'frajer']), 
+            $container->call(fn (User $user) => $user, ['user' => 'frajer']),
             $this->equalTo(new User(1, 'frajer'))
         );
-
     }
 }

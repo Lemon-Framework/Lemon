@@ -8,10 +8,10 @@ namespace Lemon;
  * Lemon Event Zest
  * Provides static layer over the Lemon Event Dispatcher.
  *
- * @method static static on(string $name, callable $action) Registers event handling function
+ * @method static static on(string $name, callable $action)   Registers event handling function
  * @method static static when(string $name, callable $action) Registers event handling function
- * @method static static fire(string $name, mixed ...$args) Calls all event handling functions with given arguments
- * @method static array  events()                           Returns all events
+ * @method static static fire(string $name, mixed ...$args)   Calls all event handling functions with given arguments
+ * @method static array  events()                             Returns all events
  *
  * @see \Lemon\Events\Dispatcher
  */

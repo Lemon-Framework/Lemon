@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Debug;
 
-use Exception;
 use Lemon\Config\Config;
 use Lemon\Contracts\Config\Config as LemonConfig;
 use Lemon\Contracts\Highlighter\Highlighter as LemonHighlighter;
@@ -15,6 +14,7 @@ use Lemon\Tests\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class TerminalReporterTest extends TestCase
@@ -70,7 +70,7 @@ class TerminalReporterTest extends TestCase
     }
 }
 
-class Problem extends Exception
+class Problem extends \Exception
 {
     public function __construct(string $file, int $line)
     {

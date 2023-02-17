@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'numeric' => 'Value %field must be numeric.',
     'notNumeric' => 'Value %field must not be numeric.',

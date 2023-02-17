@@ -8,17 +8,17 @@ use Lemon\Contracts\Config\Config;
 use Lemon\Tests\TestCase;
 use Lemon\Translating\Exceptions\TranslatorException;
 use Lemon\Translating\Translator;
-use Mockery;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class TranslatorTest extends TestCase
 {
     public function testText()
     {
-        $translator = $this->getTranslator('translations'); 
+        $translator = $this->getTranslator('translations');
 
         $this->assertSame('Welcome to the Lemon Framework', $translator->text('base.title'));
         $translator->locate('cs');
@@ -33,7 +33,6 @@ class TranslatorTest extends TestCase
         $this->assertSame('Pokud tohle ctes tak je mi te za a lito a za b, pokud muzes, hod tam prosimte pavla a ne babise diky', $translator->text('foo.message'));
 
         $this->assertSame('Pokud tohle ctes tak je mi te za a lito a za b, pokud muzes, hod tam prosimte pavla a ne babise diky', $translator->text('foo.message'));
-
 
         $this->assertThrowable(function (Translator $translator) {
             $translator->text('parek');
@@ -51,7 +50,7 @@ class TranslatorTest extends TestCase
 
     public function getTranslator(string $dir): Translator
     {
-        $mock = Mockery::mock(Config::class);
+        $mock = \Mockery::mock(Config::class);
         $mock
             ->shouldReceive('file')
             ->andReturn(__DIR__.DIRECTORY_SEPARATOR.$dir)

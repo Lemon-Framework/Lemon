@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Lemon\Http;
 
 use Lemon\Contracts\Http\CookieJar as CookieJarContract;
-use Lemon\Kernel\Application;
 
 class CookieJar implements CookieJarContract
 {
@@ -14,7 +13,6 @@ class CookieJar implements CookieJarContract
     public function __construct(
         private Request $request,
     ) {
-
     }
 
     public function get(string $name): ?string
@@ -25,6 +23,7 @@ class CookieJar implements CookieJarContract
     public function set(string $name, string $value, int $expires = 0): static
     {
         $this->set_cookies[] = [$name, $value, $expires];
+
         return $this;
     }
 
@@ -34,6 +33,7 @@ class CookieJar implements CookieJarContract
             return $this;
         }
         $this->set_cookies[] = [$name, '', -1];
+
         return $this;
     }
 

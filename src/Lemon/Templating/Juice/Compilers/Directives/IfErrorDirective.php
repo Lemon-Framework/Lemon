@@ -17,5 +17,4 @@ final class IfErrorDirective implements Directive
     {
         return '<?php endif ?>';
     }
-
 }

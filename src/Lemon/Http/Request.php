@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Lemon\Http;
 
 use Exception;
-use Fiber;
+use Lemon\Contracts\Validation\Validator;
 use Lemon\DataMapper\DataMapper;
 use Lemon\Kernel\Application;
-use Lemon\Contracts\Validation\Validator;
 
 class Request
 {
@@ -183,7 +182,7 @@ class Request
         if (!$this->application->get(Validator::class)
             ->validate($this->data(), $rules)
         ) {
-            Fiber::suspend($fallback);
+            \Fiber::suspend($fallback);
         }
     }
 
@@ -239,8 +238,8 @@ class Request
     {
         $result = DataMapper::mapTo($this->data(), $class);
 
-        if ($result === null && $response !== null) {
-            Fiber::suspend($response);
+        if (null === $result && null !== $response) {
+            \Fiber::suspend($response);
         }
 
         return $result;

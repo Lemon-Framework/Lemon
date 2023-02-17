@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace Lemon\Debug\Handling;
 
-use ErrorException;
 use Lemon\Contracts\Config\Config;
 use Lemon\Contracts\Highlighter\Highlighter as HighlighterContract;
 use Lemon\Highlighter\Highlighter;
 use Lemon\Kernel\Application;
-use Throwable;
 
 class TerminalReporter
 {
     private Consultant $consultant;
 
     public function __construct(
-        private Throwable $problem,
+        private \Throwable $problem,
         private Application $app
     ) {
         $this->consultant = new Consultant();
@@ -32,7 +30,7 @@ class TerminalReporter
     public function output(): string
     {
         $severity =
-            $this->problem instanceof ErrorException
+            $this->problem instanceof \ErrorException
             ? Reporter::severityToString($this->problem->getCode())
             : $this->problem::class
         ;
