@@ -113,7 +113,7 @@ abstract class Response
         $body = $this->parseBody();
         $this->handleHeaders();
         $this->handleStatusCode();
-        $this->handleCookies($app->has('cookies') ? $app->get('cookies')->cookies() : []);
+        $this->handleCookies($app->get(CookieJar::class)->cookies());
         $this->handleBody($body);
 
         return $this;
