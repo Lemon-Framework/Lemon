@@ -6,6 +6,7 @@ namespace Lemon\Tests\Templating\Juice\Compilers\Directives\Layout;
 
 use Lemon\Templating\Exceptions\TemplateException;
 use Lemon\Templating\Juice\Compilers\Directives\Layout\Layout;
+use Lemon\Templating\Template;
 use Lemon\Tests\TestCase;
 
 /**
@@ -18,9 +19,8 @@ class LayoutTest extends TestCase
     public function testRendering()
     {
         $data = ['foo' => '10'];
-        ob_start();
-        $this->render(__DIR__.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.'foo.php', $data);
-        $result = ob_get_clean();
+        $path = __DIR__.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.'foo.php';
+        $result = new Template($path, $path, $data);
         $this->assertSame(<<<'HTML'
 
 
@@ -28,7 +28,7 @@ class LayoutTest extends TestCase
 
         <p>bar</p>
 
-        HTML, $result);
+        HTML, $result->render());
 
         $this->assertThrowable(function () {
             $l = new FakeLayout('foo');
@@ -47,13 +47,6 @@ class LayoutTest extends TestCase
             $l = new FakeLayout('foo');
             $l->yield('parek');
         }, TemplateException::class);
-    }
-
-    private function render(string $file, array $data): void
-    {
-        extract($data);
-
-        include $file;
     }
 }
 
