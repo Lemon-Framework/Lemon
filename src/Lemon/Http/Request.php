@@ -120,6 +120,15 @@ class Request
         return !$this->is($content_type);
     }
 
+    public function mustBe(string $content_type, mixed $fallback): static
+    {
+        if (!$this->is($content_type)) {
+            \Fiber::suspend($fallback);
+        }
+
+        return $this;
+    }
+
     /**
      * Adds request parsing function.
      */
@@ -196,7 +205,7 @@ class Request
         return isset($this->cookies[$name]);
     }
 
-    public function cookies()
+    public function cookies(): array
     {
         return $this->cookies;
     }
