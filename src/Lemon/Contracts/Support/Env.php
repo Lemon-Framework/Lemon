@@ -14,7 +14,7 @@ interface Env
     /**
      * Returns file with name from env.
      */
-    public function file(string $key, string $prefix, mixed $default = null): string;
+    public function file(string $key, string $extension, mixed $default = null): string;
 
     /**
      * Returns whenever env key exist.
