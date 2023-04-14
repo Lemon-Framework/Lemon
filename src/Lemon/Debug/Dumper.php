@@ -120,7 +120,7 @@ class Dumper implements DumperContract
      */
     private function parseString(string $string): string
     {
-        return '<span class="ldg-string">"'.$string.'"</span>';
+        return '<span class="ldg-string">"'.htmlentities($string).'"</span>';
     }
 
     /**

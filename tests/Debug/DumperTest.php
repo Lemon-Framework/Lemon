@@ -38,6 +38,7 @@ class DumperTest extends TestCase
     {
         $dumper = $this->getDumper();
         $this->assertSame('<span class="ldg-string">"bramboraky"</span>', $dumper->resolve('bramboraky'));
+        $this->assertSame('<span class="ldg-string">"&lt;a href=&quot;https://minehub.cz&quot;&gt;bramboraky&lt;/a&gt;"</span>', $dumper->resolve('<a href="https://minehub.cz">bramboraky</a>'));
     }
 
     public function testIteratorParsing()
