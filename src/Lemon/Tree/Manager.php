@@ -9,6 +9,7 @@ use Lemon\DataMapper\DataMapper;
 use Lemon\Kernel\Application;
 use Lemon\Support\CaseConverter;
 use Lemon\Support\Filesystem;
+use Lemon\Tree\Exceptions\EntityMissingIdException;
 
 class Manager implements ManagerContract
 {
@@ -17,6 +18,24 @@ class Manager implements ManagerContract
     public function __construct(
         private Application $app,
     ) {
+    }
+
+    public function __destruct()
+    {
+        foreach ($this->data as $entity => $data) {
+            $file = $this->getFile($entity);
+            Filesystem::write($file, "<?php\n\nreturn ".var_export($data, true).";\n");
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function all(string $entity): array
+    {
+        $this->load($entity);
+
+        return array_map(fn ($item) => DataMapper::mapTo($item, $entity), $this->data[$entity]);
     }
 
     /**
@@ -51,11 +70,11 @@ class Manager implements ManagerContract
         $id = $data['id'] ?? null;
 
         if ($id === null) {
-            $this->data[] = $data;
+            $this->data[$class][] = $data;
             return $this;
         }
 
-        $this->data[$id] = $data;
+        $this->data[$class][$id] = $data;
 
         return $this;
     }
@@ -88,7 +107,7 @@ class Manager implements ManagerContract
             throw new EntityMissingIdException('Entity '.$entity.' is missing an id property'); 
         }
 
-        if (!isset($this->data[$entity])) {
+        if (isset($this->data[$entity])) {
             return;
         }
 
@@ -115,8 +134,8 @@ class Manager implements ManagerContract
 
     private function getFile(string $entity): string
     {
-        $entity = str_replace('\\', '_', $entity);
-        $name = 'entities_'.CaseConverter::toSnake($entity);
+        $entity = str_replace('\\', '', $entity);
+        $name = 'entity_'.CaseConverter::toSnake($entity);
         return Filesystem::join($this->getStorage(), $name).'.php';
     }
 

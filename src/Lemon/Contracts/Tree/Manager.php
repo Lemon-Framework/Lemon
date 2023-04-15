@@ -9,6 +9,13 @@ interface Manager
     /**
      * @template T of object
      * @param class-string<T> $entity
+     * @return T[]
+     */
+    public function all(string $entity): array;
+
+    /**
+     * @template T of object
+     * @param class-string<T> $entity
      * @return ?T
      */
     public function find(string $entity, string $key, mixed $value): ?object;
