@@ -70,6 +70,15 @@ class DataMapperTest extends TestCase
 
         $this->assertThat(DataMapper::mapTo($data, TestArrayObject::class), $this->equalTo(new TestArrayObject(['bar', 'baz'])));
     }
+
+    public function testNullable()
+    {
+        $data = [
+            'foo' => null,
+        ];
+
+        $this->assertThat(DataMapper::mapTo($data, TestNullableObject::class), $this->equalTo(new TestNullableObject(null)));
+    }
 }
 
 class TestObject
@@ -94,6 +103,14 @@ class TestArrayObject
 {
     public function __construct(
         public readonly array $foo,
+    ) {
+    }
+}
+
+class TestNullableObject
+{
+    public function __construct(
+        public readonly ?TestObject $foo,
     ) {
     }
 }

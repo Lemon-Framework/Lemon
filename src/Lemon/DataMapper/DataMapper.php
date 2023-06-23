@@ -6,6 +6,7 @@ namespace Lemon\DataMapper;
 
 use Lemon\Support\Types\Maybe;
 use Lemon\Support\Types\Nothing;
+use ReflectionType;
 
 class DataMapper
 {
@@ -21,11 +22,8 @@ class DataMapper
         $reflection = new \ReflectionClass($class);
         $params = [];
         foreach ($reflection->getConstructor()->getParameters() as $property) {
-            if (!isset($data[$property->getName()])) {
-                return null;
-            }
-            $item = $data[$property->getName()];
-            $value = static::typeCheck($item, (string) $property->getType());
+            $item = $data[$property->getName()] ?? null;
+            $value = static::typeCheck($item, $property->getType());
             if ($value instanceof Nothing) {
                 return null;
             }
@@ -36,17 +34,26 @@ class DataMapper
         return new $class(...$params);
     }
 
-    public static function typeCheck(mixed $value, string $type): Maybe
+    public static function typeCheck(mixed $value, ReflectionType $type): Maybe
     {
-        if (class_exists($type)) {
-            if (!is_array($value)) {
-                return Maybe::nothing();
+        $type_name = trim((string) $type, '?');
+        if (class_exists($type_name)) {
+            if ($type->allowsNull() && $value === null) {
+                return Maybe::just(null);
             }
 
-            return ($v = static::mapTo($value, $type)) === null ? Maybe::nothing() : Maybe::just($v);
+            if (!is_array($value)) {
+                return Maybe::nothing();
+            } 
+
+            return ($v = static::mapTo($value, $type_name)) === null ? Maybe::nothing() : Maybe::just($v);
         }
 
-        $ok = @settype($value, $type);
+        if (!$type->allowsNull() && $value === null) {
+            return Maybe::nothing();
+        }
+
+        $ok = @settype($value, $type_name);
 
         return $ok ? Maybe::just($value) : Maybe::nothing();
     }
