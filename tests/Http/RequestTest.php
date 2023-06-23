@@ -156,15 +156,17 @@ class RequestTest extends TestCase
     public function testMustBe(): void
     {
         $r = new Request('/', '', 'GET', ['Content-Type' => 'application/json'], '{"foo":10}', [], [], '');
-        $f = new \Fiber(function(Request $r) {
+        $f = new \Fiber(function (Request $r) {
             $r->mustBe('application/parek', 'foo');
+
             return 'bar';
         });
 
         $this->assertSame('foo', $f->start($r));
 
-        $f = new \Fiber(function(Request $r) {
+        $f = new \Fiber(function (Request $r) {
             $r->mustBe('application/json', 'foo');
+
             return 'bar';
         });
 

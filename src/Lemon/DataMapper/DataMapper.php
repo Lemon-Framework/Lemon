@@ -38,18 +38,18 @@ class DataMapper
     {
         $type_name = trim((string) $type, '?');
         if (class_exists($type_name)) {
-            if ($type->allowsNull() && $value === null) {
+            if ($type->allowsNull() && null === $value) {
                 return Maybe::just(null);
             }
 
             if (!is_array($value)) {
                 return Maybe::nothing();
-            } 
+            }
 
             return ($v = static::mapTo($value, $type_name)) === null ? Maybe::nothing() : Maybe::just($v);
         }
 
-        if (!$type->allowsNull() && $value === null) {
+        if (!$type->allowsNull() && null === $value) {
             return Maybe::nothing();
         }
 
