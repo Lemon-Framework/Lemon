@@ -13,7 +13,7 @@ Lemon is php microframework built for learning web frameworks.
 - Caching
 - All bundled using DI container
 
-- Whole framework was heavilly inspired by:
+- Whole framework was heavily inspired by:
     - [laravel/framework](https://github.com/laravel/framework)
     - [nette](https://github.com/nette) (mostly [latte](https://github.com/nette/latte))
     - [nunomaduro/termwind](https://github.com/nunomaduro/termwind)
