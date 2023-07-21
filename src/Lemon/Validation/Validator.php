@@ -27,6 +27,9 @@ class Validator implements ValidatorContract
         return $this->rules;
     }
 
+    /**
+     * Adds Validation error.
+     */
     public function addError(string $key, string $field, string $arg): static
     {
         $this->error = [$key, $field, $arg];
