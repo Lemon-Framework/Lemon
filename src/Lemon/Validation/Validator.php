@@ -27,6 +27,12 @@ class Validator implements ValidatorContract
         return $this->rules;
     }
 
+    public function addError(string $key, string $field, string $arg): static
+    {
+        $this->error = [$key, $field, $arg];
+        return $this;
+    }
+
     /**
      * Returns validation error.
      */
@@ -57,7 +63,7 @@ class Validator implements ValidatorContract
                     continue;
                 }
 
-                $this->error = ['missing', $key, ''];
+                $this->addError('missing', $key, '');
 
                 return false;
             }
@@ -67,7 +73,7 @@ class Validator implements ValidatorContract
                 }
 
                 if (!$this->rules->call((string) $data[$key], $rule)) {
-                    $this->error = [$rule[0], $key, $rule[1] ?? ''];
+                    $this->addError($rule[0], $key, $rule[1] ?? '');
 
                     return false;
                 }
