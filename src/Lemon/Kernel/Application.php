@@ -40,7 +40,7 @@ final class Application extends Container
     /**
      * Current Lemon version.
      */
-    public const VERSION = '3.16.1';
+    public const VERSION = '3.16.2';
 
     /**
      * Default units with aliases.
