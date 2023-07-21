@@ -28,9 +28,9 @@ class ValidationTest extends TestCase
         $mock = \Mockery::mock(Translator::class);
         $mock->shouldReceive('text')
             ->andReturnUsing(fn ($x) => match ($x) {
-                'numeric' => '%field must be numeric',
-                'missing' => '%field is missing',
-                'max' => '%field is longer than %arg',
+                'validation.numeric' => '%field must be numeric',
+                'validation.missing' => '%field is missing',
+                'validation.max' => '%field is longer than %arg',
             })
         ;
         $validator = new Validator($mock);

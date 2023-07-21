@@ -34,7 +34,7 @@ class Validator implements ValidatorContract
     {
         [$key, $field, $arg] = $this->error;
 
-        return str_replace(['%field', '%arg'], [$field, $arg], $this->translator->text($key));
+        return str_replace(['%field', '%arg'], [$field, $arg], $this->translator->text('validation.'.$key));
     }
 
     /**
