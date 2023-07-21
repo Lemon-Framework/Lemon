@@ -33,6 +33,7 @@ class Validator implements ValidatorContract
     public function addError(string $key, string $field, string $arg): static
     {
         $this->error = [$key, $field, $arg];
+
         return $this;
     }
 
