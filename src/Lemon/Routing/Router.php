@@ -10,6 +10,7 @@ use Lemon\Contracts\Templating\Factory as TemplateFactory;
 use Lemon\Http\Request;
 use Lemon\Http\Response;
 use Lemon\Http\Responses\EmptyResponse;
+use Lemon\Http\Responses\RedirectResponse;
 use Lemon\Kernel\Application;
 use Lemon\Protection\Middlwares\Csrf;
 use Lemon\Routing\Attributes\AfterAction;
@@ -128,6 +129,14 @@ class Router implements RouterContract
         $view = $view ?? str_replace('/', '.', $path);
 
         return $this->routes->add($path, 'get', fn (TemplateFactory $templates) => $templates->make($view));
+    }
+
+    /**
+     * Creates GET route that redirects to given url.
+     */
+    public function redirect(string $path, string $redirect): Route
+    {
+        return $this->routes()->add($path, 'get', fn() => (new RedirectResponse())->location($redirect));
     }
 
     /**

@@ -16,7 +16,8 @@ namespace Lemon;
  * @method static \Lemon\Routing\Route      path(string $path, $action)                  Creates route with method path
  * @method static \Lemon\Routing\Route      options(string $path, $action)               Creates route with method options
  * @method static \Lemon\Routing\Route      any(string $path, callable $action)          The Lemon Router.
- * @method static \Lemon\Routing\Route      template(string $path, ?string $view = null) Creates GET route directly returning view
+ * @method static \Lemon\Routing\Route      template(string $path, ?string $view = null) Creates GET route directly returning view.
+ * @method static \Lemon\Routing\Route      redirect(string $path, string $redirect)     Creates GET route that redirects to given url.
  * @method static \Lemon\Routing\Collection collection(callable $routes)                 Creates collection of routes created in given callback
  * @method static \Lemon\Routing\Collection file(string $file)                           Creates collection of routes created in given file
  * @method static \Lemon\Routing\Collection controller(string $base, string $controller) Creates collection of given controller
