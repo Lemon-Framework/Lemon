@@ -19,6 +19,6 @@ class IncludeDirective implements Directive
             throw new CompilerException('Argument 1 of directive include has to be string', $token->line);
         }
 
-        return '<?php include $_factory->make('.$tokens[1][1].')->raw_path ?>';
+        return '<?php include $_factory->make('.$tokens[1][1].')->compiled_path ?>';
     }
 }
