@@ -94,7 +94,7 @@ class FactoryTest extends TestCase
         $this->assertThat(new Template(
             __DIR__.$s.'templates'.$s.'foo'.$s.'bar.foo',
             __DIR__.$s.'storage'.$s.'templates'.$s.'foo_bar.php',
-            ['foo' => 'bar', '_env' => new Environment(), '_factory' => $factory]
+            ['foo' => 'bar', '_env' => new Environment(), '_factory' => $factory, '_name' => 'foo.bar']
         ), $this->equalTo($factory->make('foo.bar', ['foo' => 'bar'])));
     }
 

@@ -52,6 +52,7 @@ final class Factory implements FactoryInterface
 
         $data['_env'] = $this->application->get('templating.env');
         $data['_factory'] = $this;
+        $data['_name'] = $name;
 
         return new Template($path, $compiled_path, $data);
     }
