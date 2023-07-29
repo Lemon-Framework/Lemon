@@ -20,6 +20,8 @@ class TranslationDirectiveTest extends TestCase
     {
         $c = new TranslationDirective();
         $this->assertSame('<?php echo \Lemon\Translator::text(\'klobas\') ?>', $c->compileOpenning(new Token(Token::TAG, ['text', 'klobas'], 1), []));
+        $this->assertSame('<?php echo \Lemon\Translator::text(\'klobas\') ?>', $c->compileOpenning(new Token(Token::TAG, ['text', '"klobas"'], 1), []));
+        $this->assertSame('<?php echo \Lemon\Translator::text(\'klobas\') ?>', $c->compileOpenning(new Token(Token::TAG, ['text', "'klobas'"], 1), []));
         $this->expectException(CompilerException::class);
         $c->compileOpenning(new Token(Token::TAG, ['text', ''], 1), []);
     }

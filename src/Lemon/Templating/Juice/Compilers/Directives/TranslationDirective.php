@@ -15,6 +15,6 @@ class TranslationDirective implements Directive
             throw new CompilerException('Directive text expects one argument');
         }
 
-        return '<?php echo \Lemon\Translator::text(\''.$token->content[1].'\') ?>';
+        return '<?php echo \Lemon\Translator::text(\''.trim($token->content[1], '\'"').'\') ?>';
     }
 }
