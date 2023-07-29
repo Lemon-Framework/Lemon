@@ -14,6 +14,7 @@ class Layout
 
     public function __construct(
         private string $file,
+        private array $data = [],
     ) {
     }
 
@@ -22,6 +23,8 @@ class Layout
         $_layout = $this;
 
         if (!$this->last) {
+            $data = $this->data;
+            extract($data);
             include $this->file;
         }
     }

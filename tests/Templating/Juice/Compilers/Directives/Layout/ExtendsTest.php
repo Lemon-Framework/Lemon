@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lemon\Tests\Templating\Juice\Compilers\Directives;
+namespace Lemon\Tests\Templating\Juice\Compilers\Directives\Layout;
 
 use Lemon\Config\Config;
 use Lemon\Kernel\Application;
@@ -18,7 +18,7 @@ use Lemon\Tests\TestCase;
  *
  * @coversNothing
  */
-class ExtendsDirectiveTest extends TestCase
+class ExtendsTest extends TestCase
 {
     public function testCompilation()
     {
@@ -28,7 +28,7 @@ class ExtendsDirectiveTest extends TestCase
         new Factory($config, $compiler, $application);
 
         $this->assertSame(
-            '<?php $_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout\Layout($_factory->make("foo.bar")->compiled_path) ?>',
+            '<?php $_layout = new \Lemon\Templating\Juice\Compilers\Directives\Layout\Layout($_factory->make("foo.bar")->compiled_path, $data) ?>',
             $compiler->directives->compileOpenning(new Token(Token::TAG, ['extends', '"foo.bar"'], 1), [])
         );
 
