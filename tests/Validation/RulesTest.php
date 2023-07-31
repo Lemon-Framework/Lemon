@@ -92,4 +92,12 @@ class RulesTest extends TestCase
         $r->rule('name', fn ($name) => ucfirst($name) === $name);
         $this->assertTrue($r->call('Parek', ['name']));
     }
+
+    public function testDate()
+    {
+        $r = new Rules();
+        $this->assertTrue($r->date('2020-01-01'));
+        $this->assertFalse($r->date('2020-01-32'));
+        $this->assertFalse($r->date('202-1-2'));
+    }
 }
