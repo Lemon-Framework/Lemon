@@ -38,7 +38,7 @@ class Router implements RouterContract
         'store' => ['post', '/create'],
         'show' => ['get', '/{target}'],
         'edit' => ['get', '/{target}/edit'],
-        'update' => ['put', '/{target}'],
+        'update' => ['post', '/{target}'],
         'delete' => ['get', '/{target}/delete'],
     ];
 
