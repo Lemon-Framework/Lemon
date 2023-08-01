@@ -100,4 +100,15 @@ class RulesTest extends TestCase
         $this->assertFalse($r->date('2020-01-32'));
         $this->assertFalse($r->date('202-1-2'));
     }
+
+    public function testDateTime()
+    {
+        $r = new Rules();
+        $this->assertTrue($r->datetime('2020-01-01T12:00'));
+        $this->assertFalse($r->datetime('2020-01-32T12:00'));
+        $this->assertFalse($r->datetime('202-1-2T12:00'));
+        $this->assertFalse($r->datetime('2023-10-02T1:00'));
+        $this->assertFalse($r->datetime('2023-10-02T1:000'));
+        $this->assertFalse($r->datetime('2023-10-02 1:000'));
+    }
 }
