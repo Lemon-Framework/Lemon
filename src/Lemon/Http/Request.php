@@ -56,7 +56,7 @@ class Request
             getallheaders(),
             file_get_contents('php://input'),
             $_COOKIE,
-            Arr::map(fn ($item, $name) => new File($name, $item['type'], $item['full_path'], $item['error'], $item['size']), $_FILES),
+            Arr::map(fn ($item, $name) => new File($name, $item['type'], $item['tmp_path'], $item['error'], $item['size']), $_FILES),
             $_SERVER['REMOTE_ADDR'],
             $_POST,
         );

@@ -22,7 +22,7 @@ class File
 
     public function copy(string $new): static
     {
-        copy($this->tmp_path, $new);
+        move_uploaded_file($this->tmp_path, $new);
 
         return $this;
     }
