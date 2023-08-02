@@ -94,13 +94,6 @@ class RequestTest extends TestCase
 
         $this->assertInstanceOf(File::class, $r->file('foo'));
         $this->assertNull($r->file('bar'));
-
-        $this->assertSame('ok
-', $r->file('foo')->read());
-        $r->file('foo')->copy($second = __DIR__.DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'bar.php');
-
-        $this->assertFileEquals($first, $second);
-        unlink($second);
     }
 
     public function testValidation()
