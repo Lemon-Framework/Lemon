@@ -28,7 +28,8 @@ class Request
         public readonly string $body,
         public readonly array $cookies,
         public readonly array $files,
-        public readonly string $ip
+        public readonly string $ip,
+        private readonly ?array $request_data = [],
     ) {
     }
 
@@ -56,7 +57,8 @@ class Request
             file_get_contents('php://input'),
             $_COOKIE,
             Arr::map(fn ($item, $name) => new File($name, $item['type'], $item['full_path'], $item['error'], $item['size']), $_FILES),
-            $_SERVER['REMOTE_ADDR']
+            $_SERVER['REMOTE_ADDR'],
+            $_POST,
         );
     }
 
@@ -277,8 +279,7 @@ class Request
             default:
 
                 if (preg_match('~multipart/form; boundary=(.+)~', $content_type, $matches)) {
-                    parse_str($this->body, $result);
-                    $this->body_data = $result;
+                    $this->body_data = $this->request_data;
                     return;
                 }
 
