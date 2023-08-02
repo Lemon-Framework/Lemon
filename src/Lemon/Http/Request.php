@@ -275,6 +275,13 @@ class Request
                 return;
 
             default:
+
+                if (preg_match('~multipart/form; boundary=(.+)~', $content_type, $matches)) {
+                    parse_str($this->body, $result);
+                    $this->body_data = $result;
+                    return;
+                }
+
                 if (isset($this->parsers[$content_type])) {
                     $this->body_data = $this->parsers[$content_type]($this->body);
                 }
