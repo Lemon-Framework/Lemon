@@ -278,7 +278,7 @@ class Request
 
             default:
 
-                if (preg_match('~multipart/form; boundary=(.+)~', $content_type, $matches)) {
+                if (preg_match('~multipart/form-data; boundary=(.+)~', $content_type, $matches)) {
                     $this->body_data = $this->request_data;
                     return;
                 }
