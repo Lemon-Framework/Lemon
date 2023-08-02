@@ -34,4 +34,10 @@ class ArrTest extends TestCase
         $this->assertSame([5, 4, 3, 2, 1], iterator_to_array(Arr::range(5, 1)));
         $this->assertSame([1], iterator_to_array(Arr::range(1, 1)));
     }
+
+    public function testMap()
+    {
+        $this->assertSame([2, 4, 6], Arr::map(fn ($item) => $item * 2, [1, 2, 3]));
+        $this->assertSame([[0, 1], [1, 2], [2, 3]], Arr::map(fn ($item, $key) => [$key, $item], [1, 2, 3]));
+    }
 }

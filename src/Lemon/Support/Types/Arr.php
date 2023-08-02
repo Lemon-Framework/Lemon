@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Support\Types;
 
 /**
- * Here is regex for replacing Arr::hasKey to array_key_exists
- * :%s/Arr::hasKey(\(.\+\),\s*\([^)]\+\))/array_key_exists(\2, \1).
+ * Class providing simple actions with arrays
  */
 class Arr
 {
@@ -41,5 +40,17 @@ class Arr
             yield $from;
             $from += $step;
         }
+    }
+
+    /**
+     * Applies callback to each item in array.
+     */
+    public static function map(callable $callback, iterable $array): iterable
+    {
+        foreach ($array as $key => $value) {
+            $array[$key] = $callback($value, $key);
+        }
+
+        return $array;
     }
 }
