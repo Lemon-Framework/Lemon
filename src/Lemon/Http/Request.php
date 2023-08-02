@@ -8,6 +8,7 @@ use Exception;
 use Lemon\Contracts\Validation\Validator;
 use Lemon\DataMapper\DataMapper;
 use Lemon\Kernel\Application;
+use Lemon\Support\Types\Arr;
 
 class Request
 {
@@ -54,7 +55,7 @@ class Request
             getallheaders(),
             file_get_contents('php://input'),
             $_COOKIE,
-            array_map(fn ($item) => new File(...$item), $_FILES),
+            Arr::map(fn ($item, $name) => new File($name, $item['type'], $item['full_path'], $item['error'], $item['size']), $_FILES),
             $_SERVER['REMOTE_ADDR']
         );
     }
