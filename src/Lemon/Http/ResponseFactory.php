@@ -62,6 +62,10 @@ class ResponseFactory implements ResponseFactoryContract
             return new TemplateResponse($data);
         }
 
+        if (is_callable($data)) {
+            return $this->make($data);
+        }
+
         throw new \Exception('Class '.$data::class.' can\'t be resolved as response');
     }
 
