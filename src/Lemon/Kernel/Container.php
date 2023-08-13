@@ -134,8 +134,9 @@ class Container implements ContainerInterface
 
     public function isInjectable(string $id): bool
     {
+        $id = trim($id, '?');
         return
-            class_exists(trim($id, '?'))
+            class_exists($id)
             ? in_array(Injectable::class, class_implements($id))
             : false
         ;
