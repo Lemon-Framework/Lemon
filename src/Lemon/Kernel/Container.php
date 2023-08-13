@@ -32,6 +32,7 @@ class Container implements ContainerInterface
      */
     public function get(string $id, mixed $value = null): mixed
     {
+        $id = trim($id, '?');
         if ($this->isInjectable($id)) {
             return $id::fromInjection($this, $value);
         }
@@ -134,7 +135,6 @@ class Container implements ContainerInterface
 
     public function isInjectable(string $id): bool
     {
-        $id = trim($id, '?');
         return
             class_exists($id)
             ? in_array(Injectable::class, class_implements($id))
