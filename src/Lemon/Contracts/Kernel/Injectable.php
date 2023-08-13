@@ -11,5 +11,5 @@ interface Injectable
     /**
      * Creates new instance from injection value.
      */
-    public static function fromInjection(Container $container, mixed $value): self;
+    public static function fromInjection(Container $container, mixed $value): ?self;
 }
