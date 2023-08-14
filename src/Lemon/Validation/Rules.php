@@ -75,6 +75,57 @@ class Rules
         return preg_match('/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/', $target) === 1 && strtotime($target) !== false;
     }
 
+    public function integer(string $target): bool
+    {
+        return $this->numeric($target) && (int) $target == $target;
+    }
+
+    public function lt(string $target, string $operand): bool
+    {
+        if (!$this->numeric($operand)) {
+            throw new ValidatorException('Operand '.$operand.' passed to rule lt is not numeric.');
+        }
+
+        return $this->numeric($target) && (double) $target < (double) $operand;
+    }
+
+    public function lte(string $target, string $operand): bool
+    {
+        if (!$this->numeric($operand)) {
+            throw new ValidatorException('Operand '.$operand.' passed to rule lte is not numeric.');
+        }
+
+        return $this->numeric($target) && (double) $target <= (double) $operand;
+    }
+
+    public function gt(string $target, string $operand): bool
+    {
+        if (!$this->numeric($operand)) {
+            throw new ValidatorException('Operand '.$operand.' passed to rule gt is not numeric.');
+        }
+
+        return $this->numeric($target) && (double) $target > (double) $operand;
+    }
+
+    public function gte(string $target, string $operand): bool
+    {
+        if (!$this->numeric($operand)) {
+            throw new ValidatorException('Operand '.$operand.' passed to rule gte is not numeric.');
+        }
+
+        return $this->numeric($target) && (double) $target >= (double) $operand;
+    }
+
+    public function year(string $target): bool
+    {
+        return $this->integer($target) && intval($target) >= 0;
+    }
+
+    public function passedYear(string $target): bool
+    {
+        return $this->year($target) && intval($target) < date('Y');
+    }
+
     public function rule(string $name, callable $action): static
     {
         $this->rules[$name] = $action;
