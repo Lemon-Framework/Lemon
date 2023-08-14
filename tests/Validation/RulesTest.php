@@ -111,4 +111,20 @@ class RulesTest extends TestCase
         $this->assertFalse($r->datetime('2023-10-02T1:000'));
         $this->assertFalse($r->datetime('2023-10-02 1:000'));
     }
+
+    public function testBoolean()
+    {
+        $r = new Rules();
+        $this->assertTrue($r->boolean('true'));
+        $this->assertTrue($r->boolean('false'));
+        $this->assertTrue($r->boolean('1'));
+        $this->assertTrue($r->boolean('0'));
+        $this->assertTrue($r->boolean('on'));
+        $this->assertTrue($r->boolean('off'));
+        $this->assertTrue($r->boolean('yes'));
+        $this->assertTrue($r->boolean('no'));
+        $this->assertFalse($r->boolean(''));
+        $this->assertFalse($r->boolean('asdf'));
+        $this->assertFalse($r->boolean('42'));
+    }
 }
