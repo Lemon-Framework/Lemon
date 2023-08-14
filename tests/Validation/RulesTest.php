@@ -251,7 +251,7 @@ class RulesTest extends TestCase
         $this->assertFalse($r->passedYear(date('Y')));
         $this->assertFalse($r->passedYear((string) (intval(date('Y')) + 1))); // Next year
     }
-    
+
     public function testBoolean()
     {
         $r = new Rules();
@@ -267,4 +267,35 @@ class RulesTest extends TestCase
         $this->assertFalse($r->boolean('asdf'));
         $this->assertFalse($r->boolean('42'));
     }
+
+    public function testInEnum()
+    {
+        $r = new Rules();
+        $this->assertTrue($r->in_enum('KETCHUP', PureEnum::class));
+        $this->assertTrue($r->in_enum(PureEnum::KETCHUP->name, PureEnum::class));
+        $this->assertTrue($r->in_enum('MUSTARD', PureEnum::class));
+        $this->assertTrue($r->in_enum(PureEnum::MUSTARD->name, PureEnum::class));
+        $this->assertFalse($r->in_enum('MAYONNAISE', PureEnum::class));
+        $this->assertFalse($r->in_enum(BackedEnum::RED->name, PureEnum::class));
+        $this->assertFalse($r->in_enum(BackedEnum::RED->value, PureEnum::class));
+
+        $this->assertFalse($r->in_enum('RED', BackedEnum::class));
+        $this->assertFalse($r->in_enum(BackedEnum::RED->name, BackedEnum::class));
+        $this->assertTrue($r->in_enum(BackedEnum::RED->value, BackedEnum::class));
+        $this->assertTrue($r->in_enum(BackedEnum::GREEN->value, BackedEnum::class));
+        $this->assertFalse($r->in_enum(PureEnum::KETCHUP->name, BackedEnum::class));
+    }
+}
+
+enum PureEnum
+{
+    case KETCHUP;
+    case MUSTARD;
+}
+
+enum BackedEnum: string
+{
+    case RED = '#FF0000';
+    case GREEN = '#00FF00';
+    case BLUE = '#0000FF';
 }
