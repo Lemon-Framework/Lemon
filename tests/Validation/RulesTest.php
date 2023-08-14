@@ -112,6 +112,146 @@ class RulesTest extends TestCase
         $this->assertFalse($r->datetime('2023-10-02 1:000'));
     }
 
+    public function testInteger()
+    {
+        $r = new Rules();
+        $this->assertTrue($r->integer('1'));
+        $this->assertTrue($r->integer('0'));
+        $this->assertTrue($r->integer('-1'));
+        $this->assertFalse($r->integer('1.5'));
+        $this->assertFalse($r->integer('0.5'));
+        $this->assertFalse($r->integer('-1.5'));
+    }
+
+    public function testLt()
+    {
+        $r = new Rules();
+        $this->assertFalse($r->lt('0', '0'));
+        $this->assertFalse($r->lt('10', '10'));
+        $this->assertFalse($r->lt('-5', '-5'));
+        $this->assertFalse($r->lt('2.3', '2.3'));
+        $this->assertFalse($r->lt('-2.3', '-2.3'));
+        $this->assertTrue($r->lt('0', '1'));
+        $this->assertFalse($r->lt('1', '0'));
+        $this->assertTrue($r->lt('-1', '0'));
+        $this->assertFalse($r->lt('0', '-1'));
+        $this->assertTrue($r->lt('-0.5', '0'));
+        $this->assertFalse($r->lt('0', '-0.5'));
+        $this->assertFalse($r->lt('0.5', '0'));
+        $this->assertTrue($r->lt('0', '0.5'));
+        $this->assertTrue($r->lt('24', '42'));
+        $this->assertFalse($r->lt('42', '24'));
+        $this->assertTrue($r->lt('-10', '50'));
+        $this->assertFalse($r->lt('50', '-10'));
+        $this->assertTrue($r->lt('2.5', '3.2'));
+        $this->assertFalse($r->lt('3.2', '2.5'));
+        $this->assertTrue($r->lt('-1.2', '3.1'));
+        $this->assertFalse($r->lt('3.1', '-1.2'));
+    }
+
+    public function testLte()
+    {
+        $r = new Rules();
+        $this->assertTrue($r->lte('0', '0'));
+        $this->assertTrue($r->lte('10', '10'));
+        $this->assertTrue($r->lte('-5', '-5'));
+        $this->assertTrue($r->lte('2.3', '2.3'));
+        $this->assertTrue($r->lte('-2.3', '-2.3'));
+        $this->assertTrue($r->lte('0', '1'));
+        $this->assertFalse($r->lte('1', '0'));
+        $this->assertTrue($r->lte('-1', '0'));
+        $this->assertFalse($r->lte('0', '-1'));
+        $this->assertTrue($r->lte('-0.5', '0'));
+        $this->assertFalse($r->lte('0', '-0.5'));
+        $this->assertFalse($r->lte('0.5', '0'));
+        $this->assertTrue($r->lte('0', '0.5'));
+        $this->assertTrue($r->lte('24', '42'));
+        $this->assertFalse($r->lte('42', '24'));
+        $this->assertTrue($r->lte('-10', '50'));
+        $this->assertFalse($r->lte('50', '-10'));
+        $this->assertTrue($r->lte('2.5', '3.2'));
+        $this->assertFalse($r->lte('3.2', '2.5'));
+        $this->assertTrue($r->lte('-1.2', '3.1'));
+        $this->assertFalse($r->lte('3.1', '-1.2'));
+    }
+
+    public function testGt()
+    {
+        $r = new Rules();
+        $this->assertFalse($r->gt('0', '0'));
+        $this->assertFalse($r->gt('10', '10'));
+        $this->assertFalse($r->gt('-5', '-5'));
+        $this->assertFalse($r->gt('2.3', '2.3'));
+        $this->assertFalse($r->gt('-2.3', '-2.3'));
+        $this->assertFalse($r->gt('0', '1'));
+        $this->assertTrue($r->gt('1', '0'));
+        $this->assertFalse($r->gt('-1', '0'));
+        $this->assertTrue($r->gt('0', '-1'));
+        $this->assertFalse($r->gt('-0.5', '0'));
+        $this->assertTrue($r->gt('0', '-0.5'));
+        $this->assertTrue($r->gt('0.5', '0'));
+        $this->assertFalse($r->gt('0', '0.5'));
+        $this->assertFalse($r->gt('24', '42'));
+        $this->assertTrue($r->gt('42', '24'));
+        $this->assertFalse($r->gt('-10', '50'));
+        $this->assertTrue($r->gt('50', '-10'));
+        $this->assertFalse($r->gt('2.5', '3.2'));
+        $this->assertTrue($r->gt('3.2', '2.5'));
+        $this->assertFalse($r->gt('-1.2', '3.1'));
+        $this->assertTrue($r->gt('3.1', '-1.2'));
+    }
+
+    public function testGte()
+    {
+        $r = new Rules();
+        $this->assertTrue($r->gte('0', '0'));
+        $this->assertTrue($r->gte('10', '10'));
+        $this->assertTrue($r->gte('-5', '-5'));
+        $this->assertTrue($r->gte('2.3', '2.3'));
+        $this->assertTrue($r->gte('-2.3', '-2.3'));
+        $this->assertFalse($r->gte('0', '1'));
+        $this->assertTrue($r->gte('1', '0'));
+        $this->assertFalse($r->gte('-1', '0'));
+        $this->assertTrue($r->gte('0', '-1'));
+        $this->assertFalse($r->gte('-0.5', '0'));
+        $this->assertTrue($r->gte('0', '-0.5'));
+        $this->assertTrue($r->gte('0.5', '0'));
+        $this->assertFalse($r->gte('0', '0.5'));
+        $this->assertFalse($r->gte('24', '42'));
+        $this->assertTrue($r->gte('42', '24'));
+        $this->assertFalse($r->gte('-10', '50'));
+        $this->assertTrue($r->gte('50', '-10'));
+        $this->assertFalse($r->gte('2.5', '3.2'));
+        $this->assertTrue($r->gte('3.2', '2.5'));
+        $this->assertFalse($r->gte('-1.2', '3.1'));
+        $this->assertTrue($r->gte('3.1', '-1.2'));
+    }
+
+    public function testYear()
+    {
+        $r = new Rules();
+        $this->assertTrue($r->year('0'));
+        $this->assertTrue($r->year('1984'));
+        $this->assertTrue($r->year('2023'));
+        $this->assertFalse($r->year('-5'));
+        $this->assertFalse($r->year('3.141'));
+        $this->assertTrue($r->year((string) (intval(date('Y')) + -1))); // Previous year
+        $this->assertTrue($r->year(date('Y')));
+        $this->assertTrue($r->year((string) (intval(date('Y')) + 1))); // Next year
+    }
+
+    public function testPassedYear()
+    {
+        $r = new Rules();
+        $this->assertTrue($r->passedYear('0'));
+        $this->assertTrue($r->passedYear('1984'));
+        $this->assertFalse($r->passedYear('-5'));
+        $this->assertFalse($r->passedYear('3.141'));
+        $this->assertTrue($r->passedYear((string) (intval(date('Y')) + -1))); // Previous year
+        $this->assertFalse($r->passedYear(date('Y')));
+        $this->assertFalse($r->passedYear((string) (intval(date('Y')) + 1))); // Next year
+    }
+    
     public function testBoolean()
     {
         $r = new Rules();
