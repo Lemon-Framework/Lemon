@@ -125,10 +125,27 @@ class Rules
     {
         return $this->year($target) && intval($target) < date('Y');
     }
-  
+
     public function boolean(string $target): bool
     {
         return $target !== '' && filter_var($target, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null;
+    }
+
+    public function in_enum(string $target, string $enum): bool
+    {
+        if (!enum_exists($enum)) {
+            throw new ValidatorException('Given class '.$enum.' is not an enum.');
+        }
+
+        if (in_array(\BackedEnum::class, class_implements($enum))) {
+            return in_array($target, array_map(fn($case) => $case->value, $enum::cases()));
+        }
+
+        if (in_array(\UnitEnum::class, class_implements($enum))) {
+            return in_array($target, array_map(fn($case) => $case->name, $enum::cases()));
+        }
+
+        return false;
     }
 
     public function rule(string $name, callable $action): static
