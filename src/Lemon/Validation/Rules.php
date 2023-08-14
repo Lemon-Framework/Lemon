@@ -75,6 +75,11 @@ class Rules
         return preg_match('/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/', $target) === 1 && strtotime($target) !== false;
     }
 
+    public function boolean(string $target): bool
+    {
+        return $target !== '' && filter_var($target, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null;
+    }
+
     public function rule(string $name, callable $action): static
     {
         $this->rules[$name] = $action;
