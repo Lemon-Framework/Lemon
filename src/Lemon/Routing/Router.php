@@ -39,7 +39,7 @@ class Router implements RouterContract
         'show' => ['get', '/{target}'],
         'edit' => ['get', '/{target}/edit'],
         'update' => ['post', '/{target}'],
-        'delete' => ['get', '/{target}/delete'],
+        'delete' => ['post', '/{target}/delete'],
     ];
 
     private Collection $routes;
