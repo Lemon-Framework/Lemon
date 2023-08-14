@@ -250,5 +250,20 @@ class RulesTest extends TestCase
         $this->assertTrue($r->passedYear((string) (intval(date('Y')) + -1))); // Previous year
         $this->assertFalse($r->passedYear(date('Y')));
         $this->assertFalse($r->passedYear((string) (intval(date('Y')) + 1))); // Next year
+
+    public function testBoolean()
+    {
+        $r = new Rules();
+        $this->assertTrue($r->boolean('true'));
+        $this->assertTrue($r->boolean('false'));
+        $this->assertTrue($r->boolean('1'));
+        $this->assertTrue($r->boolean('0'));
+        $this->assertTrue($r->boolean('on'));
+        $this->assertTrue($r->boolean('off'));
+        $this->assertTrue($r->boolean('yes'));
+        $this->assertTrue($r->boolean('no'));
+        $this->assertFalse($r->boolean(''));
+        $this->assertFalse($r->boolean('asdf'));
+        $this->assertFalse($r->boolean('42'));
     }
 }
