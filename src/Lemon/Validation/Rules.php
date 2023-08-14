@@ -125,7 +125,7 @@ class Rules
     {
         return $this->year($target) && intval($target) < date('Y');
     }
-  
+
     public function boolean(string $target): bool
     {
         return $target !== '' && filter_var($target, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null;
