@@ -7,6 +7,7 @@ namespace Lemon\Kernel;
 use Error;
 use Exception;
 use Lemon\Contracts;
+use Lemon\Http\Middlewares\TrimStrings;
 use Lemon\Http\Request;
 use Lemon\Protection\Middlwares\Csrf;
 use Lemon\Routing\Router;
@@ -264,7 +265,10 @@ final class Application extends Container
                 return;
             }
 
-            $application->get(Router::class)->routes()->middleware(Csrf::class);
+            $application->get(Router::class)->routes()
+                                            ->middleware(Csrf::class)
+                                            ->middleware(TrimStrings::class)
+            ;
 
             $application->boot();
         });

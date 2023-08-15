@@ -170,7 +170,9 @@ class RequestTest extends TestCase
     public function testReplace(): void
     {
         $r = new Request('/', 'rizek=parek&parkoslav=rizkoparek', 'GET', ['Content-Type' => 'application/json'], '{"foo":10}', [], [], '');      
-        $this->assertSame(['bar' => 'baz', 'parek' => 'klobas'], $r->replace(['bar' => 'baz', 'parek' => 'klobas'])->data());
-        $this->assertSame(['rizer' => 'parek', 'parkoslav' => 'rizkoslavek'], $r->replaceQuery(['rizer' => 'parek', 'parkoslav' => 'rizkoslavek'])->query());
+        $r->replace(['bar' => 'baz', 'parek' => 'klobas']);
+        $this->assertSame(['bar' => 'baz', 'parek' => 'klobas'], $r->data());
+        $r->replaceQuery(['rizer' => 'parek', 'parkoslav' => 'rizkoslavek']);
+        $this->assertSame(['rizer' => 'parek', 'parkoslav' => 'rizkoslavek'], $r->query());
     }
 }
