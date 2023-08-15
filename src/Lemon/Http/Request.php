@@ -257,6 +257,24 @@ class Request
         return $result;
     }
 
+    /**
+     * Replaces input with given data.
+     */
+    public function replace(array $data): self
+    {
+        $this->body_data = $data;
+        return $this;
+    }
+
+    /**
+     * Replaces query with given data.
+     */
+    public function replaceQuery(array $data): self
+    {
+        $this->query_data = $data;
+        return $this;
+    }
+
     private function parseBody(): void
     {
         $this->body_data = [];
