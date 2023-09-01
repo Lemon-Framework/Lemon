@@ -153,7 +153,7 @@ class Request
             $this->parseBody();
         }
 
-        return $this->body_data;
+        return $this->body_data ?? [];
     }
 
     /**
