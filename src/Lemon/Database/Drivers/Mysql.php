@@ -19,15 +19,16 @@ class Mysql extends Driver
         }
 
         return [
-            implode(
+            'mysql:'
+            .implode(
                 ';',
                 array_map(
                     fn ($item) => $item[0].'='.$item[1],
-                    array_slice($result, -2)
+                    array_slice($result, 0, -2)
                 )
             ),
-            $result[5],
-            $result[6],
+            $result[5][1],
+            $result[6][1],
         ];
     }
 }
