@@ -139,6 +139,16 @@ class RouterTest extends TestCase
         $this->assertThat($r->dispatch($this->emulate('foo', 'GET')), $this->equalTo(new TemplateResponse(new Template($path, $path, ['code' => 404]), 404)));
         $this->assertThat($r->dispatch($this->emulate('/', 'POST')), $this->equalTo(new TemplateResponse(new Template($path, $path, ['code' => 400]), 400)));
     }
+
+    public function testPriorityOfStaticRoutes()
+    {
+        $r = $this->getRouter();
+        $r->get('/foo/{bar}', fn($bar) => $bar);
+        $r->get('/foo/baz', fn() => 'foobaz');
+
+        $this->assertThat($r->dispatch($this->emulate('/foo/baz', 'GET')), $this->equalTo(new HtmlResponse('foobaz')));
+        $this->assertThat($r->dispatch($this->emulate('/foo/bar', 'GET')), $this->equalTo(new HtmlResponse('bar')));
+    }
 }
 
 class SimpleCompiler implements Compiler
