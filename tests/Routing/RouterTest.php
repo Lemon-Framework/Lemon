@@ -145,9 +145,11 @@ class RouterTest extends TestCase
         $r = $this->getRouter();
         $r->get('/foo/{bar}', fn($bar) => $bar);
         $r->get('/foo/baz', fn() => 'foobaz');
+        $r->get('foo', fn() => 'foo');
 
         $this->assertThat($r->dispatch($this->emulate('/foo/baz', 'GET')), $this->equalTo(new HtmlResponse('foobaz')));
         $this->assertThat($r->dispatch($this->emulate('/foo/bar', 'GET')), $this->equalTo(new HtmlResponse('bar')));
+        $this->assertThat($r->dispatch($this->emulate('/foo', 'GET')), $this->equalTo(new HtmlResponse('foo')));
 
         $r = $this->getRouter();
         $r->collection(function() use ($r) {
@@ -160,7 +162,7 @@ class RouterTest extends TestCase
         $this->assertThat($r->dispatch($this->emulate('/foo/baz', 'GET')), $this->equalTo(new HtmlResponse('foobaz')));
         $this->assertThat($r->dispatch($this->emulate('/foo/bar', 'GET')), $this->equalTo(new HtmlResponse('bar')));
         $this->assertThat($r->dispatch($this->emulate('/foo/baz/baz/foo', 'GET')), $this->equalTo(new HtmlResponse('parek v rohliku')));
-        $this->assertThat($r->dispatch($this->emulate('/foo/bar/baz/foo', 'GET')), $this->equalTo(new HtmlResponse('barfoo')));
+        $this->assertThat($r->dispatch($this->emulate('/foo/rizek/baz/parek', 'GET')), $this->equalTo(new HtmlResponse('rizekparek')));
 
     }
 }
