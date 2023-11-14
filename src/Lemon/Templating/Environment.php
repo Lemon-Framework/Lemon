@@ -17,9 +17,9 @@ final class Environment
     /**
      * Escapes html entities.
      */
-    public function escapeHtml(string $content): string
+    public function escapeHtml(mixed $content): string
     {
-        return htmlspecialchars($content);
+        return htmlspecialchars((string) $content);
     }
 
     /**
@@ -33,8 +33,8 @@ final class Environment
     /**
      * Disables javascript in url attributes.
      */
-    public function escapeAttribute(string $content): string
+    public function escapeAttribute(mixed $content): string
     {
-        return str_starts_with($content, 'javascript:') ? '' : htmlspecialchars($content);
+        return str_starts_with((string) $content, 'javascript:') ? '' : htmlspecialchars($content);
     }
 }
