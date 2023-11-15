@@ -120,31 +120,41 @@ class Collection
         }
         foreach ($this->routes as $route) {
             if ($route instanceof Collection) {
-                if (!is_null($found = $route->dispatch($path))) {
-                    if ($this->exclude) {
-                        $found[0]->exclude(...$this->exclude);
-                    }
-
-                    if ($this->middlewares) {
-                        $found[0]->middleware(...$this->middlewares);
-                    }
-
-                    return $found;
+                if (is_null($found = $route->dispatch($path))) {
+                    continue;
                 }
+            
+                if ($this->exclude) {
+                    $found[0]->exclude(...$this->exclude);
+                }
+
+                if ($this->middlewares) {
+                    $found[0]->middleware(...$this->middlewares);
+                }
+
+                return $found;
             }
 
             if ($route instanceof Route) {
-                if (!is_null($found = $route->matches($path))) {
-                    if ($this->exclude) {
-                        $route->exclude(...$this->exclude);
-                    }
-
-                    if ($this->middlewares) {
-                        $route->middleware(...$this->middlewares);
-                    }
-
-                    return [$route, $found];
+                if (is_null($found = $route->matches($path))) {
+                    continue;
                 }
+
+                if ($found !== []
+                    && isset($this->routes[$path])
+                ) {
+                    continue;
+                }
+
+                if ($this->exclude) {
+                    $route->exclude(...$this->exclude);
+                }
+
+                if ($this->middlewares) {
+                    $route->middleware(...$this->middlewares);
+                }
+
+                return [$route, $found];
             }
         }
 
