@@ -7,7 +7,7 @@ namespace Lemon\Debug\Handling;
 use Lemon\Config\Config;
 use Lemon\Http\ResponseFactory;
 use Lemon\Kernel\Application;
-use Lemon\Logging\Logger;
+use Lemon\Contracts\Logging\Logger;
 
 class Handler
 {
