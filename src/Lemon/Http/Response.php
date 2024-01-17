@@ -221,7 +221,7 @@ abstract class Response
     public function handleCookies(array $cookies): void
     {
         foreach ([...$this->cookies, ...$cookies] as $cookie) {
-            setcookie(...[...$cookie, 'httponly' => false]);
+            setcookie(...[...$cookie, 'httponly' => false, 'path' => '/']);
         }
     }
 
