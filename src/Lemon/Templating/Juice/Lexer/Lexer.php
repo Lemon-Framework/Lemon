@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Templating\Juice\Lexer;
 
 use Generator;
+use Lemon\Templating\Juice\Operators;
 use Lemon\Templating\Juice\Syntax;
 use Lemon\Templating\Juice\Token;
 use Lemon\Templating\Juice\TokenKind;
@@ -15,11 +16,14 @@ class Lexer
 
     private int $pos = 0;
 
+    public readonly ExpressionLexer $expressionLexer;
+
     public function __construct(
         private string $code,
-        public readonly Syntax $syntax
+        public readonly Syntax $syntax,
+        public readonly Operators $operators,
     ) {
-        
+        $this->expressionLexer = new ExpressionLexer($operators);  
     }
 
     public function lex(): Generator
@@ -54,4 +58,19 @@ class Lexer
         yield new Token(TokenKind::HtmlCloseTag, $this->line, $this->pos);
     }
 
+    public function lexStringDelim(): Generator
+    {
+        yield new Token(TokenKind::HtmlStringDelim, $this->line, $this->pos);
+    }
+
+    public function lexDirective(array $content): Generator
+    {
+        // TODO Lex directive name
+        yield from $this->expressionLexer->lex($content); 
+    }
+
+    public function lexOutput(array $content): Generator
+    {
+        yield from $this->expressionLexer->lex($content);
+    }
 }

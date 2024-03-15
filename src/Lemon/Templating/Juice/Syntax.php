@@ -13,9 +13,9 @@ final class Syntax
     public readonly string $re;
 
     public function __construct(
-        public readonly string $directive = '\{\s*([^\{!#].*?)(?:\s+?([^\s].+?[^!\}#]))?\s*\}',
-        public readonly string $end = '(?:end|\/)(.+)',
-        public readonly string $output = '\{\{\s*(.+?)\s*\}\}',
+        public readonly string $directive = '\{\s*\#([^\{!#].*?)(?:\s+?([^\s].+?[^!\}#]))?\s*\}',
+        public readonly string $end = '\{\s*(?:end|\/)(.+)\s*\}',
+        public readonly string $output = '\{\s*(.+?)\s*\}',
         public readonly string $unsafe = '\{!\s*(.+?)\s*!\}',
         public readonly string $comment = '\{#.+?#\}',
         public readonly string $escape = '\\'
@@ -31,7 +31,7 @@ final class Syntax
         // TODO tests
         return new self(
             '\B@([^\(]+)(?(?=\()\((.+?)\))',
-            'end(.+)',
+            '\B@end(.+)',
             '\{\{[^-]\s*(.+?)\s*[^-]\}\}',
             '{!!\s*(.+?)\s*!!}',
             '{{--.+?--}}',
@@ -59,6 +59,7 @@ final class Syntax
             |(?<HtmlClose>\</)
             |(?<StringDelim>\"|')
             |(?<Directive>{$escape}{$this->directive})
+            |(?<End>{$escape}{$this->end})
             |(?<Output>{$escape}{$this->output})
             |(?<Unsafe>{$escape}{$this->unsafe})
             |(?<Comment>{$escape}{$this->comment})

@@ -34,25 +34,16 @@ enum TokenKind
     case Comment;
 
     // PHP
+    // You can basicaly say some things (such as arrows and stuff) are operators
     case BinaryOperator;
     case UnaryOperator;
-    case Not;
     case OpeningBracket;
     case ClosingBracket;
     case OpeningSquareBracket;
     case ClosingSquareBracket;
-    case Pipe;
-    case Arrow;
-    case NullArrow;
     case DoubleArrow;
-    case DoubleColon;
     case QuestionMark;
     case Colon;
-    case As;
-    case In;
-    case Instanceof;
-    case New;
-    case Elipsis;
     case Comma;
     case Fn;
     case String;

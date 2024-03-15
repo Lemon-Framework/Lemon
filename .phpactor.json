@@ -1,0 +1,5 @@
+{
+    "$schema": "/home/majkel/.config/nvim/plugged/phpactor/phpactor.schema.json",
+    "language_server_phpstan.enabled": false,
+    "language_server_php_cs_fixer.enabled": false
+}
