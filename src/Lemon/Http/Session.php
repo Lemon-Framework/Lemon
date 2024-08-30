@@ -40,7 +40,6 @@ class Session implements SessionContract
 
         session_start([
             'name' => $this->config->get('http.session.name'),
-            'cookie_lifetime' => 3600,
             'cookie_httponly' => true,
         ]);
     }
