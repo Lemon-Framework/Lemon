@@ -45,12 +45,12 @@ class CsrfTest extends TestCase
         $r = new Request('/', '', 'GET', [], '', [], [], ''); // Lets say we have regular get request
         $cj = new CookieJar($r);
         $m->handle($r, $c, $f, $cj);
-        $this->assertSame([['CSRF_TOKEN', $c->getToken(), 0]], $cj->cookies()); // Now user has the token in cookie
+        $this->assertSame([[['CSRF_TOKEN', $c->getToken()], ['expires' => 0, 'SameSite' => 'Strict']]], $cj->cookies()); // Now user has the token in cookie
 
         $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), ['CSRF_TOKEN' => $c->getToken()], [], '');
         $cj = new CookieJar($r);
         $m->handle($r, $c, $f, $cj);
-        $this->assertSame([['CSRF_TOKEN', $c->getToken(), 0]], $cj->cookies()); // Now user has new token in cookie
+        $this->assertSame([[['CSRF_TOKEN', $c->getToken()], ['expires' => 0, 'SameSite' => 'Strict']]], $cj->cookies()); // Now user has new token in cookie
 
         $r = new Request('/', '', 'POST', ['Content-Type' => 'application/x-www-form-urlencoded'], 'CSRF_TOKEN='.$c->getToken(), [], [], '');
         $cj = new CookieJar($r);

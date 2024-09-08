@@ -85,7 +85,7 @@ abstract class Response
     {
         $status = self::STATUS_CODES[$this->status_code];
 
-        foreach ($this->cookies as [$name, $cookie, $expire]) {
+        foreach ($this->cookies as [[$name, $cookie], ['expires' => $expire]]) {
             $header = "{$name}={$cookie}";
             if ($expire) {
                 $expires = new \DateTime();
@@ -177,7 +177,7 @@ abstract class Response
 
     public function cookie(string $name, string $value, int $expires = 0): static
     {
-        $this->cookies[] = [$name, $value, $expires];
+        $this->cookies[] = [[$name, $value], ['expires' => $expires]];
 
         return $this;
     }
@@ -221,7 +221,8 @@ abstract class Response
     public function handleCookies(array $cookies): void
     {
         foreach ([...$this->cookies, ...$cookies] as $cookie) {
-            setcookie(...[...$cookie, 'httponly' => false, 'path' => '/']);
+            $data = $cookie[0];
+            setcookie($data[0], $data[1], $cookie[1]);
         }
     }
 

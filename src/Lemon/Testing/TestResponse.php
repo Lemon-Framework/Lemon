@@ -76,7 +76,7 @@ final class TestResponse
     {
         $this->testCase->assertSame(
             $expected,
-            array_filter($this->response->cookies(), fn ($item) => $item[0] === $cookie)[0][1] ?? null
+            array_filter($this->response->cookies(), fn ($item) => $item[0][0] === $cookie)[0][0][1] ?? null
         );
 
         return $this;

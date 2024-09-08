@@ -8,7 +8,7 @@ interface CookieJar
 {
     public function get(string $name): ?string;
 
-    public function set(string $name, string $value, int $expires = 0): static;
+    public function set(string $name, string $value, int $expires = 0, string $samesite = 'None'): static;
 
     public function delete(string $name): static;
 

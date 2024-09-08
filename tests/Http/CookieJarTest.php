@@ -33,16 +33,16 @@ class CookieJarTest extends TestCase
         $jar->set('foo', 'bar');
         $jar->set('bar', 'baz', 3600);
 
-        $this->assertSame([['foo', 'bar', 0], ['bar', 'baz', 3600]], $jar->cookies());
+        $this->assertSame([[['foo', 'bar'], ['expires' => 0, 'SameSite' => 'None']], [['bar', 'baz'], ['expires' => 3600, 'SameSite' => 'None']]], $jar->cookies());
     }
 
     public function getDelete()
     {
         $jar = $this->getJar(['foo' => 'bar']);
         $jar->delete('foo');
-        $this->assertSame([['foo', '', -1]], $jar->cookies());
+        $this->assertSame([[['foo', ''], ['expires' => -1, 'SameSite' => 'None']]], $jar->cookies());
         $jar->delete('bar');
-        $this->assertSame([['foo', '', -1]], $jar->cookies());
+        $this->assertSame([[['foo', ''], ['expires' => -1, 'SameSite' => 'None']]], $jar->cookies());
     }
 
     public function testHas()

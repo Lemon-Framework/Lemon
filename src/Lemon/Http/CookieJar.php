@@ -20,9 +20,9 @@ class CookieJar implements CookieJarContract
         return $this->request->getCookie($name);
     }
 
-    public function set(string $name, string $value, int $expires = 0): static
+    public function set(string $name, string $value, int $expires = 0, string $samesite = 'None'): static
     {
-        $this->set_cookies[] = [$name, $value, $expires];
+        $this->set_cookies[] = [[$name, $value], ['expires' => $expires, 'SameSite' => $samesite]];
 
         return $this;
     }

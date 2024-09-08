@@ -20,6 +20,6 @@ class Csrf
             }
         }
 
-        $cookies->set('CSRF_TOKEN', $csrf->getToken());
+        $cookies->set('CSRF_TOKEN', $csrf->getToken(), 0, 'Strict');
     }
 }
