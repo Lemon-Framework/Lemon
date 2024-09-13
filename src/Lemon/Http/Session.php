@@ -23,7 +23,6 @@ class Session implements SessionContract
             return;
         }
 
-        session_gc();
         session_commit();
     }
 
