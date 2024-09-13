@@ -23,7 +23,12 @@ class Session implements SessionContract
             return;
         }
 
-        session_commit();
+
+        try {
+            // well this is terrible
+            session_gc();
+            session_commit();
+        } catch (Exception $e) {}
     }
 
     /**
