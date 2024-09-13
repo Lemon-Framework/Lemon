@@ -28,7 +28,7 @@ class Session implements SessionContract
             // well this is terrible
             session_gc();
             session_commit();
-        } catch (Exception $e) {}
+        } catch (\Exception $e) {}
     }
 
     /**
