@@ -6,6 +6,12 @@ namespace Lemon\Templating\Juice;
 
 class Operators
 {
+    /**
+     * Creates new class for managing operators
+     *
+     * @param array<string, array<int>> $binary List of binary operators with their piroriries
+     * @param array<string, array<mixed>> $unary List of unary operators
+     */
     public function __construct(
         /**
          * Contains all available operators with their priorities where smallest number means highest priority
@@ -35,22 +41,37 @@ class Operators
             '?->' => [1],
             '::' => [1],
         ],
+
+        /** @todo add leftness/rightness */
         public readonly array $unary = [
             '!' => [],
             '-' => [],
             'new' => [],
             '...' => [],
+            "++" => [],
+            "--" => [],
         ],
     ) {
 
     }
 
-    public function buildBinaryRe(): string
+    /**
+     * Builds regular expression for lexing given operator list
+     *
+     * @param array<string, mixed> $operators List of operators in format of this class 
+     * @return string regex capable of lexing given operators (without deliminers)
+     */
+    private function buildOperatorsRe(array $operators): string
     {
-        return '('.implode('|', array_keys($this->binary)).')';
+        $operators = array_map("preg_quote", array_keys($operators));
+        return '('.implode('|', $operators).')';
     }
-    public function buildUnaryRe(): string
-    {
-        return '('.implode('|', array_keys($this->unary)).')';
+
+    public function buildBinaryRe(): string {
+        return $this->buildOperatorsRe($this->binary);
+    }
+    
+    public function buildUnaryRe(): string {
+        return $this->buildOperatorsRe($this->unary);
     }
 }

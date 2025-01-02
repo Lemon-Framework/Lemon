@@ -21,7 +21,6 @@ class Lexer
     public function __construct(
         private string $code,
         public readonly Syntax $syntax,
-        public readonly Operators $operators,
     ) {
         $this->expressionLexer = new ExpressionLexer($operators);  
     }

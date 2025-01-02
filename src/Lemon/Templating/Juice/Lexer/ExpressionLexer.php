@@ -57,11 +57,6 @@ class ExpressionLexer
     private function makeRe(): string
     {
         $result = '~';
-        foreach ($this->tokens as [$name, $re]) {
-            $result += "(?<$name>$re)|";
-        }
-
-        $result[strlen($result)] = '~';
 
         return $result.'xsA';
     }
