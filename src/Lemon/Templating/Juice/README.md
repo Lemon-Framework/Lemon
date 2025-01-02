@@ -2,8 +2,9 @@
 
 ## Main concepts
 
-- parses html -- understands it, validates it, prevents csrf in most cases
-- the parser is open for the user -- simple adding of new operators
+- parses html -- understands it, validates it, prevents csrf in most cases, allows crazy comunication between fe and be
+- the parser is open for the user -- simple adding of new operators, directives
+- the parser is complete, throws errors, generates good code
 
 ## Creating custom syntax
 

@@ -27,11 +27,13 @@ class Operators
             '!=' => [3],
             '===' => [3],
             '!==' => [3],
+            '~=' => [3], // bro thinks he perl
             '>' => [3], 
             '<' => [3],
             '>=' => [3],
             '<=' => [3],
             '|>' => [3],
+            '??' => [3],
             '.' => [2],
             '+' => [2],
             '-' => [2],
@@ -64,7 +66,7 @@ class Operators
      */
     private function buildOperatorsRe(array $operators): string
     {
-        $operators = array_map("preg_quote", array_keys($operators));
+        $operators = array_map(fn($op) => preg_quote($op, '/'), array_keys($operators));
         return '('.implode('|', $operators).')';
     }
 

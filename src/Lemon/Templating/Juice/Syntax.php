@@ -11,12 +11,12 @@ final class Syntax
 {
 
     private array $tokens = [
-        ['OpenningBracket', '('],
-        ['ClosingBracket', ')'], 
-        ['OpenningSquareBracket', '['],
-        ['ClosingSquareBracket', ']'],
-        ['DoubleArrow', '=>'],
-        ['QuestionMark', '?'],
+        ['OpenningBracket', '\('],
+        ['ClosingBracket', '\)'], 
+        ['OpenningSquareBracket', '\['],
+        ['ClosingSquareBracket', '\]'],
+        ['DoubleArrow', '=\>'],
+        ['QuestionMark', '\?'],
         ['Colon', ':'],
         ['Comma', ','],
         ['Fn', 'fn'],
@@ -41,24 +41,24 @@ final class Syntax
      * @param string $escape Escape token that is used to ignore parsing
      */
     public function __construct(
-        public readonly array $directive = ['\{#\s*(?&DIRECTIVE_NAME)', '#\}'],
+        public readonly array $directive = ['\{\#\s*(?&DIRECTIVE_NAME)', '\#\}'],
         public readonly array $end = ['\{(\/|end)', '\}'],
         public readonly array $output = ['\{', '\}'], 
         public readonly array $unsafe = ['\{!', '!\}'], 
         public readonly array $comment = ['\{\-\-', '\-\-\}'],
-        public readonly string $escape = '\\',
+        public readonly string $escape = '@',
         Operators $operators = null,
     ) {
         $this->operators = $operators ?? new Operators();
-        $this->tokens[] = ['BinaryOperator', $operators->buildBinaryRe()];
-        $this->tokens[] = ['UnaryOperator', $operators->buildUnaryRe()];
+        $this->tokens[] = ['BinaryOperator', $this->operators->buildBinaryRe()];
+        $this->tokens[] = ['UnaryOperator', $this->operators->buildUnaryRe()];
         $this->re = $this->buildRe();
     }
 
     private function buildRe(): string
     {
         // @todo dont forget about colision w syntax
-        $closing = "{$this->directive[1]}|{$this->end[1]}|{$this->output[1]}|{$this->unsafe[1]}|{$this->comment[1]}";
+        $closing = "({$this->directive[1]}|{$this->end[1]}|{$this->output[1]}|{$this->unsafe[1]}|{$this->comment[1]})";
 
         $expression_tokens = '';
 
@@ -66,13 +66,13 @@ final class Syntax
             $expression_tokens .= "|(?<$name>$re)";
         }
 
-        return "~
-            (?(DEFINE)(?<DIRECTIVE_NAME>[:alpha:][:alnum:]+))
+        return "/
+            (?(DEFINE)(?<DIRECTIVE_NAME>[a-zA-Z][a-zA-Z0-9]+))
             (?<HtmlTagOpen>\<)
             |(?<HtmlTagClose>\>)
-            |(?<HtmlEndTag>\</)
+            |(?<HtmlEndTag>\<\/)
             |(?<HtmlCommentOpen>\<!\-\-)
-            |(?<HtmlCommentOpen>\-\-\>)
+            |(?<HtmlCommentClose>\-\-\>)
             |(?<StringDelim>\"|')
             |(?<Escape>{$this->escape})
             |(?<DirectiveStart>{$this->directive[0]})
@@ -82,9 +82,10 @@ final class Syntax
             |(?<CommentStart>{$this->comment[0]})
             |(?<Closing>{$closing})
             {$expression_tokens}
+            |(?<NewLine>[\n])
             |(?<Space>\s+)
             |(?<Text>.+)
-            ~xsA"
+            /xsA"
         ;
     }
 }

@@ -55,5 +55,6 @@ enum TokenKind
     case Space;
 
     case Text;
+
 }
 
