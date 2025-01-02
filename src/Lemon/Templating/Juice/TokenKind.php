@@ -7,31 +7,30 @@ namespace Lemon\Templating\Juice;
 enum TokenKind
 {
     // Hmtl
-    case HtmlTagStart;
+    case HtmlTagOpen;
 
-    case HtmlTagEnd;
+    case HtmlTagClose;
 
-    case HtmlCloseTag;
+    case HtmlEndTag;
 
-    case HtmlStringDelim;
+    case HtmlCommentOpen;
 
-    case HtmlComment;
-
-    case HtmlSpace;
-
-    // Text
-    case Text;
+    case HtmlCommentClose;
 
     // Juice
     case DirectiveStart;
 
-    case DirectiveEnd;
+    case EndDirectiveStart;
 
-    case Output;
+    case OutputStart;
 
-    case UnsafeOutput;
+    case UnsafeStart;
 
-    case Comment;
+    case CommentStart;
+
+    case Closing;
+
+    case Escape;
 
     // PHP
     // You can basicaly say some things (such as arrows and stuff) are operators
@@ -46,9 +45,15 @@ enum TokenKind
     case Colon;
     case Comma;
     case Fn;
-    case String;
     case Number;
     case Variable;
     case Name;
+
+    // Global
+    case StringDelim;
+
+    case Space;
+
+    case Text;
 }
 

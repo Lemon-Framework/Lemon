@@ -20,7 +20,6 @@ final class Syntax
         ['Colon', ':'],
         ['Comma', ','],
         ['Fn', 'fn'],
-        ['StringSymbol', '"|\''],
         ['Number', '(-?\d+(\.\d+)?)'],
         ['Variable', '\$([a-zA-Z][a-zA-Z0-9]+)'],
         ['Name', '[a-zA-Z][a-zA-Z0-9]+'],
@@ -32,7 +31,14 @@ final class Syntax
     public readonly Operators $operators;
 
     /**
-     * 
+     * Describes core syntax of juice
+     *
+     * @param array{string, string} $directive Describes tokens of directives
+     * @param array{string, string} $end Describes tokens of directive ending tag
+     * @param array{string, string} $output Describes tokens of output tag
+     * @param array{string, string} $unsafe Describes tokens of unescaped output tag
+     * @param array{string, string} $comment Describes tokens of comment tag
+     * @param string $escape Escape token that is used to ignore parsing
      */
     public function __construct(
         public readonly array $directive = ['\{#\s*(?&DIRECTIVE_NAME)', '#\}'],
@@ -51,7 +57,6 @@ final class Syntax
 
     private function buildRe(): string
     {
-        $escape = "(?<!{$this->escape})";
         // @todo dont forget about colision w syntax
         $closing = "{$this->directive[1]}|{$this->end[1]}|{$this->output[1]}|{$this->unsafe[1]}|{$this->comment[1]}";
 
@@ -63,15 +68,18 @@ final class Syntax
 
         return "~
             (?(DEFINE)(?<DIRECTIVE_NAME>[:alpha:][:alnum:]+))
-            (?<HtmlStart>\<)
-            |(?<HtmlEnd>\>)
-            |(?<HtmlClose>\</)
+            (?<HtmlTagOpen>\<)
+            |(?<HtmlTagClose>\>)
+            |(?<HtmlEndTag>\</)
+            |(?<HtmlCommentOpen>\<!\-\-)
+            |(?<HtmlCommentOpen>\-\-\>)
             |(?<StringDelim>\"|')
-            |(?<DirectiveStart>{$escape}{$this->directive[0]})
-            |(?<EndDirectiveStart>{$escape}{$this->end[0]})
-            |(?<OutputStart>{$escape}{$this->output[0]})
-            |(?<UnsafeStart>{$escape}{$this->unsafe[0]})
-            |(?<CommentStart>{$escape}{$this->comment[0]})
+            |(?<Escape>{$this->escape})
+            |(?<DirectiveStart>{$this->directive[0]})
+            |(?<EndDirectiveStart>{$this->end[0]})
+            |(?<OutputStart>{$this->output[0]})
+            |(?<UnsafeStart>{$this->unsafe[0]})
+            |(?<CommentStart>{$this->comment[0]})
             |(?<Closing>{$closing})
             {$expression_tokens}
             |(?<Space>\s+)
