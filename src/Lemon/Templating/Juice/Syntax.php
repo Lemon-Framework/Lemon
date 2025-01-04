@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
-use Lemon\Templating\Juice\Token\HtmlTokenKind;
-use Lemon\Templating\Juice\Token\JuiceTokenKind;
-use Lemon\Templating\Juice\Token\PHPTokenKind;
-use Lemon\Templating\Juice\Token\Token;
-use Lemon\Templating\Juice\Token\TokenKind;
 
 
 /**
  * Stores tag syntax for Juice.
+ *
+ * todo add svelte blade twig :crazy:
  */
 final class Syntax
 {
@@ -22,14 +19,20 @@ final class Syntax
         ['ClosingBracket', '\)'], 
         ['OpenningSquareBracket', '\['],
         ['ClosingSquareBracket', '\]'],
+        ['OpenningBrace', '\{'],
+        ['ClosingBrace', '\}'],
         ['DoubleArrow', '=\>'],
+        ['Operator', '[\!\@\#\%\^\&\*\+\<\>\.\/\|\=\~\?\-\:]+'],
         ['QuestionMark', '\?'],
         ['Colon', ':'],
         ['Comma', ','],
         ['Fn', 'fn'],
+        ['As', 'as'],
+        ['In', 'in'],
+        ['Instanceof', 'instanceof'],
         ['Number', '(-?\d+(\.\d+)?)'],
-        ['Variable', '\$([a-zA-Z][a-zA-Z0-9]+)'],
-        ['Name', '[a-zA-Z][a-zA-Z0-9]+'],
+        ['Variable', '\$([a-zA-Z][a-zA-Z0-9]*)'],
+        ['Name', '[a-zA-Z][a-zA-Z0-9]*'],
     ];
 
 
@@ -57,8 +60,8 @@ final class Syntax
         Operators $operators = null,
     ) {
         $this->operators = $operators ?? new Operators();
-        $this->tokens[] = ['BinaryOperator', $this->operators->buildBinaryRe()];
-        $this->tokens[] = ['UnaryOperator', $this->operators->buildUnaryRe()];
+        //$this->tokens[] = ['UnaryOperator', $this->operators->buildUnaryRe()];
+        //$this->tokens[] = ['BinaryOperator', $this->operators->buildBinaryRe()];
         $this->re = $this->buildRe();
     }
 
@@ -70,28 +73,28 @@ final class Syntax
         $expression_tokens = '';
 
         foreach ($this->tokens as [$name, $re]) {
-            $expression_tokens .= "|(?<$name>$re)";
+            $expression_tokens .= "|(?<PHP_{$name}>{$re})";
         }
 
         return "/
             (?(DEFINE)(?<DIRECTIVE_NAME>[a-zA-Z][a-zA-Z0-9]+))
-            (?<HtmlTagOpen>\<)
-            |(?<HtmlTagClose>\>)
-            |(?<HtmlEndTag>\<\/)
-            |(?<HtmlCommentOpen>\<!\-\-)
-            |(?<HtmlCommentClose>\-\-\>)
-            |(?<StringDelim>\"|')
-            |(?<Escape>{$this->escape})
-            |(?<DirectiveStart>{$this->directive[0]})
-            |(?<EndDirectiveStart>{$this->end[0]})
-            |(?<OutputStart>{$this->output[0]})
-            |(?<UnsafeStart>{$this->unsafe[0]})
-            |(?<CommentStart>{$this->comment[0]})
-            |(?<Closing>{$closing})
+            (?<Html_EndTagOpen>\<\/)
+            |(?<Html_TagOpen>\<)
+            |(?<Html_TagClose>\>)
+            |(?<Html_CommentOpen>\<!\-\-)
+            |(?<Html_CommentClose>\-\-\>)
+            |(?<Html_StringDelim>\"|')
+            |(?<Juice_Escape>{$this->escape})
+            |(?<Juice_DirectiveStart>{$this->directive[0]})
+            |(?<Juice_EndDirectiveStart>{$this->end[0]})
+            |(?<Juice_OutputStart>{$this->output[0]})
+            |(?<Juice_UnsafeStart>{$this->unsafe[0]})
+            |(?<Juice_CommentStart>{$this->comment[0]})
+            |(?<Juice_Closing>{$closing})
             {$expression_tokens}
             |(?<NewLine>[\n])
-            |(?<Space>\s+)
-            |(?<Text>.+)
+            |(?<Html_Space>[\t ]+)
+            |(?<Html_Text>.+)
             /xsA"
         ;
     }

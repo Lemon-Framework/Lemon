@@ -6,12 +6,13 @@ enum PHPTokenKind implements TokenKind
 {
     // PHP
     // You can basicaly say some things (such as arrows and stuff) are operators
-    case BinaryOperator;
-    case UnaryOperator;
+    case Operator;
     case OpeningBracket;
     case ClosingBracket;
     case OpeningSquareBracket;
     case ClosingSquareBracket;
+    case OpenningBrace;
+    case ClosingBrace;
     case DoubleArrow;
     case QuestionMark;
     case Colon;
@@ -21,4 +22,7 @@ enum PHPTokenKind implements TokenKind
     case Variable;
     case Name;
     case StringDelim;
+    case As;
+    case In;
+    case Instanceof;
 }

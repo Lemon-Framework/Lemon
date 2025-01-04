@@ -16,6 +16,23 @@ class Lexer
     ) {
     }
 
+    public function getKind(string $re_slug): TokenKind 
+    {
+        [$group, $kind] = explode('_', $re_slug);
+
+        return ("\\Lemon\\Templating\\Juice\\Token\\{$group}TokenKind")::{$kind};
+    }
+
+    /**
+     * Converts input string into tokens
+     * Inspired by works of Oliver Torr
+     *
+     * @param string $content Input string
+     * @param Context $context Context in which is the next token hapenning 
+     *                         -- can change perception of the token depending
+     *                         on the place in the code
+     * @return Generator<Token> You have to call this function for every token
+     */
     public function lex(string $content, Context $context): Generator
     {
          preg_match_all(
@@ -26,22 +43,22 @@ class Lexer
         );
 
         $line = 1;
-        $pos = 0; 
+        $pos = 1; 
         foreach ($matches as $token) {
             $token = array_filter($token, fn ($item) => null !== $item);
             $keys = array_keys($token);
             if ($keys[1] == 'NewLine') {
                 $line++;
                 $pos = 0;
-                $keys[1] = 'Space';
+                $keys[1] = 'Html_Space';
             }
 
-            if ($keys[1] === 'Space' && $context === Context::Juice) {
+            if ($keys[1] === 'Html_Space' && $context === Context::Juice) {
                 $pos += strlen($token[0]);
                 continue;
             }
 
-            yield (new Token(TokenKind::{$keys[1]}, $line, $pos, $token[1] ?? $token[0]))
+            yield (new Token($this->getKind($keys[1]), $line, $pos, $token[1] ?? $token[0]))
                     ->resolveKind($context)
             ;
             $pos += strlen($token[0]);
