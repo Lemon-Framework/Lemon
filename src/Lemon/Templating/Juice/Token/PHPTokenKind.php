@@ -7,9 +7,9 @@ enum PHPTokenKind implements TokenKind
     // PHP
     // You can basicaly say some things (such as arrows and stuff) are operators
     case Operator;
-    case OpeningBracket;
+    case OpenningBracket;
     case ClosingBracket;
-    case OpeningSquareBracket;
+    case OpenningSquareBracket;
     case ClosingSquareBracket;
     case OpenningBrace;
     case ClosingBrace;

@@ -11,7 +11,7 @@
 In order to create custom syntax, simply create the `Syntax` class and fill it with token descriptions where
 
 - Each variable except `escape` is array of openning and closing token
-- Openning token of directive should also include 1 matching group that features name of the directive, use `(?&DIRECTIVE_NAME)` for matching
+- Openning token of directive and end directive should also include 1 matching group that features name of the directive, use `(?&DIRECTIVE_NAME)` for matching
 - Openning tokens should be unique as opose to clossing tokens
 - Keep in mind that its just tokens so except openning directive it should not use capturing groups and other high-tech stuff, dont worry, most stuff juice has covered
 - Don't worry if your ending tag is also some expression syntax, juice has you covered

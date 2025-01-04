@@ -44,15 +44,15 @@ final class Syntax
      * Describes core syntax of juice
      *
      * @param array{string, string} $directive Describes tokens of directives
-     * @param array{string, string} $end Describes tokens of directive ending tag
+     * @param string $end Describes tokens of directive ending tag
      * @param array{string, string} $output Describes tokens of output tag
      * @param array{string, string} $unsafe Describes tokens of unescaped output tag
      * @param array{string, string} $comment Describes tokens of comment tag
      * @param string $escape Escape token that is used to ignore parsing
      */
     public function __construct(
-        public readonly array $directive = ['\[\s*(?&DIRECTIVE_NAME)', '\]'],
-        public readonly array $end = ['\[(\/|end)', '\]'],
+        public readonly array $directive = ['\[\s*((?&DIRECTIVE_NAME))', '\]'],
+        public readonly string $end = '\[\s*(?:\/|end)((?&DIRECTIVE_NAME))\s*\]',
         public readonly array $output = ['\[\[', '\]\]'], 
         public readonly array $unsafe = ['\[!', '!\]'], 
         public readonly array $comment = ['\[\-\-', '\-\-\]'],
@@ -67,8 +67,13 @@ final class Syntax
 
     private function buildRe(): string
     {
-        // @todo dont forget about colision w syntax
-        $closing = "({$this->directive[1]}|{$this->end[1]}|{$this->output[1]}|{$this->unsafe[1]}|{$this->comment[1]})";
+        $closing = [$this->directive[1], $this->output[1], $this->unsafe[1], $this->comment[1]];
+        usort($closing,
+                fn(string $a, string $b) => strlen($b) - strlen($a)
+        ); // they have to be sorted by their length so the first is the 
+           // longest in order to lex properly
+
+        $closing = implode('|', $closing);
 
         $expression_tokens = '';
 
@@ -86,7 +91,7 @@ final class Syntax
             |(?<Html_StringDelim>\"|')
             |(?<Juice_Escape>{$this->escape})
             |(?<Juice_DirectiveStart>{$this->directive[0]})
-            |(?<Juice_EndDirectiveStart>{$this->end[0]})
+            |(?<Juice_EndDirective>{$this->end})
             |(?<Juice_OutputStart>{$this->output[0]})
             |(?<Juice_UnsafeStart>{$this->unsafe[0]})
             |(?<Juice_CommentStart>{$this->comment[0]})
@@ -97,5 +102,10 @@ final class Syntax
             |(?<Html_Text>.+)
             /xsA"
         ;
+    }
+
+    public function tokens(): array
+    {
+        return $this->tokens;
     }
 }

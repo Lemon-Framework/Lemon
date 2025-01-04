@@ -4,10 +4,10 @@ namespace Lemon\Templating\Juice\Token;
 
 enum JuiceTokenKind implements TokenKind
 {
-    // Juice
+    // todo dont use start but open damn this will need sum refactoring
     case DirectiveStart;
 
-    case EndDirectiveStart;
+    case EndDirective;
 
     case OutputStart;
 
