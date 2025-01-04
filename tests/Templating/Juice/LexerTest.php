@@ -6,8 +6,8 @@ namespace Lemon\Tests\Templating\Juice;
 
 use Lemon\Templating\Juice\Lexer;
 use Lemon\Templating\Juice\Syntax;
-use Lemon\Templating\Juice\Token;
-use Lemon\Templating\Juice\TokenKind;
+use Lemon\Templating\Juice\Token\Token;
+use Lemon\Templating\Juice\Token\TokenKind;
 use Lemon\Tests\TestCase;
 
 class LexerTest extends TestCase

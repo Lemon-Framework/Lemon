@@ -6,8 +6,8 @@ namespace Lemon\Templating\Juice;
 
 use Generator;
 use Lemon\Templating\Juice\Syntax;
-use Lemon\Templating\Juice\Token;
-use Lemon\Templating\Juice\TokenKind;
+use Lemon\Templating\Juice\Token\Token;
+use Lemon\Templating\Juice\Token\TokenKind;
 
 class Lexer
 {
@@ -16,7 +16,7 @@ class Lexer
     ) {
     }
 
-    public function lex(string $content): Generator
+    public function lex(string $content, Context $context): Generator
     {
          preg_match_all(
             $this->syntax->re, 
@@ -36,7 +36,14 @@ class Lexer
                 $keys[1] = 'Space';
             }
 
-            yield new Token(TokenKind::{$keys[1]}, $line, $pos, $token[1] ?? '');
+            if ($keys[1] === 'Space' && $context === Context::Juice) {
+                $pos += strlen($token[0]);
+                continue;
+            }
+
+            yield (new Token(TokenKind::{$keys[1]}, $line, $pos, $token[1] ?? $token[0]))
+                    ->resolveKind($context)
+            ;
             $pos += strlen($token[0]);
         }       
     }

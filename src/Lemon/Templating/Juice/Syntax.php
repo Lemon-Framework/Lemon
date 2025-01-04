@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
+use Lemon\Templating\Juice\Token\HtmlTokenKind;
+use Lemon\Templating\Juice\Token\JuiceTokenKind;
+use Lemon\Templating\Juice\Token\PHPTokenKind;
+use Lemon\Templating\Juice\Token\Token;
+use Lemon\Templating\Juice\Token\TokenKind;
+
+
 /**
  * Stores tag syntax for Juice.
  */
@@ -41,11 +48,11 @@ final class Syntax
      * @param string $escape Escape token that is used to ignore parsing
      */
     public function __construct(
-        public readonly array $directive = ['\{\#\s*(?&DIRECTIVE_NAME)', '\#\}'],
-        public readonly array $end = ['\{(\/|end)', '\}'],
-        public readonly array $output = ['\{', '\}'], 
-        public readonly array $unsafe = ['\{!', '!\}'], 
-        public readonly array $comment = ['\{\-\-', '\-\-\}'],
+        public readonly array $directive = ['\[\s*(?&DIRECTIVE_NAME)', '\]'],
+        public readonly array $end = ['\[(\/|end)', '\]'],
+        public readonly array $output = ['\[\[', '\]\]'], 
+        public readonly array $unsafe = ['\[!', '!\]'], 
+        public readonly array $comment = ['\[\-\-', '\-\-\]'],
         public readonly string $escape = '@',
         Operators $operators = null,
     ) {
