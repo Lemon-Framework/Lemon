@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
-use Generator;
+use Lemon\Contracts\Templating\Juice\Lexer as LexerContract;
 use Lemon\Templating\Juice\Syntax;
 use Lemon\Templating\Juice\Token\Token;
 use Lemon\Templating\Juice\Token\TokenKind;
@@ -12,7 +12,7 @@ use Lemon\Templating\Juice\Token\TokenKind;
 /**
  * Lexer stream
  */
-class Lexer
+class Lexer implements LexerContract
 {
     private int $line = 1;
     private int $pos = 1; 
@@ -38,7 +38,7 @@ class Lexer
     /**
      * Converts given regex slug into token kind
      */
-    public function getKind(string $re_slug): TokenKind 
+    private function getKind(string $re_slug): TokenKind 
     {
         [$group, $kind] = explode('_', $re_slug);
 

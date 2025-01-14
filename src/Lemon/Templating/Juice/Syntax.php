@@ -22,6 +22,7 @@ final class Syntax
         ['OpenningBrace', '\{'],
         ['ClosingBrace', '\}'],
         ['DoubleArrow', '=\>'],
+        ['\\', 'Backslash'],
         ['Operator', '[\!\@\#\%\^\&\*\+\<\>\.\/\|\=\~\?\-\:]+'],
         ['QuestionMark', '\?'],
         ['Colon', ':'],
