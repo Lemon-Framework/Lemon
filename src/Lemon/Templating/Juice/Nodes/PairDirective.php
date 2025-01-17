@@ -11,7 +11,7 @@ class PairDirective implements Node
 {
     public function __construct( 
         public readonly Expression $expression,
-        public readonly array $body,
+        public readonly NodeList $body,
     ) {
 
     }

@@ -19,5 +19,8 @@ interface Lexer
      *                         on the place in the code
      * @return Token Next token 
      */
-    public function next(Context $context): Token;
+    public function next(Context $context): ?Token;
+
+    public function current(): Token;
+
 }

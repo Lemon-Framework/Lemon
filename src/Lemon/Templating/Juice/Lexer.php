@@ -11,13 +11,16 @@ use Lemon\Templating\Juice\Token\TokenKind;
 
 /**
  * Lexer stream
+ *
+ * todo rewrite it, its three lexers that colide
  */
 class Lexer implements LexerContract
 {
     private int $line = 1;
     private int $pos = 1; 
-    private array $matches = [];
     private int $index = 0;
+
+    private Token $current;
 
     /**
      * Creates new lexer stream for given input
@@ -26,12 +29,6 @@ class Lexer implements LexerContract
         public readonly Syntax $syntax,
         public readonly string $content,
     ) {
-         preg_match_all(
-            $this->syntax->re, 
-            $this->content,
-            $this->matches, 
-            PREG_UNMATCHED_AS_NULL | PREG_SET_ORDER
-        );
 
     }
 
@@ -54,28 +51,17 @@ class Lexer implements LexerContract
      *                         on the place in the code
      * @return Token Next token 
      */
-    public function next(Context $context): Token 
+    public function next(Context $context): ?Token 
     {
-        $token = $this->matches[$this->index];
-        $this->index++;
-        $token = array_filter($token, fn ($item) => null !== $item);
-        $keys = array_keys($token);
-        if ($keys[1] == 'NewLine') {
-            $this->line++;
-            $this->pos = 0;
-            $keys[1] = 'Html_Space';
-        }
+        preg_match($this->syntax->getRe($context), $this->content, $matches);
 
-        if ($keys[1] === 'Html_Space' && $context === Context::Juice) {
-            $this->pos += strlen($token[0]);
-            return $this->next($context);
-        }
 
-        $result = (new Token($this->getKind($keys[1]), $this->line, $this->pos, $token[array_key_last($token)]))
-                ->resolveKind($this->syntax, $context)
+        return null;
+    }
+
+    public function current(): Token
+    {
+        return $this->current
         ;
-        $this->pos += strlen($token[0]);
-
-        return $result;
     }
 }

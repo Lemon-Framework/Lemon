@@ -22,7 +22,7 @@ final class Syntax
         ['OpenningBrace', '\{'],
         ['ClosingBrace', '\}'],
         ['DoubleArrow', '=\>'],
-        ['\\', 'Backslash'],
+        ['Backslash', '\\\\'],
         ['Operator', '[\!\@\#\%\^\&\*\+\<\>\.\/\|\=\~\?\-\:]+'],
         ['QuestionMark', '\?'],
         ['Colon', ':'],
@@ -32,12 +32,18 @@ final class Syntax
         ['In', 'in'],
         ['Instanceof', 'instanceof'],
         ['Number', '(-?\d+(\.\d+)?)'],
-        ['Variable', '\$([a-zA-Z][a-zA-Z0-9]*)'],
-        ['Name', '[a-zA-Z][a-zA-Z0-9]*'],
+        ['Variable', '\$([a-zA-Z_][a-zA-Z0-9_]*)'],
+        ['Name', '[a-zA-Z_][a-zA-Z0-9_]*'],
     ];
 
 
-    public readonly string $re;
+    public readonly string $htmlRe;
+
+    public readonly string $htmlTagRe;
+
+    public readonly string $juiceRe;
+
+    public readonly string $juiceUnclosedRe;
 
     public readonly Operators $operators;
 
@@ -63,10 +69,60 @@ final class Syntax
         $this->operators = $operators ?? new Operators();
         //$this->tokens[] = ['UnaryOperator', $this->operators->buildUnaryRe()];
         //$this->tokens[] = ['BinaryOperator', $this->operators->buildBinaryRe()];
-        $this->re = $this->buildRe();
+        $this->htmlRe = $this->buildHtmlRe();
+        $this->htmlTagRe = $this->buildHtmlTagRe();
+        [$this->juiceRe, $this->juiceUnclosedRe] = $this->buildJuiceRe();
     }
 
-    private function buildRe(): string
+    public function getRe(Context $context): string 
+    {
+        return match($context) {
+            Context::Html => $this->htmlRe,
+            Context::HtmlTag => $this->htmlTagRe,
+            Context::Juice => $this->juiceRe,
+            Context::JuiceUnclosed => $this->juiceUnclosedRe,
+        }
+    }
+
+
+    private function buildHtmlRe(): string 
+    {
+        return $this->buildRe("
+            (?<Html_EndTagOpen>\<\/)
+            |(?<Html_TagOpen>\<)
+            |(?<Html_TagClose>\>)
+            |(?<Html_CommentOpen>\<!\-\-)
+            |(?<Html_CommentClose>\-\-\>)
+            |(?<Html_StringDelim>\"|')
+            |(?<Juice_Escape>{$this->escape})
+            |(?<Juice_DirectiveStart>{$this->directive[0]})
+            |(?<Juice_EndDirective>{$this->end})
+            |(?<Juice_OutputStart>{$this->output[0]})
+            |(?<Juice_UnsafeStart>{$this->unsafe[0]})
+            |(?<Juice_CommentStart>{$this->comment[0]})
+        "); 
+    }
+
+    private function buildHtmlTagRe(): string 
+    {
+        return $this->buildRe("
+            (?<Html_EndTagOpen>\<\/)
+            |(?<Html_TagOpen>\<)
+            |(?<Html_Name>[a-zA-Z_]+)
+            |(?<Html_TagClose>\>)
+            |(?<Html_CommentOpen>\<!\-\-)
+            |(?<Html_CommentClose>\-\-\>)
+            |(?<Html_StringDelim>\"|')
+            |(?<Juice_Escape>{$this->escape})
+            |(?<Juice_DirectiveStart>{$this->directive[0]})
+            |(?<Juice_EndDirective>{$this->end})
+            |(?<Juice_OutputStart>{$this->output[0]})
+            |(?<Juice_UnsafeStart>{$this->unsafe[0]})
+            |(?<Juice_CommentStart>{$this->comment[0]})
+        ");
+    }
+
+    private function buildJuiceRe(): array 
     {
         $closing = [$this->directive[1], $this->output[1], $this->unsafe[1], $this->comment[1]];
         usort($closing,
@@ -82,27 +138,28 @@ final class Syntax
             $expression_tokens .= "|(?<PHP_{$name}>{$re})";
         }
 
-        return "/
-            (?(DEFINE)(?<DIRECTIVE_NAME>[a-zA-Z][a-zA-Z0-9]+))
-            (?<Html_EndTagOpen>\<\/)
-            |(?<Html_TagOpen>\<)
-            |(?<Html_TagClose>\>)
-            |(?<Html_CommentOpen>\<!\-\-)
-            |(?<Html_CommentClose>\-\-\>)
-            |(?<Html_StringDelim>\"|')
-            |(?<Juice_Escape>{$this->escape})
-            |(?<Juice_DirectiveStart>{$this->directive[0]})
-            |(?<Juice_EndDirective>{$this->end})
-            |(?<Juice_OutputStart>{$this->output[0]})
-            |(?<Juice_UnsafeStart>{$this->unsafe[0]})
-            |(?<Juice_CommentStart>{$this->comment[0]})
-            |(?<Juice_Closing>{$closing})
-            {$expression_tokens}
+        return [
+            $this->buildRe("
+                |(?<Juice_Closing>{$closing})
+                {$expression_tokens}
+                "
+            ),
+            $this->buildRe("
+                {$expression_tokens}
+                |(?<Juice_Closing>{$closing})
+                "
+            ),
+        ];  
+    }
+
+    private function buildRe(string $re): string
+    {
+        return "/(?(DEFINE)(?<DIRECTIVE_NAME>[a-zA-Z][a-zA-Z0-9]+))
+            {$re}
             |(?<NewLine>[\n])
             |(?<Html_Space>[\t ]+)
             |(?<Html_Text>.+)
-            /xsA"
-        ;
+        /";
     }
 
     public function tokens(): array

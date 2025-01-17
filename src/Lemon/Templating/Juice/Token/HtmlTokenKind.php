@@ -7,6 +7,8 @@ enum HtmlTokenKind implements TokenKind
     // Hmtl
     case TagOpen;
 
+    case Name;
+
     case TagClose;
 
     case EndTagOpen;

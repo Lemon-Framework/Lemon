@@ -20,7 +20,7 @@ class LexerTest extends TestCase
         return new Lexer(new Syntax(), $content);
     }
 
-    public function testHtmlParsing(): void
+    public function testHtmlLexing(): void
     {
         $lexer = $this->getLexer(<<<HTML
 <!DOCTYPE html>
@@ -74,6 +74,8 @@ HTML);
         $this->assertEquals(new Token(HtmlTokenKind::EndTagOpen, 6, 1, '</'), $lexer->next(Context::Html));
         $this->assertEquals(new Token(HtmlTokenKind::Text, 6, 3, 'html'), $lexer->next(Context::Html));
         $this->assertEquals(new Token(HtmlTokenKind::TagClose, 6, 7, '>'), $lexer->next(Context::Html));
+        $this->assertEquals(new Token(HtmlTokenKind::TagClose, 6, 7, '>'), $lexer->current());
+        $this->assertNull($lexer->next(Context::Html));
 
     }
 
