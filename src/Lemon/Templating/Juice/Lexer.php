@@ -27,7 +27,7 @@ class Lexer implements LexerContract
      */
     public function __construct(
         public readonly Syntax $syntax,
-        public readonly string $content,
+        private string $content,
     ) {
 
     }
@@ -53,10 +53,33 @@ class Lexer implements LexerContract
      */
     public function next(Context $context): ?Token 
     {
-        preg_match($this->syntax->getRe($context), $this->content, $matches);
+        if (!preg_match($this->syntax->getRe($context), $this->content, $matches)) {
+            return null;
+        }
+
+        $token = array_filter($matches, fn ($item) => null != $item);
+        $keys = array_keys($token);
+
+        if ($keys[1] == 'NewLine') {
+            $this->line++;
+            $this->pos = 0;
+            $keys[1] = 'Html_Space';
+        }
 
 
-        return null;
+        if ($keys[1] === 'Html_Space' && $context === Context::Juice) {
+            $this->pos += strlen($token[0]);
+            $this->content = substr($this->content, strlen($token[0]));
+            return $this->next($context);
+        }
+
+        $result = (new Token($this->getKind($keys[1]), $this->line, $this->pos, $token[array_key_last($token)]));
+        $this->pos += strlen($token[0]);
+        $this->content = substr($this->content, strlen($token[0]));
+        $this->current = $result;
+
+        return $result;
+        
     }
 
     public function current(): Token

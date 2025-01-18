@@ -81,7 +81,7 @@ final class Syntax
             Context::HtmlTag => $this->htmlTagRe,
             Context::Juice => $this->juiceRe,
             Context::JuiceUnclosed => $this->juiceUnclosedRe,
-        }
+        };
     }
 
 
@@ -94,6 +94,7 @@ final class Syntax
             |(?<Html_CommentOpen>\<!\-\-)
             |(?<Html_CommentClose>\-\-\>)
             |(?<Html_StringDelim>\"|')
+            |(?<Html_Equals>=)           
             |(?<Juice_Escape>{$this->escape})
             |(?<Juice_DirectiveStart>{$this->directive[0]})
             |(?<Juice_EndDirective>{$this->end})
@@ -108,11 +109,12 @@ final class Syntax
         return $this->buildRe("
             (?<Html_EndTagOpen>\<\/)
             |(?<Html_TagOpen>\<)
-            |(?<Html_Name>[a-zA-Z_]+)
+            |(?<Html_Name>[!a-zA-Z_]+)
             |(?<Html_TagClose>\>)
             |(?<Html_CommentOpen>\<!\-\-)
             |(?<Html_CommentClose>\-\-\>)
             |(?<Html_StringDelim>\"|')
+            |(?<Html_Equals>=)    
             |(?<Juice_Escape>{$this->escape})
             |(?<Juice_DirectiveStart>{$this->directive[0]})
             |(?<Juice_EndDirective>{$this->end})
@@ -138,10 +140,12 @@ final class Syntax
             $expression_tokens .= "|(?<PHP_{$name}>{$re})";
         }
 
+        $expression_tokens = trim($expression_tokens, '|');
+
         return [
             $this->buildRe("
-                |(?<Juice_Closing>{$closing})
-                {$expression_tokens}
+                (?<Juice_Closing>{$closing})
+                |{$expression_tokens}
                 "
             ),
             $this->buildRe("
@@ -154,12 +158,18 @@ final class Syntax
 
     private function buildRe(string $re): string
     {
+
+        $not_in_text = implode('', 
+            array_map(fn($in) => trim($in, '\\')[0], 
+                [$this->directive[0], $this->output[0], $this->end, $this->unsafe[0], $this->comment[0], $this->escape]
+            )
+        );
         return "/(?(DEFINE)(?<DIRECTIVE_NAME>[a-zA-Z][a-zA-Z0-9]+))
             {$re}
             |(?<NewLine>[\n])
             |(?<Html_Space>[\t ]+)
-            |(?<Html_Text>.+)
-        /";
+            |(?<Html_Text>[^<{$not_in_text}]+)
+        /xsA";
     }
 
     public function tokens(): array
