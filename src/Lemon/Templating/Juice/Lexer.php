@@ -19,7 +19,7 @@ class Lexer implements LexerContract
     private int $line = 1;
     private int $pos = 1; 
     private int $index = 0;
-
+    private Context $context;
     private Token $current;
 
     /**
@@ -43,17 +43,15 @@ class Lexer implements LexerContract
     }
 
     /**
-     * Returns next token in the token stream 
-     * Inspired by works of Oliver Torr
+     * Returns next token in the token stream based on current context 
      *
-     * @param Context $context Context in which is the next token hapenning 
-     *                         -- can change perception of the token depending
-     *                         on the place in the code
+     * todo escaping
+     *
      * @return Token Next token 
      */
-    public function next(Context $context): ?Token 
+    public function next(): ?Token 
     {
-        if (!preg_match($this->syntax->getRe($context), $this->content, $matches)) {
+        if (!preg_match($this->syntax->getRe($this->context), $this->content, $matches)) {
             return null;
         }
 
@@ -67,10 +65,10 @@ class Lexer implements LexerContract
         }
 
 
-        if ($keys[1] === 'Html_Space' && $context === Context::Juice) {
+        if ($keys[1] === 'Html_Space' && $this->context !== Context::Html) {
             $this->pos += strlen($token[0]);
             $this->content = substr($this->content, strlen($token[0]));
-            return $this->next($context);
+            return $this->next();
         }
 
         $result = (new Token($this->getKind($keys[1]), $this->line, $this->pos, $token[array_key_last($token)]));
@@ -82,6 +80,24 @@ class Lexer implements LexerContract
         
     }
 
+    /**
+     * Changes current way of lexing
+     * Inspired by works of Oliver Torr and John Berger
+     *
+     * @param Context $context Context in which is the next token hapenning 
+     *                         -- can change perception of the token depending
+     *                         on the place in the code
+     */
+    public function changeContext(Context $context): self
+    {
+        $this->context = $context; 
+
+        return $this;
+    }
+
+    /**
+     * Returns last lexed token
+     */
     public function current(): Token
     {
         return $this->current

@@ -13,8 +13,6 @@ use Lemon\Templating\Juice\Token\HtmlTokenKind;
 
 class Parser
 {
-    private Context $context = Context::Html;
-
     public function __construct( 
         public readonly Lexer $lexer,
     ) {
@@ -23,11 +21,14 @@ class Parser
     public function parse(): NodeList
     {
         $list = new NodeList();
-        while ($this->lexer->next($this->context)) {
-            $this->list->add(
+        $this->lexer->changeContext(Context::Html);
+        while ($this->lexer->next()) {
+            $list->add(
                 $this->parseHtmlTag()
             );
-        }       
+        }   
+
+        return $list;    
     }
 
     public function parseHtmlTag(): ?HtmlNode
@@ -36,13 +37,13 @@ class Parser
             return null;
         }
 
-        $this->context = Context::HtmlTag;
+        $this->lexer->changeContext(Context::HtmlTag);
 
-        if ($this->lexer->next($this->context)->kind !== HtmlTokenKind::Name) {
+        if ($this->lexer->next()->kind !== HtmlTokenKind::Name) {
             throw new CompilerException("Unexpected token after <, expected tag name!"); // @hint If you want to write < symbol, use "&lt;" 
         }
 
-        $this->context = Context::Html;
+        $this->lexer->changeContext(Context::Html);
 
         return null;
     }

@@ -10,17 +10,27 @@ use Lemon\Templating\Juice\Context;
 
 interface Lexer
 {
+
     /**
-     * Returns next token in the token stream 
-     * Inspired by works of Oliver Torr
+     * Returns next token in the token stream based on current context 
+     *
+     * @return Token Next token 
+     */
+    public function next(): ?Token; 
+
+    /**
+     * Changes current way of lexing
+     * Inspired by works of Oliver Torr and John Berger
      *
      * @param Context $context Context in which is the next token hapenning 
      *                         -- can change perception of the token depending
      *                         on the place in the code
-     * @return Token Next token 
      */
-    public function next(Context $context): ?Token;
+    public function changeContext(Context $context): self;
 
+    /**
+     * Returns last lexed token
+     */
     public function current(): Token;
 
 }
