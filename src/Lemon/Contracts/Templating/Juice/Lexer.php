@@ -12,6 +12,11 @@ interface Lexer
 {
 
     /**
+     * Looks at next token without moving
+     */
+    public function peek(): ?Token;
+
+    /**
      * Returns next token in the token stream based on current context 
      *
      * @return Token Next token 
@@ -31,6 +36,6 @@ interface Lexer
     /**
      * Returns last lexed token
      */
-    public function current(): Token;
+    public function current(): ?Token;
 
 }

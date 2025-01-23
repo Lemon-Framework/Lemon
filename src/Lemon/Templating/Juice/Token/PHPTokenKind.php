@@ -22,6 +22,8 @@ enum PHPTokenKind implements TokenKind
     case Variable;
     case Name;
     case StringDelim;
+    case EscapedStringDelim;
+    case StringContent;
     case As;
     case In;
     case Instanceof;

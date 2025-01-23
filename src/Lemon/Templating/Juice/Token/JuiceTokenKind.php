@@ -18,6 +18,4 @@ enum JuiceTokenKind implements TokenKind
     case Closing;
 
     case Escape;
-
-    case Equals;
 }

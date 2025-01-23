@@ -20,7 +20,7 @@ class Lexer implements LexerContract
     private int $pos = 1; 
     private int $index = 0;
     private Context $context;
-    private Token $current;
+    private ?Token $current;
 
     /**
      * Creates new lexer stream for given input
@@ -43,6 +43,16 @@ class Lexer implements LexerContract
     }
 
     /**
+     * Looks at next token without moving
+     */
+    public function peek(): ?Token 
+    {
+        [$result, $_] = $this->lexNext();
+        return $result;       
+    }
+
+
+    /**
      * Returns next token in the token stream based on current context 
      *
      * todo escaping
@@ -51,33 +61,14 @@ class Lexer implements LexerContract
      */
     public function next(): ?Token 
     {
-        if (!preg_match($this->syntax->getRe($this->context), $this->content, $matches)) {
+        [$result, $len] = $this->lexNext();
+        if ($result === null) {
             return null;
         }
-
-        $token = array_filter($matches, fn ($item) => null != $item);
-        $keys = array_keys($token);
-
-        if ($keys[1] == 'NewLine') {
-            $this->line++;
-            $this->pos = 0;
-            $keys[1] = 'Html_Space';
-        }
-
-
-        if ($keys[1] === 'Html_Space' && $this->context !== Context::Html) {
-            $this->pos += strlen($token[0]);
-            $this->content = substr($this->content, strlen($token[0]));
-            return $this->next();
-        }
-
-        $result = (new Token($this->getKind($keys[1]), $this->line, $this->pos, $token[array_key_last($token)]));
-        $this->pos += strlen($token[0]);
-        $this->content = substr($this->content, strlen($token[0]));
+        $this->pos += $len;
+        $this->content = substr($this->content, $len);
         $this->current = $result;
-
         return $result;
-        
     }
 
     /**
@@ -98,9 +89,37 @@ class Lexer implements LexerContract
     /**
      * Returns last lexed token
      */
-    public function current(): Token
+    public function current(): ?Token
     {
-        return $this->current
-        ;
+        return $this->current;
+    }
+
+    private function lexNext(): ?array
+    {
+        // todo probably cache peeking
+        if (!preg_match($this->syntax->getRe($this->context), $this->content, $matches)) {
+            $this->current = null;
+            return null;
+        }
+
+        $token = array_filter($matches, fn ($item) => null != $item);
+        $keys = array_keys($token);
+
+        if ($keys[1] == 'NewLine') {
+            $this->line++;
+            $this->pos = 0;
+            $keys[1] = 'Html_Space';
+        }
+
+
+        if ($keys[1] === 'Html_Space' && $this->context !== Context::Html) {
+            $this->pos += strlen($token[0]);
+            $this->content = substr($this->content, strlen($token[0]));
+            return $this->lexNext();
+        }
+
+        $result = (new Token($this->getKind($keys[1]), $this->line, $this->pos, $token[array_key_last($token)]));
+
+        return [$result, strlen($token[0])];
     }
 }

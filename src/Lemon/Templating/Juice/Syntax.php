@@ -41,7 +41,11 @@ final class Syntax
 
     public readonly string $htmlTagRe;
 
+    public readonly string $htmlString;
+
     public readonly string $juiceRe;
+
+    public readonly string $juiceString;
 
     public readonly string $juiceUnclosedRe;
 
@@ -71,7 +75,9 @@ final class Syntax
         //$this->tokens[] = ['BinaryOperator', $this->operators->buildBinaryRe()];
         $this->htmlRe = $this->buildHtmlRe();
         $this->htmlTagRe = $this->buildHtmlTagRe();
+        $this->htmlString = $this->buildHtmlStringRe();
         [$this->juiceRe, $this->juiceUnclosedRe] = $this->buildJuiceRe();
+        $this->juiceString = $this->buildJuiceStringRe();
     }
 
     public function getRe(Context $context): string 
@@ -79,8 +85,10 @@ final class Syntax
         return match($context) {
             Context::Html => $this->htmlRe,
             Context::HtmlTag => $this->htmlTagRe,
+            Context::HtmlString => $this->htmlString,
             Context::Juice => $this->juiceRe,
             Context::JuiceUnclosed => $this->juiceUnclosedRe,
+            Context::JuiceString => $this->juiceString,
         };
     }
 
@@ -154,6 +162,22 @@ final class Syntax
                 "
             ),
         ];  
+    }
+
+    private function buildHtmlStringRe(): string 
+    {
+        return '/(?<Html_StringDelim>"|\')
+            |(?<Html_Escaped_StringDelim>\\\\"\')
+            |(?<Html_StringContent>[^\\\\"\']+)
+            /xsA';
+    }
+
+    private function buildJuiceStringRe(): string 
+    {
+        return '/(?<PHP_StringDelim>"|\')
+            |(?<PHP_EscapedStringDelim>\\"\')
+            |(?<PHP_StringContent>[^\\\\"\']+)
+            /xsA';
     }
 
     private function buildRe(string $re): string

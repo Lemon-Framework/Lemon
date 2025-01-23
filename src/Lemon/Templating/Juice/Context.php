@@ -6,6 +6,8 @@ enum Context
 {
     case Html;
     case HtmlTag;
+    case HtmlString;
+    case JuiceString;
     case Juice;
     /**
      * Inside juice block which can't be ended (due to e.g unclosed bracket)

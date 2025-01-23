@@ -24,4 +24,8 @@ enum HtmlTokenKind implements TokenKind
     case Space;
 
     case StringDelim;
+
+    case EscapedStringDelim;
+
+    case StringContent;
 }
