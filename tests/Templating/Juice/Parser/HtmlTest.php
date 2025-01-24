@@ -28,7 +28,7 @@ class HtmlTest extends TestCase
 <!DOCTYPE html>
 <html lang="en">
 <body>
-    <p>foo+bar-baz::foo</p>
+    <p>foo+bar - baz::foo</p>
 </body>
 </html>
 HTML);
@@ -37,16 +37,11 @@ HTML);
             new NodeList([ 
                 new Node('!DOCTYPE', new NodeList([new Attribute('html', null)])),
                 new Node('html', new NodeList([new Attribute('lang', new NodeList([new StringLiteral('en')]))]), new NodeList([
-                    new Text("\n"),
                     new Node('body', new NodeList([]), new NodeList([
-                        new Text("\n"),
-                        new Text("    "),
                         new Node('p', new NodeList([]), new NodeList([ 
-                            new Text('foo+bar-baz::foo')
+                            new Text('foo+bar - baz::foo'),
                         ])),            
-                        new Text("\n"),
                     ])),         
-                    new Text("\n"),
                 ])),
             ]),
             $parser->parse()

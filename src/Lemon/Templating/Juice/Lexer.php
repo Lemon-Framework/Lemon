@@ -6,6 +6,7 @@ namespace Lemon\Templating\Juice;
 
 use Lemon\Contracts\Templating\Juice\Lexer as LexerContract;
 use Lemon\Templating\Juice\Syntax;
+use Lemon\Templating\Juice\Token\HtmlTokenKind;
 use Lemon\Templating\Juice\Token\Token;
 use Lemon\Templating\Juice\Token\TokenKind;
 
@@ -112,7 +113,7 @@ class Lexer implements LexerContract
         }
 
 
-        if ($keys[1] === 'Html_Space' && $this->context !== Context::Html) {
+        if ($keys[1] === 'Html_Space' && ($this->context !== Context::Html || $this->current->kind !== HtmlTokenKind::Text)) {
             $this->pos += strlen($token[0]);
             $this->content = substr($this->content, strlen($token[0]));
             return $this->lexNext();
