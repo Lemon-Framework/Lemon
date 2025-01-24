@@ -9,5 +9,25 @@ namespace Lemon\Templating\Juice;
  */
 class HtmlNodes
 {
+    private array $singleton = [
+        '!doctype',
+        'area',
+        'base',
+        'br',
+        'col',
+        'embed',
+        'hr',
+        'img',
+        'input',
+        'link',
+        'meta',
+        'source',
+        'track',
+        'wb',
+    ];
 
+    public function isSingleton(string $name): bool
+    {
+        return in_array(strtolower($name), $this->singleton);
+    }
 }

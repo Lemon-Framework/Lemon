@@ -13,8 +13,8 @@ class CompilerException extends Exception
 {
     public function __construct(string $message, int $line = null, int $pos = null)
     {
-        $this->message = $message;
-        $this->line = $line ?? $this->line;
+        $this->message = $message.' at line '.$line.' pos '.$pos;
+//        $this->line = $line ?? $this->line;
 //        $this->pos = $pos ?? $this->pos; todo
     }
 }
