@@ -6,13 +6,13 @@ namespace Lemon\Templating\Juice\Nodes;
 
 use Lemon\Contracts\Templating\Juice\Node;
 
-class NodeList
+class NodeList implements Node
 {
     public function __construct( 
         /**
          * @param array<Node> $nodes
          */
-        private array $nodes = []
+        private array $nodes = [],
     ) {
 
     }

@@ -119,7 +119,7 @@ class Lexer implements LexerContract
             return $this->lexNext();
         }
 
-        $result = (new Token($this->getKind($keys[1]), $this->line, $this->pos, $token[array_key_last($token)]));
+        $result = (new Token($this->getKind($keys[1]), new Position($this->line, $this->pos), $token[array_key_last($token)]));
 
         return [$result, strlen($token[0])];
     }

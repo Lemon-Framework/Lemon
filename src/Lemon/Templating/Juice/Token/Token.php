@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Lemon\Templating\Juice\Token;
 
 use Lemon\Templating\Juice\Context;
+use Lemon\Templating\Juice\Position;
 use Lemon\Templating\Juice\Syntax;
 
 final class Token
 {
     public function __construct(
-        public TokenKind $kind,
-        public readonly int $line,
-        public readonly int $pos,
-        public string $content = '',
+        public readonly TokenKind $kind,
+        public readonly Position $position,
+        public readonly string $content = '',
     ) {
     }
 }
