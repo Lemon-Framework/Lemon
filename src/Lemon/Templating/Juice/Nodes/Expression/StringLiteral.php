@@ -7,13 +7,13 @@ namespace Lemon\Templating\Juice\Nodes\Expression;
 use Lemon\Contracts\Templating\Juice\Expression;
 use Lemon\Templating\Juice\Position;
 
-// tohle bude mrdka na parsovani btw, udelat pozdeji
-class TernaryOperation implements Expression
+class StringLiteral implements Expression
 {
     public function __construct(
-        public readonly Expression $left,
-        public readonly Expression $middle,
-        public readonly Expression $right,
+        /**
+         * @param array<string|Expression>
+         */
+        public readonly array $content,
         public readonly Position $position,
     ) {
 

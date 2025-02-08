@@ -49,6 +49,7 @@ class Parser
             $this->lexer->next();
             $list->add(
                 $this->parseHtmlTag()
+                ?? $this->parseHtmlComment()
                 ?? $this->parseText()
             );
         }
@@ -193,5 +194,10 @@ class Parser
         }
 
         return new Comment($result, $this->position());
+    }
+
+    public function parseJuiceDirectiveStart()
+    {
+        
     }
 }
