@@ -11,7 +11,7 @@ class StringLiteral implements Expression
 {
     public function __construct(
         /**
-         * @param array<string|Expression>
+         * @param array<string|Expression> $content
          */
         public readonly array $content,
         public readonly Position $position,

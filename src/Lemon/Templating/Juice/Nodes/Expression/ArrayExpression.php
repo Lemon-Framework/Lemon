@@ -7,14 +7,13 @@ namespace Lemon\Templating\Juice\Nodes\Expression;
 use Lemon\Contracts\Templating\Juice\Expression;
 use Lemon\Templating\Juice\Position;
 
-class AnonymousFunction implements Expression
+class ArrayExpression implements Expression
 {
     public function __construct(
         /**
-         * @param array<Expression> $params
+         * @param array<Expression> $content
          */
-        public readonly array $params,
-        public readonly Expression $expression,
+        public readonly array $content,
         public readonly Position $position,
     ) {
 
