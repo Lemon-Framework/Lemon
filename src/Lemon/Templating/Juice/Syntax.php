@@ -31,6 +31,7 @@ final class Syntax
         ['As', 'as'],
         ['In', 'in'],
         ['Instanceof', 'instanceof'],
+        ['StringDelim', '"|\''],
         ['Number', '(-?\d+(\.\d+)?)'],
         ['Variable', '\$([a-zA-Z_][a-zA-Z0-9_]*)'],
         ['Name', '[a-zA-Z_][a-zA-Z0-9_]*'],
@@ -174,6 +175,7 @@ final class Syntax
 
     private function buildJuiceStringRe(): string 
     {
+        // todo add variables
         return '/(?<PHP_StringDelim>"|\')
             |(?<PHP_EscapedStringDelim>\\"\')
             |(?<PHP_StringContent>[^\\\\"\']+)

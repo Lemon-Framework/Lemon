@@ -7,11 +7,13 @@ namespace Lemon\Templating\Juice\Nodes\Expression;
 use Lemon\Contracts\Templating\Juice\Expression;
 use Lemon\Templating\Juice\Position;
 
-class Indexing implements Expression
+class ArrayDefinition implements Expression
 {
     public function __construct(
-        public readonly Expression $target,
-        public readonly Expression $index,
+        /**
+         * @param array<Expression> $content
+         */
+        public readonly array $content,
         public readonly Position $position,
     ) {
 

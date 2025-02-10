@@ -6,6 +6,9 @@ namespace Lemon\Templating\Juice;
 
 class Operators
 {
+
+    public const HighestPriority = 4;
+
     /**
      * Creates new class for managing operators
      *
@@ -38,9 +41,9 @@ class Operators
             '-' => [2],
             '*' => [1],
             '/' => [1],
-            '?->' => [1],
-            '->' => [1],
-            '::' => [1],
+            //'?->' => [1], so these are not operators??? 
+            //'->' => [1],  so these are not operators???
+            //'::' => [1],  so these are not operators???
             '=' => [4],
         ],
 
