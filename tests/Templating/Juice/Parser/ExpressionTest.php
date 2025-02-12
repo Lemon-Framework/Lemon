@@ -39,5 +39,20 @@ class ExpressionTest extends TestCase
                 new Position(1, 1),
             )
         ));
+
+        $p = $this->getParser('1+2*3');
+        $this->assertThat($p->parse(), $this->equalTo( 
+            new BinaryOperation( 
+                new Number('1', new Position(1, 1)),
+                '+',
+                new BinaryOperation( 
+                    new Number('2', new Position(1, 3)),
+                    '*',
+                    new Number('3', new Position(1, 5)),
+                    new Position(1, 3),
+                ),
+                new Position(1, 1),
+            )
+        ));
     }
 }
