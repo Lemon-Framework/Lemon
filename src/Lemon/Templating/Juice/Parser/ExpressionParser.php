@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice\Parser;
 
+use Lemon\Contracts\Templating\Juice\Expression;
 use Lemon\Contracts\Templating\Juice\Lexer;
 use Lemon\Contracts\Templating\Juice\Node;
 use Lemon\Templating\Exceptions\CompilerException;
@@ -12,6 +13,7 @@ use Lemon\Templating\Juice\Nodes\Expression\ArrayDefinition;
 use Lemon\Templating\Juice\Nodes\Expression\BinaryOperation;
 use Lemon\Templating\Juice\Nodes\Expression\FunctionCall;
 use Lemon\Templating\Juice\Nodes\Expression\FunctionName;
+use Lemon\Templating\Juice\Nodes\Expression\Indexing;
 use Lemon\Templating\Juice\Nodes\Expression\Number;
 use Lemon\Templating\Juice\Nodes\Expression\Variable;
 use Lemon\Templating\Juice\Operators;
@@ -39,12 +41,12 @@ class ExpressionParser
 
     }
 
-    public function parse(): Node  
+    public function parse(): Expression 
     {
         return $this->parseExpression(Operators::HighestPriority);
     }
 
-    public function parseExpression(int $priority): Node
+    public function parseExpression(int $priority): Expression
     {
         if ($priority === 0) {
             return $this->parsePrimary();
@@ -61,10 +63,12 @@ class ExpressionParser
         $this->lexer->next();
         $right = $this->parseExpression($priority - 1);
 
-        return new BinaryOperation($left, $op->content, $right, $position); 
+        return new (
+            $this->ops->binary[$op->content][1] ?? BinaryOperation::class
+        )($left, $op->content, $right, $position); 
     }
 
-    private function parsePrimary(): Node
+    private function parsePrimary(): Expression
     {
         $position = $this->lexer->current()->position;
         return 
@@ -72,13 +76,13 @@ class ExpressionParser
             ?? $this->parseNumber()
             ?? $this->parseVariable()
             ?? $this->parseBrackets()
-            ?? $this->parseFunctionCall()
+            ?? $this->parseFunctionName()
             ?? $this->parseArray()
             ?? throw new CompilerException("Unexpected token", $position->line, $position->pos) // TAK SES PICUS
         ;
     }
 
-    private function parseString(): ?Node 
+    private function parseString(): ?Expression 
     {
         $token = $this->lexer->current();
         if ($token->kind !== PHPTokenKind::StringDelim) {
@@ -100,7 +104,7 @@ class ExpressionParser
         return new StringLiteral($result, $position);    
     }
 
-    private function parseNumber(): ?Node 
+    private function parseNumber(): ?Expression 
     {
         $token = $this->lexer->current();
         if ($token->kind !== PHPTokenKind::Number) {
@@ -110,40 +114,65 @@ class ExpressionParser
         return new Number($token->content, $token->position);
     }
 
-    private function parseVariable(): ?Node 
+    private function parseVariable(): ?Expression 
     {
         $token = $this->lexer->current();
         if ($token->kind !== PHPTokenKind::Variable) {
             return null;
         }
 
-        // $this->parseIndexing()
-        // or function calling
-        
+        $result = new Variable($token->content, $token->position);
+        $target = $result;
+        while (($target = $this->parseIndexing($result)) !== null) {
+            $result = $target;
+        }
 
-        return new Variable($token->content, $token->position);
-        
+        return 
+            $this->parseFunctionCall($result) 
+            ?? $result
+        ;
     }
 
-    //private function parseIndexing(): ?Node 
-    //{
+    private function parseIndexing(Expression $target): ?Expression 
+    {
+        $token = $this->lexer->current();
+        if ($token->kind !== PHPTokenKind::OpenningSquareBracket) {
+            return null;
+        }
+        $expr = $this->parse();
+        if ($this->lexer->next()->kind !== PHPTokenKind::ClosingSquareBracket) {
+            throw new CompilerException('Unclosed bracket', $token->position->line, $token->position->pos);
+        }
 
-    //}
+        return new Indexing($target, $expr, $token->position);
+    }
 
-    private function parseFunctionCall(): ?Node 
+
+    private function parseFunctionName(): ?Expression 
     {
         $token = $this->lexer->current();
         if ($token->kind !== PHPTokenKind::Name) {
             return null;
-        }       
+        }            
 
-        if ($this->lexer->next()->kind !== PHPTokenKind::OpenningBracket) {
-            return new FunctionName($token->content, $token->position);
-        }
+        return
+            $this->parseFunctionCall($target = new FunctionName($token->content, $token->position))
+            ?? $target // yes we do support straight function names unlike php, we're raised on php broski
+        ;
+    }
+
+    private function parseFunctionCall(Expression $target): ?Expression 
+    {
+        $token = $this->lexer->peek();
+        if ($token->kind !== PHPTokenKind::OpenningBracket) {
+            return null;
+        }      
+
+        $this->lexer->next(); 
 
         $args = [];
         while ($this->lexer->next()->kind !== PHPTokenKind::ClosingBracket) {
-            $args[] = $this->parseExpression(Operators::HighestPriority);
+            $args[] = $this->parse();
             $next = $this->lexer->peek();
             if ($next->kind === PHPTokenKind::Comma) {
                 $this->lexer->next();
@@ -156,10 +185,10 @@ class ExpressionParser
             }
         }
 
-        return new FunctionCall($token->content, $args, $token->position);
+        return new FunctionCall($target, $args, $token->position);
     }
 
-    private function parseBrackets(): ?Node 
+    private function parseBrackets(): ?Expression 
     {
         $token = $this->lexer->current();
         if ($token->kind !== PHPTokenKind::OpenningBracket) {
@@ -167,7 +196,7 @@ class ExpressionParser
         }           
         $this->lexer->next();
 
-        $expr = $this->parseExpression(Operators::HighestPriority); 
+        $expr = $this->parse(); 
 
         if ($this->lexer->next()->kind !== PHPTokenKind::ClosingBracket) {
             throw new CompilerException('Unclosed bracket', $token->position->line, $token->position->pos);
@@ -176,7 +205,7 @@ class ExpressionParser
         return $expr;
     }
 
-    private function parseArray(): ?Node 
+    private function parseArray(): ?Expression 
     {
         $token = $this->lexer->current();
         if ($token->kind !== PHPTokenKind::OpenningSquareBracket) {
@@ -185,7 +214,7 @@ class ExpressionParser
 
         $items = [];
         while ($this->lexer->next()->kind !== PHPTokenKind::ClosingSquareBracket) {
-            $items[] = $this->parseExpression(Operators::HighestPriority);
+            $items[] = $this->parse();
             $next = $this->lexer->peek();
             if ($next->kind === PHPTokenKind::Comma) {
                 $this->lexer->next();
@@ -201,12 +230,12 @@ class ExpressionParser
         return new ArrayDefinition($items, $token->position);
     }
 
-    //private function parseClassAccess(): ?Node 
+    //private function parseClassAccess(): ?Expression 
     //{
 
     //}
     
-    //private function parseNewClass(): ?Node 
+    //private function parseNewClass(): ?Expression 
     //{
 
     //}

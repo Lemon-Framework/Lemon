@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
+use Lemon\Templating\Juice\Nodes\Expression\Operators\Pipe;
+use Lemon\Templating\Juice\Nodes\Expression\Operators\RegexMatch;
+
 class Operators
 {
 
@@ -23,16 +26,16 @@ class Operators
          */
         public readonly array $binary = [
             'as' => [4],
-            'in' => [4],
+            'in' => [4, In::class],
             'instanceof' => [4],
             '===' => [3],
             '!==' => [3],
             '==' => [3],
             '!=' => [3],
-            '~=' => [3], // bro thinks he perl
+            '~=' => [3, RegexMatch::class], // bro thinks he perl
             '>=' => [3],
             '<=' => [3],
-            '|>' => [3],
+            '|' => [3, Pipe::class],
             '>' => [3], 
             '<' => [3],
             '??' => [3],
@@ -45,6 +48,7 @@ class Operators
             //'->' => [1],  so these are not operators???
             //'::' => [1],  so these are not operators???
             '=' => [4],
+            // ??=
         ],
 
         /** @todo add leftness/rightness */

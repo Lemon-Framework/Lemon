@@ -10,7 +10,7 @@ use Lemon\Templating\Juice\Position;
 class FunctionCall implements Expression
 {
     public function __construct(
-        public readonly Expression|string $function,
+        public readonly Expression $function,
         /**
          * @param array<string|Expression> $arguments
          */

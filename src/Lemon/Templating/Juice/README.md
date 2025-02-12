@@ -18,3 +18,7 @@ In order to create custom syntax, simply create the `Syntax` class and fill it w
 - All tokens are regexes that wont be quoted, they will be used as they are so dont forget to escape regex tokes inf you are not using them for regex
 
 finished class pass *somewhere idk where todo*
+
+## ideas
+
+mby directives/operators could be straight up nodes
