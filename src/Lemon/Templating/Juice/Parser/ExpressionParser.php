@@ -39,7 +39,12 @@ class ExpressionParser
 
     }
 
-    public function parseExpression(int $priority): ?Node
+    public function parse(): Node  
+    {
+        return $this->parseExpression(Operators::HighestPriority);
+    }
+
+    public function parseExpression(int $priority): Node
     {
         if ($priority === 0) {
             return $this->parsePrimary();
@@ -49,16 +54,17 @@ class ExpressionParser
 
         $left = $this->parseExpression($priority - 1);
         $op = $this->lexer->peek();
-        if ($this->ops->binary[$op][0] != $priority) {
+        if ($op === null || $this->ops->binary[$op->content][0] != $priority) {
             return $left;
         }
         $op = $this->lexer->next();
+        $this->lexer->next();
         $right = $this->parseExpression($priority - 1);
 
-        return new BinaryOperation($left, $op, $right, $position); 
+        return new BinaryOperation($left, $op->content, $right, $position); 
     }
 
-    private function parsePrimary(): ?Node
+    private function parsePrimary(): Node
     {
         $position = $this->lexer->current()->position;
         return 
