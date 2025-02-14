@@ -31,6 +31,7 @@ final class Syntax
         ['As', 'as'],
         ['In', 'in'],
         ['Instanceof', 'instanceof'],
+        ['New', 'new'],
         ['StringDelim', '"|\''],
         ['Number', '(-?\d+(\.\d+)?)'],
         ['Variable', '\$([a-zA-Z_][a-zA-Z0-9_]*)'],
@@ -170,7 +171,7 @@ final class Syntax
         return '/(?<Html_StringDelim>"|\')
             |(?<Html_Escaped_StringDelim>\\\\"\')
             |(?<Html_StringContent>[^\\\\"\']+)
-            /xsA';
+            /xsAi';
     }
 
     private function buildJuiceStringRe(): string 
@@ -179,7 +180,7 @@ final class Syntax
         return '/(?<PHP_StringDelim>"|\')
             |(?<PHP_EscapedStringDelim>\\"\')
             |(?<PHP_StringContent>[^\\\\"\']+)
-            /xsA';
+            /xsAi';
     }
 
     private function buildRe(string $re): string
@@ -195,7 +196,7 @@ final class Syntax
             |(?<NewLine>[\n])
             |(?<Html_Space>[\t ]+)
             |(?<Html_Text>[^<{$not_in_text}]+)
-        /xsA";
+        /xsAi";
     }
 
     public function tokens(): array

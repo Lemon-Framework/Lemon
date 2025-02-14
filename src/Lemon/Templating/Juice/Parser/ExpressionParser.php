@@ -6,7 +6,6 @@ namespace Lemon\Templating\Juice\Parser;
 
 use Lemon\Contracts\Templating\Juice\Expression;
 use Lemon\Contracts\Templating\Juice\Lexer;
-use Lemon\Contracts\Templating\Juice\Node;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Context;
 use Lemon\Templating\Juice\Nodes\Expression\ArrayDefinition;
@@ -30,6 +29,7 @@ use Lemon\Templating\Juice\Nodes\Expression\StringLiteral;
  *
  * todo [] array top
  * todo all the fancy dynamic stuff such as Parek::{$rizek} et al
+ * todo duplicitni zavorky
  */
 class ExpressionParser
 {
@@ -235,9 +235,19 @@ class ExpressionParser
 
     //}
     
-    //private function parseNewClass(): ?Expression 
-    //{
+    private function parseNewClass(): ?Expression 
+    {
+        $token = $this->lexer->current();
+        if ($token->kind !== PHPTokenKind::New) {
+            return null;
+        }    
 
-    //}
+        // todo support string expressions
+        if ($this->lexer->next()->kind !== PHPTokenKind::Name) {
+            throw new CompilerException('Unexpected token after "new," expected class name', $token->position->line, $token->position->pos);
+        }
+
+
+    }
 
 }

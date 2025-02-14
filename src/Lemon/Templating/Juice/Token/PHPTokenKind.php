@@ -27,5 +27,6 @@ enum PHPTokenKind implements TokenKind
     case As;
     case In;
     case Instanceof;
+    case New;
     case Backslash;
 }
