@@ -56,7 +56,7 @@ class ExpressionParser
 
         $left = $this->parseExpression($priority - 1);
         $op = $this->lexer->peek();
-        if ($op === null || $this->ops->binary[$op->content][0] != $priority) {
+        if ($op === null || ($this->ops->binary[$op->content][0] ?? null) !== $priority) {
             return $left;
         }
         $op = $this->lexer->next();
@@ -235,19 +235,19 @@ class ExpressionParser
 
     //}
     
-    private function parseNewClass(): ?Expression 
-    {
-        $token = $this->lexer->current();
-        if ($token->kind !== PHPTokenKind::New) {
-            return null;
-        }    
+    //private function parseNewClass(): ?Expression 
+    //{
+    //    $token = $this->lexer->current();
+    //    if ($token->kind !== PHPTokenKind::New) {
+    //        return null;
+    //    }    
 
-        // todo support string expressions
-        if ($this->lexer->next()->kind !== PHPTokenKind::Name) {
-            throw new CompilerException('Unexpected token after "new," expected class name', $token->position->line, $token->position->pos);
-        }
+    //    // todo support string expressions
+    //    if ($this->lexer->next()->kind !== PHPTokenKind::Name) {
+    //        throw new CompilerException('Unexpected token after "new," expected class name', $token->position->line, $token->position->pos);
+    //    }
 
 
-    }
+    //}
 
 }

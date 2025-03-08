@@ -8,10 +8,10 @@ use Lemon\Contracts\Templating\Juice\Expression;
 use Lemon\Contracts\Templating\Juice\Node;
 use Lemon\Templating\Juice\Position;
 
-class Directive implements Node
+abstract class SingletonDirective implements Node
 {
     public function __construct( 
-        public readonly Expression $expression,
+        public readonly ?Expression $expression,
         public readonly Position $position,
     ) {
 

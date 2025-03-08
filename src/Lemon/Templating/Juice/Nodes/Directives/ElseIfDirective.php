@@ -6,7 +6,7 @@ namespace Lemon\Templating\Juice\Nodes\Directives;
 
 use Lemon\Templating\Juice\Nodes\SingletonDirective;
 
-class IncludeDirective extends SingletonDirective
+class ElseIfDirective extends SingletonDirective
 {
 
 }

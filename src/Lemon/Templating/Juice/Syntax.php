@@ -10,6 +10,8 @@ namespace Lemon\Templating\Juice;
  * Stores tag syntax for Juice.
  *
  * todo add svelte blade twig :crazy:
+            |(?<Html_Equals>=)           
+ * todo tsts
  */
 final class Syntax
 {
@@ -78,7 +80,8 @@ final class Syntax
         $this->htmlRe = $this->buildHtmlRe();
         $this->htmlTagRe = $this->buildHtmlTagRe();
         $this->htmlString = $this->buildHtmlStringRe();
-        [$this->juiceRe, $this->juiceUnclosedRe] = $this->buildJuiceRe();
+        //[$this->juiceRe, $this->juiceUnclosedRe] = $this->buildJuiceRe();
+        $this->juiceRe = $this->buildJuiceRe();
         $this->juiceString = $this->buildJuiceStringRe();
     }
 
@@ -94,28 +97,48 @@ final class Syntax
         };
     }
 
+    private function buildClosing(): string 
+    {
+        $closing = [
+            ['Directive',  $this->directive[1]], 
+            ['Output',  $this->output[1]], 
+            ['Unsafe',  $this->unsafe[1]], 
+            ['Comment',  $this->comment[1]]
+        ];
+        usort($closing,
+                fn(array $a, array $b) => strlen($b[1]) - strlen($a[1])
+        ); // they have to be sorted by their length so the first is the 
+           // longest in order to lex properly
+
+        $result = '';
+
+        foreach ($closing as [$name, $re]) {
+            $result .= '|(?<Juice_'.$name.'End>'.$re.')';
+        }
+
+        return $result;
+    }
+
 
     private function buildHtmlRe(): string 
     {
+        $end = $this->buildClosing(); 
         return $this->buildRe("
             (?<Html_EndTagOpen>\<\/)
             |(?<Html_TagOpen>\<)
-            |(?<Html_TagClose>\>)
             |(?<Html_CommentOpen>\<!\-\-)
-            |(?<Html_CommentClose>\-\-\>)
-            |(?<Html_StringDelim>\"|')
-            |(?<Html_Equals>=)           
             |(?<Juice_Escape>{$this->escape})
             |(?<Juice_DirectiveStart>{$this->directive[0]})
             |(?<Juice_EndDirective>{$this->end})
             |(?<Juice_OutputStart>{$this->output[0]})
             |(?<Juice_UnsafeStart>{$this->unsafe[0]})
             |(?<Juice_CommentStart>{$this->comment[0]})
-        "); 
+            {$end}"); 
     }
 
     private function buildHtmlTagRe(): string 
     {
+        $end = $this->buildClosing();
         return $this->buildRe("
             (?<Html_EndTagOpen>\<\/)
             |(?<Html_TagOpen>\<)
@@ -131,19 +154,43 @@ final class Syntax
             |(?<Juice_OutputStart>{$this->output[0]})
             |(?<Juice_UnsafeStart>{$this->unsafe[0]})
             |(?<Juice_CommentStart>{$this->comment[0]})
-        ");
+            {$end}");
     }
 
-    private function buildJuiceRe(): array 
+    //private function buildJuiceRe(): array 
+    //{
+    //    $closing = [$this->directive[1], $this->output[1], $this->unsafe[1], $this->comment[1]];
+    //    usort($closing,
+    //            fn(string $a, string $b) => strlen($b) - strlen($a)
+    //    ); // they have to be sorted by their length so the first is the 
+    //       // longest in order to lex properly
+
+    //    $closing = implode('|', $closing);
+
+    //    $expression_tokens = '';
+
+    //    foreach ($this->tokens as [$name, $re]) {
+    //        $expression_tokens .= "|(?<PHP_{$name}>{$re})";
+    //    }
+
+    //    $expression_tokens = trim($expression_tokens, '|');
+
+    //    return [
+    //        $this->buildRe("
+    //            (?<Juice_Closing>{$closing})
+    //            |{$expression_tokens}
+    //            "
+    //        ),
+    //        $this->buildRe("
+    //            {$expression_tokens}
+    //            |(?<Juice_Closing>{$closing})
+    //            "
+    //        ),
+    //    ];  
+    //}
+
+    private function buildJuiceRe(): string 
     {
-        $closing = [$this->directive[1], $this->output[1], $this->unsafe[1], $this->comment[1]];
-        usort($closing,
-                fn(string $a, string $b) => strlen($b) - strlen($a)
-        ); // they have to be sorted by their length so the first is the 
-           // longest in order to lex properly
-
-        $closing = implode('|', $closing);
-
         $expression_tokens = '';
 
         foreach ($this->tokens as [$name, $re]) {
@@ -152,18 +199,7 @@ final class Syntax
 
         $expression_tokens = trim($expression_tokens, '|');
 
-        return [
-            $this->buildRe("
-                (?<Juice_Closing>{$closing})
-                |{$expression_tokens}
-                "
-            ),
-            $this->buildRe("
-                {$expression_tokens}
-                |(?<Juice_Closing>{$closing})
-                "
-            ),
-        ];  
+        return $this->buildRe($expression_tokens);
     }
 
     private function buildHtmlStringRe(): string 
@@ -195,7 +231,7 @@ final class Syntax
             {$re}
             |(?<NewLine>[\n])
             |(?<Html_Space>[\t ]+)
-            |(?<Html_Text>[^<{$not_in_text}]+)
+            |(?<Html_Text>[^\n<{$not_in_text}]+)
         /xsAi";
     }
 

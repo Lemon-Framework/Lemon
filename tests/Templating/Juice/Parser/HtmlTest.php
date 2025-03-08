@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Templating\Juice\Parser;
 
+use Lemon\Templating\Juice\Directives;
 use Lemon\Templating\Juice\HtmlNodes;
 use Lemon\Templating\Juice\Lexer;
 use Lemon\Templating\Juice\Nodes\Html\Attribute;
@@ -11,6 +12,7 @@ use Lemon\Templating\Juice\Nodes\Html\Node;
 use Lemon\Templating\Juice\Nodes\Html\StringLiteral;
 use Lemon\Templating\Juice\Nodes\Html\Text;
 use Lemon\Templating\Juice\Nodes\NodeList;
+use Lemon\Templating\Juice\Operators;
 use Lemon\Templating\Juice\Parser\Parser;
 use Lemon\Templating\Juice\Position;
 use Lemon\Templating\Juice\Syntax;
@@ -20,7 +22,7 @@ class HtmlTest extends TestCase
 {
     private function getParser(string $content): Parser 
     {
-        return new Parser(new Lexer(new Syntax(), $content), new HtmlNodes());
+        return new Parser(new Lexer(new Syntax(), $content), new HtmlNodes(), new Operators(), new Directives());
     }
 
     public function testHtmlParsing(): void

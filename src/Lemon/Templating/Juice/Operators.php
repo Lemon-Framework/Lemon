@@ -53,13 +53,13 @@ class Operators
 
         /** @todo add leftness/rightness */
         public readonly array $unary = [
-            '!' => [],
-            '-' => [],
-            'new' => [],
-            '...' => [],
-            "++" => [],
-            "--" => [],
-            '@' => []
+            '!' => true,
+            '-' => true,
+            'new' => true,
+            '...' => true,
+            "++" => false,
+            "--" => false,
+            '@' => true,
         ],
     ) {
 

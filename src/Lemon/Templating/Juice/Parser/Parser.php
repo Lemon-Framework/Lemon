@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Lemon\Templating\Juice\Parser;
 
 use Lemon\Contracts\Templating\Juice\Lexer;
+use Lemon\Contracts\Templating\Juice\Node;
 use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Context;
+use Lemon\Templating\Juice\Directives;
 use Lemon\Templating\Juice\HtmlNodes;
 use Lemon\Templating\Juice\Nodes\Html\Attribute;
 use Lemon\Templating\Juice\Nodes\Html\Comment;
@@ -14,15 +16,24 @@ use Lemon\Templating\Juice\Nodes\Html\Node as HtmlNode;
 use Lemon\Templating\Juice\Nodes\Html\StringLiteral;
 use Lemon\Templating\Juice\Nodes\Html\Text;
 use Lemon\Templating\Juice\Nodes\NodeList;
+use Lemon\Templating\Juice\Nodes\Output;
+use Lemon\Templating\Juice\Operators;
 use Lemon\Templating\Juice\Position;
 use Lemon\Templating\Juice\Token\HtmlTokenKind;
+use Lemon\Templating\Juice\Token\JuiceTokenKind;
+use Lemon\Templating\Juice\Token\PHPTokenKind;
 
 class Parser
 {
+    private ExpressionParser $expression_parser;
+
     public function __construct( 
         public readonly Lexer $lexer,
         public readonly HtmlNodes $nodes,
+        public readonly Operators $operators,
+        public readonly Directives $directives,
     ) {
+        $this->expression_parser = new ExpressionParser($lexer, $operators);
     }
 
     public function line(): int 
@@ -40,7 +51,7 @@ class Parser
         return $this->lexer->current()->position;
     }
 
-    public function parse(?callable $end = null, ?callable $error = null): NodeList
+    public function parse(?callable $end = null, ?callable $error = null, ?array $directives = []): NodeList
     {
         $list = new NodeList();
         $this->lexer->changeContext(Context::Html);
@@ -50,6 +61,9 @@ class Parser
             $list->add(
                 $this->parseHtmlTag()
                 ?? $this->parseHtmlComment()
+                ?? $this->parseJuiceOutput()
+                ?? $this->parseJuiceUnsafeOutput()
+                ?? $this->parseJuiceDirective($directives)
                 ?? $this->parseText()
             );
         }
@@ -196,8 +210,91 @@ class Parser
         return new Comment($result, $this->position());
     }
 
-    public function parseJuiceDirectiveStart()
+    public function parseJuiceOutput(): ?Node
     {
-        
+        $token = $this->lexer->current();
+        if ($token->kind !== JuiceTokenKind::OutputStart) {
+            return null;
+        }
+        $this->lexer->changeContext(Context::Juice);
+        $this->lexer->next();
+        $expr = $this->expression_parser->parse();
+        $this->lexer->changeContext(Context::Html);
+        if ($this->lexer->next()->kind !== JuiceTokenKind::OutputEnd) {
+            throw new CompilerException('Unclosed tag', $token->position->line, $token->position->pos);
+        }
+
+        return new Output($expr, $token->position);
+    }
+
+    public function parseJuiceUnsafeOutput(): ?Node
+    {
+        $token = $this->lexer->current();
+        if ($token->kind !== JuiceTokenKind::OutputStart) {
+            return null;
+        }
+        $this->lexer->changeContext(Context::Juice);
+        $this->lexer->next();
+        $expr = $this->expression_parser->parse();
+        $this->lexer->changeContext(Context::Html);
+        if ($this->lexer->next()->kind !== JuiceTokenKind::OutputEnd) {
+            throw new CompilerException('Unclosed tag', $token->position->line, $token->position->pos);
+        }
+
+        return new Output($expr, $token->position);
+    }
+
+    /**
+     * @param array<string> $directives
+     */
+    public function parseJuiceDirective(array $directives): ?Node
+    {
+        $token = $this->lexer->current();
+        if ($token->kind !== JuiceTokenKind::DirectiveStart) {
+            return null;
+        }
+        $directive = $this->lexer->current()->content;
+        $this->directives->addTemporary($directives);
+        if (!$this->directives->is($directive)) {
+            throw new CompilerException("Unknown directive {$directive}");
+        }
+        $expr = null;
+        if ($this->lexer->peek()->kind !== JuiceTokenKind::DirectiveEnd) {
+            $this->lexer->changeContext(Context::Juice);
+            $this->lexer->next();
+            $expr = $this->expression_parser->parse();
+        }
+        $this->lexer->changeContext(Context::Html);
+        if ($this->lexer->next()->kind !== JuiceTokenKind::DirectiveEnd) {
+            throw new CompilerException('Unclosed tag', $token->position->line, $token->position->pos);
+        }
+
+        if (!$this->directives->isPair($directive)) {
+            return new ($this->directives->getNodeClass($directive))($expr, $token->position);
+        }
+        $class = $this->directives->getNodeClass($directive);
+        $this->directives->clearTemporary();
+
+        $body = $this->parse(
+            fn() => $this->parseEndDirective($directive), 
+            fn() => throw new CompilerException("Unclosed directive $directive", $token->position->line, $token->position->pos),
+            $this->directives->getDirectiveSpecific($directive),
+        );
+
+        return new ($class)($expr, $body, $token->position);       
+    }
+
+    public function parseEndDirective(string $name): bool
+    {
+        if ($this->lexer->peek()?->kind !== JuiceTokenKind::EndDirective) {
+            return false;
+        }
+
+        $token = $this->lexer->next();
+        if ($token->content !== $name) {
+            throw new CompilerException("Unclosed directive $name", $token->position->line, $token->position->pos);
+        }
+
+        return true;
     }
 }

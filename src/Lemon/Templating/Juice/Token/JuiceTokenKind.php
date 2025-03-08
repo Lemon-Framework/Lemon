@@ -15,7 +15,13 @@ enum JuiceTokenKind implements TokenKind
 
     case CommentStart;
 
-    case Closing;
+    case DirectiveEnd;
+
+    case OutputEnd;
+
+    case UnsafeEnd;
+
+    case CommentEnd;
 
     case Escape;
 }

@@ -22,3 +22,4 @@ finished class pass *somewhere idk where todo*
 ## ideas
 
 mby directives/operators could be straight up nodes
+

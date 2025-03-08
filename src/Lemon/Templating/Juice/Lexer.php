@@ -13,7 +13,6 @@ use Lemon\Templating\Juice\Token\TokenKind;
 /**
  * Lexer stream
  *
- * todo rewrite it, its three lexers that colide
  */
 class Lexer implements LexerContract
 {
@@ -105,7 +104,6 @@ class Lexer implements LexerContract
 
         $token = array_filter($matches, fn ($item) => null != $item);
         $keys = array_keys($token);
-
         if ($keys[1] == 'NewLine') {
             $this->line++;
             $this->pos = 0;
@@ -113,7 +111,7 @@ class Lexer implements LexerContract
         }
 
 
-        if ($keys[1] === 'Html_Space' && ($this->context !== Context::Html || $this->current->kind !== HtmlTokenKind::Text)) {
+        if ($keys[1] === 'Html_Space') { //&& ($this->context !== Context::Html || $this->current->kind !== HtmlTokenKind::Text)) {
             $this->pos += strlen($token[0]);
             $this->content = substr($this->content, strlen($token[0]));
             return $this->lexNext();
