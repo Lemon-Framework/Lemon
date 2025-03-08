@@ -21,7 +21,6 @@ use Lemon\Templating\Juice\Nodes\PairDirective;
 class Directives
 {
     private array $directives = [
-        'case' => [CaseDirective::class, []], 
         'csrf' => [CsrfDirective::class, []],
         'each' => [EachDirective::class, []], 
         'foreach' => [EachDirective::class, []], 
@@ -29,7 +28,7 @@ class Directives
         'iferror' => [IfErrorDirective::class, []], 
         'ife' => [IfErrorDirective::class, []], 
         'include' => [IncludeDirective::class, []],
-        'switch' => [SwitchDirective::class, []], 
+        'switch' => [SwitchDirective::class, ['case' => CaseDirective::class]], 
         'text' => [TranslationDirective::class, []], 
         '_' => [TranslationDirective::class, []], 
         'unless' => [UnlessDirective::class, []],
@@ -40,8 +39,10 @@ class Directives
 
     public function is(string $directive): bool 
     {
-        return isset($this->directives[$directive]) 
-            || isset($this->temporary[$directive]);
+        return 
+            isset($this->directives[$directive]) 
+            || isset($this->temporary[$directive])
+        ;
     }
 
     public function isPair(string $directive): bool
@@ -51,8 +52,10 @@ class Directives
 
     public function getNodeClass(string $directive): string 
     {
-        return $this->directives[$directive][0] 
-            ?? $this->temporary[$directive];
+        return 
+            $this->directives[$directive][0] 
+            ?? $this->temporary[$directive]
+        ;
     }
 
     public function getDirectiveSpecific(string $directive): array 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lemon\Tests\Templating\Juice\Parser;
 
+use Lemon\Templating\Exceptions\CompilerException;
 use Lemon\Templating\Juice\Lexer;
 use Lemon\Templating\Juice\Nodes\Directives\EachDirective;
 use Lemon\Templating\Juice\Nodes\Directives\ElseDirective;
@@ -101,4 +102,18 @@ HTML);
        // todo more tsts jhj 
     }
 
+    public function testDirectiveInBadContext()
+    {
+$parser = $this->getParser(<<<HTML
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    [ elseif \$me == "julia" ]
+</body>
+</html>
+HTML);
+        // RIKAL TADY NEKDO KONTEXT??????????????
+
+       $this->assertThrowable(fn() => $parser->parse(), CompilerException::class);
+    }
 }
