@@ -14,4 +14,6 @@ class Comment
     ) {
 
     }
+
+    // wait comment can contain stuff this is unfinished wtf
 }

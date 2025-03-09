@@ -6,6 +6,7 @@ namespace Lemon\Templating\Juice\Nodes\Html;
 
 use Lemon\Contracts\Templating\Juice\Node;
 use Lemon\Templating\Juice\Position;
+use Lemon\Templating\Juice\SematicContext;
 
 class StringLiteral implements Node
 {
@@ -14,5 +15,10 @@ class StringLiteral implements Node
         public readonly Position $position,
     ) {
 
+    }
+
+    public function generate(SematicContext $context): string 
+    {
+        return $this->content;
     }
 }
