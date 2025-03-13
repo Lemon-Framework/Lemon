@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Templating\Juice\Nodes;
 
 use Lemon\Contracts\Templating\Juice\Node;
+use Lemon\Templating\Juice\Generators;
 use Lemon\Templating\Juice\SematicContext;
 
 class NodeList implements Node
@@ -30,7 +31,7 @@ class NodeList implements Node
         return $this->nodes;
     }
 
-    public function generate(SematicContext $context): string 
+    public function generate(SematicContext $context, Generators $generators): string 
     {
         $result = '';
         foreach ($this->nodes() as $node) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lemon\Templating\Juice\Nodes\Html;
 
 use Lemon\Contracts\Templating\Juice\Node as NodeContract;
+use Lemon\Templating\Juice\Generators;
 use Lemon\Templating\Juice\Nodes\NodeList;
 use Lemon\Templating\Juice\Position;
 use Lemon\Templating\Juice\SematicContext;
@@ -20,7 +21,7 @@ class Node implements NodeContract
 
     }
 
-    public function generate(SematicContext $context): string 
+    public function generate(SematicContext $context, Generators $generators): string 
     {
         return "<{$this->name}{$this->attributes->generate($context)}>{$this->body->generate($context)}</{$this->name}>";
     }
