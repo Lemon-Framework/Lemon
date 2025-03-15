@@ -10,10 +10,10 @@ use Lemon\Templating\Juice\SematicContext;
 
 class NodeList implements Node
 {
-    public function __construct( 
-        /**
-         * @param array<Node> $nodes
-         */
+    /**
+     * @param array<Node> $nodes
+     */
+    public function __construct(  
         private array $nodes = [],
     ) {
 
@@ -33,9 +33,14 @@ class NodeList implements Node
 
     public function generate(SematicContext $context, Generators $generators): string 
     {
+        return $this->generateWithDelim(' ', $context, $generators);
+    }
+
+    public function generateWithDelim(string $delim, SematicContext $context, Generators $generators): string
+    {
         $result = '';
         foreach ($this->nodes() as $node) {
-            $result .= ' '.$node->generate($context);
+            $result .= $node->generate($context).$delim;
         }
 
         return $result;

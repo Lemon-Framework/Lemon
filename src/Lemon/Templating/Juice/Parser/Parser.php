@@ -87,7 +87,7 @@ class Parser
         $this->lexer->changeContext(Context::HtmlTag);
 
         if ($this->lexer->next()?->kind !== HtmlTokenKind::Name) {
-            throw new CompilerException("Unexpected token after <, expected tag name!", $this->line(), $this->pos()); // @hint If you want to write < symbol, use "&lt;" 
+            throw new CompilerException("Unexpected token after <, expected tag name!", $this), $this->pos()); // @hint If you want to write < symbol, use "&lt;" 
         }
 
         $name = $this->lexer->current()->content;
@@ -98,7 +98,7 @@ class Parser
         }
 
         if ($this->lexer->current()->kind !== HtmlTokenKind::TagClose) {
-            throw new CompilerException("Unexpected token, expected either attribute or >!", $this->line(), $this->pos());
+            throw new CompilerException("Unexpected token, expected either attribute or >!", $this), $this->pos());
         }
 
         if ($this->nodes->isSingleton($name)) {
@@ -132,7 +132,7 @@ class Parser
         $this->lexer->next();
         $content = $this->parseString();
         if ($content === null)  {
-            throw new CompilerException('Unexpected token after =', $this->line(), $this->pos());
+            throw new CompilerException('Unexpected token after =', $this), $this->pos());
         }
         
         return new Attribute($name, $pos, $content);
@@ -150,7 +150,7 @@ class Parser
         $this->lexer->changeContext(Context::HtmlString);
         while (($current = $this->lexer->next())?->content !== $start->content) {
             if ($current === null) {
-                throw new CompilerException('Unclosed string!', $start->line, $start->pos);
+                throw new CompilerException('Unclosed string!', $start);
             }
             // todo ast wit positions
             $result->add(match($current->kind) {
@@ -159,7 +159,7 @@ class Parser
                 HtmlTokenKind::StringDelim => new StringLiteral($current->content, $this->position()),
                 // todo juice 
                 // if this happens we're cooked
-                default => throw new CompilerException('Internal error within compiler, open issue please', $start->line, $start->pos),
+                default => throw new CompilerException('Internal error within compiler, open issue please', $start),
             });
         }
         $this->lexer->changeContext(Context::HtmlTag);
@@ -180,7 +180,7 @@ class Parser
         $this->lexer->next();
         $this->lexer->changeContext(Context::HtmlTag);
         if ($this->lexer->next()?->kind !== HtmlTokenKind::Name) {
-            throw new CompilerException('Unexpected token!', $this->line(), $this->pos());
+            throw new CompilerException('Unexpected token!', $this), $this->pos());
         }
 
         if ($this->lexer->current()->content !== $name) {
@@ -188,7 +188,7 @@ class Parser
         }
 
         if ($this->lexer->next()?->kind !== HtmlTokenKind::TagClose) {
-            throw new CompilerException('Unexpected token!', $this->line(), $this->pos());
+            throw new CompilerException('Unexpected token!', $this), $this->pos());
         }
 
         $this->lexer->changeContext(Context::Html);
@@ -221,7 +221,7 @@ class Parser
         $expr = $this->expression_parser->parse();
         $this->lexer->changeContext(Context::Html);
         if ($this->lexer->next()->kind !== JuiceTokenKind::OutputEnd) {
-            throw new CompilerException('Unclosed tag', $token->position->line, $token->position->pos);
+            throw new CompilerException('Unclosed tag', $token->position);
         }
 
         return new Output($expr, $token->position);
@@ -238,7 +238,7 @@ class Parser
         $expr = $this->expression_parser->parse();
         $this->lexer->changeContext(Context::Html);
         if ($this->lexer->next()->kind !== JuiceTokenKind::OutputEnd) {
-            throw new CompilerException('Unclosed tag', $token->position->line, $token->position->pos);
+            throw new CompilerException('Unclosed tag', $token->position);
         }
 
         return new Output($expr, $token->position);
@@ -266,7 +266,7 @@ class Parser
         }
         $this->lexer->changeContext(Context::Html);
         if ($this->lexer->next()->kind !== JuiceTokenKind::DirectiveEnd) {
-            throw new CompilerException('Unclosed tag', $token->position->line, $token->position->pos);
+            throw new CompilerException('Unclosed tag', $token->position);
         }
 
         if (!$this->directives->isPair($directive)) {
@@ -277,7 +277,7 @@ class Parser
 
         $body = $this->parse(
             fn() => $this->parseEndDirective($directive), 
-            fn() => throw new CompilerException("Unclosed directive $directive", $token->position->line, $token->position->pos),
+            fn() => throw new CompilerException("Unclosed directive $directive", $token->position),
             $this->directives->getDirectiveSpecific($directive),
         );
 
@@ -292,7 +292,7 @@ class Parser
 
         $token = $this->lexer->next();
         if ($token->content !== $name) {
-            throw new CompilerException("Unclosed directive $name", $token->position->line, $token->position->pos);
+            throw new CompilerException("Unclosed directive $name", $token->position);
         }
 
         return true;

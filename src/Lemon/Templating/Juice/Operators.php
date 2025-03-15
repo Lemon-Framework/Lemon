@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Lemon\Templating\Juice;
 
-use Lemon\Templating\Juice\Nodes\Expression\Operators\Pipe;
-use Lemon\Templating\Juice\Nodes\Expression\Operators\RegexMatch;
+use Lemon\Contracts\Templating\Juice\Expression;
+use Lemon\Templating\Exceptions\CompilerException;
+use Lemon\Templating\Juice\Nodes\Expression\Variable;
 
 class Operators
 {
 
-    public const HighestPriority = 4;
+    public const HighestPriority = 5;
 
     /**
      * Creates new class for managing operators
@@ -24,64 +25,69 @@ class Operators
          * 
          * @todo test priorities, add tree nodes
          */
-        public readonly array $binary = [
-            'as' => [4],
-            'in' => [4, In::class],
-            'instanceof' => [4],
-            '===' => [3],
-            '!==' => [3],
-            '==' => [3],
-            '!=' => [3],
-            '~=' => [3, RegexMatch::class], // bro thinks he perl
-            '>=' => [3],
-            '<=' => [3],
-            '|' => [3, Pipe::class],
-            '>' => [3], 
-            '<' => [3],
-            '??' => [3],
-            '.' => [2],
-            '+' => [2],
-            '-' => [2],
-            '*' => [1],
-            '/' => [1],
+        private ?array $binary = null, 
+        /** @todo add leftness/rightness */
+        private ?array $unary = null, 
+    ) {
+        $this->binary ??= [
+            'as' => [0, fn(Expression $l) => throw new CompilerException('Operator as is not available in this context', $l->position)],
+            'in' => [0, 'in_array(#l, #r)'],
+            'instanceof' => [0, '#l instanceof #r'],
+            '||' => [0, '#l||#r'],
+            '&&' => [1, '#l&&#r'],
+            '===' => [2, '#l===#r'],
+            '!==' => [2, '#l!==#r'],
+            '==' => [2, '#l==#r'],
+            '!=' => [2, '#l!=#r'],
+            '~=' => [2, 'preg_match(#r,#l)===1'], // bro thinks he perl
+            '>=' => [2, '#l>=#r'],
+            '<=' => [2, '#l<=#r'],
+            '|' => [2, '#r(#l)'],
+            '>' => [2, '#l>#l'], 
+            '<' => [2, '#l<#r'],
+            '??' => [2, '#l??#r'],
+            '.' => [3, '#l.#r'],
+            '+' => [3, '#l+#r'],
+            '-' => [3, '#l-#r'],
+            '*' => [4, '#l*#r'],
+            '/' => [4, '#l/#r'],
+            '//' => [4, 'intdiv(#l,#r)'],
+            '%' => [4, '#l%#r'],
             //'?->' => [1], so these are not operators??? 
             //'->' => [1],  so these are not operators???
             //'::' => [1],  so these are not operators???
-            '=' => [4],
-            // ??=
-        ],
+            '=' => [0, function(Expression $l, Expression $r, SematicContext $context, Generators $generators) {
+                if (!($l instanceof Variable)) {
+                    // todo position
+                    throw new CompilerException('Left side of the = operator must be l-value (variable)', $l->position);
+                }
 
-        /** @todo add leftness/rightness */
-        public readonly array $unary = [
+                return $l->generate($context, $generators).'='.$r->generate($context, $generators);
+            }],
+            // ??=
+        ];
+
+        $this->unary ??= [
             '!' => true,
             '-' => true,
-            'new' => true,
-            '...' => true,
+            // TODO 'new' => true, 
+            // TODO '...' => true,
             "++" => false,
             "--" => false,
             '@' => true,
-        ],
-    ) {
+        ];
 
     }
 
-    /**
-     * Builds regular expression for lexing given operator list
-     *
-     * @param array<string, mixed> $operators List of operators in format of this class 
-     * @return string regex capable of lexing given operators (without deliminers)
-     */
-    private function buildOperatorsRe(array $operators): string
+    public function binary(): array
     {
-        $operators = array_map(fn($op) => preg_quote($op, '/'), array_keys($operators));
-        return '('.implode('|', $operators).')';
+        return $this->binary;
     }
 
-    public function buildBinaryRe(): string {
-        return $this->buildOperatorsRe($this->binary);
+    public function unary(): array
+    {
+        return $this->unary;
     }
-    
-    public function buildUnaryRe(): string {
-        return $this->buildOperatorsRe($this->unary);
-    }
+
+
 }

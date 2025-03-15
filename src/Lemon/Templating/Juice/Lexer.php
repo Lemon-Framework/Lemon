@@ -1,5 +1,6 @@
 <?php
 
+// todo thius should throw sum exceptions init?
 declare(strict_types=1);
 namespace Lemon\Templating\Juice;
 

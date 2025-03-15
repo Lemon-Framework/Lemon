@@ -30,7 +30,7 @@ class Attribute implements Node
         $value = '';
         foreach ($this->value->nodes() as $node) {
             // todo escaping
-            $value .= $node->generate(new SematicContext(EscapingContext::Attribute));
+            $value .= $node->generate(new SematicContext(EscapingContext::Attribute), $generators);
         }
         return "{$this->name}=\"{$value}\"";
     }
