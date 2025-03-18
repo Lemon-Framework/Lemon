@@ -141,10 +141,12 @@ class ExpressionParser
 
     private function parseIndexing(Expression $target): ?Expression 
     {
-        $token = $this->lexer->current();
+        $token = $this->lexer->peek();
         if ($token->kind !== PHPTokenKind::OpenningSquareBracket) {
             return null;
         }
+        $this->lexer->next();
+        $this->lexer->next();
         $expr = $this->parse();
         if ($this->lexer->next()->kind !== PHPTokenKind::ClosingSquareBracket) {
             throw new CompilerException('Unclosed bracket', $token->position);
