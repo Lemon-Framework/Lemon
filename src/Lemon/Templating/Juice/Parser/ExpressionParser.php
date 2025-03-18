@@ -107,6 +107,7 @@ class ExpressionParser
             }
             $result[] = $this->lexer->current()->content;
         }
+        $this->lexer->changeContext(Context::Juice);
         return new StringLiteral($result, $position);    
     }
 
@@ -160,8 +161,7 @@ class ExpressionParser
     {
         $token = $this->lexer->current();
         if ($token->kind !== PHPTokenKind::Name) {
-            return null;
-        }            
+            return null; }            
 
         return
             $this->parseFunctionCall($target = new FunctionName($token->content, $token->position))
@@ -252,7 +252,7 @@ class ExpressionParser
 
     //    // todo support string expressions
     //    if ($this->lexer->next()->kind !== PHPTokenKind::Name) {
-    //        throw new CompilerException('Unexpected token after "new," expected class name', $token->position);
+    //    if ($this->lexer->nex
     //    }
 
 
