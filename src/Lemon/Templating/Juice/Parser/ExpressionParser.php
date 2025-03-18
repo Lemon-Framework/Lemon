@@ -59,8 +59,8 @@ class ExpressionParser
         $position = $this->lexer->current()->position;
 
         $left = $this->parseExpression($priority + 1);
-        $op = $this->lexer->peek();
-        while ($op !== null && ($this->ops->binary()[$op->content][0] ?? null) === $priority) {
+        
+        while (($op = $this->lexer->peek()) !== null && ($this->ops->binary()[$op->content][0] ?? null) === $priority) {
             $op = $this->lexer->next();
             $this->lexer->next();
             $right = $this->parseExpression($priority + 1);
