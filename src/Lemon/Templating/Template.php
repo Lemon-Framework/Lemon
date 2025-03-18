@@ -37,6 +37,7 @@ final class Template
         try {
             require $this->compiled_path;
         } catch (Throwable $e) {
+            // TODO obtain line and pos
             throw TemplateException::from($e, $this->raw_path);
         }
     }

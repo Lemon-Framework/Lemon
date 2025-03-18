@@ -9,4 +9,15 @@ enum EscapingContext
     case Attribute;
     case Script;
     case ScriptAttribute;
+
+    public function getEscapingMethod(): string 
+    {
+        // todo
+        return 'escape'.match($this) {
+            self::Html => 'Html',
+            self::Attribute => 'Attribute',
+            self::ScriptAttribute => 'Attribute',
+            self::Script => 'Script',
+        };
+    }
 }

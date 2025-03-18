@@ -6,7 +6,9 @@ namespace Lemon\Templating\Juice\Nodes;
 
 use Lemon\Contracts\Templating\Juice\Expression;
 use Lemon\Contracts\Templating\Juice\Node;
+use Lemon\Templating\Juice\Generators;
 use Lemon\Templating\Juice\Position;
+use Lemon\Templating\Juice\SematicContext;
 
 class UnsafeOutput implements Node
 {
@@ -15,5 +17,10 @@ class UnsafeOutput implements Node
         public readonly Position $position,
     ) { 
     
+    }
+
+    public function generate(SematicContext $context, Generators $generators): string 
+    {
+        return '<?php echo '.$this->expression->generate($context, $generators).' ?>';
     }
 }

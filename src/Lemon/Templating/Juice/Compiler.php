@@ -9,6 +9,7 @@ use Lemon\Contracts\Templating\Compiler as CompilerContract;
 use Lemon\Templating\Juice\EscapingContext;
 use Lemon\Templating\Juice\Parser\Parser;
 
+// TODO error handling
 class Compiler implements CompilerContract
 {
     public readonly Syntax $syntax;

@@ -6,7 +6,6 @@ namespace Lemon\Templating\Juice;
 
 use Lemon\Contracts\Templating\Juice\Lexer as LexerContract;
 use Lemon\Templating\Juice\Syntax;
-use Lemon\Templating\Juice\Token\HtmlTokenKind;
 use Lemon\Templating\Juice\Token\Token;
 use Lemon\Templating\Juice\Token\TokenKind;
 
