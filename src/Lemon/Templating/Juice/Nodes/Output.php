@@ -22,7 +22,7 @@ class Output implements Node
     public function generate(SematicContext $context, Generators $generators): string 
     {
         return 
-            '<?php echo '
+            '<?php echo $_env->'
             .$context->escaping->getEscapingMethod()
             .'('
             .$this->expression->generate($context, $generators)

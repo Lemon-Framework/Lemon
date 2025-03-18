@@ -20,7 +20,9 @@ class EachDirective extends PairDirective
 
         return 
             '<?php foreach('
-            .$this->expression->generate($context, $generators)
+            .$this->expression->left->generate($context, $generators)
+            .' as '
+            .$this->expression->right->generate($context, $generators)
             .'){ ?>'
             .$this->body->generate($context, $generators)
             .'<?php } ?>'

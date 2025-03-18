@@ -40,7 +40,7 @@ class NodeList implements Node
     {
         $result = '';
         foreach ($this->nodes() as $node) {
-            $result .= $node->generate($context).$delim;
+            $result .= $node->generate($context, $generators).$delim;
         }
 
         return $result;

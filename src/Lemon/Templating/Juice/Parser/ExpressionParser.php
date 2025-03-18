@@ -149,6 +149,7 @@ class ExpressionParser
         $this->lexer->next();
         $this->lexer->next();
         $expr = $this->parse();
+
         if ($this->lexer->next()->kind !== PHPTokenKind::ClosingSquareBracket) {
             throw new CompilerException('Unclosed bracket', $token->position);
         }
@@ -161,7 +162,8 @@ class ExpressionParser
     {
         $token = $this->lexer->current();
         if ($token->kind !== PHPTokenKind::Name) {
-            return null; }            
+            return null;
+        }            
 
         return
             $this->parseFunctionCall($target = new FunctionName($token->content, $token->position))
@@ -252,7 +254,7 @@ class ExpressionParser
 
     //    // todo support string expressions
     //    if ($this->lexer->next()->kind !== PHPTokenKind::Name) {
-    //    if ($this->lexer->nex
+    //        throw new CompilerException('Unexpected token after "new," expected class name', $token->position);
     //    }
 
 

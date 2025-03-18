@@ -24,7 +24,7 @@ class BinaryOperation implements Expression
      
     public function generate(SematicContext $context, Generators $generators): string 
     {
-        $generator = $generators->operators->binary[$this->op];
+        $generator = $generators->operators->binary()[$this->op][1];
         if (is_callable($generator)) {
             return $generator($this->left, $this->right, $context, $generators);
         }
