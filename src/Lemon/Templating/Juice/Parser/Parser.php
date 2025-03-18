@@ -87,7 +87,7 @@ class Parser
         $this->lexer->changeContext(Context::HtmlTag);
 
         if ($this->lexer->next()?->kind !== HtmlTokenKind::Name) {
-            throw new CompilerException("Unexpected token after <, expected tag name!", $this), $this->pos()); // @hint If you want to write < symbol, use "&lt;" 
+            throw new CompilerException("Unexpected token after <, expected tag name!", $this->position()); // @hint If you want to write < symbol, use "&lt;" 
         }
 
         $name = $this->lexer->current()->content;
@@ -98,7 +98,7 @@ class Parser
         }
 
         if ($this->lexer->current()->kind !== HtmlTokenKind::TagClose) {
-            throw new CompilerException("Unexpected token, expected either attribute or >!", $this), $this->pos());
+            throw new CompilerException("Unexpected token, expected either attribute or >!", $this->position());
         }
 
         if ($this->nodes->isSingleton($name)) {
@@ -109,7 +109,7 @@ class Parser
 
         $body = $this->parse(
             fn() => $this->parseClosingHtmlTag($name), 
-            fn() => throw new CompilerException("Unlosed tag {$name}", $line, $pos)
+            fn() => throw new CompilerException("Unlosed tag {$name}", $position)
         );
 
         return new HtmlNode($name, $position, $attributes, $body);
@@ -132,7 +132,7 @@ class Parser
         $this->lexer->next();
         $content = $this->parseString();
         if ($content === null)  {
-            throw new CompilerException('Unexpected token after =', $this), $this->pos());
+            throw new CompilerException('Unexpected token after =', $this->position());
         }
         
         return new Attribute($name, $pos, $content);
@@ -150,7 +150,7 @@ class Parser
         $this->lexer->changeContext(Context::HtmlString);
         while (($current = $this->lexer->next())?->content !== $start->content) {
             if ($current === null) {
-                throw new CompilerException('Unclosed string!', $start);
+                throw new CompilerException('Unclosed string!', $start->position);
             }
             // todo ast wit positions
             $result->add(match($current->kind) {
@@ -159,7 +159,7 @@ class Parser
                 HtmlTokenKind::StringDelim => new StringLiteral($current->content, $this->position()),
                 // todo juice 
                 // if this happens we're cooked
-                default => throw new CompilerException('Internal error within compiler, open issue please', $start),
+                default => throw new CompilerException('Internal error within compiler, open issue please', $start->position),
             });
         }
         $this->lexer->changeContext(Context::HtmlTag);
@@ -180,15 +180,15 @@ class Parser
         $this->lexer->next();
         $this->lexer->changeContext(Context::HtmlTag);
         if ($this->lexer->next()?->kind !== HtmlTokenKind::Name) {
-            throw new CompilerException('Unexpected token!', $this), $this->pos());
+            throw new CompilerException('Unexpected token!', $this->position());
         }
 
         if ($this->lexer->current()->content !== $name) {
-            throw new CompilerException('Unclosed tag '.$name, $this->line(), $this->pos());
+            throw new CompilerException('Unclosed tag '.$name, $this->position());
         }
 
         if ($this->lexer->next()?->kind !== HtmlTokenKind::TagClose) {
-            throw new CompilerException('Unexpected token!', $this), $this->pos());
+            throw new CompilerException('Unexpected token!', $this->position());
         }
 
         $this->lexer->changeContext(Context::Html);
@@ -256,7 +256,7 @@ class Parser
         $directive = $this->lexer->current()->content;
         $this->directives->addTemporary($directives);
         if (!$this->directives->is($directive)) {
-            throw new CompilerException("Unknown directive {$directive}");
+            throw new CompilerException("Unknown directive {$directive}", $token->position);
         }
         $expr = null;
         if ($this->lexer->peek()->kind !== JuiceTokenKind::DirectiveEnd) {
