@@ -96,11 +96,7 @@ final class Factory implements FactoryInterface
             FS::delete($compiled_path);
         }
 
-        try {
-            $compiled = $this->compiler->compile(file_get_contents($raw_path));
-        } catch (Throwable $throwable) {
-            throw TemplateException::from($throwable, $raw_path);
-        }
+        $compiled = $this->compiler->compile(file_get_contents($raw_path));
 
         FS::write($compiled_path, $compiled);
     }

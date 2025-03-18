@@ -15,7 +15,7 @@ class CompilerException extends Exception
     public function __construct(string $message, Position $position)
     {
         $this->message = $message;
-//        $this->line = $line ?? $this->line;
+        $this->line = $position->line;
 //        $this->pos = $pos ?? $this->pos; todo
     }
 }
