@@ -14,7 +14,20 @@ class IfDirective extends PairDirective
 {
     public function generate(SematicContext $context, Generators $generators): string 
     {
-        // tbd
+        $was_else = false;
+        foreach ($this->body->nodes() as $node) {
+            if (($node instanceof ElseIfDirective 
+                || $node instanceof ElseDirective)
+                && $was_else 
+            ) {
+                throw new CompilerException("Unexpected directive after else", $node->position);
+            } 
+
+            if ($node instanceof ElseDirective) {
+                $was_else = true;
+            }
+        }
+
         return 
             '<?php if('
             .$this->expression->generate($context, $generators)

@@ -9,4 +9,8 @@ use Lemon\Templating\Juice\Nodes\SingletonDirective;
 class ElseDirective extends SingletonDirective
 {
 
+    public function generate(SematicContext $context, Generators $generators): string 
+    {
+        return '<?php }else{ ?>';
+    }
 }
