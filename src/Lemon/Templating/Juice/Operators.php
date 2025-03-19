@@ -42,7 +42,7 @@ class Operators
             '~=' => [2, 'preg_match(#r,#l)===1'], // bro thinks he perl
             '>=' => [2, '#l>=#r'],
             '<=' => [2, '#l<=#r'],
-            '|' => [2, '#r(#l)'],
+            '|' => [2, '#r(#l)'], // TODO make it more efficient
             '>' => [2, '#l>#l'], 
             '<' => [2, '#l<#r'],
             '??' => [2, '#l??#r'],

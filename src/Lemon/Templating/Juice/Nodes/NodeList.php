@@ -43,6 +43,6 @@ class NodeList implements Node
             $result .= $node->generate($context, $generators).$delim;
         }
 
-        return $result;
+        return rtrim($result, $delim);
     }
 }

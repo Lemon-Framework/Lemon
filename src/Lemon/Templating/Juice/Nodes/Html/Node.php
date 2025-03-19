@@ -24,7 +24,7 @@ class Node implements NodeContract
     public function generate(SematicContext $context, Generators $generators): string 
     {
         return 
-            "<".$this->name.' '.$this->attributes->generate($context, $generators).">"
+            "<".$this->name.($this->attributes ? ' '.$this->attributes->generate($context, $generators) : '').">"
             .($this->body !== null 
                 ? $this->body->generate($context, $generators)
                   ."</".$this->name.">"

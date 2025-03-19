@@ -143,7 +143,7 @@ final class Syntax
         return $this->buildRe("
             (?<Html_EndTagOpen>\<\/)
             |(?<Html_TagOpen>\<)
-            |(?<Html_Name>[!a-zA-Z_]+)
+            |(?<Html_Name>[!a-zA-Z_0-9]+)
             |(?<Html_TagClose>\>)
             |(?<Html_CommentOpen>\<!\-\-)
             |(?<Html_CommentClose>\-\-\>)
