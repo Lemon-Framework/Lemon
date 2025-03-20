@@ -1,5 +1,9 @@
 # 🍋 Lemon
 
+Tato složka obsahuje celý framework Lemon, který je nutný pro úplnost překladače Juice. Kód překladače je v adresáři `src/Lemon/Templating` a unit testy v `\tests\Templating`.
+
+Je vyžadováno PHP 8.3. Pro spuštění testů je nutný composer, pro použití v aplikaci je potřeba vytvořit Lemon aplikaci a jako verzi Lemonu použít dev-juice. Více v dokumentaci níže.
+
 Lemon is microframework for php designed to be simple for begginers. <!-- TODO -->
 
 ## Features

@@ -17,7 +17,6 @@ class EachDirective extends PairDirective
 {
     public function generate(SematicContext $context, Generators $generators): string 
     {
-        // TODO range
         if (!($this->expression instanceof BinaryOperation)) {
             throw new CompilerException('Unexpected expression, expected as inside foreach', $this->position);
         }

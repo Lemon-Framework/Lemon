@@ -7,7 +7,7 @@ namespace Lemon\Templating\Juice\Nodes\Expression;
 use Lemon\Contracts\Templating\Juice\Expression;
 use Lemon\Templating\Juice\Position;
 
-// tohle bude mrdka na parsovani btw, udelat pozdeji
+// TODO
 class TernaryOperation implements Expression
 {
     public function __construct(

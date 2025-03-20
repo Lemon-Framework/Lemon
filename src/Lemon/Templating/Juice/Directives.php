@@ -27,8 +27,6 @@ class Directives
         'if' => [IfDirective::class, ['else' => ElseDirective::class, 'elseif' => ElseIfDirective::class]], 
         'iferror' => [IfErrorDirective::class, []], 
         'ife' => [IfErrorDirective::class, []], 
-//        'include' => [IncludeDirective::class, []],
-        'switch' => [SwitchDirective::class, ['case' => CaseDirective::class]], 
         'text' => [TranslationDirective::class, []], 
         '_' => [TranslationDirective::class, []], 
         'unless' => [UnlessDirective::class, []],

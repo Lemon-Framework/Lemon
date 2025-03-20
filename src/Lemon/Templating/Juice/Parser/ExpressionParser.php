@@ -29,7 +29,7 @@ use Lemon\Templating\Juice\Nodes\Expression\StringLiteral;
  * parser that works with priorities rather than looot of funtions
  *
  * todo [] array top
- * todo all the fancy dynamic stuff such as Parek::{$rizek} et al
+ * todo all the fancy dynamic stuff such as Parek::{$rizek} etc 
  * todo duplicitni zavorky
  * todo anonymous function
  * todo classes
