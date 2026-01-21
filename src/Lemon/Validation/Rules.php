@@ -138,7 +138,8 @@ class Rules
         }
 
         if (in_array(\BackedEnum::class, class_implements($enum))) {
-            return in_array($target, array_map(fn($case) => $case->name, $enum::cases()));
+            /* @phpstan-ignore property.notFound */
+            return in_array($target, array_map(fn($case) => $case->value, $enum::cases()));
         }
 
         if (in_array(\UnitEnum::class, class_implements($enum))) {

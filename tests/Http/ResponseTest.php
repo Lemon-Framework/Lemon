@@ -44,6 +44,13 @@ class ResponseTest extends TestCase
         $this->assertSame(['Location' => 'foo'], $r->headers());
     }
 
+    /**
+     * @runInSeparateProcess
+     *
+     * @preserveGlobalState disabled
+     *
+     * @see https://github.com/sebastianbergmann/phpunit/issues/720#issuecomment-10421092
+     */
     public function testCode()
     {
         $r = new HtmlResponse();
