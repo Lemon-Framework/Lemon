@@ -166,7 +166,7 @@ final class Application extends Container
     /**
      * Returns path of specific file in current project.
      */
-    public function file(string $path, string $extension = null): string
+    public function file(string $path, ?string $extension = null): string
     {
         $dir = Filesystem::join(
             $this->directory,

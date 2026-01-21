@@ -138,7 +138,7 @@ class Rules
         }
 
         if (in_array(\BackedEnum::class, class_implements($enum))) {
-            return in_array($target, array_map(fn($case) => $case->value, $enum::cases()));
+            return in_array($target, array_map(fn($case) => $case->name, $enum::cases()));
         }
 
         if (in_array(\UnitEnum::class, class_implements($enum))) {

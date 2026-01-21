@@ -48,7 +48,7 @@ if (!function_exists('config')) {
     /**
      * Gets/Sets value to config or returns config service.
      */
-    function config(string $key = null, mixed $value = null): mixed
+    function config(?string $key = null, mixed $value = null): mixed
     {
         if (!$key) {
             return Config::getAccessor();
@@ -92,7 +92,7 @@ if (!function_exists('env')) {
     /**
      * Gets value from env or returns env service.
      */
-    function env(string $key = null, string $value = null): mixed
+    function env(?string $key = null, ?string $value = null): mixed
     {
         if (!$key) {
             return Env::getAccessor();

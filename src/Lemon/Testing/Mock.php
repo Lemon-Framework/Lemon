@@ -12,7 +12,6 @@ class Mock
 
     public function __construct(string $class)
     {
-        // @phpstan-ignore-next-line
         $this->mock = \Mockery::mock($class);
     }
 

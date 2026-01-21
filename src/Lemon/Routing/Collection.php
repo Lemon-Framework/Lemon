@@ -93,7 +93,7 @@ class Collection
     /**
      * Sets prefix.
      */
-    public function prefix(string $prefix = null): string|static
+    public function prefix(?string $prefix = null): string|static
     {
         if (!$prefix) {
             return $this->prefix;

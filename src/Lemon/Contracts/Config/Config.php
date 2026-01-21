@@ -19,7 +19,7 @@ interface Config
     /**
      * Returns project file for given key in config.
      */
-    public function file(string $key, string $extension = null): string;
+    public function file(string $key, ?string $extension = null): string;
 
     /**
      * Sets key in config for given value.

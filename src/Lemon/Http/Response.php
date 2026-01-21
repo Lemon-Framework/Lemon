@@ -122,7 +122,7 @@ abstract class Response
     /**
      * Gets/sets header.
      */
-    public function header(string $key, string $value = null): string|static
+    public function header(string $key, ?string $value = null): string|static
     {
         if (!$value) {
             return $this->headers[$key] ?? null;
@@ -154,7 +154,7 @@ abstract class Response
     /**
      * Sets status code.
      */
-    public function code(int $code = null): static|int
+    public function code(?int $code = null): static|int
     {
         if (!$code) {
             return $this->status_code;

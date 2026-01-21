@@ -56,7 +56,7 @@ class Container implements ContainerInterface
      *
      * @throws \Lemon\Kernel\Exceptions\NotFoundException
      */
-    public function add(string $service, object $instance = null): static
+    public function add(string $service, ?object $instance = null): static
     {
         if (!class_exists($service)) {
             throw new NotFoundException('Class '.$service.' does not exist');

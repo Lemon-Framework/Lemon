@@ -24,11 +24,9 @@ class Session implements SessionContract
         }
 
 
-        try {
-            // well this is terrible
-            session_gc();
-            session_commit();
-        } catch (\Exception $e) {}
+        // well this is terrible
+        session_gc();
+        session_commit();
     }
 
     /**

@@ -24,7 +24,7 @@ class Route
     /**
      * Adds/returns route action of given method.
      */
-    public function action(string $method, callable|array $action = null): static|null|callable
+    public function action(string $method, callable|array|null $action = null): static|null|callable
     {
         $method = strtolower($method);
         if (!$action) {

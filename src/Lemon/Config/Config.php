@@ -67,7 +67,7 @@ class Config implements ConfigContract
     /**
      * Returns project file for given key in config.
      */
-    public function file(string $key, string $extension = null): string
+    public function file(string $key, ?string $extension = null): string
     {
         return $this->application->file($this->get($key), $extension);
     }
