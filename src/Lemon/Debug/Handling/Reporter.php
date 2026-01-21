@@ -89,7 +89,6 @@ class Reporter
             E_USER_ERROR => 'User Error',
             E_USER_WARNING => 'User Warning',
             E_USER_NOTICE => 'User Notice',
-            E_STRICT => 'Strict',
             E_RECOVERABLE_ERROR => 'Revocable Error',
             E_DEPRECATED => 'Deprecation',
             E_USER_DEPRECATED => 'User Deprecation',
